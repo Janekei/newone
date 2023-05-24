@@ -9,8 +9,9 @@
      </div>
      <div class="line-box" v-if="index !== 4">
       <div class="count">
-       <span>{{ item.countText }}</span>
        <span class="count-num">{{ item.count }}</span>
+       <span class="count-text">{{ item.countText }}</span>
+
       </div>
       <div class="line"></div>
      </div>
@@ -78,7 +79,8 @@ const processList = reactive([
    &-text {
     position: absolute;
     top: 100%;
-    width: 100%;
+    left: 50%;
+    transform: translate(-50%, 0);
     white-space: nowrap;
    }
   }
@@ -92,7 +94,7 @@ const processList = reactive([
 
  .count,
  .line {
-  flex: 1;
+  height: 50%;
  }
 
  .line {
@@ -102,6 +104,7 @@ const processList = reactive([
  .count {
   border-bottom: 1.5px solid #3b3ab7;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
@@ -109,6 +112,10 @@ const processList = reactive([
    color: red;
    font-weight: 700;
    font-size: 1.125rem;
+  }
+
+  &-text {
+   margin-bottom: 0.75rem;
   }
  }
 }

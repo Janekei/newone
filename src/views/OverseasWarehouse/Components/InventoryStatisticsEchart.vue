@@ -18,9 +18,15 @@ let myGlolbChart: any = void (0)
 const setOption = () => {
  return {
   tooltip: {
-   trigger: 'axis',
+   trigger: 'item',
    axisPointer: {
     type: 'shadow'
+   },
+   formatter(value: any) {
+    return `
+             <div style="font-weight: 700">${value.name}</div>
+             <div>${value.seriesName}    ${value.data < 0 ? value.data * -1 : value.data}</div>
+           `
    }
   },
   legend: {
@@ -33,7 +39,7 @@ const setOption = () => {
    top: 0,
    left: '3%',
    right: '4%',
-   bottom: '10%',
+   bottom: '5%',
    containLabel: true
   },
   xAxis: [
@@ -47,6 +53,7 @@ const setOption = () => {
     },
     axisLabel: {
      rotate: 45,
+     color: '#000'
     },
     data: ['越南', '北亚', '非洲', '中国', '马来', '澳洲', '北美']
    }
@@ -71,6 +78,7 @@ const setOption = () => {
     label: {
      show: true,
      position: 'top'
+
     },
     emphasis: {
      focus: 'series'
@@ -94,7 +102,10 @@ const setOption = () => {
     stack: 'Total',
     label: {
      show: true,
-     position: 'bottom'
+     position: 'bottom',
+     formatter(value: any) {
+      return value.data * -1
+     }
     },
     emphasis: {
      focus: 'series'

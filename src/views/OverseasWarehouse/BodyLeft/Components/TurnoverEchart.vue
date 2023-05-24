@@ -34,7 +34,7 @@ const setOption = function () {
   xAxis: [
    {
     type: 'category',
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    data: ['欧洲', '北美', '北亚', '非洲', '西亚', '印尼'],
     axisLabel: {
      rotate: 20,
     },
@@ -65,6 +65,7 @@ const setOption = function () {
     itemStyle: {
      color: '#42cecf'
     },
+
     label: {
      show: true,
      position: 'top'
@@ -78,6 +79,7 @@ const setOption = function () {
     itemStyle: {
      color: '#bcaadd'
     },
+
     label: {
      show: true,
      position: 'top'
@@ -89,8 +91,10 @@ const setOption = function () {
     data: [
      1200, 2000, 1420, 1723, 980, 1523
     ],
+    barWidth: 20,
     itemStyle: {
-     color: '#3b95e0'
+     color: '#379fd8',
+     borderRadius: 8
     },
     label: {
      show: true,

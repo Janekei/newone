@@ -88,6 +88,7 @@ const close = () => {
 
  .bottom {
   flex: 1;
+  margin-top: 1rem;
  }
 }
 
@@ -119,8 +120,12 @@ const close = () => {
    flex-direction: column;
    font-weight: 700;
 
+   span:nth-child(1) {
+    font-size: 1.3rem;
+   }
+
    span:nth-child(2) {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
    }
   }
  }

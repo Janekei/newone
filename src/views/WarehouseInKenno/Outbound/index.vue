@@ -56,6 +56,7 @@ import Card from '@/components/Card/index.vue'
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1.125rem;
 
   span {
    color: red;
@@ -80,7 +81,7 @@ import Card from '@/components/Card/index.vue'
 }
 
 .node-item {
- height: 6.25rem;
+ height: 3.75rem;
  background-color: pink;
 }
 

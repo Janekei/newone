@@ -15,7 +15,11 @@
     <div class="bottom">
      <div class="bottom-item" v-for="item in 6" :key="item">
       <div class="item">
-       <div class="title"><span class="name">北美</span> <span class="date">较上周 3%</span></div>
+       <div class="title"><span class="name">北美</span> <span class="date">较上周 3%</span>
+        <ElIcon style="font-size: 1rem; color: red;">
+         <Top />
+        </ElIcon>
+       </div>
        <div class="detail-item">在库库存：2354</div>
        <div class="detail-item">在港库存：2354</div>
        <div class="detail-item">预计到货量：2354</div>
@@ -92,10 +96,13 @@ const close = () => {
 
     .title {
      font-weight: 700;
+     display: flex;
+     align-items: center;
     }
 
     .name {
      font-size: 1.25rem;
+     margin-right: 1rem;
     }
 
     .date {

@@ -16,6 +16,7 @@ const props = defineProps({
 let myChart = ref()
 const setOption = function () {
  const option = {
+  color: ['#bb69c5', '#2b5eef', '#133595'],
   legend: {
    left: 'center', // 图例水平居中
    top: 'bottom', // 图例垂直底部对齐
@@ -27,10 +28,16 @@ const setOption = function () {
     name: 'Nightingale Chart',
     type: 'pie',
     center: ['50%', '40%'],
-    radius: ['20%', '70%'],
+    radius: ['20%', '60%'],
     roseType: 'area',
     itemStyle: {
      borderRadius: 8
+    },
+    label: {
+     formatter(value: any) {
+
+      return value.name + ':' + value.value
+     }
     },
     data: [
      { value: 40, name: '7日内库存' },

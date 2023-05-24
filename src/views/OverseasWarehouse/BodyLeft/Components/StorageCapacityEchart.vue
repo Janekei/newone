@@ -31,7 +31,7 @@ const setOption = function () {
   xAxis: [
    {
     type: 'category',
-    data: ['广西汇亚', '上海太和', '江苏邦豪', '广州乾瑞', '日邮物流', '华荣物流'],
+    data: ['欧洲', '北美', '北亚', '非洲', '西亚', '印尼'],
     axisLabel: {
      rotate: 20,
     },
@@ -63,11 +63,13 @@ const setOption = function () {
     },
     data: [220, 182, 191, 234, 290, 330],
     itemStyle: {
-     color: '#3b95e0'
+     color: '#3b95e0',
+     borderRadius: 8
     },
+    barWidth: 20,
     label: {
      show: true,
-     position: 'insideRight '
+     position: 'bottom '
     },
    },
    {
@@ -79,11 +81,13 @@ const setOption = function () {
     },
     data: [150, 232, 201, 154, 190, 330],
     itemStyle: {
-     color: '#67e5d8'
+     color: '#67e5d8',
+     borderRadius: 8
     },
+    barWidth: 20,
     label: {
      show: true,
-     position: 'insideRight '
+     position: 'bottom '
     },
 
    }

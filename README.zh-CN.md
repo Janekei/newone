@@ -59,7 +59,7 @@ vue-element-plus-admin 的定位是后台集成方案，不太适合当基础模
 - 获取代码
 
 ```bash
-git clone https://github.com/kailong321200875/vue-element-plus-admin.git
+git clone https://e.coding.net/inkenno/jingko/jinkotms3-vue.git
 ```
 
 - 安装依赖
