@@ -1,43 +1,30 @@
 
 <template>
- <div class="flex">
-  <div class="box-item" @dragover="dragover($event, 3)" @drop="drop(3)">
-   <span style="font-size: 1rem" class="close" @click="close(3)" v-if="showEchart3">
-    <el-icon>
-     <circle-close />
-    </el-icon>
-   </span>
-   <StorageCapacity v-if="showEchart3" />
-   <Occupy fontSize="10.625rem" v-else :showBorderId="3" :showBorder="showBorder" />
-  </div>
-  <div class="box-item" @dragover="dragover($event, 4)" @drop="drop(4)">
-   <span style="font-size: 1rem" class="close" @click="close(4)" v-if="showEchart4">
-    <el-icon>
-     <circle-close />
-    </el-icon>
-   </span>
-   <Turnover v-if="showEchart4" />
-   <Occupy fontSize="10.625rem" v-else :showBorderId="4" :showBorder="showBorder" />
-  </div>
-  <div class="box-item" @dragover="dragover($event, 5)" @drop="drop(5)">
-   <span style="font-size: 1rem" class="close" @click="close(5)" v-if="showEchart5">
-    <el-icon>
-     <circle-close />
-    </el-icon>
-   </span>
-   <StockAge v-if="showEchart5" />
-   <Occupy fontSize="10.625rem" v-else :showBorderId="5" :showBorder="showBorder" />
-  </div>
- </div>
+ <draggable :list="rightList" ghost-class="ghost" animation="300" class="flex">
+  <template #item="{ element }">
+   <div class="box-item" @dragover="dragover($event, element.id)" @drop="drop(element.id)">
+    <span style="font-size: 1rem" class="close" @click="close(element.id)" v-if="element.showEchart">
+     <el-icon>
+      <circle-close />
+     </el-icon>
+    </span>
+    <component :is="element.id === 3 ? StorageCapacity : element.id === 4 ? Turnover : StockAge"
+     v-if="element.showEchart" />
+    <Occupy fontSize="10.625rem" v-else :showBorderId="element.id" :showBorder="showBorder" />
+   </div>
+  </template>
+ </draggable>
 </template>
 
 <script setup lang="ts">
-import Occupy from '@/views/OverseasWarehouse/Components/Occupy.vue'
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import { ElIcon } from 'element-plus'
+import draggable from "vuedraggable"
 import StorageCapacity from './Components/StorageCapacity.vue'
 import Turnover from './Components/Turnover.vue'
 import StockAge from './Components/StockAge.vue'
+import Occupy from '@/views/OverseasWarehouse/Components/Occupy.vue'
+
 const props = defineProps({
  echartIdList: {
   type: Array,
@@ -69,6 +56,21 @@ const showEchart4 = computed(() => {
 const showEchart5 = computed(() => {
  return props.echartIdList.includes(5)
 })
+
+const rightList = reactive([
+ {
+  id: 3,
+  showEchart: showEchart3
+ },
+ {
+  id: 4,
+  showEchart: showEchart4
+ },
+ {
+  id: 5,
+  showEchart: showEchart5
+ }
+])
 </script>
 
 <style lang="less" scoped>

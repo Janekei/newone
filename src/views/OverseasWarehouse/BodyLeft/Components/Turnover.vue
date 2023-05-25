@@ -7,7 +7,7 @@
  </Card>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="Turnover">
 import Card from '@/views/OverseasWarehouse/Components/EchartCard.vue'
 import TurnoverEchart from './TurnoverEchart.vue'
 </script>

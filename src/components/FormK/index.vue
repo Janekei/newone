@@ -46,7 +46,7 @@ const onChange = () => {
 </script>
 
 <style scoped lang="less">
-/deep/.el-form-item {
+:deep(.el-form-item) {
  margin-bottom: 0;
 }
 </style>

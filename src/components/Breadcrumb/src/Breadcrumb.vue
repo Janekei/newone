@@ -89,7 +89,7 @@ export default defineComponent({
 <style lang="less" scoped>
 @prefix-cls: ~'@{elNamespace}-breadcrumb';
 
-/deep/.el-breadcrumb__item:not(:last-child) .el-breadcrumb__inner:hover {
+:deep(.el-breadcrumb__item:not(:last-child) .el-breadcrumb__inner:hover) {
  color: var(--top-header-text-color) !important
 }
 

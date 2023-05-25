@@ -58,16 +58,6 @@ export const constantRouterMap: AppRouteRecordRaw[] = [
 
 export const asyncRouterMap: AppRouteRecordRaw[] = [
  {
-  path: '/test',
-  component: () => import('@/views/test/index.vue'),
-  meta: {
-   link: true,
-   title: t('router.standardTime'),
-   icon: 'ant-design:dashboard-filled'
-  },
-  name: 'Test'
- },
- {
   path: '/warehouseinkenno',
   component: Layout,
   redirect: '/warehouseinkenno/index',
@@ -332,14 +322,6 @@ export const asyncRouterMap: AppRouteRecordRaw[] = [
     name: 'Icon',
     meta: {
      title: t('router.icon')
-    }
-   },
-   {
-    path: 'echart',
-    component: () => import('@/views/Components/Echart.vue'),
-    name: 'Echart',
-    meta: {
-     title: t('router.echart')
     }
    },
    {

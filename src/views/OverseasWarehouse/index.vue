@@ -68,6 +68,7 @@ const dragover = (e, id) => {
  }
 }
 const drop = id => {
+ if (echartIdList.includes(id)) return
  echartIdList.push(id)
  showDrawer.value = true
 }

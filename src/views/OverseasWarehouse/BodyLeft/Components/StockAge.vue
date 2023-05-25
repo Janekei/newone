@@ -7,7 +7,7 @@
  </Card>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="StockAge">
 import Card from '@/views/OverseasWarehouse/Components/EchartCard.vue'
 import StockAgEchart from './StockAgEchart.vue'
 </script>

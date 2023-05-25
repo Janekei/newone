@@ -7,7 +7,7 @@
  </Card>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="StorageCapacity">
 import Card from '@/views/OverseasWarehouse/Components/EchartCard.vue'
 import StorageCapacityEchart from './StorageCapacityEchart.vue'
 </script>
