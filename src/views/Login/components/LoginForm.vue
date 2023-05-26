@@ -181,6 +181,16 @@ const getRole = async () => {
       name: 'overseasWarehouse'
      },
      {
+      path: '/standardTime',
+      component: '/StandardTime/index',
+      meta: {
+       link: true,
+       title: t('router.standardTime'),
+       icon: 'ant-design:dashboard-filled'
+      },
+      name: 'standardTime'
+     },
+     {
       path: '/warehouseinkenno',
       component: '#',
       redirect: '/warehouseinkenno/index',

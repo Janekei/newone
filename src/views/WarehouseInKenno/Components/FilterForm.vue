@@ -2,7 +2,7 @@
  <div class="flex-box-form">
   <div class="form-title-color filter">筛选</div>
   <div>
-   <FormK :formOption="formOption" v-model:formState="formData" />
+   <FormK :formOption="formOption" v-model:formState="formData" :marginBottom="false" />
   </div>
  </div>
 </template>

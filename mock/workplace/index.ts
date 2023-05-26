@@ -186,5 +186,25 @@ export default [
     ]
    }
   }
- }
+ },
+ // 获取企业名称列表
+ {
+  url: '/entname/list',
+  method: 'get',
+  timeout,
+  response: () => {
+   return {
+    code: result_code,
+    data: [
+     { label: 'vue', value: 'https://github.com/vuejs/vue' },
+     { label: 'element', value: 'https://github.com/ElemeFE/element' },
+     { label: 'cooking', value: 'https://github.com/ElemeFE/cooking' },
+     { label: 'mint-ui', value: 'https://github.com/ElemeFE/mint-ui' },
+     { label: 'vuex', value: 'https://github.com/vuejs/vuex' },
+     { label: 'vue-router', value: 'https://github.com/vuejs/vue-router' },
+     { label: 'babel', value: 'https://github.com/babel/babel' }
+    ]
+   }
+  }
+ },
 ] as MockMethod[]
