@@ -31,9 +31,9 @@ import OnTime from './MapList/OnTime.vue'
 import Cycle from './MapList/Cycle.vue'
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 #app {
- overflow: auto;
+ overflow: scroll;
 }
 
 .echarts-list {

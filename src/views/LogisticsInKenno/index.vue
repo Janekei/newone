@@ -4,12 +4,21 @@
  </div>
  <ElButton @click="submit">提交</ElButton>
  <ElButton @click="reset">重置</ElButton>
+ <hr />
+ {{ myTable && myTable.selectAll.length }}
+ <TableK url="/table/list" method="get" :params="formData" ref="myTable" :firstPages="20" :tableOption="tableOption">
+  <template #date="{ row }">
+   <span style="color: red">{{ row.row.date }}</span>
+  </template>
+ </TableK>
+ <ElButton @click="refresh">刷新列表</ElButton>
 </template>
  
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
 import FormK from '@/components/FormK/index.vue'
+import TableK from '@/components/TableK/index.vue'
 
 const formOption = reactive([
  {
@@ -109,6 +118,29 @@ const submit = () => {
 const reset = () => {
  formK.value.resetFields()
 }
+
+const myTable = ref()
+const refresh = () => {
+ myTable.value.refresh()
+}
+
+const tableOption = reactive([
+ {
+  prop: 'date',
+  label: '时间',
+  width: '180',
+  slotName: 'date'
+ },
+ {
+  prop: 'name',
+  label: '名称',
+  width: '180'
+ },
+ {
+  prop: 'address',
+  label: '地址'
+ }
+])
 </script>
 
 <style scoped lang="less">

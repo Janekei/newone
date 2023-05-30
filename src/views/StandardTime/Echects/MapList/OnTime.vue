@@ -10,6 +10,7 @@ import _ from 'lodash'
 let myChart = ref()
 const setOption = function () {
  const option = {
+  tooltip: {},
   grid: {
    left: '10%',
    right: 0,

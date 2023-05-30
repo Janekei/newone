@@ -207,4 +207,37 @@ export default [
    }
   }
  },
+ // 模拟列表数据
+ {
+  url: '/table/list',
+  method: 'get',
+  timeout,
+  response: () => {
+   return {
+    code: result_code,
+    data: [
+     {
+      date: '2016-05-03',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+     },
+     {
+      date: '2016-05-02',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+     },
+     {
+      date: '2016-05-04',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+     },
+     {
+      date: '2016-05-01',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+     },
+    ]
+   }
+  }
+ },
 ] as MockMethod[]

@@ -1,6 +1,6 @@
 
 <template>
- <draggable :list="rightList" ghost-class="ghost" animation="300" class="flex">
+ <Draggable :list="rightList" ghost-class="ghost" animation="300" class="flex">
   <template #item="{ element }">
    <div class="box-item" @dragover="dragover($event, element.id)" @drop="drop(element.id)">
     <span style="font-size: 1rem" class="close" @click="close(element.id)" v-if="element.showEchart">
@@ -13,13 +13,13 @@
     <Occupy fontSize="10.625rem" v-else :showBorderId="element.id" :showBorder="showBorder" />
    </div>
   </template>
- </draggable>
+ </Draggable>
 </template>
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import { ElIcon } from 'element-plus'
-import draggable from "vuedraggable"
+import Draggable from "vuedraggable"
 import StorageCapacity from './Components/StorageCapacity.vue'
 import Turnover from './Components/Turnover.vue'
 import StockAge from './Components/StockAge.vue'

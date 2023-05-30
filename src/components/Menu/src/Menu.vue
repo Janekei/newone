@@ -191,7 +191,7 @@ export default defineComponent({
 
    .@{elNamespace}-sub-menu__title,
    .@{elNamespace}-menu-item:not(.is-active) {
-    background-color: var(--left-menu-bg-light-color) !important;
+    background-color: #fff !important;
    }
   }
  }
