@@ -1,26 +1,10 @@
 <template>
- <div>
-  入库指令
- </div>
+    <div>
+        <Content />
+    </div>
 </template>
-
-<script>
-export default {
- data() {
-  return {
-
-  };
- },
- created() {
-
- },
- mounted() {
-
- },
- methods: {
-
- }
-};
+<script lang="ts" setup>
+import Content from './Content/index.vue'
 </script>
-
-<style scoped ></style>
+<style lang="less" scoped></style>
+  
