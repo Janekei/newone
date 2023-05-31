@@ -186,5 +186,58 @@ export default [
     ]
    }
   }
- }
+ },
+ // 获取企业名称列表
+ {
+  url: '/entname/list',
+  method: 'get',
+  timeout,
+  response: () => {
+   return {
+    code: result_code,
+    data: [
+     { label: 'vue', value: 'https://github.com/vuejs/vue' },
+     { label: 'element', value: 'https://github.com/ElemeFE/element' },
+     { label: 'cooking', value: 'https://github.com/ElemeFE/cooking' },
+     { label: 'mint-ui', value: 'https://github.com/ElemeFE/mint-ui' },
+     { label: 'vuex', value: 'https://github.com/vuejs/vuex' },
+     { label: 'vue-router', value: 'https://github.com/vuejs/vue-router' },
+     { label: 'babel', value: 'https://github.com/babel/babel' }
+    ]
+   }
+  }
+ },
+ // 模拟列表数据
+ {
+  url: '/table/list',
+  method: 'get',
+  timeout,
+  response: () => {
+   return {
+    code: result_code,
+    data: [
+     {
+      date: '2016-05-03',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+     },
+     {
+      date: '2016-05-02',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+     },
+     {
+      date: '2016-05-04',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+     },
+     {
+      date: '2016-05-01',
+      name: 'Tom',
+      address: 'No. 189, Grove St, Los Angeles',
+     },
+    ]
+   }
+  }
+ },
 ] as MockMethod[]

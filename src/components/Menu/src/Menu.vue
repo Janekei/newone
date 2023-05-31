@@ -163,7 +163,7 @@ export default defineComponent({
   .@{elNamespace}-menu-item {
    &:hover {
     color: var(--left-menu-text-active-color) !important;
-    background-color: var(--left-menu-bg-color) !important;
+    background-color: #ecf5ff !important;
    }
   }
 
@@ -191,7 +191,7 @@ export default defineComponent({
 
    .@{elNamespace}-sub-menu__title,
    .@{elNamespace}-menu-item:not(.is-active) {
-    background-color: var(--left-menu-bg-light-color) !important;
+    background-color: #fff;
    }
   }
  }

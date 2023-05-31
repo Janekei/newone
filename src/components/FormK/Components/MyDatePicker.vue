@@ -1,14 +1,14 @@
 <template>
- <el-date-picker v-model="value" type="date" :placeholder="placeholder" :size="size" @change="onChange"
-  value-format="YYYY-MM-DD" />
+ <ElDatePicker v-model="curValue" type="date" :placeholder="placeholder" :size="size" @change="onChange"
+  value-format="YYYY-MM-DD" style="width: 100%" />
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { ElDatePicker } from 'element-plus'
 
 const emits: any = defineEmits(['onChange'])
-defineProps({
+const props = defineProps({
  placeholder: {
   type: String,
   default: '请选择时间'
@@ -16,11 +16,20 @@ defineProps({
  size: {
   type: String as any,
   default: 'default'
+ },
+ modelValue: {
+  type: [String, Number],
+  default: ''
  }
 })
 
-const value = ref('')
+const curValue = ref()
+watch(() => props.modelValue, () => {
+ curValue.value = props.modelValue
+}, { immediate: true })
+
 const onChange = (value: any) => {
+ emits('update:modelValue', value)
  emits('onChange', value)
 }
 </script>

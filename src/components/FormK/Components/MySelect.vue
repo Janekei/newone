@@ -1,12 +1,12 @@
 <template>
- <ElSelect v-model="value" :placeholder="placeholder" @change="change" @visible-change="visibleChange" :loading="loading"
-  clearable>
+ <ElSelect v-model="curValue" :placeholder="placeholder" @change="change" @visible-change="visibleChange"
+  :loading="loading" clearable style="width: 100%;">
   <ElOption v-for="item in listOption" :key="item.value" :label="item.label" :value="item.value" />
  </ElSelect>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { ElSelect, ElOption } from 'element-plus'
 import request from '@/config/axios'
 
@@ -24,11 +24,20 @@ const props = defineProps({
   type: Object as any,
   default: null
  },
+ modelValue: {
+  type: [String, Number],
+  default: ''
+ }
 })
 
-const value = ref('')
+const curValue = ref()
+watch(() => props.modelValue, () => {
+ curValue.value = props.modelValue
+}, { immediate: true })
+
 const change = (value: any) => {
- emits('onChange', value)
+ emits('update:modelValue', value)
+ emits('onChange')
 }
 
 let listOption = ref(props.options)

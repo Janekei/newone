@@ -1,63 +1,111 @@
 <template>
-    <div>
-        {{ formData }}
-        <FormK :formOption="formOption" v-model:formState="formData" />
-        <button @click="onClick">点击修改名称</button>
+    <div class="cards">
+        <div class="card" v-for="item in list" :key="item.title">
+            <div class="title">{{ item.title }}</div>
+            <div class="count">{{ item.count }}</div>
+            <div class="footer">
+                <span>{{ item.footer }}</span>
+                <span class="footer-count">{{ item.heute }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="echarts">
+        <CenterEcharts />
+    </div>
+    <div class="bottom">
+        <BottomWarning />
     </div>
 </template>
-
+    
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
-import FormK from '@/components/FormK/index.vue'
+import { reactive } from 'vue'
+import CenterEcharts from './CenterEcharts/index.vue'
+import BottomWarning from './BottomWarning/index.vue'
 
-const formOption = reactive([
+const list = reactive([
     {
-        type: 'select',
-        field: 'region',
-        placeholder: '请选择区域',
-        label: '区域',
-        options: [
-            { label: '全部', value: 0 },
-            { label: '北美', value: 1 },
-            { label: '南亚', value: 2 },
-            { label: '越南', value: 3 },
-            { label: '欧洲', value: 4 }
-        ]
+        title: '运输需求',
+        count: 234,
+        footer: '今日运输需求',
+        heute: 23
     },
     {
-        type: 'select',
-        field: 'warehouse',
-        placeholder: '请选择仓库',
-        label: '仓库',
-        requestOptions: {
-            url: '/warehouse/list',
-            method: 'get',
-            params: {},
-            handleOptions: (res: any) => {
-                return res.data.map((item: any) => {
-                    return {
-                        label: item.name,
-                        value: item.code
-                    }
-                })
-            }
-        }
+        title: '运输任务',
+        count: 234,
+        footer: '今日运输需求',
+        heute: 23
     },
     {
-        type: 'date',
-        field: 'time',
-        placeholder: '请选择时间',
-        label: '时间'
+        title: '运输订单',
+        count: 234,
+        footer: '今日运输需求',
+        heute: 23
+    },
+    {
+        title: '运输调度',
+        count: 234,
+        footer: '今日运输需求',
+        heute: 23
+    },
+    {
+        title: '运输预警',
+        count: 234,
+        footer: '待处理预警信息',
+        heute: 23
     },
 ])
-
-const formData = ref({
-    userName: '张三'
-})
-
-const onClick = () => {
-    formData.value.userName = formData.value.userName += '!'
-}
 </script>
+   
+<style scoped lang="less">
+.cards {
+    display: flex;
 
-<style scoped lang="less"></style>
+    .card {
+        flex: 1;
+        margin: 0 .5rem;
+        border: 1px solid #2decb3;
+        border-radius: .5rem;
+        box-shadow: 3px 3px 10px #909090;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 1rem;
+        height: 9.375rem;
+
+        .title {
+            font-size: 1rem;
+        }
+
+        .count {
+            font-size: 1.5rem
+        }
+
+        .footer {
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+
+            .footer-count {
+                font-size: 1.25rem;
+            }
+        }
+    }
+
+    .card:first-child {
+        margin: 0 .5rem 0 0;
+    }
+
+    .card:last-child {
+        margin: 0 0 0 .5rem;
+        border-color: #dd2323;
+    }
+}
+
+.echarts {
+    margin-top: 1rem;
+}
+
+.bottom {
+    margin-top: 1rem;
+}
+</style>
