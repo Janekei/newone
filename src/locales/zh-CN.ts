@@ -155,7 +155,8 @@ export default {
   warehousingquery: '入库查询',
   outboundquery: '出库查询',
   standardTime: '标准时间看板',
-  overseasWarehouse: '海外仓看板'
+  overseasWarehouse: '海外仓看板',
+  TransportBI: '运输量监控看板'
  },
  permission: {
   hasPermission: '请设置操作权限值'

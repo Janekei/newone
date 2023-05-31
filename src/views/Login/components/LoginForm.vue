@@ -191,6 +191,16 @@ const getRole = async () => {
       name: 'standardTime'
      },
      {
+      path: '/transportBI',
+      component: '/TransportBI/index',
+      meta: {
+       link: true,
+       title: t('router.TransportBI'),
+       icon: 'ant-design:dashboard-filled'
+      },
+      name: 'transportBI'
+     },
+     {
       path: '/warehouseinkenno',
       component: '#',
       redirect: '/warehouseinkenno/index',
@@ -314,7 +324,25 @@ const getRole = async () => {
         }
        }
       ]
-     }
+     },
+     {
+      path: '/workcomponents',
+      component: '#',
+      redirect: '/workcomponents/index',
+      name: 'WorkComponents',
+      meta: {},
+      children: [
+       {
+        path: 'index',
+        component: '/WorkComponents/index',
+        name: 'WorkComponents-index',
+        meta: {
+         title: '组件示例',
+         icon: 'ant-design:dashboard-filled',
+        }
+       }
+      ]
+     },
     ]
    })
   }, 500)

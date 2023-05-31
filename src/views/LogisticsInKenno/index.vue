@@ -1,151 +1,111 @@
 <template>
- <div class="form-box">
-  <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formK" />
+ <div class="cards">
+  <div class="card" v-for="item in list" :key="item.title">
+   <div class="title">{{ item.title }}</div>
+   <div class="count">{{ item.count }}</div>
+   <div class="footer">
+    <span>{{ item.footer }}</span>
+    <span class="footer-count">{{ item.heute }}</span>
+   </div>
+  </div>
  </div>
- <ElButton @click="submit">提交</ElButton>
- <ElButton @click="reset">重置</ElButton>
- <hr />
- {{ myTable && myTable.selectAll.length }}
- <TableK url="/table/list" method="get" :params="formData" ref="myTable" :firstPages="20" :tableOption="tableOption">
-  <template #date="{ row }">
-   <span style="color: red">{{ row.row.date }}</span>
-  </template>
- </TableK>
- <ElButton @click="refresh">刷新列表</ElButton>
+ <div class="echarts">
+  <CenterEcharts />
+ </div>
+ <div class="bottom">
+  <BottomWarning />
+ </div>
 </template>
  
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
-import { ElButton } from 'element-plus'
-import FormK from '@/components/FormK/index.vue'
-import TableK from '@/components/TableK/index.vue'
+import { reactive } from 'vue'
+import CenterEcharts from './CenterEcharts/index.vue'
+import BottomWarning from './BottomWarning/index.vue'
 
-const formOption = reactive([
+const list = reactive([
  {
-  type: 'input',
-  field: 'code',
-  placeholder: '请输入码值',
-  label: '码值',
-  rules: [
-   { required: true, message: '请输入码值', trigger: 'change' }
-  ]
+  title: '运输需求',
+  count: 234,
+  footer: '今日运输需求',
+  heute: 23
  },
  {
-  type: 'select',
-  field: 'region',
-  placeholder: '请选择区域',
-  label: '区域',
-  options: [
-   { label: '全部', value: 0 },
-   { label: '北美', value: 1 },
-   { label: '南亚', value: 2 },
-   { label: '越南', value: 3 },
-   { label: '欧洲', value: 4 }
-  ],
-  rules: [
-   { required: true, message: '请选择区域', trigger: 'blur' }
-  ]
+  title: '运输任务',
+  count: 234,
+  footer: '今日运输需求',
+  heute: 23
  },
  {
-  type: 'select',
-  field: 'warehouse',
-  placeholder: '请选择仓库',
-  label: '仓库',
-  requestOptions: {
-   url: '/warehouse/list',
-   method: 'get',
-   params: {},
-   handleOptions: (res: any) => {
-    return res.data.map((item: any) => {
-     return {
-      label: item.name,
-      value: item.code
-     }
-    })
-   }
-  },
-  rules: [
-   { required: true, message: '请选择仓库', trigger: 'blur' }
-  ]
+  title: '运输订单',
+  count: 234,
+  footer: '今日运输需求',
+  heute: 23
  },
  {
-  type: 'date',
-  field: 'time',
-  placeholder: '请选择时间',
-  label: '时间',
-  rules: [
-   { required: true, message: '请选择时间', trigger: 'blur' }
-  ]
+  title: '运输调度',
+  count: 234,
+  footer: '今日运输需求',
+  heute: 23
  },
  {
-  type: 'autocomplete',
-  field: 'entName',
-  placeholder: '请输入企业名称',
-  label: '企业名称',
-  requestOptions: {
-   url: '/entname/list',
-   method: 'get',
-   params: {},
-   searchKey: 'searchKey',
-   handleOptions: (res: any) => {
-    console.log(res);
-    return res.data.map((item: any) => {
-     return {
-      value: item.label
-     }
-    })
-   }
-  },
-  rules: [
-   { required: true, message: '请输入企业名称', trigger: 'blur' }
-  ]
+  title: '运输预警',
+  count: 234,
+  footer: '待处理预警信息',
+  heute: 23
  },
-])
-
-const formData = ref({
- code: 123,
- region: 1,
- time: '2023-05-25',
- entName: 'vue'
-})
-
-const formK = ref()
-const submit = () => {
- formK.value.validate((valid, fields) => {
-  console.log(valid, fields, 105);
- })
-}
-const reset = () => {
- formK.value.resetFields()
-}
-
-const myTable = ref()
-const refresh = () => {
- myTable.value.refresh()
-}
-
-const tableOption = reactive([
- {
-  prop: 'date',
-  label: '时间',
-  width: '180',
-  slotName: 'date'
- },
- {
-  prop: 'name',
-  label: '名称',
-  width: '180'
- },
- {
-  prop: 'address',
-  label: '地址'
- }
 ])
 </script>
 
 <style scoped lang="less">
-.form-box {
- width: 70%;
- background-color: #fff;
+.cards {
+ display: flex;
+
+ .card {
+  flex: 1;
+  margin: 0 .5rem;
+  border: 1px solid #2decb3;
+  border-radius: .5rem;
+  box-shadow: 3px 3px 10px #909090;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  height: 9.375rem;
+
+  .title {
+   font-size: 1rem;
+  }
+
+  .count {
+   font-size: 1.5rem
+  }
+
+  .footer {
+   font-size: 1rem;
+   display: flex;
+   justify-content: space-between;
+
+   .footer-count {
+    font-size: 1.25rem;
+   }
+  }
+ }
+
+ .card:first-child {
+  margin: 0 .5rem 0 0;
+ }
+
+ .card:last-child {
+  margin: 0 0 0 .5rem;
+  border-color: #dd2323;
+ }
+}
+
+.echarts {
+ margin-top: 1rem;
+}
+
+.bottom {
+ margin-top: 1rem;
 }
 </style>
