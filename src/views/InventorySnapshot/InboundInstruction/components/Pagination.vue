@@ -34,7 +34,7 @@ const curPage = computed({
 // }
 
 function handleCurrentChange(current: Number) {
-    console.log('curr', current);
+    // console.log('curr', current);
     emit('pagination', current)
 
 }

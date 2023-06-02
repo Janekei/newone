@@ -15,21 +15,20 @@
             </div>
         </div>
     </div>
-    <ListTable :listData="props.tableData" />
+    <ListTable :name="props.name" />
 </template>
 
 <script lang="ts" setup>
 import { ElSelect, ElOption, ElInput, ElButton } from 'element-plus'
 import ListTable from './ListTable/index.vue'
-import { ref, defineProps, onMounted } from 'vue'
+import { ref, defineProps} from 'vue'
 const props = defineProps({
-    tableData: {
-        type: Array
+    name: {
+        type: String,
+        default: ""
     }
 })
-onMounted(() => {
-    console.log('tableData', props.tableData);
-})
+
 
 const value = ref('')
 let input = ref('')
