@@ -13,14 +13,12 @@ export default function useDraw() {
  // * 设计稿尺寸（px）
  const baseWidth = 1920
  const baseHeight = 1080
- console.log(window.innerWidth, window.innerHeight);
 
  // * 需保持的比例（默认1.77778）
  const baseProportion = parseFloat((baseWidth / baseHeight).toFixed(5))
  const calcRate = () => {
   // 当前宽高比
   const currentRate = parseFloat((window.innerWidth / window.innerHeight).toFixed(5))
-  console.log(currentRate);
   // baseProportion = currentRate
   if (appRef.value) {
    if (currentRate > baseProportion) {

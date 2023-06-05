@@ -10,7 +10,6 @@ import { isUrl } from '@/utils/is'
 import { omit, cloneDeep } from 'lodash-es'
 
 const modules = import.meta.glob('../views/**/*.{vue,tsx}')
-console.log(modules, 13);
 
 
 /* Layout */
@@ -101,7 +100,6 @@ export const generateRoutesFn2 = (routes: AppCustomRouteRecordRaw[]): AppRouteRe
    redirect: route.redirect,
    meta: route.meta
   }
-  console.log(data.meta, 104);
 
   if (route.component) {
    const comModule = modules[`../views${route.component}.vue`] || modules[`../views${route.component}.tsx`]

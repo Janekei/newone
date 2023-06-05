@@ -26,7 +26,6 @@ export const useI18n = (
 ): {
  t: I18nGlobalTranslation
 } => {
- console.log(namespace, 29);
 
  const normalFn = {
   t: (key: string) => {

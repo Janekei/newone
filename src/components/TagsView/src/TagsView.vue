@@ -84,7 +84,6 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
  tagsViewStore.delCachedView()
  const { path, query } = view
  await nextTick()
- console.log('/redirect' + path);
 
  replace({
   path: '/redirect' + path,
