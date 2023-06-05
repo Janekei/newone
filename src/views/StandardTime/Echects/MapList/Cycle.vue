@@ -48,7 +48,6 @@ const setOption = () => {
     axisLabel: {
      show: true,
      formatter(value) {
-      console.log(value, 51);
 
       return value * -1
      }

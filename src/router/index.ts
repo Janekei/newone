@@ -3,20 +3,25 @@ import type { RouteRecordRaw } from 'vue-router'
 import type { App } from 'vue'
 import { Layout, getParentLayout } from '@/utils/routerHelper'
 import { useI18n } from '@/hooks/web/useI18n'
+// import { useCache } from '@/hooks/web/useCache'
+
+// const { wsCache } = useCache()
 
 const { t } = useI18n()
+// const roleRouters = wsCache.get('roleRouters')
+// console.log(roleRouters, 12);
 
 export const constantRouterMap: AppRouteRecordRaw[] = [
  // 不同角色路由初次重定向解决方式
- {
-  path: '/',
-  component: Layout,
-  redirect: '/warehouseinkenno/index',
-  name: 'Root',
-  meta: {
-   hidden: true
-  }
- },
+ // {
+ //  path: '/',
+ //  component: Layout,
+ //  redirect: '/warehouseinkenno/index',
+ //  name: 'Root',
+ //  meta: {
+ //   hidden: true
+ //  }
+ // },
  {
   path: '/redirect',
   component: Layout,

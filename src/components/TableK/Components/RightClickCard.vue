@@ -28,25 +28,10 @@ defineProps({
   type: Array<any>,
   default: () => [
    {
-    label: '添加添加添加添加添加添加添加',
+    label: '添加添加',
    },
    {
     label: '删除',
-   },
-   {
-    label: '编辑',
-   },
-   {
-    label: '编辑',
-   },
-   {
-    label: '编辑',
-   },
-   {
-    label: '编辑',
-   },
-   {
-    label: '编辑',
    },
    {
     label: '编辑',

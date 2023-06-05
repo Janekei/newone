@@ -24,7 +24,6 @@ const { loadStart, loadDone } = usePageLoading()
 const whiteList = ['/login'] // 不重定向白名单
 
 router.beforeEach(async (to, from, next) => {
- console.log(wsCache.get(appStore.getUserInfo), 27);
 
  start()
  loadStart()

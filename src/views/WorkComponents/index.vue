@@ -1,12 +1,15 @@
 <template>
  <div class="form-box">
+  {{ formData }}
   <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formK" />
  </div>
  <ElButton @click="submit">提交</ElButton>
  <ElButton @click="reset">重置</ElButton>
  <hr />
- {{ myTable && myTable.selectAll.length }}
  <TableK url="/table/list" method="get" :params="formData" ref="myTable" :firstPages="20" :tableOption="tableOption">
+  <template #buttons="{ selectRow }">
+   <span>{{ selectRow.length }}</span>
+  </template>
   <template #date="{ row }">
    <span style="color: red">{{ row.row.date }}</span>
   </template>
@@ -88,7 +91,6 @@ const formOption = reactive([
    params: {},
    searchKey: 'searchKey',
    handleOptions: (res: any) => {
-    console.log(res);
     return res.data.map((item: any) => {
      return {
       value: item.label

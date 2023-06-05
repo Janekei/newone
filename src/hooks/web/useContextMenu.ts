@@ -12,12 +12,10 @@ const useContextMenu = (containerRef: any) => {
   e.stopPropagation();
   const windowWidth = window.innerWidth
   const windowHeight = window.innerHeight
-  console.log(windowWidth, windowHeight);
   setTimeout(() => {
    const dom: any = document.querySelector('.context-menu')
    const domW = dom && dom.offsetWidth
    const domH = dom && parseInt(dom.style.height)
-   console.log(domW, domH, 20);
 
    x.value = windowWidth - e.clientX < domW ? e.clientX - domW : e.clientX
    y.value = windowHeight - e.clientY < domH ? e.clientY - domH : e.clientY

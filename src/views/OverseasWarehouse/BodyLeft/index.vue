@@ -2,7 +2,7 @@
 <template>
  <Draggable :list="rightList" ghost-class="ghost" animation="300" class="flex">
   <template #item="{ element }">
-   <div class="box-item" @dragover="dragover($event, element.id)" @drop="drop(element.id)">
+   <div class="box-item" @dragover="dragover($event, element.id)" @drop="drop($event, element.id)">
     <span style="font-size: 1rem" class="close" @click="close(element.id)" v-if="element.showEchart">
      <el-icon>
       <circle-close />
@@ -43,7 +43,8 @@ const close = (id: number) => {
 const dragover = (e: any, id: number) => {
  emit('dragover', e, id)
 }
-const drop = (id: number) => {
+const drop = (e: any, id: number) => {
+ if (e.target.nodeName !== 'svg') return
  emit('drop', id)
 }
 

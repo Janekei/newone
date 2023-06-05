@@ -16,16 +16,13 @@ export const useRenderMenuItem = (
   menuMode: 'vertical' | 'horizontal'
 ) => {
  const renderMenuItem = (routers: AppRouteRecordRaw[], parentPath = '/') => {
-  console.log(routers, 14);
   const router = useRouter()
   function onClick(route) {
-   console.log(route, 22);
    
    const href = router.resolve({ //使用resolve
       name:route.name,    //这里是跳转页面的name
       path: route.path,
    })
-   console.log(href, 26);
    window.open(href.href, '_blank')
   }
     return routers.map((v) => {

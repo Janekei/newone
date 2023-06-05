@@ -23,7 +23,6 @@ export const useLocale = () => {
   const globalI18n = i18n.global
 
   const langModule = await import(`../../locales/${locale}.ts`)
-  console.log(langModule, 26);
 
   globalI18n.setLocaleMessage(locale, langModule.default)
 

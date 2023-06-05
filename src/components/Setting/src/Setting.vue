@@ -61,7 +61,6 @@ const setHeaderTheme = (color: string) => {
 
 // 菜单主题相关
 const menuTheme = ref(appStore.getTheme.leftMenuBgColor || '')
-console.log(menuTheme, 64);
 
 
 const setMenuTheme = (color: string) => {
