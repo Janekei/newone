@@ -6,7 +6,6 @@
  <ElButton @click="submit">提交</ElButton>
  <ElButton @click="reset">重置</ElButton>
  <hr />
- {{ myTable && myTable.selectAll.length }}
  <TableK url="/table/list" method="get" :params="formData" ref="myTable" :firstPages="20" :tableOption="tableOption">
   <template #buttons="{ selectRow }">
    <span>{{ selectRow.length }}</span>
