@@ -32,7 +32,7 @@ defineProps({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .list-it {
  padding: 1rem;
  border: 1px solid v-bind(borderColor);

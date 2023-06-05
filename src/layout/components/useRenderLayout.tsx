@@ -1,9 +1,9 @@
 import { computed } from 'vue'
 import { useAppStore } from '@/store/modules/app'
-import { Menu } from '@/components/Menu'
-import { TabMenu } from '@/components/TabMenu'
-import { TagsView } from '@/components/TagsView'
-import { Logo } from '@/components/Logo'
+import { Menu } from '@/layout/components/Menu'
+import { TabMenu } from '@/layout/components/TabMenu'
+import { TagsView } from '@/layout/components/TagsView'
+import { Logo } from '@/layout/components/Logo'
 import AppView from './AppView.vue'
 import ToolHeader from './ToolHeader.vue'
 import { ElScrollbar } from 'element-plus'
@@ -43,7 +43,7 @@ export const useRenderLayout = () => {
           {logo.value ? (
             <Logo
               class={[
-                'bg-[var(--left-menu-bg-color)] border-bottom-1 border-solid dark:border-[var(--el-border-color)]',
+                'bg-[var(--left-menu-bg-color)] border-bottom-1 border-solid border-[var(--logo-border-color)] dark:border-[var(--el-border-color)]',
                 {
                   '!pl-0': mobile.value && collapse.value,
                   'w-[var(--left-menu-min-width)]': appStore.getCollapse,

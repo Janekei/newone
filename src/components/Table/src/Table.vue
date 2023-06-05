@@ -6,7 +6,7 @@ import { setIndex } from './helper'
 import { getSlot } from '@/utils/tsxHelper'
 import type { TableProps } from './types'
 import { set } from 'lodash-es'
-import { TableColumn, TableSlotDefault, Pagination, TableSetPropsType } from '../../../types/table'
+import { Pagination, TableColumn, TableSetPropsType, TableSlotDefault } from '@/types/table'
 
 export default defineComponent({
   name: 'Table',
@@ -14,7 +14,7 @@ export default defineComponent({
     pageSize: propTypes.number.def(10),
     currentPage: propTypes.number.def(1),
     // 是否多选
-    selection: propTypes.bool.def(true),
+    selection: propTypes.bool.def(false),
     // 是否所有的超出隐藏，优先级低于schema中的showOverflowTooltip,
     showOverflowTooltip: propTypes.bool.def(true),
     // 表头
@@ -31,6 +31,10 @@ export default defineComponent({
     },
     // 仅对 type=selection 的列有效，类型为 Boolean，为 true 则会在数据更新之后保留之前选中的数据（需指定 row-key）
     reserveSelection: propTypes.bool.def(false),
+    //边框
+    border: propTypes.bool.def(false),
+    //高度
+    height: propTypes.bool.def(),
     // 加载状态
     loading: propTypes.bool.def(false),
     // 是否叠加索引
@@ -38,11 +42,11 @@ export default defineComponent({
     // 对齐方式
     align: propTypes.string
       .validate((v: string) => ['left', 'center', 'right'].includes(v))
-      .def('left'),
+      .def('center'),
     // 表头对齐方式
     headerAlign: propTypes.string
       .validate((v: string) => ['left', 'center', 'right'].includes(v))
-      .def('left'),
+      .def('center'),
     data: {
       type: Array as PropType<Recordable[]>,
       default: () => []
@@ -100,18 +104,18 @@ export default defineComponent({
     expose({
       setProps,
       setColumn,
-      selections,
-      elTableRef
+      selections
     })
 
     const pagination = computed(() => {
+      // update by IK：保持和 Pagination 组件的逻辑一致
       return Object.assign(
         {
           small: false,
-          background: false,
-          pagerCount: 7,
-          layout: 'sizes, prev, pager, next, jumper, ->, total',
-          pageSizes: [10, 20, 30, 40, 50, 100],
+          background: true,
+          pagerCount: document.body.clientWidth < 992 ? 5 : 7,
+          layout: 'total, sizes, prev, pager, next, jumper',
+          pageSizes: [10, 20, 30, 50, 100],
           disabled: false,
           hideOnSinglePage: false,
           total: 10
@@ -274,6 +278,8 @@ export default defineComponent({
           // @ts-ignore
           ref={elTableRef}
           data={unref(getProps).data}
+          border={unref(getProps).border}
+          height={unref(getProps).height}
           onSelection-change={selectionChange}
           {...unref(getBindValue)}
         >
@@ -284,10 +290,11 @@ export default defineComponent({
           }}
         </ElTable>
         {unref(getProps).pagination ? (
+          // update by IK：保持和 Pagination 组件一致
           <ElPagination
             v-model:pageSize={pageSizeRef.value}
             v-model:currentPage={currentPageRef.value}
-            class="mt-10px"
+            class="float-right mt-15px mb-15px"
             {...unref(pagination)}
           ></ElPagination>
         ) : undefined}
@@ -296,3 +303,13 @@ export default defineComponent({
   }
 })
 </script>
+<style lang="scss" scoped>
+:deep(.el-button.is-text) {
+  margin-left: 0;
+  padding: 8px 4px;
+}
+:deep(.el-button.is-link) {
+  margin-left: 0;
+  padding: 8px 4px;
+}
+</style>

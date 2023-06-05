@@ -22,7 +22,7 @@ import Outbound from './Outbound/index.vue'
 import BottomEcharts from './BottomEcharts/index.vue'
 </script>
 
-<style scoped lang="less">
+<style lang="scss" scoped>
 .flex-box {
  display: flex;
  flex-direction: column;

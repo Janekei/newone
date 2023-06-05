@@ -18,16 +18,33 @@ const request = (option: any) => {
   })
 }
 export default {
-  get: <T = any>(option: any) => {
-    return request({ method: 'get', ...option }) as unknown as T
+  get: async <T = any>(option: any) => {
+    const res = await request({ method: 'GET', ...option })
+    return res.data as unknown as T
   },
-  post: <T = any>(option: any) => {
-    return request({ method: 'post', ...option }) as unknown as T
+  post: async <T = any>(option: any) => {
+    const res = await request({ method: 'POST', ...option })
+    return res.data as unknown as T
   },
-  delete: <T = any>(option: any) => {
-    return request({ method: 'delete', ...option }) as unknown as T
+  postOriginal: async (option: any) => {
+    const res = await request({ method: 'POST', ...option })
+    return res
   },
-  put: <T = any>(option: any) => {
-    return request({ method: 'put', ...option }) as unknown as T
+  delete: async <T = any>(option: any) => {
+    const res = await request({ method: 'DELETE', ...option })
+    return res.data as unknown as T
+  },
+  put: async <T = any>(option: any) => {
+    const res = await request({ method: 'PUT', ...option })
+    return res.data as unknown as T
+  },
+  download: async <T = any>(option: any) => {
+    const res = await request({ method: 'GET', responseType: 'blob', ...option })
+    return res as unknown as Promise<T>
+  },
+  upload: async <T = any>(option: any) => {
+    option.headersType = 'multipart/form-data'
+    const res = await request({ method: 'POST', ...option })
+    return res as unknown as Promise<T>
   }
 }

@@ -102,7 +102,7 @@ defineProps({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .list-box {
  margin-top: 55px;
  display: flex;

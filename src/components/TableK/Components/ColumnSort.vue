@@ -23,7 +23,7 @@ defineProps({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .list-items {
  border-top: 1px solid #f0f2f5;
  padding: .25rem;

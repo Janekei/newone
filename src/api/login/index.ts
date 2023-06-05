@@ -1,34 +1,69 @@
 import request from '@/config/axios'
-import type { UserType } from './types'
+import { getRefreshToken } from '@/utils/auth'
+import type { UserLoginVO } from './types'
 
-interface RoleParams {
-  roleName: string
+export interface SmsCodeVO {
+  mobile: string
+  scene: number
 }
 
-export const loginApi = (data: UserType): Promise<IResponse<UserType>> => {
-  return request.post({ url: '/user/login', data })
+export interface SmsLoginVO {
+  mobile: string
+  code: string
 }
 
-export const loginOutApi = (): Promise<IResponse> => {
-  return request.get({ url: '/user/loginOut' })
+// 登录
+export const login = (data: UserLoginVO) => {
+  return request.post({ url: '/system/auth/login', data })
 }
 
-export const getUserListApi = ({ params }: AxiosConfig) => {
-  return request.get<{
-    code: string
-    data: {
-      list: UserType[]
-      total: number
-    }
-  }>({ url: '/user/list', params })
+// 刷新访问令牌
+export const refreshToken = () => {
+  return request.post({ url: '/system/auth/refresh-token?refreshToken=' + getRefreshToken() })
 }
 
-export const getAdminRoleApi = (
-  params: RoleParams
-): Promise<IResponse<AppCustomRouteRecordRaw[]>> => {
-  return request.get({ url: '/role/list', params })
+// 使用租户名，获得租户编号
+export const getTenantIdByName = (name: string) => {
+  return request.get({ url: '/system/tenant/get-id-by-name?name=' + name })
 }
 
-export const getTestRoleApi = (params: RoleParams): Promise<IResponse<string[]>> => {
-  return request.get({ url: '/role/list', params })
+// 登出
+export const loginOut = () => {
+  return request.post({ url: '/system/auth/logout' })
+}
+
+// 获取用户权限信息
+export const getInfo = () => {
+  return request.get({ url: '/system/auth/get-permission-info' })
+}
+
+// 路由
+export const getAsyncRoutes = () => {
+  return request.get({ url: '/system/auth/list-menus' })
+}
+
+//获取登录验证码
+export const sendSmsCode = (data: SmsCodeVO) => {
+  return request.post({ url: '/system/auth/send-sms-code', data })
+}
+
+// 短信验证码登录
+export const smsLogin = (data: SmsLoginVO) => {
+  return request.post({ url: '/system/auth/sms-login', data })
+}
+
+// 社交授权的跳转
+export const socialAuthRedirect = (type: number, redirectUri: string) => {
+  return request.get({
+    url: '/system/auth/social-auth-redirect?type=' + type + '&redirectUri=' + redirectUri
+  })
+}
+// 获取验证图片以及 token
+export const getCode = (data) => {
+  return request.postOriginal({ url: 'system/captcha/get', data })
+}
+
+// 滑动或者点选验证
+export const reqCheck = (data) => {
+  return request.postOriginal({ url: 'system/captcha/check', data })
 }

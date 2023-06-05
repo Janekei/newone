@@ -14,7 +14,7 @@ import List from './Components/List.vue'
 import DataStatistik from './DataStatistik/index.vue'
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .big-box {
  display: flex;
  flex-direction: column;

@@ -1,26 +1,17 @@
 import { resolve } from 'path'
 import { loadEnv } from 'vite'
 import type { UserConfig, ConfigEnv } from 'vite'
-import Vue from '@vitejs/plugin-vue'
-import VueJsx from '@vitejs/plugin-vue-jsx'
-import WindiCSS from 'vite-plugin-windicss'
-import progress from 'vite-plugin-progress'
-import EslintPlugin from 'vite-plugin-eslint'
-import { ViteEjsPlugin } from "vite-plugin-ejs"
-import { viteMockServe } from 'vite-plugin-mock'
-import PurgeIcons from 'vite-plugin-purge-icons'
-import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite"
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
-import DefineOptions from "unplugin-vue-define-options/vite"
-import { createStyleImportPlugin, ElementPlusResolve } from 'vite-plugin-style-import'
-
-// https://vitejs.dev/config/
+import { createVitePlugins } from './build/vite'
+import { include, exclude } from "./build/vite/optimize"
+// 当前执行node命令时文件夹的地址(工作目录)
 const root = process.cwd()
 
+// 路径查找
 function pathResolve(dir: string) {
   return resolve(root, '.', dir)
 }
 
+// https://vitejs.dev/config/
 export default ({ command, mode }: ConfigEnv): UserConfig => {
   let env = {} as any
   const isBuild = command === 'build'
@@ -31,63 +22,37 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
   }
   return {
     base: env.VITE_BASE_PATH,
-    plugins: [
-      Vue(),
-      VueJsx(),
-      WindiCSS(),
-      progress(),
-      createStyleImportPlugin({
-        resolves: [ElementPlusResolve()],
-        libs: [{
-          libraryName: 'element-plus',
-          esModule: true,
-          resolveStyle: (name) => {
-            return `element-plus/es/components/${name.substring(3)}/style/css`
-          }
-        }]
-      }),
-      EslintPlugin({
-        cache: false,
-        include: ['src/**/*.vue', 'src/**/*.ts', 'src/**/*.tsx'] // 检查的文件
-      }),
-      VueI18nPlugin({
-        runtimeOnly: true,
-        compositionOnly: true,
-        include: [resolve(__dirname, 'src/locales/**')]
-      }),
-      createSvgIconsPlugin({
-        iconDirs: [pathResolve('src/assets/svgs')],
-        symbolId: 'icon-[dir]-[name]',
-        svgoOptions: true
-      }),
-      PurgeIcons(),
-      viteMockServe({
-        ignore: /^\_/,
-        mockPath: 'mock',
-        localEnabled: !isBuild,
-        prodEnabled: isBuild,
-        injectCode: `
-          import { setupProdMockServer } from '../mock/_createProductionServer'
-
-          setupProdMockServer()
-          `
-      }),
-      DefineOptions(),
-      ViteEjsPlugin({
-        title: env.VITE_APP_TITLE
-      })
-    ],
-
+    root: root,
+    // 服务端渲染
+    server: {
+      // 是否开启 https
+      https: false,
+      // 端口号
+      port: env.VITE_PORT,
+      host: "0.0.0.0",
+      open: env.VITE_OPEN === 'true',
+      // 本地跨域代理. 目前注释的原因：暂时没有用途，server 端已经支持跨域
+      // proxy: {
+      //   ['/admin-api']: {
+      //     target: env.VITE_BASE_URL,
+      //     ws: false,
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(new RegExp(`^/admin-api`), ''),
+      //   },
+      // },
+    },
+    // 项目使用的vite插件。 单独提取到build/vite/plugin中管理
+    plugins: createVitePlugins(),
     css: {
       preprocessorOptions: {
-        less: {
-          additionalData: '@import "./src/styles/variables.module.less";',
+        scss: {
+          additionalData: '@import "./src/styles/variables.scss";',
           javascriptEnabled: true
         }
       }
     },
     resolve: {
-      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.less', '.css'],
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss', '.css'],
       alias: [
         {
           find: 'vue-i18n',
@@ -111,39 +76,6 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
         }
       }
     },
-    server: {
-      port: 4000,
-      proxy: {
-        // 选项写法
-        '/api': {
-          target: 'http://127.0.0.1:8000',
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '')
-        }
-      },
-      hmr: {
-        overlay: false
-      },
-      host: '0.0.0.0'
-    },
-    optimizeDeps: {
-      include: [
-        'vue',
-        'vue-router',
-        'vue-types',
-        'element-plus/es/locale/lang/zh-cn',
-        'element-plus/es/locale/lang/en',
-        '@iconify/iconify',
-        '@vueuse/core',
-        'axios',
-        'qs',
-        'echarts',
-        'echarts-wordcloud',
-        'intro.js',
-        'qrcode',
-        '@wangeditor/editor',
-        '@wangeditor/editor-for-vue'
-      ]
-    }
+    optimizeDeps: { include, exclude }
   }
 }

@@ -12,7 +12,7 @@ import Card from '@/views/OverseasWarehouse/Components/EchartCard.vue'
 import TurnoverEchart from './TurnoverEchart.vue'
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .card[data-v-4002204f] {
  padding: 1rem 1rem 0 1rem;
 }

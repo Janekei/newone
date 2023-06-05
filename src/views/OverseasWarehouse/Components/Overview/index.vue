@@ -65,7 +65,7 @@ const close = () => {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .overview {
  display: flex;
  position: relative;

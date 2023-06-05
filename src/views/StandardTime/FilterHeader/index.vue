@@ -29,7 +29,7 @@
 <script setup lang="ts">
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .filter-text {
  color: #333333;
  font-size: 1.125rem;

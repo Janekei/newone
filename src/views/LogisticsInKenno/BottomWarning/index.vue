@@ -124,7 +124,7 @@ const list3 = reactive([
 ])
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .title {
  border-radius: .5rem;
  background-color: #eec3c3;

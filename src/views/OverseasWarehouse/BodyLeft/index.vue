@@ -74,7 +74,7 @@ const rightList = reactive([
 ])
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .flex {
  display: flex;
  flex-direction: column;

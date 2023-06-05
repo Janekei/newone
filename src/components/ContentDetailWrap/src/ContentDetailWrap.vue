@@ -1,10 +1,7 @@
-<script setup lang="ts">
-import { ElCard, ElButton } from 'element-plus'
+<script lang="ts" name="ContentDetailWrap" setup>
 import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
-import { ref, onMounted, defineEmits } from 'vue'
-import { Sticky } from '@/components/Sticky'
-import { useI18n } from '@/hooks/web/useI18n'
+
 const { t } = useI18n()
 
 const { getPrefixCls } = useDesign()
@@ -24,19 +21,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="[`${prefixCls}-container`, 'relative bg-[#fff]']" ref="contentDetailWrap">
+  <div ref="contentDetailWrap" :class="[`${prefixCls}-container`]">
     <Sticky :offset="offset">
       <div
         :class="[
           `${prefixCls}-header`,
-          'flex border-bottom-1 h-50px items-center text-center bg-white pr-10px'
+          'flex border-bottom-1 h-50px items-center text-center pr-10px'
         ]"
       >
         <div :class="[`${prefixCls}-header__back`, 'flex pl-10px pr-10px ']">
-          <el-button @click="emit('back')">
-            <Icon icon="ep:arrow-left" class="mr-5px" />
+          <ElButton @click="emit('back')">
+            <Icon class="mr-5px" icon="ep:arrow-left" />
             {{ t('common.back') }}
-          </el-button>
+          </ElButton>
         </div>
         <div :class="[`${prefixCls}-header__title`, 'flex flex-1  justify-center']">
           <slot name="title">

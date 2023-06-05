@@ -41,7 +41,7 @@
 import Card from '@/components/Card/index.vue'
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .line-box {
  display: flex;
  flex-direction: column;

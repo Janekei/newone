@@ -21,7 +21,7 @@ import PodEchart from './PodEchart.vue'
 const date = ref('')
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .pod {
  background-color: #fff;
  border-radius: 3px;

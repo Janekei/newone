@@ -1,447 +1,316 @@
-<script setup lang="ts">
-import { reactive, ref, unref, watch } from 'vue'
-import { Form } from '@/components/Form'
-import { useI18n } from '@/hooks/web/useI18n'
-import { ElButton, ElCheckbox, ElLink } from 'element-plus'
-import { useForm } from '@/hooks/web/useForm'
-import { loginApi } from '@/api/login'
-// import { loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
-import { useCache } from '@/hooks/web/useCache'
-import { useAppStore } from '@/store/modules/app'
+<template>
+  <el-form
+    v-show="getShow"
+    ref="formLogin"
+    :model="loginData.loginForm"
+    :rules="LoginRules"
+    class="login-form"
+    label-position="top"
+    label-width="120px"
+    size="large"
+  >
+    <el-row style="maring-left: -10px; maring-right: -10px">
+      <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
+        <el-form-item>
+          <LoginFormTitle style="width: 100%" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
+        <el-form-item v-if="loginData.tenantEnable === 'true'" prop="tenantName">
+          <el-input
+            v-model="loginData.loginForm.tenantName"
+            :placeholder="t('login.tenantNamePlaceholder')"
+            :prefix-icon="iconHouse"
+            type="primary"
+            link
+          />
+        </el-form-item>
+      </el-col>
+      <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
+        <el-form-item prop="username">
+          <el-input
+            v-model="loginData.loginForm.username"
+            :placeholder="t('login.usernamePlaceholder')"
+            :prefix-icon="iconAvatar"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
+        <el-form-item prop="password">
+          <el-input
+            v-model="loginData.loginForm.password"
+            :placeholder="t('login.passwordPlaceholder')"
+            :prefix-icon="iconLock"
+            show-password
+            type="password"
+            @keyup.enter="getCode()"
+          />
+        </el-form-item>
+      </el-col>
+      <el-col
+        :span="24"
+        style="padding-left: 10px; padding-right: 10px; margin-top: -20px; margin-bottom: -20px"
+      >
+        <el-form-item>
+          <el-row justify="space-between" style="width: 100%">
+            <el-col :span="6">
+              <el-checkbox v-model="loginData.loginForm.rememberMe">
+                {{ t('login.remember') }}
+              </el-checkbox>
+            </el-col>
+            <el-col :offset="6" :span="12">
+              <el-link style="float: right" type="primary">{{ t('login.forgetPassword') }}</el-link>
+            </el-col>
+          </el-row>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
+        <el-form-item>
+          <XButton
+            :loading="loginLoading"
+            :title="t('login.login')"
+            class="w-[100%]"
+            type="primary"
+            @click="getCode()"
+          />
+        </el-form-item>
+      </el-col>
+      <Verify
+        ref="verify"
+        :captchaType="captchaType"
+        :imgSize="{ width: '400px', height: '200px' }"
+        mode="pop"
+        @success="handleLogin"
+      />
+      <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
+        <el-form-item>
+          <el-row :gutter="5" justify="space-between" style="width: 100%">
+            <el-col :span="8">
+              <XButton
+                :title="t('login.btnMobile')"
+                class="w-[100%]"
+                @click="setLoginState(LoginStateEnum.MOBILE)"
+              />
+            </el-col>
+            <el-col :span="8">
+              <XButton
+                :title="t('login.btnQRCode')"
+                class="w-[100%]"
+                @click="setLoginState(LoginStateEnum.QR_CODE)"
+              />
+            </el-col>
+            <el-col :span="8">
+              <XButton
+                :title="t('login.btnRegister')"
+                class="w-[100%]"
+                @click="setLoginState(LoginStateEnum.REGISTER)"
+              />
+            </el-col>
+          </el-row>
+        </el-form-item>
+      </el-col>
+      <el-divider content-position="center">{{ t('login.otherLogin') }}</el-divider>
+      <el-col :span="24" style="padding-left: 10px; padding-right: 10px">
+        <el-form-item>
+          <div class="flex justify-between w-[100%]">
+            <Icon
+              v-for="(item, key) in socialList"
+              :key="key"
+              :icon="item.icon"
+              :size="30"
+              class="cursor-pointer anticon"
+              color="#999"
+              @click="doSocialLogin(item.type)"
+            />
+          </div>
+        </el-form-item>
+      </el-col>
+    </el-row>
+  </el-form>
+</template>
+<script lang="ts" name="LoginForm" setup>
+import { ElLoading } from 'element-plus'
+import LoginFormTitle from './LoginFormTitle.vue'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
+
+import { useIcon } from '@/hooks/web/useIcon'
+
+import * as authUtil from '@/utils/auth'
 import { usePermissionStore } from '@/store/modules/permission'
-import { useRouter } from 'vue-router'
-import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
-import { UserType } from '@/api/login/types'
-import { useValidator } from '@/hooks/web/useValidator'
-import { FormSchema } from '@/types/form'
-
-const { required } = useValidator()
-
-const emit = defineEmits(['to-register'])
-
-const appStore = useAppStore()
-
-const permissionStore = usePermissionStore()
-
-const { currentRoute, addRoute, push } = useRouter()
-
-const { wsCache } = useCache()
+import * as LoginApi from '@/api/login'
+import { LoginStateEnum, useFormValid, useLoginState } from './useLogin'
 
 const { t } = useI18n()
-
-const rules = {
- username: [required()],
- password: [required()]
-}
-
-const schema = reactive<FormSchema[]>([
- {
-  field: 'title',
-  colProps: {
-   span: 24
-  }
- },
- {
-  field: 'username',
-  label: t('login.username'),
-  value: 'admin',
-  component: 'Input',
-  colProps: {
-   span: 24
-  },
-  componentProps: {
-   placeholder: t('login.usernamePlaceholder')
-  }
- },
- {
-  field: 'password',
-  label: t('login.password'),
-  value: 'admin',
-  component: 'InputPassword',
-  colProps: {
-   span: 24
-  },
-  componentProps: {
-   style: {
-    width: '100%'
-   },
-   placeholder: t('login.passwordPlaceholder')
-  }
- },
- {
-  field: 'tool',
-  colProps: {
-   span: 24
-  }
- },
- {
-  field: 'login',
-  colProps: {
-   span: 24
-  }
- },
- {
-  field: 'other',
-  component: 'Divider',
-  label: t('login.otherLogin'),
-  componentProps: {
-   contentPosition: 'center'
-  }
- },
- {
-  field: 'otherIcon',
-  colProps: {
-   span: 24
-  }
- }
-])
-
-const iconSize = 30
-
-const remember = ref(false)
-
-const { register, elFormRef, methods } = useForm()
-
-const loading = ref(false)
-
-const iconColor = '#999'
-
+const message = useMessage()
+const iconHouse = useIcon({ icon: 'ep:house' })
+const iconAvatar = useIcon({ icon: 'ep:avatar' })
+const iconLock = useIcon({ icon: 'ep:lock' })
+const formLogin = ref()
+const { validForm } = useFormValid(formLogin)
+const { setLoginState, getLoginState } = useLoginState()
+const { currentRoute, push } = useRouter()
+const permissionStore = usePermissionStore()
 const redirect = ref<string>('')
+const loginLoading = ref(false)
+const verify = ref()
+const captchaType = ref('blockPuzzle') // blockPuzzle 滑块 clickWord 点击文字
 
-watch(
- () => currentRoute.value,
- (route: RouteLocationNormalizedLoaded) => {
+const getShow = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN)
 
-  redirect.value = route?.query?.redirect as string
- },
- {
-  immediate: true
- }
-)
-
-// 登录
-const signIn = async () => {
- const formRef = unref(elFormRef)
- await formRef?.validate(async (isValid) => {
-  if (isValid) {
-   loading.value = true
-   const { getFormData } = methods
-   const formData = await getFormData<UserType>()
-
-   try {
-    const res = await loginApi(formData)
-    if (res) {
-     wsCache.set(appStore.getUserInfo, res.data)
-     // 是否使用动态路由
-
-     if (appStore.dynamicRouter) {
-      getRole()
-     } else {
-      await permissionStore.generateRoutes('none').catch(() => { })
-      permissionStore.getAddRouters.forEach((route) => {
-       addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
-      })
-      permissionStore.setIsAddRouters(true)
-      push({ path: '/' })
-     }
-    }
-   } finally {
-    loading.value = false
-   }
+const LoginRules = {
+  tenantName: [required],
+  username: [required],
+  password: [required]
+}
+const loginData = reactive({
+  isShowPassword: false,
+  captchaEnable: import.meta.env.VITE_APP_CAPTCHA_ENABLE,
+  tenantEnable: import.meta.env.VITE_APP_TENANT_ENABLE,
+  loginForm: {
+    tenantName: '上海平台',
+    username: 'admin',
+    password: 'admin',
+    captchaVerification: '',
+    rememberMe: false
   }
- })
+})
+
+const socialList = [
+  { icon: 'ant-design:github-filled', type: 0 },
+  { icon: 'ant-design:wechat-filled', type: 30 },
+  { icon: 'ant-design:alipay-circle-filled', type: 0 },
+  { icon: 'ant-design:dingtalk-circle-filled', type: 20 }
+]
+
+// 获取验证码
+const getCode = async () => {
+  // 情况一，未开启：则直接登录
+  if (loginData.captchaEnable === 'false') {
+    await handleLogin({})
+  } else {
+    // 情况二，已开启：则展示验证码；只有完成验证码的情况，才进行登录
+    // 弹出验证码
+    verify.value.show()
+  }
+}
+//获取租户ID
+const getTenantId = async () => {
+  if (loginData.tenantEnable === 'true') {
+    const res = await LoginApi.getTenantIdByName(loginData.loginForm.tenantName)
+    authUtil.setTenantId(res)
+  }
+}
+// 记住我
+const getCookie = () => {
+  const loginForm = authUtil.getLoginForm()
+  if (loginForm) {
+    loginData.loginForm = {
+      ...loginData.loginForm,
+      username: loginForm.username ? loginForm.username : loginData.loginForm.username,
+      password: loginForm.password ? loginForm.password : loginData.loginForm.password,
+      rememberMe: loginForm.rememberMe ? true : false,
+      tenantName: loginForm.tenantName ? loginForm.tenantName : loginData.loginForm.tenantName
+    }
+  }
+}
+// 登录
+const handleLogin = async (params) => {
+  loginLoading.value = true
+  try {
+    await getTenantId()
+    const data = await validForm()
+    if (!data) {
+      return
+    }
+    loginData.loginForm.captchaVerification = params.captchaVerification
+    const res = await LoginApi.login(loginData.loginForm)
+    if (!res) {
+      return
+    }
+    ElLoading.service({
+      lock: true,
+      text: '正在加载系统中...',
+      background: 'rgba(0, 0, 0, 0.7)'
+    })
+    // console.log('登录1111111111',loginData.loginForm.username)
+    window.localStorage.setItem('USER_INFO',loginData.loginForm.username)
+    if (loginData.loginForm.rememberMe) {
+      authUtil.setLoginForm(loginData.loginForm)
+    } else {
+      authUtil.removeLoginForm()
+    }
+    authUtil.setToken(res)
+    if (!redirect.value) {
+      redirect.value = '/'
+    }
+    // 判断是否为SSO登录
+    if (redirect.value.indexOf('sso') !== -1) {
+      window.location.href = window.location.href.replace('/login?redirect=', '')
+    } else {
+      push({ path: redirect.value || permissionStore.addRouters[0].path })
+    }
+  } catch {
+    loginLoading.value = false
+  } finally {
+    setTimeout(() => {
+      const loadingInstance = ElLoading.service()
+      loadingInstance.close()
+    }, 400)
+  }
 }
 
-// 获取角色信息
-const getRole = async () => {
- const { getFormData } = methods
- const formData = await getFormData<UserType>()
- const params = {
-  roleName: formData.username
- }
- console.log(params);
-
- // admin - 模拟后端过滤菜单
- // test - 模拟前端过滤菜单
- // const res =
- //  formData.username === 'admin' ? await getAdminRoleApi(params) : await getTestRoleApi(params)
- const res: any = await new Promise(resolve => {
-  setTimeout(() => {
-   resolve({
-    data: [
-     {
-      path: '/overseasWarehouse',
-      component: '/OverseasWarehouse/index',
-      meta: {
-       link: true,
-       title: t('router.overseasWarehouse'),
-       icon: 'ant-design:dashboard-filled'
-      },
-      name: 'overseasWarehouse'
-     },
-     {
-      path: '/standardTime',
-      component: '/StandardTime/index',
-      meta: {
-       link: true,
-       title: t('router.standardTime'),
-       icon: 'ant-design:dashboard-filled'
-      },
-      name: 'standardTime'
-     },
-     {
-      path: '/transportBI',
-      component: '/TransportBI/index',
-      meta: {
-       link: true,
-       title: t('router.TransportBI'),
-       icon: 'ant-design:dashboard-filled'
-      },
-      name: 'transportBI'
-     },
-     {
-      path: '/warehouseinkenno',
-      component: '#',
-      redirect: '/warehouseinkenno/index',
-      name: 'WarehouseInKenno',
-      meta: {},
-      children: [
-       {
-        path: 'index',
-        component: '/WarehouseInKenno/index',
-        name: 'WarehouseInKenno-index',
-        meta: {
-         title: t('router.warehouseHome'),
-         icon: 'ant-design:dashboard-filled',
-         affix: true
-        }
-       }
-      ]
-     },
-     {
-      path: '/logisticslnkenno',
-      component: '#',
-      redirect: '/logisticslnkenno/index',
-      name: 'LogisticsInKenno',
-      meta: {},
-      children: [
-       {
-        path: 'index',
-        component: '/LogisticsInKenno/index',
-        name: 'LogisticsInKenno-index',
-        meta: {
-         title: t('router.logisticsHome'),
-         icon: 'ant-design:dashboard-filled',
-        }
-       }
-      ]
-     },
-     {
-      path: '/saleinkenno',
-      component: '#',
-      redirect: '/saleinkenno/index',
-      name: 'SaleInKenno',
-      meta: {},
-      children: [
-       {
-        path: 'index',
-        component: '/SaleInKenno/index',
-        name: 'SaleInKenno-index',
-        meta: {
-         title: t('router.saleHome'),
-         icon: 'ant-design:dashboard-filled',
-        }
-       }
-      ]
-     },
-     // 库存快照
-     {
-      path: '/inventorysnapshot',
-      component: '#',
-      redirect: '/inventorysnapshot/inboundinstruction/index',
-      name: 'InventorySnapshot',
-      meta: {
-       title: t('router.inventorySnapshot'),
-       icon: 'ci:error',
-       alwaysShow: true
-      },
-      children: [
-       {
-        path: 'inboundinstruction',
-        component: '/InventorySnapshot/InboundInstruction/index',
-        name: 'InboundInstruction-index',
-        meta: {
-         title: t('router.inboundInstruction')
-        }
-       },
-       {
-        path: 'inboundDetail',
-        component: '/InventorySnapshot/InboundInstruction/InboundDetail/index',
-        name: 'inboundDetail-index',
-        meta: {
-         title: '详情信息',
-         hidden: true,
-         breadcrumb: false
-        }
-       },
-       {
-        path: 'outboundinstruction',
-        component: '/InventorySnapshot/OutboundInstruction/index',
-        name: 'OutboundInstruction-index',
-        meta: {
-         title: t('router.outboundinstruction')
-        }
-       },
-       {
-        path: 'inventoryquery',
-        component: '/InventorySnapshot/InventoryQuery/index',
-        name: 'InventoryQuery-index',
-        meta: {
-         title: t('router.inventoryQuery')
-        }
-       },
-       {
-        path: 'warehousingquery',
-        component: '/InventorySnapshot/WarehousingQuery/index',
-        name: 'WarehousingQuery-index',
-        meta: {
-         title: t('router.warehousingquery')
-        }
-       },
-       {
-        path: 'outboundquery',
-        component: '/InventorySnapshot/OutboundQuery/index',
-        name: 'OutboundQuery-index',
-        meta: {
-         title: t('router.outboundquery')
-        }
-       }
-      ]
-     },
-     {
-      path: '/external-link',
-      component: '#',
-      meta: {},
-      name: 'ExternalLink',
-      children: [
-       {
-        path: 'https://element-plus-admin-doc.cn/',
-        name: 'DocumentLink',
-        meta: {
-         title: t('router.document'),
-         icon: 'clarity:document-solid'
-        }
-       }
-      ]
-     },
-     {
-      path: '/workcomponents',
-      component: '#',
-      redirect: '/workcomponents/index',
-      name: 'WorkComponents',
-      meta: {},
-      children: [
-       {
-        path: 'index',
-        component: '/WorkComponents/index',
-        name: 'WorkComponents-index',
-        meta: {
-         title: '组件示例',
-         icon: 'ant-design:dashboard-filled',
-        }
-       }
-      ]
-     },
-     {
-      path: '/warehousemanage',
-      component: '#',
-      redirect: '/warehousemanage/index',
-      name: 'warehousemanage',
-      meta: {},
-      children: [
-       {
-        path: 'index',
-        component: '/WarehouseManage/index',
-        name: 'WarehouseManage-index',
-        meta: {
-         title: t('router.warehouseManage'),
-         icon: 'ant-design:dashboard-filled',
-        }
-       }
-      ]
-     },
-    ]
-   })
-  }, 500)
- })
- if (res) {
-  const { wsCache } = useCache()
-  const routers = res.data || []
-  console.log(routers, 312);
-
-  wsCache.set('roleRouters', routers)
-  console.log(routers, 313);
-
-  formData.username === 'admin'
-   ? await permissionStore.generateRoutes('admin', routers).catch(() => { })
-   : await permissionStore.generateRoutes('test', routers).catch(() => { })
-
-  permissionStore.getAddRouters.forEach((route) => {
-   addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
-  })
-  permissionStore.setIsAddRouters(true)
-  push({ path: '/' })
- }
+// 社交登录
+const doSocialLogin = async (type: number) => {
+  if (type === 0) {
+    message.error('此方式未配置')
+  } else {
+    loginLoading.value = true
+    if (loginData.tenantEnable === 'true') {
+      await message.prompt('请输入租户名称', t('common.reminder')).then(async ({ value }) => {
+        const res = await LoginApi.getTenantIdByName(value)
+        authUtil.setTenantId(res)
+      })
+    }
+    // 计算 redirectUri
+    const redirectUri =
+      location.origin + '/social-login?type=' + type + '&redirect=' + (redirect.value || '/')
+    // 进行跳转
+    const res = await LoginApi.socialAuthRedirect(type, encodeURIComponent(redirectUri))
+    window.location.href = res
+  }
 }
-
-// 去注册页面
-const toRegister = () => {
- emit('to-register')
-}
+watch(
+  () => currentRoute.value,
+  (route: RouteLocationNormalizedLoaded) => {
+    redirect.value = route?.query?.redirect as string
+  },
+  {
+    immediate: true
+  }
+)
+onMounted(() => {
+  getCookie()
+})
 </script>
 
-<template>
- <Form :schema="schema" :rules="rules" label-position="top" hide-required-asterisk size="large"
-  class="dark:(border-1 border-[var(--el-border-color)] border-solid)" @register="register">
-  <template #title>
-   <h2 class="text-2xl font-bold text-center w-[100%]">{{ t('login.login') }}</h2>
-  </template>
-
-  <template #tool>
-   <div class="flex justify-between items-center w-[100%]">
-    <ElCheckbox v-model="remember" :label="t('login.remember')" size="small" />
-    <ElLink type="primary" :underline="false">{{ t('login.forgetPassword') }}</ElLink>
-   </div>
-  </template>
-
-  <template #login>
-   <div class="w-[100%]">
-    <ElButton :loading="loading" type="primary" class="w-[100%]" @click="signIn">
-     {{ t('login.login') }}
-    </ElButton>
-   </div>
-   <div class="w-[100%] mt-15px">
-    <ElButton class="w-[100%]" @click="toRegister">
-     {{ t('login.register') }}
-    </ElButton>
-   </div>
-  </template>
-
-  <template #otherIcon>
-   <div class="flex justify-between w-[100%]">
-    <Icon icon="ant-design:github-filled" :size="iconSize" class="cursor-pointer anticon" :color="iconColor" />
-    <Icon icon="ant-design:wechat-filled" :size="iconSize" class="cursor-pointer anticon" :color="iconColor" />
-    <Icon icon="ant-design:alipay-circle-filled" :size="iconSize" :color="iconColor" class="cursor-pointer anticon" />
-    <Icon icon="ant-design:weibo-circle-filled" :size="iconSize" :color="iconColor" class="cursor-pointer anticon" />
-   </div>
-  </template>
- </Form>
-</template>
-
-<style lang="less" scoped>
+<style lang="scss" scoped>
 :deep(.anticon) {
- &:hover {
-  color: var(--el-color-primary) !important;
- }
+  &:hover {
+    color: var(--el-color-primary) !important;
+  }
+}
+
+.login-code {
+  width: 100%;
+  height: 38px;
+  float: right;
+
+  img {
+    cursor: pointer;
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+    vertical-align: middle;
+  }
 }
 </style>

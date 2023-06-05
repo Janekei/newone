@@ -16,7 +16,7 @@ defineProps({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .flex-card {
  display: flex;
  width: 100%;

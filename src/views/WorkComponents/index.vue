@@ -145,7 +145,7 @@ const tableOption = reactive([
 ])
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .form-box {
  width: 70%;
  background-color: #fff;

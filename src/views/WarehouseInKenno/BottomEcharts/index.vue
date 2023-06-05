@@ -31,7 +31,7 @@ import BarMap1 from '../Components/BarMap1.vue'
 import PieMap from '../Components/PieMap.vue'
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .flex-boxs {
  display: flex;
 

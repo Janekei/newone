@@ -14,9 +14,6 @@
   </div>
  </div>
  <RightClickCard style="background-color: #fff;">
-  <div>
-   <slot name="buttons" :selectRow="selectAll"></slot>
-  </div>
   <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
    ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
    @row-contextmenu="rowContextmenu">
@@ -86,7 +83,7 @@ const disabledPage = ref(false)
 // 发送请求获取数据
 const getData = () => {
  const { method, url, params } = props
- const parameter = Object.assign({}, pageParams, params)
+ const parameter = Object.assign(pageParams, params)
  loading.value = true
  loaded.value = false
  disabledPage.value = true
@@ -102,7 +99,6 @@ const getData = () => {
   disabledPage.value = false
  })
 }
-
 
 onMounted(() => {
  getData()
@@ -155,7 +151,7 @@ defineExpose({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .table-box {
  background-color: #fff;
 

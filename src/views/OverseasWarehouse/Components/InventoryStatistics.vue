@@ -59,7 +59,7 @@ const close = () => {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .date {
  font-size: .75rem;
  margin-top: .375rem;

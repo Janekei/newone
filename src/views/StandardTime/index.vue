@@ -10,7 +10,7 @@ import FilterHeader from './FilterHeader/index.vue'
 import Cards from './BodyEcharts/Cards.vue'
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .big-box {
  display: flex;
  flex-direction: column;

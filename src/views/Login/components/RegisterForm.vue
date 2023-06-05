@@ -1,19 +1,54 @@
-<script setup lang="ts">
-import { Form } from '@/components/Form'
-import { reactive, ref, unref } from 'vue'
-import { useI18n } from '@/hooks/web/useI18n'
+<template>
+  <Form
+    v-show="getShow"
+    :rules="rules"
+    :schema="schema"
+    class="dark:(border-1 border-[var(--el-border-color)] border-solid)"
+    hide-required-asterisk
+    label-position="top"
+    size="large"
+    @register="register"
+  >
+    <template #title>
+      <LoginFormTitle style="width: 100%" />
+    </template>
+
+    <template #code="form">
+      <div class="w-[100%] flex">
+        <el-input v-model="form['code']" :placeholder="t('login.codePlaceholder')" />
+      </div>
+    </template>
+
+    <template #register>
+      <div class="w-[100%]">
+        <XButton
+          :loading="loading"
+          :title="t('login.register')"
+          class="w-[100%]"
+          type="primary"
+          @click="loginRegister()"
+        />
+      </div>
+      <div class="w-[100%] mt-15px">
+        <XButton :title="t('login.hasUser')" class="w-[100%]" @click="handleBackLogin()" />
+      </div>
+    </template>
+  </Form>
+</template>
+<script lang="ts" name="RegisterForm" setup>
+import type { FormRules } from 'element-plus'
+
 import { useForm } from '@/hooks/web/useForm'
-import { ElButton, ElInput, FormRules } from 'element-plus'
 import { useValidator } from '@/hooks/web/useValidator'
+import LoginFormTitle from './LoginFormTitle.vue'
+import { LoginStateEnum, useLoginState } from './useLogin'
 import { FormSchema } from '@/types/form'
 
-const emit = defineEmits(['to-login'])
-
-const { register, elFormRef } = useForm()
-
 const { t } = useI18n()
-
 const { required } = useValidator()
+const { register, elFormRef } = useForm()
+const { handleBackLogin, getLoginState } = useLoginState()
+const getShow = computed(() => unref(getLoginState) === LoginStateEnum.REGISTER)
 
 const schema = reactive<FormSchema[]>([
   {
@@ -88,10 +123,6 @@ const rules: FormRules = {
   code: [required()]
 }
 
-const toLogin = () => {
-  emit('to-login')
-}
-
 const loading = ref(false)
 
 const loginRegister = async () => {
@@ -100,7 +131,6 @@ const loginRegister = async () => {
     if (valid) {
       try {
         loading.value = true
-        toLogin()
       } finally {
         loading.value = false
       }
@@ -108,38 +138,3 @@ const loginRegister = async () => {
   })
 }
 </script>
-
-<template>
-  <Form
-    :schema="schema"
-    :rules="rules"
-    label-position="top"
-    hide-required-asterisk
-    size="large"
-    class="dark:(border-1 border-[var(--el-border-color)] border-solid)"
-    @register="register"
-  >
-    <template #title>
-      <h2 class="text-2xl font-bold text-center w-[100%]">{{ t('login.register') }}</h2>
-    </template>
-
-    <template #code="form">
-      <div class="w-[100%] flex">
-        <ElInput v-model="form['code']" :placeholder="t('login.codePlaceholder')" />
-      </div>
-    </template>
-
-    <template #register>
-      <div class="w-[100%]">
-        <ElButton type="primary" class="w-[100%]" :loading="loading" @click="loginRegister">
-          {{ t('login.register') }}
-        </ElButton>
-      </div>
-      <div class="w-[100%] mt-15px">
-        <ElButton class="w-[100%]" @click="toLogin">
-          {{ t('login.hasUser') }}
-        </ElButton>
-      </div>
-    </template>
-  </Form>
-</template>

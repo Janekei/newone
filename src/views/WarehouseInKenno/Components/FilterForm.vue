@@ -57,7 +57,7 @@ const formData = ref({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .flex-box-form {
  display: flex;
  align-items: center;

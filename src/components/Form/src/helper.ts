@@ -1,11 +1,8 @@
-import { useI18n } from '@/hooks/web/useI18n'
 import type { Slots } from 'vue'
 import { getSlot } from '@/utils/tsxHelper'
-import { PlaceholderMoel } from './types'
+import { PlaceholderModel } from './types'
 import { FormSchema } from '@/types/form'
 import { ColProps } from '@/types/components'
-
-const { t } = useI18n()
 
 /**
  *
@@ -13,12 +10,13 @@ const { t } = useI18n()
  * @returns 返回提示信息对象
  * @description 用于自动设置placeholder
  */
-export const setTextPlaceholder = (schema: FormSchema): PlaceholderMoel => {
+export const setTextPlaceholder = (schema: FormSchema): PlaceholderModel => {
+  const { t } = useI18n()
   const textMap = ['Input', 'Autocomplete', 'InputNumber', 'InputPassword']
-  const selectMap = ['Select', 'TimePicker', 'DatePicker', 'TimeSelect', 'TimeSelect']
+  const selectMap = ['Select', 'SelectV2', 'TimePicker', 'DatePicker', 'TimeSelect', 'TimeSelect']
   if (textMap.includes(schema?.component as string)) {
     return {
-      placeholder: t('common.inputText')
+      placeholder: t('common.inputText') + schema.label
     }
   }
   if (selectMap.includes(schema?.component as string)) {
@@ -36,7 +34,7 @@ export const setTextPlaceholder = (schema: FormSchema): PlaceholderMoel => {
       }
     } else {
       return {
-        placeholder: t('common.selectText')
+        placeholder: t('common.selectText') + schema.label
       }
     }
   }
@@ -110,8 +108,8 @@ export const setItemComponentSlots = (
 /**
  *
  * @param schema Form表单结构化数组
- * @param formModel FormMoel
- * @returns FormMoel
+ * @param formModel FormModel
+ * @returns FormModel
  * @description 生成对应的formModel
  */
 export const initModel = (schema: FormSchema[], formModel: Recordable) => {

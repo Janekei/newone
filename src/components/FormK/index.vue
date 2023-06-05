@@ -89,7 +89,7 @@ defineExpose({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 :deep(.el-form-item) {
  margin-bottom: v-bind(addMar);
  margin-right: 0;

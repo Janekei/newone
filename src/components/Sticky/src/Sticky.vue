@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script lang="ts" name="Sticky" setup>
 import { propTypes } from '@/utils/propTypes'
-import { ref, onMounted, onActivated, shallowRef } from 'vue'
-import { useEventListener, useWindowSize, isClient } from '@vueuse/core'
+import { isClient, useEventListener, useWindowSize } from '@vueuse/core'
 import type { CSSProperties } from 'vue'
+
 const props = defineProps({
   // 距离顶部或者底部的距离(单位px)
   offset: propTypes.number.def(0),
@@ -121,7 +121,7 @@ const reset = () => {
 }
 </script>
 <template>
-  <div :style="{ height: height, zIndex: zIndex }" ref="refSticky">
+  <div ref="refSticky" :style="{ height: height, zIndex: zIndex }">
     <div
       :class="className"
       :style="{

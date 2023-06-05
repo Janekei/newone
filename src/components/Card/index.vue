@@ -5,7 +5,7 @@
   </div>
   <div class="card-body">
    <slot name="card-body"></slot>
-  </div> 
+  </div>
  </div>
 </template>
 
@@ -18,7 +18,7 @@ defineProps({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .card {
  width: 100%;
  height: 100%;

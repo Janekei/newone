@@ -70,7 +70,7 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .echart {
  height: 100%;
 }

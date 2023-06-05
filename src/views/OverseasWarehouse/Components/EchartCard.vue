@@ -20,7 +20,7 @@ defineProps({
 })
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .card {
  background-color: #fff;
  border-radius: .3125rem;

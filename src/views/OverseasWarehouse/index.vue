@@ -94,7 +94,7 @@ const toggleMapFlagFn = () => {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .box {
  width: 100vw;
  height: 100vh;

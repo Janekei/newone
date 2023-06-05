@@ -40,7 +40,7 @@ const showEchart5 = computed(() => {
 })
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .form {
  background-color: pink;
 }

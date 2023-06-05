@@ -1,10 +1,8 @@
-<script setup lang="ts">
-import { ref, unref, computed, watch } from 'vue'
-import { ElInput } from 'element-plus'
+<script lang="ts" name="InputPassword" setup>
 import { propTypes } from '@/utils/propTypes'
 import { useConfigGlobal } from '@/hooks/web/useConfigGlobal'
-import { zxcvbn } from '@zxcvbn-ts/core'
 import type { ZxcvbnResult } from '@zxcvbn-ts/core'
+import { zxcvbn } from '@zxcvbn-ts/core'
 import { useDesign } from '@/hooks/web/useDesign'
 
 const { getPrefixCls } = useDesign()
@@ -54,16 +52,14 @@ const getPasswordStrength = computed(() => {
   return value ? zxcvbnRef.score : -1
 })
 
-const getIconName = computed(() =>
-  unref(textType) === 'password' ? 'ant-design:eye-invisible-outlined' : 'ant-design:eye-outlined'
-)
+const getIconName = computed(() => (unref(textType) === 'password' ? 'ep:hide' : 'ep:view'))
 </script>
 
 <template>
   <div :class="[prefixCls, `${prefixCls}--${configGlobal?.size}`]">
-    <ElInput v-bind="$attrs" v-model="valueRef" :type="textType">
+    <ElInput v-model="valueRef" :type="textType" v-bind="$attrs">
       <template #suffix>
-        <Icon class="el-input__icon cursor-pointer" :icon="getIconName" @click="changeTextType" />
+        <Icon :icon="getIconName" class="el-input__icon cursor-pointer" @click="changeTextType" />
       </template>
     </ElInput>
     <div
@@ -76,11 +72,11 @@ const getIconName = computed(() =>
   </div>
 </template>
 
-<style lang="less" scoped>
-@prefix-cls: ~'@{namespace}-input-password';
+<style lang="scss" scoped>
+$prefix-cls: #{$namespace}-input-password;
 
-.@{prefix-cls} {
-  :deep(.@{elNamespace}-input__clear) {
+.#{$prefix-cls} {
+  :deep(.#{$elNamespace}-input__clear) {
     margin-left: 5px;
   }
 

@@ -68,7 +68,7 @@ import { ElIcon } from 'element-plus'
 import Echects from '../Echects/index.vue'
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .cards {
  margin-top: 1rem;
  display: flex;

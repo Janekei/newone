@@ -58,7 +58,7 @@ const processList = reactive([
 ])
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .process {
  display: flex;
  justify-content: center;

@@ -30,7 +30,7 @@
 import Header from '../../Header.vue'
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .area {
  height: 50%;
  display: flex;

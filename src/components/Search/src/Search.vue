@@ -1,9 +1,7 @@
-<script setup lang="ts">
-import { Form } from '@/components/Form'
-import { PropType, computed, unref, ref } from 'vue'
+<script lang="ts" name="Search" setup>
+import { PropType } from 'vue'
 import { propTypes } from '@/utils/propTypes'
-import { ElButton } from 'element-plus'
-import { useI18n } from '@/hooks/web/useI18n'
+
 import { useForm } from '@/hooks/web/useForm'
 import { findIndex } from '@/utils'
 import { cloneDeep } from 'lodash-es'
@@ -100,47 +98,58 @@ const setVisible = () => {
 </script>
 
 <template>
+  <!-- update by IK：class="-mb-15px" 用于降低和 ContentWrap 组件的底部距离，避免空隙过大 -->
   <Form
-    :is-custom="false"
-    :label-width="labelWidth"
-    hide-required-asterisk
     :inline="inline"
     :is-col="isCol"
+    :is-custom="false"
+    :label-width="labelWidth"
     :schema="newSchema"
+    class="-mb-15px"
+    hide-required-asterisk
     @register="register"
   >
     <template #action>
       <div v-if="layout === 'inline'">
-        <ElButton v-if="showSearch" type="primary" @click="search">
-          <Icon icon="ep:search" class="mr-5px" />
+        <!-- update by IK：去除搜索的 type="primary"，颜色变淡一点 -->
+        <ElButton v-if="showSearch" @click="search">
+          <Icon class="mr-5px" icon="ep:search" />
           {{ t('common.query') }}
         </ElButton>
+        <!-- update by IK：将 icon="ep:refresh-right" 修改成 icon="ep:refresh"，和 ruoyi-vue 搜索保持一致  -->
         <ElButton v-if="showReset" @click="reset">
-          <Icon icon="ep:refresh-right" class="mr-5px" />
+          <Icon class="mr-5px" icon="ep:refresh" />
           {{ t('common.reset') }}
         </ElButton>
         <ElButton v-if="expand" text @click="setVisible">
           {{ t(visible ? 'common.shrink' : 'common.expand') }}
-          <Icon :icon="visible ? 'ant-design:up-outlined' : 'ant-design:down-outlined'" />
+          <Icon :icon="visible ? 'ep:arrow-up' : 'ep:arrow-down'" />
         </ElButton>
+        <!-- add by IK：补充在搜索后的按钮 -->
+        <slot name="actionMore"></slot>
       </div>
+    </template>
+    <template v-for="name in Object.keys($slots)" :key="name" #[name]>
+      <slot :name="name"></slot>
     </template>
   </Form>
 
   <template v-if="layout === 'bottom'">
     <div :style="bottonButtonStyle">
       <ElButton v-if="showSearch" type="primary" @click="search">
-        <Icon icon="ep:search" class="mr-5px" />
+        <Icon class="mr-5px" icon="ep:search" />
         {{ t('common.query') }}
       </ElButton>
       <ElButton v-if="showReset" @click="reset">
-        <Icon icon="ep:refresh-right" class="mr-5px" />
+        <Icon class="mr-5px" icon="ep:refresh-right" />
         {{ t('common.reset') }}
       </ElButton>
       <ElButton v-if="expand" text @click="setVisible">
         {{ t(visible ? 'common.shrink' : 'common.expand') }}
-        <Icon :icon="visible ? 'ant-design:up-outlined' : 'ant-design:down-outlined'" />
+        <Icon :icon="visible ? 'ep:arrow-up' : 'ep:arrow-down'" />
       </ElButton>
+      <!-- add by IK：补充在搜索后的按钮 -->
+      <slot name="actionMore"></slot>
     </div>
   </template>
 </template>

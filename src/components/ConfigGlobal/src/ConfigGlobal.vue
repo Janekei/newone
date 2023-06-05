@@ -1,13 +1,11 @@
-<script setup lang="ts">
-import { provide, computed, watch, onMounted } from 'vue'
+<script lang="ts" name="ConfigGlobal" setup>
 import { propTypes } from '@/utils/propTypes'
-import { ElConfigProvider } from 'element-plus'
 import { useLocaleStore } from '@/store/modules/locale'
-import { useWindowSize } from '@vueuse/core'
 import { useAppStore } from '@/store/modules/app'
 import { setCssVar } from '@/utils'
 import { useDesign } from '@/hooks/web/useDesign'
 import { ElementPlusSize } from '@/types/elementPlus'
+import { useWindowSize } from '@vueuse/core'
 
 const { variables } = useDesign()
 
@@ -53,9 +51,9 @@ const currentLocale = computed(() => localeStore.currentLocale)
 
 <template>
   <ElConfigProvider
-    :namespace="variables.elNamespace"
     :locale="currentLocale.elLocale"
     :message="{ max: 1 }"
+    :namespace="variables.elNamespace"
     :size="size"
   >
     <slot></slot>

@@ -31,7 +31,7 @@ import OnTime from './MapList/OnTime.vue'
 import Cycle from './MapList/Cycle.vue'
 </script>
 
-<style lang="less">
+<style lang="scss">
 #app {
  overflow: scroll;
 }

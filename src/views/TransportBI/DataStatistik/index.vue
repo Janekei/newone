@@ -31,7 +31,7 @@ import UberfalligeAuftrage from './UberfalligeAuftrage.vue'
 import UberfalligeAuftrageG from './UberfalligeAuftrageG.vue'
 </script>
 
-<style lang="less">
+<style lang="scss">
 #app {
  overflow: auto;
 }

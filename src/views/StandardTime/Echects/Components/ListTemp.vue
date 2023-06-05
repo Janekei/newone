@@ -16,7 +16,7 @@ defineProps({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .echart {
  display: flex;
  justify-content: space-between;

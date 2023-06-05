@@ -25,7 +25,7 @@ defineProps({
 })
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .flex-box {
  display: flex;
  justify-content: center;

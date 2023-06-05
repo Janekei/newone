@@ -1,21 +1,35 @@
-MIT License
+Copyright © 2010-2023. All rights reserved.
 
-Copyright (c) 2021-present Archer
+本软件和相关文档是基于运柯能公司授权的许可协议包含了使用和披露限制，并受知识产权法的保护。
+除非许可协议中明确允许或法律允许，否则您不得以任何形式或以任何方式、
+任何手段使用，复制，翻译，扩散，修改，授权，传输，分发，展示，演示，出版任何部分。
+除非法律要求，否则禁止对本软件进行反向工程，反汇编或反编译。
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+此文档包含的信息如有更改，恕不另行通知，也不保证没有错误。 如果发现任何错误，请通过support@inkenno.com向我们书面报告。
+该软件是为在各种信息管理应用程序中通用而开发的。 它并非有意的开发应用于任何潜在的危险应用程序，包括可能造成人身伤害的应用程序。
+如果您在危险应用中使用该软件，则您有责任采取所有适当的故障安全，备份，冗余和其他措施，以确保安全使用该软件。
+对于在危险应用程序中使用此软件所造成的任何损害，运柯能公司不承担任何责任。
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+本软件和文档可能提供对第三方的内容、产品和服务的信息或访问。 对于第三方内容、产品和服务，运柯能公司不承担任何责任，
+并明确拒绝承担任何形式的保证。 由于您访问或使用第三方内容、产品或服务而导致的任何损坏，成本或损失，运柯能公司将不承担任何责任。
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+This software and related documentation are provided under a license agreement containing restrictions on use and disclosure
+and are protected by intellectual property laws. Except as expressly permitted in your license agreement or allowed by law,
+you may not use, copy, reproduce, translate, broadcast, modify, license, transmit, distribute, exhibit, perform,
+publish or display any part, in any form, or by any means. Reverse engineering, disassembly, or decompilation of this software,
+unless required by law for interoperability, is prohibited.
+
+The information contained herein is subject to change without notice and is not warranted to be error-free.
+If you find any errors, please report them to us in writing at support@inkenno.com
+
+This software is developed for general use in a variety of information management applications.
+It is not developed or intended for use in any inherently dangerous applications,
+including applications which may create a risk of personal injury.
+If you use this software in dangerous applications, then you shall be responsible to take all appropriate fail-safe,
+backup, redundancy and other measures to ensure the safe use of this software. inKenno disclaim any liability for any
+damages caused by use of this software in dangerous applications.
+
+This software and documentation may provide access to or information on content, products and services from third parties.
+inKenno are not responsible for and expressly disclaim all warranties of any kind with respect to third party content,
+products and services. inKenno will not be responsible for any loss, costs, or damages incurred due to your access
+to or use of third party content, products or services.

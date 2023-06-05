@@ -27,7 +27,7 @@ import PodLine from './PodLine.vue'
 import BarLine from './BarLine.vue'
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .center-echarts {
  .title {
   border-radius: .5rem;

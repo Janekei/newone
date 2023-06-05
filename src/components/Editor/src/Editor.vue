@@ -1,11 +1,14 @@
-<script setup lang="ts">
-import { onBeforeUnmount, computed, PropType, unref, nextTick, ref, watch, shallowRef } from 'vue'
+<script lang="ts" name="Editor" setup>
+import { PropType } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { IDomEditor, IEditorConfig, i18nChangeLanguage } from '@wangeditor/editor'
+import { i18nChangeLanguage, IDomEditor, IEditorConfig } from '@wangeditor/editor'
 import { propTypes } from '@/utils/propTypes'
 import { isNumber } from '@/utils/is'
 import { ElMessage } from 'element-plus'
 import { useLocaleStore } from '@/store/modules/locale'
+import { getAccessToken, getTenantId } from '@/utils/auth'
+
+type InsertFnType = (url: string, alt: string, href: string) => void
 
 const localeStore = useLocaleStore()
 
@@ -17,9 +20,10 @@ const props = defineProps({
   editorId: propTypes.string.def('wangeEditor-1'),
   height: propTypes.oneOfType([Number, String]).def('500px'),
   editorConfig: {
-    type: Object as PropType<IEditorConfig>,
+    type: Object as PropType<Partial<IEditorConfig>>,
     default: () => undefined
   },
+  readonly: propTypes.bool.def(false),
   modelValue: propTypes.string.def('')
 })
 
@@ -57,7 +61,8 @@ const handleCreated = (editor: IDomEditor) => {
 const editorConfig = computed((): IEditorConfig => {
   return Object.assign(
     {
-      readOnly: false,
+      placeholder: '请输入内容...',
+      readOnly: props.readonly,
       customAlert: (s: string, t: string) => {
         switch (t) {
           case 'success':
@@ -79,6 +84,64 @@ const editorConfig = computed((): IEditorConfig => {
       },
       autoFocus: false,
       scroll: true,
+      MENU_CONF: {
+        ['uploadImage']: {
+          server: import.meta.env.VITE_UPLOAD_URL,
+          // 单个文件的最大体积限制，默认为 2M
+          maxFileSize: 5 * 1024 * 1024,
+          // 最多可上传几个文件，默认为 100
+          maxNumberOfFiles: 10,
+          // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
+          allowedFileTypes: ['image/*'],
+
+          // 自定义上传参数，例如传递验证的 token 等。参数会被添加到 formData 中，一起上传到服务端。
+          meta: { updateSupport: 0 },
+          // 将 meta 拼接到 url 参数中，默认 false
+          metaWithUrl: true,
+
+          // 自定义增加 http  header
+          headers: {
+            Accept: '*',
+            Authorization: 'Bearer ' + getAccessToken(),
+            'tenant-id': getTenantId()
+          },
+
+          // 跨域是否传递 cookie ，默认为 false
+          withCredentials: true,
+
+          // 超时时间，默认为 10 秒
+          timeout: 5 * 1000, // 5 秒
+
+          // form-data fieldName，后端接口参数名称，默认值wangeditor-uploaded-image
+          fieldName: 'file',
+
+          // 上传之前触发
+          onBeforeUpload(file: File) {
+            console.log(file)
+            return file
+          },
+          // 上传进度的回调函数
+          onProgress(progress: number) {
+            // progress 是 0-100 的数字
+            console.log('progress', progress)
+          },
+          onSuccess(file: File, res: any) {
+            console.log('onSuccess', file, res)
+          },
+          onFailed(file: File, res: any) {
+            alert(res.message)
+            console.log('onFailed', file, res)
+          },
+          onError(file: File, err: any, res: any) {
+            alert(err.message)
+            console.error('onError', file, err, res)
+          },
+          // 自定义插入图片
+          customInsert(res: any, insertFn: InsertFnType) {
+            insertFn(res.data, 'image', res.data)
+          }
+        }
+      },
       uploadImgShowBase64: true
     },
     props.editorConfig || {}
@@ -126,8 +189,8 @@ defineExpose({
     <!-- 编辑器 -->
     <Editor
       v-model="valueHtml"
-      :editorId="editorId"
       :defaultConfig="editorConfig"
+      :editorId="editorId"
       :style="editorStyle"
       @on-change="handleChange"
       @on-created="handleCreated"

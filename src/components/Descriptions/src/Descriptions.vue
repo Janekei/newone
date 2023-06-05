@@ -1,8 +1,8 @@
-<script setup lang="ts">
-import { ElCollapseTransition, ElDescriptions, ElDescriptionsItem, ElTooltip } from 'element-plus'
+<script lang="ts" name="Descriptions" setup>
+import { PropType } from 'vue'
+import dayjs from 'dayjs'
 import { useDesign } from '@/hooks/web/useDesign'
 import { propTypes } from '@/utils/propTypes'
-import { ref, unref, PropType, computed, useAttrs, useSlots } from 'vue'
 import { useAppStore } from '@/store/modules/app'
 import { DescriptionsSchema } from '@/types/descriptions'
 
@@ -18,6 +18,7 @@ const props = defineProps({
   title: propTypes.string.def(''),
   message: propTypes.string.def(''),
   collapse: propTypes.bool.def(true),
+  columns: propTypes.number.def(1),
   schema: {
     type: Array as PropType<DescriptionsSchema[]>,
     default: () => []
@@ -83,7 +84,7 @@ const toggleClick = () => {
         <div class="flex items-center">
           {{ title }}
           <ElTooltip v-if="message" :content="message" placement="right">
-            <Icon icon="ep:warning" class="ml-5px" />
+            <Icon class="ml-5px" icon="ep:warning" />
           </ElTooltip>
         </div>
       </div>
@@ -93,9 +94,9 @@ const toggleClick = () => {
     <ElCollapseTransition>
       <div v-show="show" :class="[`${prefixCls}-content`, 'p-10px']">
         <ElDescriptions
-          :column="2"
-          border
+          :column="props.columns"
           :direction="mobile ? 'vertical' : 'horizontal'"
+          border
           v-bind="getBindValue"
         >
           <template v-if="slots['extra']" #extra>
@@ -104,6 +105,7 @@ const toggleClick = () => {
           <ElDescriptionsItem
             v-for="item in schema"
             :key="item.field"
+            min-width="80"
             v-bind="getBindItemValue(item)"
           >
             <template #label>
@@ -112,12 +114,20 @@ const toggleClick = () => {
                 :row="{
                   label: item.label
                 }"
-                >{{ item.label }}</slot
-              >
+                >{{ item.label }}
+              </slot>
             </template>
 
             <template #default>
-              <slot :name="item.field" :row="data">{{ data[item.field] }}</slot>
+              <slot v-if="item.dateFormat">
+                {{
+                  data[item.field] !== null ? dayjs(data[item.field]).format(item.dateFormat) : ''
+                }}
+              </slot>
+              <slot v-else-if="item.dictType">
+                <DictTag :type="item.dictType" :value="data[item.field] + ''" />
+              </slot>
+              <slot v-else :name="item.field" :row="data">{{ data[item.field] }}</slot>
             </template>
           </ElDescriptionsItem>
         </ElDescriptions>
@@ -126,10 +136,10 @@ const toggleClick = () => {
   </div>
 </template>
 
-<style lang="less" scoped>
-@prefix-cls: ~'@{namespace}-descriptions';
+<style lang="scss" scoped>
+$prefix-cls: #{$namespace}-descriptions;
 
-.@{prefix-cls}-header {
+.#{$prefix-cls}-header {
   &__title {
     &::after {
       position: absolute;
@@ -143,8 +153,8 @@ const toggleClick = () => {
   }
 }
 
-.@{prefix-cls}-content {
-  :deep(.@{elNamespace}-descriptions__cell) {
+.#{$prefix-cls}-content {
+  :deep(.#{$elNamespace}-descriptions__cell) {
     width: 0;
   }
 }

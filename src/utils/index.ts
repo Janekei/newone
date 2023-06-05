@@ -1,5 +1,3 @@
-// import type { Plugin } from 'vue'
-
 /**
  *
  * @param component 需要注册的组件
@@ -69,7 +67,7 @@ export const trim = (str: string) => {
  * @param {Date | number | string} time 需要转换的时间
  * @param {String} fmt 需要转换的格式 如 yyyy-MM-dd、yyyy-MM-dd HH:mm:ss
  */
-export function formatTime(time: Date | number | string, fmt: string) {
+export const formatTime = (time: Date | number | string, fmt: string) => {
   if (!time) return ''
   else {
     const date = new Date(time)
@@ -100,11 +98,114 @@ export function formatTime(time: Date | number | string, fmt: string) {
 /**
  * 生成随机字符串
  */
-export function toAnyString() {
+export const toAnyString = () => {
   const str: string = 'xxxxx-xxxxx-4xxxx-yxxxx-xxxxx'.replace(/[xy]/g, (c: string) => {
     const r: number = (Math.random() * 16) | 0
     const v: number = c === 'x' ? r : (r & 0x3) | 0x8
     return v.toString()
   })
   return str
+}
+
+export const generateUUID = () => {
+  if (typeof crypto === 'object') {
+    if (typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID()
+    }
+    if (typeof crypto.getRandomValues === 'function' && typeof Uint8Array === 'function') {
+      const callback = (c: any) => {
+        const num = Number(c)
+        return (num ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (num / 4)))).toString(
+          16
+        )
+      }
+      return '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, callback)
+    }
+  }
+  let timestamp = new Date().getTime()
+  let performanceNow =
+    (typeof performance !== 'undefined' && performance.now && performance.now() * 1000) || 0
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    let random = Math.random() * 16
+    if (timestamp > 0) {
+      random = (timestamp + random) % 16 | 0
+      timestamp = Math.floor(timestamp / 16)
+    } else {
+      random = (performanceNow + random) % 16 | 0
+      performanceNow = Math.floor(performanceNow / 16)
+    }
+    return (c === 'x' ? random : (random & 0x3) | 0x8).toString(16)
+  })
+}
+
+/**
+ * element plus 的文件大小 Formatter 实现
+ *
+ * @param row 行数据
+ * @param column 字段
+ * @param cellValue 字段值
+ */
+// @ts-ignore
+export const fileSizeFormatter = (row, column, cellValue) => {
+  const fileSize = cellValue
+  const unitArr = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  const srcSize = parseFloat(fileSize)
+  const index = Math.floor(Math.log(srcSize) / Math.log(1024))
+  const size = srcSize / Math.pow(1024, index)
+  const sizeStr = size.toFixed(2) //保留的小数位数
+  return sizeStr + ' ' + unitArr[index]
+}
+
+/**
+ * 将值复制到目标对象，且以目标对象属性为准，例：target: {a:1} source:{a:2,b:3} 结果为：{a:2}
+ * @param target 目标对象
+ * @param source 源对象
+ */
+export const copyValueToTarget = (target, source) => {
+  const newObj = Object.assign({}, target, source)
+  // 删除多余属性
+  Object.keys(newObj).forEach((key) => {
+    // 如果不是target中的属性则删除
+    if (Object.keys(target).indexOf(key) === -1) {
+      delete newObj[key]
+    }
+  })
+  // 更新目标对象值
+  Object.assign(target, newObj)
+}
+
+// TODO @puhui999：返回要带上 .00 哈.例如说 1.00
+/**
+ * 将一个整数转换为分数保留两位小数
+ * @param num
+ */
+export const formatToFraction = (num: number | string | undefined): number => {
+  if (typeof num === 'undefined') return 0
+  const parsedNumber = typeof num === 'string' ? parseFloat(num) : num
+  return parseFloat((parsedNumber / 100).toFixed(2))
+}
+
+/**
+ * 将一个分数转换为整数
+ * @param num
+ */
+export const convertToInteger = (num: number | string | undefined): number => {
+  if (typeof num === 'undefined') return 0
+  const parsedNumber = typeof num === 'string' ? parseFloat(num) : num
+  // TODO 分转元后还有小数则四舍五入
+  return Math.round(parsedNumber * 100)
+}
+
+/**
+ * 元转分
+ */
+export const yuanToFen = (amount: string | number): number => {
+  return Math.round(Number(amount) * 100)
+}
+
+/**
+ * 分转元
+ */
+export const fenToYuan = (amount: string | number): number => {
+  return Number((Number(amount) / 100).toFixed(2))
 }

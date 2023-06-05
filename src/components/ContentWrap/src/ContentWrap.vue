@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import { ElCard, ElTooltip } from 'element-plus'
+<script lang="ts" name="ContentWrap" setup>
 import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
 
@@ -14,7 +13,7 @@ defineProps({
 </script>
 
 <template>
-  <ElCard :class="[prefixCls]" shadow="never">
+  <ElCard :class="[prefixCls, 'mb-15px']" shadow="never">
     <template v-if="title" #header>
       <div class="flex items-center">
         <span class="text-16px font-700">{{ title }}</span>
@@ -22,7 +21,7 @@ defineProps({
           <template #content>
             <div class="max-w-200px">{{ message }}</div>
           </template>
-          <Icon class="ml-5px" icon="bi:question-circle-fill" :size="14" />
+          <Icon :size="14" class="ml-5px" icon="ep:question-filled" />
         </ElTooltip>
       </div>
     </template>

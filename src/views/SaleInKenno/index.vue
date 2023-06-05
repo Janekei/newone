@@ -100,7 +100,7 @@ const list = reactive([
 const date = ref('')
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .center {
  margin-top: 1rem;
  display: flex;

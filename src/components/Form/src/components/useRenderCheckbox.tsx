@@ -11,7 +11,7 @@ export const useRenderCheckbox = () => {
       typeof defineComponent
     >
     return item?.componentProps?.options?.map((option) => {
-      const { value, ...other } = option
+      const { ...other } = option
       return (
         <Com {...other} label={option[valueAlias || 'value']}>
           {option[labelAlias || 'label']}

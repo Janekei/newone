@@ -1,7 +1,6 @@
-<script setup lang="ts">
-import { PropType, nextTick, ref, watch, computed, unref } from 'vue'
-import QRCode from 'qrcode'
-import { QRCodeRenderersOptions } from 'qrcode'
+<script lang="ts" name="Qrcode" setup>
+import { computed, nextTick, PropType, ref, unref, watch } from 'vue'
+import QRCode, { QRCodeRenderersOptions } from 'qrcode'
 import { cloneDeep } from 'lodash-es'
 import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
@@ -64,11 +63,11 @@ const initQrcode = async () => {
       options.errorCorrectionLevel || getErrorCorrectionLevel(unref(renderText))
     const _width: number = await getOriginWidth(unref(renderText), options)
     options.scale = props.width === 0 ? undefined : (props.width / _width) * 4
-    const canvasRef = (await toCanvas(
+    const canvasRef: HTMLCanvasElement | any = await toCanvas(
       unref(wrapRef) as HTMLCanvasElement,
       unref(renderText),
       options
-    )) as unknown as HTMLCanvasElement
+    )
     if (props.logo) {
       const url = await createLogoCode(canvasRef)
       emit('done', url)
@@ -230,17 +229,17 @@ const disabledClick = () => {
       @click="disabledClick"
     >
       <div class="absolute top-[50%] left-[50%] font-bold">
-        <Icon icon="ep:refresh-right" :size="30" color="var(--el-color-primary)" />
+        <Icon :size="30" color="var(--el-color-primary)" icon="ep:refresh-right" />
         <div>{{ disabledText }}</div>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="less" scoped>
-@prefix-cls: ~'@{namespace}-qrcode';
+<style lang="scss" scoped>
+$prefix-cls: #{$namespace}-qrcode;
 
-.@{prefix-cls} {
+.#{$prefix-cls} {
   &--disabled {
     background: rgba(255, 255, 255, 0.95);
 

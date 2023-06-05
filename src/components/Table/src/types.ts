@@ -23,4 +23,5 @@ export type TableProps = {
   headerAlign?: 'left' | 'center' | 'right'
   data?: Recordable
   expand?: boolean
+  border?: boolean
 } & Recordable

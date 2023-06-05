@@ -13,20 +13,23 @@ import { setupStore } from '@/store'
 // 全局组件
 import { setupGlobCom } from '@/components'
 
-// 引入element-plus
+// 引入 element-plus
 import { setupElementPlus } from '@/plugins/elementPlus'
 
+// 引入 form-create
+import { setupFormCreate } from '@/plugins/formCreate'
+
 // 引入全局样式
-import '@/styles/index.less'
+import '@/styles/index.scss'
 
 // 引入动画
 import '@/plugins/animate.css'
 
 // 路由
-import { setupRouter } from './router'
+import router, { setupRouter } from '@/router'
 
 // 权限
-import { setupPermission } from './directives'
+import { setupAuth } from '@/directives'
 
 import { createApp } from 'vue'
 
@@ -34,29 +37,33 @@ import App from './App.vue'
 
 import './permission'
 
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import '@/plugins/tongji' // 百度统计
+
+import Logger from '@/utils/Logger'
 
 // 创建实例
 const setupAll = async () => {
- const app = createApp(App)
+  const app = createApp(App)
 
- await setupI18n(app)
+  await setupI18n(app)
 
- setupStore(app)
+  setupStore(app)
 
- setupGlobCom(app)
+  setupGlobCom(app)
 
- setupElementPlus(app)
+  setupElementPlus(app)
 
- setupRouter(app)
+  setupFormCreate(app)
 
- setupPermission(app)
+  setupRouter(app)
 
- app.mount('#app')
+  setupAuth(app)
 
- for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
- }
+  await router.isReady()
+
+  app.mount('#app')
 }
 
 setupAll()
+
+Logger.prettyPrimary(`欢迎使用`, import.meta.env.VITE_APP_TITLE)

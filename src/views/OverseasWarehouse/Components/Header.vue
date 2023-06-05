@@ -17,7 +17,7 @@ const props = defineProps({
 })
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .header {
  background-color: #caefe8;
  border-radius: 5px;
