@@ -353,6 +353,24 @@ const getRole = async () => {
                             }
                         ]
                     },
+                    {
+                        path: '/warehousemanage',
+                        component: '#',
+                        redirect: '/warehousemanage/index',
+                        name: 'warehousemanage',
+                        meta: {},
+                        children: [
+                            {
+                                path: 'index',
+                                component: '/WarehouseManage/index',
+                                name: 'WarehouseManage-index',
+                                meta: {
+                                    title: t('router.warehouseManage'),
+                                    icon: 'ant-design:dashboard-filled',
+                                }
+                            }
+                        ]
+                    },
                 ]
             })
         }, 500)

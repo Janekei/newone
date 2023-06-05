@@ -156,7 +156,8 @@ export default {
   outboundquery: 'Outbound query',
   standardTime: 'standard time',
   overseasWarehouse: 'Overseas warehouse',
-  TransportBI: 'Traffic volume monitoring dashboard'
+  TransportBI: 'Traffic volume monitoring dashboard',
+  warehouseManage:'Warehouse Manage'
  },
  permission: {
   hasPermission: 'Please set the operation permission value'
