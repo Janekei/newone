@@ -133,7 +133,6 @@ const signIn = async () => {
     if (res) {
      wsCache.set(appStore.getUserInfo, res.data)
      // 是否使用动态路由
-     console.log(res, 135);
 
      if (appStore.dynamicRouter) {
       getRole()
@@ -157,10 +156,6 @@ const signIn = async () => {
 const getRole = async () => {
  const { getFormData } = methods
  const formData = await getFormData<UserType>()
- const params = {
-  roleName: formData.username
- }
- console.log(params);
 
  // admin - 模拟后端过滤菜单
  // test - 模拟前端过滤菜单
@@ -171,11 +166,20 @@ const getRole = async () => {
    resolve({
     data: [
      {
+      path: '/',
+      component: '#',
+      redirect: '/warehouseinkenno/index',
+      name: 'Root',
+      meta: {
+       hidden: true
+      }
+     },
+     {
       path: '/overseasWarehouse',
       component: '/OverseasWarehouse/index',
       meta: {
        link: true,
-       title: t('router.overseasWarehouse'),
+       title: 'router.overseasWarehouse',
        icon: 'ant-design:dashboard-filled'
       },
       name: 'overseasWarehouse'
@@ -185,7 +189,7 @@ const getRole = async () => {
       component: '/StandardTime/index',
       meta: {
        link: true,
-       title: t('router.standardTime'),
+       title: 'router.standardTime',
        icon: 'ant-design:dashboard-filled'
       },
       name: 'standardTime'
@@ -195,7 +199,7 @@ const getRole = async () => {
       component: '/TransportBI/index',
       meta: {
        link: true,
-       title: t('router.TransportBI'),
+       title: 'router.TransportBI',
        icon: 'ant-design:dashboard-filled'
       },
       name: 'transportBI'
@@ -212,7 +216,7 @@ const getRole = async () => {
         component: '/WarehouseInKenno/index',
         name: 'WarehouseInKenno-index',
         meta: {
-         title: t('router.warehouseHome'),
+         title: 'router.warehouseHome',
          icon: 'ant-design:dashboard-filled',
          affix: true
         }
@@ -231,7 +235,7 @@ const getRole = async () => {
         component: '/LogisticsInKenno/index',
         name: 'LogisticsInKenno-index',
         meta: {
-         title: t('router.logisticsHome'),
+         title: 'router.logisticsHome',
          icon: 'ant-design:dashboard-filled',
         }
        }
@@ -249,7 +253,7 @@ const getRole = async () => {
         component: '/SaleInKenno/index',
         name: 'SaleInKenno-index',
         meta: {
-         title: t('router.saleHome'),
+         title: 'router.saleHome',
          icon: 'ant-design:dashboard-filled',
         }
        }
@@ -262,7 +266,7 @@ const getRole = async () => {
       redirect: '/inventorysnapshot/inboundinstruction/index',
       name: 'InventorySnapshot',
       meta: {
-       title: t('router.inventorySnapshot'),
+       title: 'router.inventorySnapshot',
        icon: 'ci:error',
        alwaysShow: true
       },
@@ -272,7 +276,7 @@ const getRole = async () => {
         component: '/InventorySnapshot/InboundInstruction/index',
         name: 'InboundInstruction-index',
         meta: {
-         title: t('router.inboundInstruction')
+         title: 'router.inboundInstruction'
         }
        },
        {
@@ -280,7 +284,7 @@ const getRole = async () => {
         component: '/InventorySnapshot/OutboundInstruction/index',
         name: 'OutboundInstruction-index',
         meta: {
-         title: t('router.outboundinstruction')
+         title: 'router.outboundinstruction'
         }
        },
        {
@@ -288,7 +292,7 @@ const getRole = async () => {
         component: '/InventorySnapshot/InventoryQuery/index',
         name: 'InventoryQuery-index',
         meta: {
-         title: t('router.inventoryQuery')
+         title: 'router.inventoryQuery'
         }
        },
        {
@@ -296,7 +300,7 @@ const getRole = async () => {
         component: '/InventorySnapshot/WarehousingQuery/index',
         name: 'WarehousingQuery-index',
         meta: {
-         title: t('router.warehousingquery')
+         title: 'router.warehousingquery'
         }
        },
        {
@@ -304,7 +308,7 @@ const getRole = async () => {
         component: '/InventorySnapshot/OutboundQuery/index',
         name: 'OutboundQuery-index',
         meta: {
-         title: t('router.outboundquery')
+         title: 'router.outboundquery'
         }
        }
       ]
@@ -319,7 +323,7 @@ const getRole = async () => {
         path: 'https://element-plus-admin-doc.cn/',
         name: 'DocumentLink',
         meta: {
-         title: t('router.document'),
+         title: 'router.document',
          icon: 'clarity:document-solid'
         }
        }
@@ -350,10 +354,8 @@ const getRole = async () => {
  if (res) {
   const { wsCache } = useCache()
   const routers = res.data || []
-  console.log(routers, 312);
 
   wsCache.set('roleRouters', routers)
-  console.log(routers, 313);
 
   formData.username === 'admin'
    ? await permissionStore.generateRoutes('admin', routers).catch(() => { })
