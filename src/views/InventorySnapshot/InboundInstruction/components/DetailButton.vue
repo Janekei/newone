@@ -11,7 +11,7 @@ const props = defineProps({
     }
 })
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .btn {
     padding: .625rem 1.25rem;
     background-color: #CEEEFC;

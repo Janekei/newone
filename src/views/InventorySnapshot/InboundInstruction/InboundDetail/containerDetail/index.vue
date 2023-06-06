@@ -244,7 +244,7 @@ const tableData = reactive(
 
   ])
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 ::v-deep.el-table {
   border: .0625rem solid #d2d2d2;
 }

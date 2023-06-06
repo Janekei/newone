@@ -24,13 +24,16 @@ const props = defineProps({
  firstPages: {
   type: Number,
   default: 10
+ },
+ total: {
+  type: Number,
+  default: 0
  }
 })
 const emits = defineEmits(['handleCurrentChange', 'handleSizeChange'])
 
 const pageIndex = ref(1)
 const pageSize = ref(props.firstPages)
-const total = ref(400)
 
 // 当前页码改变
 const handleCurrentChange = (value: number) => {

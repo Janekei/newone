@@ -30,7 +30,7 @@ const handleClick = (tab) => {
     emit('getTabState', tab.props.name)
 }
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .demo-tabs>.el-tabs__content {
     padding: 32px;
     color: #6b778c;

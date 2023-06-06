@@ -14,6 +14,7 @@
   </div>
  </div>
  <RightClickCard style="background-color: #fff;">
+ <slot name="buttons" :selectRow="selectAll"></slot>
   <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
    ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
    @row-contextmenu="rowContextmenu">
@@ -27,7 +28,7 @@
   </ElTable>
   <div class="pagination">
    <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" :disabled="disabledPage"
-    :firstPages="firstPages" ref="pagination" />
+    :firstPages="firstPages" :total="total" ref="pagination" />
   </div>
  </RightClickCard>
 </template>
@@ -74,8 +75,9 @@ const props = defineProps({
 const tableData = ref([])
 const loading = ref(false)
 const loaded = ref(false)
+const total = ref(0)
 const pageParams = reactive({
- pageIndex: 1,
+ pageNo: 1,
  pageSize: props.firstPages
 })
 const disabledPage = ref(false)
@@ -83,12 +85,15 @@ const disabledPage = ref(false)
 // 发送请求获取数据
 const getData = () => {
  const { method, url, params } = props
- const parameter = Object.assign(pageParams, params)
+ const parameter = Object.assign({}, pageParams, params)
+ 
  loading.value = true
  loaded.value = false
  disabledPage.value = true
- request[method]({ url, parameter }).then((res: any) => {
+ request[method]({ url, params:parameter }).then((res: any) => {
+  
   tableData.value = res.list
+  total.value = res.total
   loading.value = false
  }).catch(() => {
   loaded.value = true
@@ -106,7 +111,7 @@ onMounted(() => {
 
 // 页码改变
 const handleCurrentChange = (value: number) => {
- pageParams.pageIndex = value
+ pageParams.pageNo = value
  getData()
 }
 
@@ -119,7 +124,7 @@ const handleSizeChange = (value: number) => {
 // 刷新方法
 const pagination = ref()
 const refresh = () => {
- pageParams.pageIndex = 1
+ pageParams.pageNo = 1
  pageParams.pageSize = props.firstPages
  // 刷新分页器
  pagination.value.refreshView(pageParams.pageSize)
