@@ -88,7 +88,7 @@ const getData = () => {
  loaded.value = false
  disabledPage.value = true
  request[method]({ url, parameter }).then((res: any) => {
-  tableData.value = res.data
+  tableData.value = res.list
   loading.value = false
  }).catch(() => {
   loaded.value = true

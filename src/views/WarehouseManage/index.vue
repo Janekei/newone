@@ -2,9 +2,9 @@
     <div>
         <TableK url="/jinkotms/BaseWharea/page" method="get" :params="formData" ref="myTable" :firstPages="20"
             :tableOption="tableOption">
-            <!-- <template #buttons="{ selectRow }">
+            <template #buttons="{ selectRow }">
                 <span>{{ selectRow.length }}</span>
-            </template> -->
+            </template>
             <template #date="{ row }">
                 <span style="color: red">{{ row.row.date }}</span>
             </template>
@@ -44,8 +44,7 @@ const tableOption = reactive([
     {
         prop: 'id',
         label: 'id',
-        width: '180',
-        slotName: 'date'
+        width: '180'
     },
     {
         prop: 'code',
