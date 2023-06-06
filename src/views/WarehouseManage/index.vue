@@ -1,52 +1,69 @@
 <template>
- <div>
-  仓库管理
-  <TableK url="/table/list" method="get" :params="formData" ref="myTable" :firstPages="20" :tableOption="tableOption">
-   <!-- <template #date="{ row }">
-                <span style="color: red">{{ row.row.date }}</span>
+    <div>
+        <TableK url="/jinkotms/BaseWharea/page" method="get" :params="formData" ref="myTable" :firstPages="20"
+            :tableOption="tableOption">
+            <!-- <template #buttons="{ selectRow }">
+                <span>{{ selectRow.length }}</span>
             </template> -->
-  </TableK>
-  <ElButton>增加</ElButton>
-  <ElButton>删除</ElButton>
-  <Search :schema="schema" />
-  <ElButton>修改</ElButton>
- </div>
+            <template #date="{ row }">
+                <span style="color: red">{{ row.row.date }}</span>
+            </template>
+        </TableK>
+        <ElButton @click="getList">增加</ElButton>
+        <ElButton>删除</ElButton>
+        <ElButton>修改</ElButton>
+        <Search :schema="schema" />
+    </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { ElButton } from 'element-plus'
 import { Search } from '@/components/Search'
 import { FormSchema } from '@/types/form'
+import * as WarehouseManageApi from '@/api/warehousemanage'
+
+
+const getList = async () => {
+    const data = await WarehouseManageApi.getTableList()
+    console.log('获取到接口的数据', data)
+}
+
 import TableK from '@/components/TableK/index.vue'
+
 const formData = ref({
- code: 123,
- region: 1,
- time: '2023-05-25',
- entName: 'vue'
+    code: 123,
+    region: 1,
+    time: '2023-05-25',
+    entName: 'vue'
 })
+
 const myTable = ref()
-// const refresh = () => {
-//     myTable.value.refresh()
-// }
+
 const tableOption = reactive([
- {
-  prop: 'name',
-  label: '名称',
-  width: '180'
- },
- {
-  prop: 'address',
-  label: '地址'
- }
+    {
+        prop: 'id',
+        label: 'id',
+        width: '180',
+        slotName: 'date'
+    },
+    {
+        prop: 'code',
+        label: 'code',
+        width: '180'
+    },
+    {
+        prop: 'name',
+        label: 'code'
+    }
 ])
 
 // 查找
 const schema = reactive<FormSchema[]>([
- {
-  field: 'field1',
-  component: 'Input'
- }
+    {
+        field: 'field1',
+        component: 'Input'
+    }
 ])
 </script>
 <style lang="scss" scoped></style>

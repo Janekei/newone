@@ -1,16 +1,8 @@
 <template>
   <div style="position: relative">
-    <div
-      v-if="type === '2'"
-      :style="{ height: parseInt(setSize.imgHeight) + vSpace + 'px' }"
-      class="verify-img-out"
-    >
+    <div v-if="type === '2'" :style="{ height: parseInt(setSize.imgHeight) + vSpace + 'px' }" class="verify-img-out">
       <div :style="{ width: setSize.imgWidth, height: setSize.imgHeight }" class="verify-img-panel">
-        <img
-          :src="'data:image/png;base64,' + backImgBase"
-          alt=""
-          style="width: 100%; height: 100%; display: block"
-        />
+        <img :src="'data:image/png;base64,' + backImgBase" alt="" style="width: 100%; height: 100%; display: block" />
         <div v-show="showRefresh" class="verify-refresh" @click="refresh">
           <i class="iconfont icon-refresh"></i>
         </div>
@@ -22,49 +14,32 @@
       </div>
     </div>
     <!-- 公共部分 -->
-    <div
-      :style="{ width: setSize.imgWidth, height: barSize.height, 'line-height': barSize.height }"
-      class="verify-bar-area"
-    >
+    <div :style="{ width: setSize.imgWidth, height: barSize.height, 'line-height': barSize.height }"
+      class="verify-bar-area">
       <span class="verify-msg" v-text="text"></span>
-      <div
-        :style="{
-          width: leftBarWidth !== undefined ? leftBarWidth : barSize.height,
-          height: barSize.height,
-          'border-color': leftBarBorderColor,
-          transaction: transitionWidth
-        }"
-        class="verify-left-bar"
-      >
+      <div :style="{
+        width: leftBarWidth !== undefined ? leftBarWidth : barSize.height,
+        height: barSize.height,
+        'border-color': leftBarBorderColor,
+        transaction: transitionWidth
+      }" class="verify-left-bar">
         <span class="verify-msg" v-text="finishText"></span>
-        <div
-          :style="{
-            width: barSize.height,
-            height: barSize.height,
-            'background-color': moveBlockBackgroundColor,
-            left: moveBlockLeft,
-            transition: transitionLeft
-          }"
-          class="verify-move-block"
-          @mousedown="start"
-          @touchstart="start"
-        >
+        <div :style="{
+          width: barSize.height,
+          height: barSize.height,
+          'background-color': moveBlockBackgroundColor,
+          left: moveBlockLeft,
+          transition: transitionLeft
+        }" class="verify-move-block" @mousedown="start" @touchstart="start">
           <i :class="['verify-icon iconfont', iconClass]" :style="{ color: iconColor }"></i>
-          <div
-            v-if="type === '2'"
-            :style="{
-              width: Math.floor((parseInt(setSize.imgWidth) * 47) / 310) + 'px',
-              height: setSize.imgHeight,
-              top: '-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
-              'background-size': setSize.imgWidth + ' ' + setSize.imgHeight
-            }"
-            class="verify-sub-block"
-          >
-            <img
-              :src="'data:image/png;base64,' + blockBackImgBase"
-              alt=""
-              style="width: 100%; height: 100%; display: block; -webkit-user-drag: none"
-            />
+          <div v-if="type === '2'" :style="{
+            width: Math.floor((parseInt(setSize.imgWidth) * 47) / 310) + 'px',
+            height: setSize.imgHeight,
+            top: '-' + (parseInt(setSize.imgHeight) + vSpace) + 'px',
+            'background-size': setSize.imgWidth + ' ' + setSize.imgHeight
+          }" class="verify-sub-block">
+            <img :src="'data:image/png;base64,' + blockBackImgBase" alt=""
+              style="width: 100%; height: 100%; display: block; -webkit-user-drag: none" />
           </div>
         </div>
       </div>
@@ -78,7 +53,7 @@
  * */
 import { aesEncrypt } from './../utils/ase'
 import { resetSize } from './../utils/util'
-import { getCode, reqCheck } from '@/api/login'
+import { getCode,reqCheck } from '@/api/login'
 
 const props = defineProps({
   captchaType: {
@@ -131,7 +106,7 @@ const props = defineProps({
 })
 
 const { t } = useI18n()
-const { mode, captchaType, type, blockSize, explain } = toRefs(props)
+const { mode,captchaType,type,blockSize,explain } = toRefs(props)
 const { proxy } = getCurrentInstance()
 let secretKey = ref(''), //后端返回的ase加密秘钥
   passFlag = ref(''), //是否通过的标识
@@ -174,51 +149,51 @@ const init = () => {
   }
   getPictrue()
   nextTick(() => {
-    let { imgHeight, imgWidth, barHeight, barWidth } = resetSize(proxy)
+    let { imgHeight,imgWidth,barHeight,barWidth } = resetSize(proxy)
     setSize.imgHeight = imgHeight
     setSize.imgWidth = imgWidth
     setSize.barHeight = barHeight
     setSize.barWidth = barWidth
-    proxy.$parent.$emit('ready', proxy)
+    proxy.$parent.$emit('ready',proxy)
   })
 
-  window.removeEventListener('touchmove', function (e) {
+  window.removeEventListener('touchmove',function(e) {
     move(e)
   })
-  window.removeEventListener('mousemove', function (e) {
-    move(e)
-  })
-
-  //鼠标松开
-  window.removeEventListener('touchend', function () {
-    end()
-  })
-  window.removeEventListener('mouseup', function () {
-    end()
-  })
-
-  window.addEventListener('touchmove', function (e) {
-    move(e)
-  })
-  window.addEventListener('mousemove', function (e) {
+  window.removeEventListener('mousemove',function(e) {
     move(e)
   })
 
   //鼠标松开
-  window.addEventListener('touchend', function () {
+  window.removeEventListener('touchend',function() {
     end()
   })
-  window.addEventListener('mouseup', function () {
+  window.removeEventListener('mouseup',function() {
+    end()
+  })
+
+  window.addEventListener('touchmove',function(e) {
+    move(e)
+  })
+  window.addEventListener('mousemove',function(e) {
+    move(e)
+  })
+
+  //鼠标松开
+  window.addEventListener('touchend',function() {
+    end()
+  })
+  window.addEventListener('mouseup',function() {
     end()
   })
 }
-watch(type, () => {
+watch(type,() => {
   init()
 })
 onMounted(() => {
   // 禁止拖拽
   init()
-  proxy.$el.onselectstart = function () {
+  proxy.$el.onselectstart = function() {
     return false
   }
 })
@@ -277,13 +252,13 @@ const end = () => {
   endMovetime.value = +new Date()
   //判断是否重合
   if (status.value && isEnd.value == false) {
-    var moveLeftDistance = parseInt((moveBlockLeft.value || '').replace('px', ''))
+    var moveLeftDistance = parseInt((moveBlockLeft.value || '').replace('px',''))
     moveLeftDistance = (moveLeftDistance * 310) / parseInt(setSize.imgWidth)
     let data = {
       captchaType: captchaType.value,
       pointJson: secretKey.value
-        ? aesEncrypt(JSON.stringify({ x: moveLeftDistance, y: 5.0 }), secretKey.value)
-        : JSON.stringify({ x: moveLeftDistance, y: 5.0 }),
+        ? aesEncrypt(JSON.stringify({ x: moveLeftDistance,y: 5.0 }),secretKey.value)
+        : JSON.stringify({ x: moveLeftDistance,y: 5.0 }),
       token: backToken.value
     }
     reqCheck(data).then((res) => {
@@ -298,36 +273,36 @@ const end = () => {
           setTimeout(() => {
             proxy.$parent.clickShow = false
             refresh()
-          }, 1500)
+          },1500)
         }
         passFlag.value = true
         tipWords.value = `${((endMovetime.value - startMoveTime.value) / 1000).toFixed(2)}s
             ${t('captcha.success')}`
         var captchaVerification = secretKey.value
           ? aesEncrypt(
-              backToken.value + '---' + JSON.stringify({ x: moveLeftDistance, y: 5.0 }),
-              secretKey.value
-            )
-          : backToken.value + '---' + JSON.stringify({ x: moveLeftDistance, y: 5.0 })
+            backToken.value + '---' + JSON.stringify({ x: moveLeftDistance,y: 5.0 }),
+            secretKey.value
+          )
+          : backToken.value + '---' + JSON.stringify({ x: moveLeftDistance,y: 5.0 })
         setTimeout(() => {
           tipWords.value = ''
           proxy.$parent.closeBox()
-          proxy.$parent.$emit('success', { captchaVerification })
-        }, 1000)
+          proxy.$parent.$emit('success',{ captchaVerification })
+        },1000)
       } else {
         moveBlockBackgroundColor.value = '#d9534f'
         leftBarBorderColor.value = '#d9534f'
         iconColor.value = '#fff'
         iconClass.value = 'icon-close'
         passFlag.value = false
-        setTimeout(function () {
+        setTimeout(function() {
           refresh()
-        }, 1000)
-        proxy.$parent.$emit('error', proxy)
+        },1000)
+        proxy.$parent.$emit('error',proxy)
         tipWords.value = t('captcha.fail')
         setTimeout(() => {
           tipWords.value = ''
-        }, 1000)
+        },1000)
       }
     })
     status.value = false
@@ -355,7 +330,7 @@ const refresh = async () => {
     transitionWidth.value = ''
     transitionLeft.value = ''
     text.value = explain.value
-  }, 300)
+  },300)
 }
 
 // 请求背景图片和验证图片
