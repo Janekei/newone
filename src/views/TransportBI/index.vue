@@ -1,9 +1,11 @@
 <template>
- <div class="global-background big-box">
-  <FilterHeader />
-  <List />
-  <div class="statistik">
-   <DataStatistik />
+ <div style="height: 100%; overflow: auto;">
+  <div class="global-background big-box">
+   <FilterHeader />
+   <List />
+   <div class="statistik">
+    <DataStatistik />
+   </div>
   </div>
  </div>
 </template>

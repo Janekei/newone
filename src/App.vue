@@ -47,6 +47,7 @@ body {
 
  #app {
   @extend .size;
+  overflow: hidden;
  }
 }
 

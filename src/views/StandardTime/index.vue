@@ -1,7 +1,9 @@
 <template>
- <div class="global-background big-box">
-  <FilterHeader />
-  <Cards />
+ <div style="height: 100%; overflow: auto;">
+  <div class="global-background big-box">
+   <FilterHeader />
+   <Cards />
+  </div>
  </div>
 </template>
 

@@ -17,6 +17,11 @@
   <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
    ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
    @row-contextmenu="rowContextmenu">
+   <ElTableColumn type="expand">
+    <template #default="props">
+     {{ props.row }}
+    </template>
+   </ElTableColumn>
    <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
    <ElTableColumn :prop="item.prop" :label="item.label" :width="item.width" v-for="(item, index) in tableOption"
     :key="index + 'a'">
@@ -88,7 +93,8 @@ const getData = () => {
  loaded.value = false
  disabledPage.value = true
  request[method]({ url, parameter }).then((res: any) => {
-  tableData.value = res.list
+  res.list =
+   tableData.value = res.list
   loading.value = false
  }).catch(() => {
   loaded.value = true
@@ -97,6 +103,28 @@ const getData = () => {
   loaded.value = true
   loading.value = false
   disabledPage.value = false
+  tableData.value = [
+   {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+   },
+   {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+   },
+   {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+   },
+   {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+   },
+  ]
  })
 }
 
