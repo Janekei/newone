@@ -1,66 +1,156 @@
 <template>
-    仓库管理
-    <div>
-        <TableK url="/jinkotms/BaseWharea/page" method="get" :params="formData" ref="myTable"
-            :tableOption="tableOption">
-            <template #buttons="{ selectRow }">  
-                <span>{{selectRow}}</span>
-                <ElButton @click="getList(selectRow)">增加</ElButton>
-                <ElButton>删除</ElButton>
-                <ElButton>修改</ElButton>
-                <ElButton @click="refresh">刷新</ElButton>
-            </template>
-            <template #date="{ row }">
-                <span style="color: red">{{ row.row.date }}</span>
-            </template>
-        </TableK>
-
-        <Search :schema="schema" />
+    <div class="search-box">
+        <FormK :formOption="formOption" v-model:formState="SearchData" labelWidth="5rem" />
     </div>
+    <div class="btn-box">
+        <ElButton @click="openForm('修改')">查询</ElButton>
+        <ElButton @click="openForm('增加')">增加</ElButton>
+        <ElButton @click="deleteItem">删除</ElButton>
+        <ElButton @click="openForm('修改')">修改</ElButton>
+        <ElButton @click="refresh">刷新</ElButton>
+    </div>
+
+    <TableK url="/jinkotms/baseWarehouse/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption">
+        <template #buttons>
+            <!-- <span>{{ selectRow }}</span> -->
+
+        </template>
+        <template #date="{ row }">
+            <span style="color: red">{{ row.row.date }}</span>
+        </template>
+    </TableK>
+    <WarehouseManageDialog ref="formRef" />
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { ElButton } from 'element-plus'
-import { Search } from '@/components/Search'
-import { FormSchema } from '@/types/form'
-import * as WarehouseManageApi from '@/api/zonemanage'
+import WarehouseManageDialog from './WarehouseManageForm/index.vue'
+import FormK from '@/components/FormK/index.vue'
+import TableK from '@/components/TableK/index.vue'
+import * as WarehouseManageApi from '@/api/warehousemanage'
 
+// 新增/修改操作
+const myTable = ref()
+let formData = ref({
+    id: null,
+    code: '',
+    name: '',
+    longitude: null,
+    latitude: null,
+    bsWhareaCode: '',
+    bsWhareaName: '',
+    bsWhareaId: null
+})
+const formRef = ref()
+const openForm = (type: string) => {
+    if (type === '修改') {
+        let id = myTable.value.selectAll[0].id
+        console.log(id, 'selectId')
+        formRef.value.open(type, id)
+    } else {
+        formRef.value.open(type)
+    }
 
-const getList = async () => {
-    const data = await WarehouseManageApi.getTableList()
-    console.log('获取到接口的数据', data)
 }
 
-import TableK from '@/components/TableK/index.vue'
-
-const formData = ref({
+// 搜索操作
+let SearchData = ref({
+    id: null,
+    code: '',
+    name: ''
 })
-
-const myTable = ref()
-
-const tableOption = reactive([
+const formOption = reactive([
     {
-        prop: 'code',
-        label: 'code',
-        width: '180'
+        type: 'input',
+        field: 'id',
+        placeholder: '请输入ID',
+        label: 'ID',
+        rules: [
+            { required: true, message: '请输入ID', trigger: 'change' }
+        ]
     },
     {
-        prop: 'name',
-        label: 'name'
+        type: 'input',
+        field: 'code',
+        placeholder: '请输入编码',
+        label: '编码',
+        rules: [
+            { required: true, message: '请输入ID', trigger: 'change' }
+        ]
+    },
+    {
+        type: 'input',
+        field: 'name',
+        placeholder: '请输入名称',
+        label: '名称',
+        rules: [
+            { required: true, message: '请输入ID', trigger: 'change' }
+        ]
     }
 ])
 
-// 查找
-const schema = reactive<FormSchema[]>([
+
+
+
+// 表格区域
+
+const tableOption = reactive([
     {
-        field: 'field1',
-        component: 'Input'
+        prop: 'id',
+        label: 'ID',
+        width: '180'
+    },
+    {
+        prop: 'code',
+        label: '编号'
+    },
+    {
+        prop: 'name',
+        label: '名称'
+    },
+    {
+        prop: 'longitude',
+        label: '经度'
+    },
+    {
+        prop: 'latitude',
+        label: '纬度'
+    },
+    {
+        prop: 'bsWhareaCode',
+        label: '区域编号'
+    },
+    {
+        prop: 'bsWhareaName',
+        label: '区域名称'
+    },
+    {
+        prop: 'bsWhareaId',
+        label: '区域ID'
     }
 ])
 
 const refresh = () => {
+    // console.log(myTable.value.selectAll[0].id, 111)
     myTable.value.refresh()
 }
+
+// 删除
+let deleteId = ref(0)
+const deleteItem = async () => {
+    deleteId.value = myTable.value.selectAll[0].id
+    const res = await WarehouseManageApi.deleteWarehouseItem({ id: deleteId.value })
+    console.log(res, 'delete')
+    refresh()
+}
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.btn-box {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 3.25rem;
+    width: 100%;
+}
+</style>
