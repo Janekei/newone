@@ -16,7 +16,7 @@ const props = defineProps({
 })
 
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .header {
     display: flex;
     align-items: center;

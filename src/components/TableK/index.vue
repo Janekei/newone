@@ -14,14 +14,10 @@
   </div>
  </div>
  <RightClickCard style="background-color: #fff;">
+  <slot name="buttons" :selectRow="selectAll"></slot>
   <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
    ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
    @row-contextmenu="rowContextmenu">
-   <ElTableColumn type="expand">
-    <template #default="props">
-     {{ props.row }}
-    </template>
-   </ElTableColumn>
    <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
    <ElTableColumn :prop="item.prop" :label="item.label" :width="item.width" v-for="(item, index) in tableOption"
     :key="index + 'a'">
@@ -32,7 +28,7 @@
   </ElTable>
   <div class="pagination">
    <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" :disabled="disabledPage"
-    :firstPages="firstPages" ref="pagination" />
+    :firstPages="firstPages" :total="total" ref="pagination" />
   </div>
  </RightClickCard>
 </template>
@@ -79,8 +75,9 @@ const props = defineProps({
 const tableData = ref([])
 const loading = ref(false)
 const loaded = ref(false)
+const total = ref(0)
 const pageParams = reactive({
- pageIndex: 1,
+ pageNo: 1,
  pageSize: props.firstPages
 })
 const disabledPage = ref(false)
@@ -88,13 +85,15 @@ const disabledPage = ref(false)
 // 发送请求获取数据
 const getData = () => {
  const { method, url, params } = props
- const parameter = Object.assign(pageParams, params)
+ const parameter = Object.assign({}, pageParams, params)
+
  loading.value = true
  loaded.value = false
  disabledPage.value = true
- request[method]({ url, parameter }).then((res: any) => {
-  res.list =
-   tableData.value = res.list
+ request[method]({ url, params: parameter }).then((res: any) => {
+  console.log(res, 111)
+  tableData.value = res.list
+  total.value = res.total
   loading.value = false
  }).catch(() => {
   loaded.value = true
@@ -103,28 +102,6 @@ const getData = () => {
   loaded.value = true
   loading.value = false
   disabledPage.value = false
-  tableData.value = [
-   {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-   },
-   {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-   },
-   {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-   },
-   {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-   },
-  ]
  })
 }
 
@@ -134,7 +111,7 @@ onMounted(() => {
 
 // 页码改变
 const handleCurrentChange = (value: number) => {
- pageParams.pageIndex = value
+ pageParams.pageNo = value
  getData()
 }
 
@@ -147,7 +124,7 @@ const handleSizeChange = (value: number) => {
 // 刷新方法
 const pagination = ref()
 const refresh = () => {
- pageParams.pageIndex = 1
+ pageParams.pageNo = 1
  pageParams.pageSize = props.firstPages
  // 刷新分页器
  pagination.value.refreshView(pageParams.pageSize)

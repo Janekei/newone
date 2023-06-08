@@ -224,7 +224,7 @@ const confirmInbound = () => {
 }
 
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .waybillBox {
     display: flex;
     justify-content: center;

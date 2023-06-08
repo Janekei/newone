@@ -245,7 +245,7 @@ const goToInboundDetail = (sapId, billNo, inboundTime) => {
 }
 
 </script>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .table {
     // padding: 5px;
     width: 100%;
