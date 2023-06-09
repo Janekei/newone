@@ -4,7 +4,7 @@ import request from '@/config/axios'
 
 // 获取基础数据列表
 export const getZoneList = async (params) => {
-    return await request.get({ url: '/jinkotms/baseWharea/page', params })
+    return await request.get({ url: '/jinkotms/baseWharea/get', params })
 }
 
 // 新增区域数据

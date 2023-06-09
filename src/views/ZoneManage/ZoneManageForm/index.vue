@@ -16,7 +16,7 @@
 import { Dialog } from '@/components/Dialog'
 import { ElButton, ElMessage } from 'element-plus'
 import { ref, reactive } from 'vue'
-import * as WarehouseManageApi from '@/api/warehousemanage'
+import * as ZoneManageApi from '@/api/zonemanage'
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
@@ -61,7 +61,6 @@ const updateFormData = (val) => {
 
 // 表单Ref
 const formRef = ref()
-
 // 打开弹窗方法
 const open = async (type: string, id?: number) => {
     resetForm()
@@ -71,7 +70,7 @@ const open = async (type: string, id?: number) => {
     if (id) {
         formLoading.value = true
         try {
-            formData.value = await WarehouseManageApi.getWarehouseList({ id })
+            formData.value = await ZoneManageApi.getZoneList({ id })
         } finally {
             formLoading.value = false
         }
@@ -82,25 +81,29 @@ defineExpose({
 })
 
 // 提交表单
-
+// 定义 success 事件，用于操作成功后的回调
+const emit = defineEmits(['success'])
 const submitForm = async () => {
-    if (formType.value === ' ') {
-        const res = await WarehouseManageApi.addWarehouseItem(formData.value)
-        if (res.code === 0) {
-            ElMessage.success('新增仓库信息成功')
+    if (formType.value === '增加') {
+        const res = await ZoneManageApi.addZoneItem(formData.value)
+        if (res) {
+            ElMessage.success('新增区域信息成功')
             resetForm()
         } else {
-            ElMessage.error(res.msg)
+            ElMessage.error('新增区域信息失败')
         }
     } else {
-        const res = await WarehouseManageApi.changeWarehouseItem(formData.value)
-        if (res.code === 0) {
-            ElMessage.success('修改仓库信息成功')
+        const res = await ZoneManageApi.changeZoneItem(formData.value)
+        if (res) {
+            ElMessage.success('修改区域信息成功')
             resetForm()
         } else {
-            ElMessage.error(res.msg)
+            ElMessage.error('修改区域信息失败')
         }
     }
+    dialogVisible.value = false
+    // 发送操作成功的事件
+    emit('success')
 }
 
 let formData = ref({

@@ -1,6 +1,4 @@
 <template>
-    区域管理
-
     <div>
         <TableK url="/jinkotms/baseWharea/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption"
             :showExpand="true">
@@ -13,26 +11,25 @@
                     <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formK" />
                 </div>
                 <div class="btn-box">
-                    <ElButton @click="addZoneListItem(formData)">增加</ElButton>
+                    <ElButton @click="search">查询</ElButton>
+                    <ElButton @click="openForm('增加')">增加</ElButton>
                     <ElButton @click="deleteZoneListItem()">删除</ElButton>
-                    <ElButton @click="updateZoneListItem(formData)">修改</ElButton>
-                    <Search :schema="schema" />
+                    <ElButton @click="openForm('修改')">修改</ElButton>
+                    <ElButton @click="refresh">刷新</ElButton>
                 </div>
             </template>
         </TableK>
-
+        <ZoneManageDialog ref="formRef" @success="refresh" />
     </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { ElButton, ElMessage } from 'element-plus'
-import { Search } from '@/components/Search'
+import { ElButton } from 'element-plus'
 import FormK from '@/components/FormK/index.vue'
-import { FormSchema } from '@/types/form'
 import * as ZoneManageApi from '@/api/zonemanage'
 import TableK from '@/components/TableK/index.vue'
-// import ZoneManageDialog from './ZoneManageForm/index.vue'
+import ZoneManageDialog from './ZoneManageForm/index.vue'
 
 
 // 搜索表单区域
@@ -42,24 +39,6 @@ let formData = ref({
     name: undefined
 })
 const formOption = reactive([
-    {
-        type: 'input',
-        field: 'id',
-        placeholder: '请输入ID',
-        label: 'ID',
-        rules: [
-            { required: true, message: '请输入ID', trigger: 'change' }
-        ]
-    },
-    {
-        type: 'input',
-        field: 'code',
-        placeholder: '请输入编码',
-        label: '编码',
-        rules: [
-            { required: true, message: '请输入ID', trigger: 'change' }
-        ]
-    },
     {
         type: 'input',
         field: 'name',
@@ -73,16 +52,17 @@ const formOption = reactive([
 
 // 新增/修改信息
 // 新增/修改操作
-// const formRef = ref()
-// const openForm = (type: string) => {
-//     if (type === '修改') {
-//         let id = myTable.value.selectAll[0].id
-//         console.log(id, 'selectId')
-//         formRef.value.open(type, id)
-//     } else {
-//         formRef.value.open(type)
-//     }
-// }
+const formRef = ref()
+const openForm = (type: string) => {
+    if (type === '修改') {
+        let id = myTable.value.selectAll[0].id
+        console.log(id, 'selectId')
+        formRef.value.open(type, id)
+
+    } else {
+        formRef.value.open(type)
+    }
+}
 
 
 // 刷新表格内容
@@ -91,10 +71,8 @@ const refresh = () => {
 }
 
 
-
 // 表格区域
 const myTable = ref()
-
 const tableOption = reactive([
     {
         prop: 'id',
@@ -111,35 +89,11 @@ const tableOption = reactive([
 ])
 
 // 查找
-const schema = reactive<FormSchema[]>([
-    {
-        field: '1111',
-        component: 'Input'
-    }
-])
-
-// 新增区域
-const addZoneListItem = async (params) => {
-    if (formData.value.id === null || formData.value.code === '' || formData.value.name === '') {
-        ElMessage.error('请完整输入字段信息')
-        return
-    }
-    console.log(formData.value.id, 'addformData')
-    const res = await ZoneManageApi.addZoneItem(params)
-    console.log(res, 'addzone')
+const search = () => {
     refresh()
 }
 
-// 更新区域
-const updateZoneListItem = async (params) => {
-    if (formData.value.id === null || formData.value.code === '' || formData.value.name === '') {
-        ElMessage.error('请完整输入字段信息')
-        return
-    }
-    const res = await ZoneManageApi.changeZoneItem(params)
-    console.log(res, 'updateZone')
-    refresh()
-}
+
 
 // 删除区域
 const deleteZoneListItem = async () => {
@@ -149,13 +103,15 @@ const deleteZoneListItem = async () => {
     console.log(res, 'deleteZone')
     refresh()
 }
+
 </script>
 <style lang="scss" scoped>
 .btn-box {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     height: 3.125rem;
     width: 100%;
+    margin-left: 4rem;
 }
 </style>

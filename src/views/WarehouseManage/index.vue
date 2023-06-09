@@ -1,19 +1,17 @@
 <template>
-    <div class="search-box">
-        {{ SearchData }}
-        <FormK :formOption="formOption" v-model:formState="SearchData" labelWidth="5rem" />
-    </div>
-    <div class="btn-box">
-        <ElButton >查询</ElButton>
-        <ElButton @click="openForm('增加')">增加</ElButton>
-        <ElButton @click="deleteItem">删除</ElButton>
-        <ElButton @click="openForm('修改')">修改</ElButton>
-        <ElButton @click="refresh">刷新</ElButton>
-    </div>
     <TableK url="/jinkotms/baseWarehouse/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption">
         <template #buttons>
-            <!-- <span>{{ selectRow }}</span> -->
-
+            <div class="search-box">
+                <!-- {{ formData }} -->
+                <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" />
+            </div>
+            <div class="btn-box">
+                <ElButton @click="search">查询</ElButton>
+                <ElButton @click="openForm('增加')">增加</ElButton>
+                <ElButton @click="deleteItem">删除</ElButton>
+                <ElButton @click="openForm('修改')">修改</ElButton>
+                <ElButton @click="refresh">刷新</ElButton>
+            </div>
         </template>
         <template #date="{ row }">
             <span style="color: red">{{ row.row.date }}</span>
@@ -51,30 +49,24 @@ const openForm = (type: string) => {
     } else {
         formRef.value.open(type)
     }
-
 }
 
+
 // 搜索操作
-let SearchData = ref({
-    id: null
-})
 const formOption = reactive([
     {
         type: 'input',
-        field: 'id',
-        placeholder: '请输入ID',
-        label: 'ID',
+        field: 'name',
+        placeholder: '请输入名称',
+        label: '名称',
         rules: [
-            { required: true, message: '请输入ID', trigger: 'change' }
+            { message: '请输入名称', trigger: 'change' }
         ]
     }
 ])
-// const search = async () => {
-//     formData.value = {
-//         id: SearchData.value.id,
-        
-//     }
-// }
+const search = () => {
+    refresh()
+}
 
 
 
@@ -118,9 +110,9 @@ const tableOption = reactive([
 ])
 
 const refresh = () => {
-    // console.log(myTable.value.selectAll[0].id, 111)
     myTable.value.refresh()
 }
+
 
 // 删除
 let deleteId = ref(0)
@@ -137,6 +129,7 @@ const deleteItem = async () => {
     justify-content: flex-start;
     align-items: center;
     padding-left: 3.25rem;
+    margin-bottom: .625rem;
     width: 100%;
 }
 </style>
