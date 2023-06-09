@@ -1,3 +1,4 @@
+import warehouseManage from './WarehouseManage/en'
 export default {
   common: {
     inputText: 'Please input',
@@ -443,5 +444,6 @@ export default {
     btn_zoom_in: 'Zoom in',
     btn_zoom_out: 'Zoom out',
     preview: 'Preivew'
-  }
+  },
+  warehousemanage:warehouseManage
 }

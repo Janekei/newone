@@ -6,18 +6,18 @@
                 <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" />
             </div>
             <div class="btn-box">
-                <ElButton @click="search">查询</ElButton>
-                <ElButton @click="openForm('增加')">增加</ElButton>
-                <ElButton @click="deleteItem">删除</ElButton>
-                <ElButton @click="openForm('修改')">修改</ElButton>
-                <ElButton @click="refresh">刷新</ElButton>
+                <ElButton @click="search">{{ t('warehousemanage.searchButton') }}</ElButton>
+                <ElButton @click="openForm('增加')">{{ t('warehousemanage.addButton') }}</ElButton>
+                <ElButton @click="deleteItem">{{ t('warehousemanage.deleteButton') }}</ElButton>
+                <ElButton @click="openForm('修改')">{{ t('warehousemanage.editButton') }}</ElButton>
+                <ElButton @click="refresh">{{ t('warehousemanage.refreshButton') }}</ElButton>
             </div>
         </template>
         <template #date="{ row }">
             <span style="color: red">{{ row.row.date }}</span>
         </template>
     </TableK>
-    <WarehouseManageDialog ref="formRef" />
+    <WarehouseManageDialog ref="formRef" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -27,6 +27,8 @@ import WarehouseManageDialog from './WarehouseManageForm/index.vue'
 import FormK from '@/components/FormK/index.vue'
 import TableK from '@/components/TableK/index.vue'
 import * as WarehouseManageApi from '@/api/warehousemanage'
+
+const { t } = useI18n()
 
 // 新增/修改操作
 const myTable = ref()
@@ -57,10 +59,10 @@ const formOption = reactive([
     {
         type: 'input',
         field: 'name',
-        placeholder: '请输入名称',
-        label: '名称',
+        placeholder: `${t('warehousemanage.nameInput')}`,
+        label: `${t('warehousemanage.name')}`,
         rules: [
-            { message: '请输入名称', trigger: 'change' }
+            { message: `${t('warehousemanage.nameInput')}`, trigger: 'change' }
         ]
     }
 ])
@@ -76,36 +78,36 @@ const search = () => {
 const tableOption = reactive([
     {
         prop: 'id',
-        label: 'ID',
+        label: `ID`,
         width: '180'
     },
     {
         prop: 'code',
-        label: '编号'
+        label: `${t('warehousemanage.code')}`
     },
     {
         prop: 'name',
-        label: '名称'
+        label: `${t('warehousemanage.name')}`
     },
     {
         prop: 'longitude',
-        label: '经度'
+        label: `${t('warehousemanage.longitude')}`
     },
     {
         prop: 'latitude',
-        label: '纬度'
+        label: `${t('warehousemanage.latitude')}`
     },
     {
         prop: 'bsWhareaCode',
-        label: '区域编号'
+        label: `${t('warehousemanage.whareaCode')}`
     },
     {
         prop: 'bsWhareaName',
-        label: '区域名称'
+        label: `${t('warehousemanage.whareaName')}`
     },
     {
         prop: 'bsWhareaId',
-        label: '区域ID'
+        label: `${t('warehousemanage.WhareaId')}`
     }
 ])
 

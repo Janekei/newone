@@ -1,7 +1,7 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle">
         <div class="form-box">
-            {{ formData }}
+            <!-- {{ formData }} -->
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formRef"
                 @update:formState="updateFormData" />
         </div>

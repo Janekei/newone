@@ -7,7 +7,7 @@
             </template>
             <template #buttons>
                 <div class="form-box">
-                    {{ formData }}
+                    <!-- {{ formData }} -->
                     <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formK" />
                 </div>
                 <div class="btn-box">

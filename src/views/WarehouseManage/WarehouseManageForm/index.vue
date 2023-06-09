@@ -155,7 +155,8 @@ defineExpose({
 })
 
 // 提交表单
-
+// 定义 success 事件，用于操作成功后的回调
+const emit = defineEmits(['success'])
 const submitForm = async () => {
     // 处理下拉框数据
     zoneList.forEach(item => {
@@ -165,22 +166,18 @@ const submitForm = async () => {
         }
     })
     if (formType.value === '增加') {
-        const res = await WarehouseManageApi.addWarehouseItem(formData.value)
-        if (res.code === 0) {
-            ElMessage.success('新增仓库信息成功')
-            resetForm()
-        } else {
-            ElMessage.error(res.msg)
-        }
+        await WarehouseManageApi.addWarehouseItem(formData.value)
+        ElMessage.success('新增仓库信息成功')
+        resetForm()
     } else {
-        const res = await WarehouseManageApi.changeWarehouseItem(formData.value)
-        if (res.code === 0) {
-            ElMessage.success('修改仓库信息成功')
-            resetForm()
-        } else {
-            ElMessage.error(res.msg)
-        }
+        await WarehouseManageApi.changeWarehouseItem(formData.value)
+        ElMessage.success('修改仓库信息成功')
+        resetForm()
+
     }
+    dialogVisible.value = false
+    // 发送操作成功的事件
+    emit('success')
 }
 
 let formData = ref({
