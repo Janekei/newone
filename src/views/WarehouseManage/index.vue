@@ -4,7 +4,7 @@
         <FormK :formOption="formOption" v-model:formState="SearchData" labelWidth="5rem" />
     </div>
     <div class="btn-box">
-        <ElButton @click="search">查询</ElButton>
+        <ElButton >查询</ElButton>
         <ElButton @click="openForm('增加')">增加</ElButton>
         <ElButton @click="deleteItem">删除</ElButton>
         <ElButton @click="openForm('修改')">修改</ElButton>
@@ -56,8 +56,7 @@ const openForm = (type: string) => {
 
 // 搜索操作
 let SearchData = ref({
-    id: null,
-    name:
+    id: null
 })
 const formOption = reactive([
     {
