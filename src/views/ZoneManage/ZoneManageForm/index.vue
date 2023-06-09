@@ -1,7 +1,7 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle">
         <div class="form-box">
-            <!-- {{ formData }} -->
+            {{ formData }}
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formRef"
                 @update:formState="updateFormData" />
         </div>
@@ -16,7 +16,6 @@
 import { Dialog } from '@/components/Dialog'
 import { ElButton, ElMessage } from 'element-plus'
 import { ref, reactive } from 'vue'
-import * as ZoneManageApi from '@/api/zonemanage'
 import * as WarehouseManageApi from '@/api/warehousemanage'
 
 // 表单内容区域
@@ -51,77 +50,13 @@ const formOption = reactive([
         rules: [
             { required: true, message: '请输入ID', trigger: 'change' }
         ]
-    },
-    {
-        type: 'input',
-        field: 'longitude',
-        placeholder: '请输入经度',
-        label: '经度',
-        rules: [
-            { required: true, message: '请输入经度', trigger: 'change' }
-        ]
-    },
-    {
-        type: 'input',
-        field: 'latitude',
-        placeholder: '请输入纬度',
-        label: '纬度',
-        rules: [
-            { required: true, message: '请输入纬度', trigger: 'change' }
-        ]
-    }, {
-        type: 'select',
-        field: 'bsWhareaId',
-        placeholder: '请选择仓库区域',
-        requestOptions: {
-            url: '/jinkotms/baseWharea/page',
-            method: 'get',
-            params: {
-                pageInfo: {
-                    pageSize: 100,
-                    pageNo: 1
-                }
-            },
-            handleOptions: (res: any) => {
-                return res.list.map((item: any) => {
-                    return {
-                        label: item.name,
-                        value: item.id
-                    }
-                })
-            }
-        },
-        label: '仓库区域',
-        rules: [
-            { required: true, message: '请选择区域', trigger: 'blur' }
-        ]
     }
 ])
 
 const updateFormData = (val) => {
     formData.value = val
-    // 过滤区域选择器的数据
-    zoneList.forEach(item => {
-        if (item.id == formData.value.bsWhareaId) {
-            formData.value.bsWhareaCode = item.code
-            formData.value.bsWhareaName = item.name
-        }
-    })
 }
 
-//获取下拉框数据
-let zoneList: any = reactive([])
-const getZoneList = async () => {
-    // 获取区域数据
-    const pageInfo = {
-        pageNo: 1,
-        pageSize: 100
-    }
-    const res = await ZoneManageApi.getZoneList(pageInfo)
-    zoneList = res.list
-    console.log(zoneList, 'zoneList')
-
-}
 
 
 // 表单Ref
@@ -132,19 +67,11 @@ const open = async (type: string, id?: number) => {
     resetForm()
     dialogVisible.value = true
     formType.value = type
-    dialogTitle.value = type + '仓库信息'
-    getZoneList()
+    dialogTitle.value = type + '区域信息'
     if (id) {
         formLoading.value = true
         try {
             formData.value = await WarehouseManageApi.getWarehouseList({ id })
-            // 过滤区域选择器的数据
-            zoneList.forEach(item => {
-                if (item.id == formData.value.bsWhareaId) {
-                    formData.value.bsWhareaCode = item.code
-                    formData.value.bsWhareaName = item.name
-                }
-            })
         } finally {
             formLoading.value = false
         }
@@ -157,14 +84,7 @@ defineExpose({
 // 提交表单
 
 const submitForm = async () => {
-    // 处理下拉框数据
-    zoneList.forEach(item => {
-        if (item.id == formData.value.bsWhareaId) {
-            formData.value.bsWhareaCode = item.code
-            formData.value.bsWhareaName = item.name
-        }
-    })
-    if (formType.value === '增加') {
+    if (formType.value === ' ') {
         const res = await WarehouseManageApi.addWarehouseItem(formData.value)
         if (res.code === 0) {
             ElMessage.success('新增仓库信息成功')
@@ -186,12 +106,7 @@ const submitForm = async () => {
 let formData = ref({
     id: undefined,
     code: undefined,
-    name: undefined,
-    longitude: undefined,
-    latitude: undefined,
-    bsWhareaCode: undefined,
-    bsWhareaName: undefined,
-    bsWhareaId: undefined
+    name: undefined
 })
 
 // 重置表单数据
@@ -200,12 +115,7 @@ const resetForm = () => {
     formData.value = {
         id: undefined,
         code: undefined,
-        name: undefined,
-        longitude: undefined,
-        latitude: undefined,
-        bsWhareaCode: undefined,
-        bsWhareaName: undefined,
-        bsWhareaId: undefined
+        name: undefined
     }
 }
 

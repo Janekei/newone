@@ -91,7 +91,6 @@ const getData = () => {
   loaded.value = false
   disabledPage.value = true
   request[method]({ url, params: parameter }).then((res: any) => {
-    console.log(res, 111)
     tableData.value = res.list
     total.value = res.total
     loading.value = false

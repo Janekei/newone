@@ -1,6 +1,15 @@
 <template>
-    区域管理
-
+    <div class="search-box">
+        <!-- {{ SearchData }}
+        <FormK :formOption="formOption" v-model:formState="SearchData" labelWidth="5rem" /> -->
+    </div>
+    <div class="btn-box">
+        <ElButton @click="openForm('修改')">查询</ElButton>
+        <ElButton @click="openForm('增加')">增加</ElButton>
+        <ElButton @click="deleteZoneListItem">删除</ElButton>
+        <ElButton @click="openForm('修改')">修改</ElButton>
+        <ElButton @click="refresh">刷新</ElButton>
+    </div>
     <div>
         <TableK url="/jinkotms/baseWharea/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption">
             <template #buttons>
@@ -16,8 +25,8 @@
                 </div>
             </template>
         </TableK>
-
     </div>
+    <ZoneManageDialog ref="formRef" />
 </template>
 
 <script lang="ts" setup>
@@ -28,9 +37,15 @@ import FormK from '@/components/FormK/index.vue'
 import { FormSchema } from '@/types/form'
 import * as ZoneManageApi from '@/api/zonemanage'
 import TableK from '@/components/TableK/index.vue'
+import ZoneManageDialog from './ZoneManageForm/index.vue'
 
 
-// 表单内容区域
+// 搜索表单区域
+let formData = ref({
+    id: undefined,
+    code: undefined,
+    name: undefined
+})
 const formOption = reactive([
     {
         type: 'input',
@@ -61,21 +76,23 @@ const formOption = reactive([
     }
 ])
 
-let formData = ref({
-    id: null,
-    code: '',
-    name: ''
-})
+// 新增/修改信息
+// 新增/修改操作
+const formRef = ref()
+const openForm = (type: string) => {
+    if (type === '修改') {
+        let id = myTable.value.selectAll[0].id
+        console.log(id, 'selectId')
+        formRef.value.open(type, id)
+    } else {
+        formRef.value.open(type)
+    }
+}
+
 
 // 刷新表格内容
 const refresh = () => {
     myTable.value.refresh()
-    // 清空输入框数据
-    formData = ref({
-        id: null,
-        code: '',
-        name: ''
-    })
 }
 
 

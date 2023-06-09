@@ -1,12 +1,10 @@
 <template>
- <div>
-  出库查询
- </div>
+    <TopTabs/>
 </template>
 
 <script lang="ts" setup>
+import TopTabs from './components/TopTabs.vue'
 
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style scoped ></style>
