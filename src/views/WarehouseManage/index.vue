@@ -1,15 +1,15 @@
 <template>
     <div class="search-box">
+        {{ SearchData }}
         <FormK :formOption="formOption" v-model:formState="SearchData" labelWidth="5rem" />
     </div>
     <div class="btn-box">
-        <ElButton @click="openForm('修改')">查询</ElButton>
+        <ElButton @click="search">查询</ElButton>
         <ElButton @click="openForm('增加')">增加</ElButton>
         <ElButton @click="deleteItem">删除</ElButton>
         <ElButton @click="openForm('修改')">修改</ElButton>
         <ElButton @click="refresh">刷新</ElButton>
     </div>
-
     <TableK url="/jinkotms/baseWarehouse/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption">
         <template #buttons>
             <!-- <span>{{ selectRow }}</span> -->
@@ -57,8 +57,7 @@ const openForm = (type: string) => {
 // 搜索操作
 let SearchData = ref({
     id: null,
-    code: '',
-    name: ''
+    name:
 })
 const formOption = reactive([
     {
@@ -69,26 +68,14 @@ const formOption = reactive([
         rules: [
             { required: true, message: '请输入ID', trigger: 'change' }
         ]
-    },
-    {
-        type: 'input',
-        field: 'code',
-        placeholder: '请输入编码',
-        label: '编码',
-        rules: [
-            { required: true, message: '请输入ID', trigger: 'change' }
-        ]
-    },
-    {
-        type: 'input',
-        field: 'name',
-        placeholder: '请输入名称',
-        label: '名称',
-        rules: [
-            { required: true, message: '请输入ID', trigger: 'change' }
-        ]
     }
 ])
+// const search = async () => {
+//     formData.value = {
+//         id: SearchData.value.id,
+        
+//     }
+// }
 
 
 
