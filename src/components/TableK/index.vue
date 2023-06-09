@@ -25,6 +25,11 @@
      <slot :name="item.slotName" :row="{ row }"></slot>
     </template>
    </ElTableColumn>
+   <ElTableColumn type="expand" v-if="showExpand">
+    <template #default="{ row }">
+     <slot name="expand" :expandRow="row"></slot>
+    </template>
+   </ElTableColumn>
   </ElTable>
   <div class="pagination">
    <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" :disabled="disabledPage"
@@ -69,6 +74,10 @@ const props = defineProps({
  showCheckBox: {
   type: Boolean,
   default: true
+ },
+ showExpand: {
+  type: Boolean,
+  default: false
  }
 })
 

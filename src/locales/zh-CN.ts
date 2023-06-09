@@ -104,7 +104,7 @@ export default {
  },
  login: {
   welcome: '欢迎使用本系统',
-  message: '招投标系统',
+  message: '晶科三期',
   tenantname: '租户名称',
   username: '用户名',
   password: '密码',
