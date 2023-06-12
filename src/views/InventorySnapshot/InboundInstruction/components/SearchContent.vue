@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div class="form-box">
-      <FormK :formOption="formOption" v-model:formState="formData" labelWidth="" ref="formK" />
+      <FormK :formOption="props.formOption" v-model:formState="formData" labelWidth="" ref="formK" />
     </div>
     <div class="btn-box">
       <el-button type="primary">高级查询</el-button>
@@ -12,37 +12,16 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
 import { ElButton } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
-
-const formOption = reactive([
-  {
-    type: 'input',
-    field: 'code',
-    placeholder: '请输入SAP任务号',
-    label: 'SAP任务号',
-    rules: [
-      { required: true, message: '请输入SAP任务号', trigger: 'change' }
-    ]
-  },
-  {
-    type: 'input',
-    field: 'code',
-    placeholder: '请输入预计入库时间',
-    label: '预计入库时间',
-    rules: [
-      { required: true, message: '请输入预计入库时间', trigger: 'change' }
-    ]
+const props = defineProps({
+  formOption: {
+    type: Object as any,
+    default: () => { }
   }
-])
-const formData = ref({
-  code: 123,
-  region: 1,
-  time: '2023-05-25',
-  entName: 'vue'
 })
+const formData = ref({})
 onBeforeMount(() => {
   console.log(1)
 })

@@ -1,39 +1,92 @@
 <template>
     <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
-        <el-tab-pane v-for="item in tabList" :label="item.title + '（' + item.number + '）'" :key="item.title"
-            :name="item.name">
-            <slot :name="item.name">
-                <SearchContent />
-                <TableContent />
+        <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name">
+
+            <slot :name="item.name" v-if="(item.name !== 'waybill' || item.name !== 'boxInfo')">
+                <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
+                    <SearchContent :formOption="formOptionHome" />
+                    <TableContent />
+                </div>
+                <div v-else-if="item.name === 'waybill'">
+                    <WayBillDatailInfo />
+                </div>
+                <div v-else>
+                    <BoxDetailInfo />
+                </div>
             </slot>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref, computed } from 'vue'
 import { ElTabPane, ElTabs } from 'element-plus'
 import SearchContent from '../components/SearchContent.vue'
 import TableContent from '../components/TableContent.vue'
+import WayBillDatailInfo from '../DetailInboundInstruction/WayBillDetailInfo/index.vue'
+import BoxDetailInfo from '../DetailInboundInstruction/BoxDetailInfo/index.vue'
+const props = defineProps({
+    tabList: {
+        type: Array as any,
+        default: () => []
+    }
+})
 
-const tabList = reactive([
-    { title: '全部', name: 'all', number: 30 },
-    { title: '未到港', name: 'wdg', number: 12 },
-    { title: '未清关', name: 'wqg', number: 6 },
-    { title: '清关中', name: 'qgz', number: 13 },
-    { title: '清关完成', name: 'qgz', number: 13 }
+// 过滤tabList数据
+const tabList = computed(() => {
+    let data: any = []
+    if (props.tabList[0].hasOwnProperty('number')) {
+        props.tabList.forEach(item => {
+            data.push({
+                title: item.title,
+                lable: item.title + '（' + item.number + '）',
+                name: item.name,
+                number: item.number
+            })
+        });
+        return data;
+    }
+    props.tabList.forEach(item => {
+        data.push({
+            title: item.title,
+            lable: item.title,
+            name: item.name
+        })
+    });
+    return data;
+})
+
+// 入库指令首页搜索框数据
+const formOptionHome = reactive([
+    {
+        type: 'input',
+        field: 'code',
+        placeholder: '请输入SAP任务号',
+        label: 'SAP任务号',
+        rules: [
+            { required: true, message: '请输入SAP任务号', trigger: 'change' }
+        ]
+    },
+    {
+        type: 'input',
+        field: 'code',
+        placeholder: '请输入预计入库时间',
+        label: '预计入库时间',
+        rules: [
+            { required: true, message: '请输入预计入库时间', trigger: 'change' }
+        ]
+    }
 ])
 
 
+
+
 const emit = defineEmits(['getTabState'])
-
-const activeName = ref(tabList[0].name)
-// console.log(tabList)
-
-
+const activeName = ref(props.tabList[0].name)
 const handleClick = (tab) => {
-    // console.log(tab.props.name, event)
     emit('getTabState', tab.props.name)
+    console.log(tab.props.name, 'tab');
+
 }
 </script>
 <style lang="scss" scoped>
