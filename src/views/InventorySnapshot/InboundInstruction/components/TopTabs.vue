@@ -2,22 +2,28 @@
     <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
         <el-tab-pane v-for="item in tabList" :label="item.title + '（' + item.number + '）'" :key="item.title"
             :name="item.name">
-            <slot :name="item.name">{{ item.name }}</slot>
+            <slot :name="item.name">
+                <SearchContent />
+                <TableContent />
+            </slot>
         </el-tab-pane>
     </el-tabs>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, defineEmits } from 'vue'
+import { ref, reactive } from 'vue'
 import { ElTabPane, ElTabs } from 'element-plus'
+import SearchContent from '../components/SearchContent.vue'
+import TableContent from '../components/TableContent.vue'
 
 const tabList = reactive([
     { title: '全部', name: 'all', number: 30 },
     { title: '未到港', name: 'wdg', number: 12 },
     { title: '未清关', name: 'wqg', number: 6 },
     { title: '清关中', name: 'qgz', number: 13 },
-    { title: '清关完成', name: 'qgwc', number: 6 },
+    { title: '清关完成', name: 'qgz', number: 13 }
 ])
+
 
 const emit = defineEmits(['getTabState'])
 
@@ -35,18 +41,28 @@ const handleClick = (tab) => {
     padding: 32px;
     color: #6b778c;
     font-size: 1.75rem;
-    font-weight: 600;
+
     background-color: #6b778c;
 }
 
-::v-deep .el-tabs__nav {
+::v-deep .el-tabs__nav>.el-tabs__item {
+    color: #409EFF;
     background-color: #fff;
-    border: 0.0625rem solid #02A7F0 !important;
+    font-family: "PingFang SC";
+    border: none;
+    border-top: .125rem solid #409EFF !important;
 }
 
-::v-deep .is-active {
-    background-color: #CEEEFC;
-    // border: 0.0625rem solid #02A7F0 !important;
+::v-deep .el-tabs__header .el-tabs__nav {
+    border: none;
+}
+
+::v-deep .el-tabs__header {
     border: none !important;
+}
+
+::v-deep .el-tabs__nav>.is-active {
+    border: 0.0625rem solid #409EFF !important;
+    border-top: .375rem solid #409EFF !important;
 }
 </style>
