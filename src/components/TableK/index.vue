@@ -187,6 +187,6 @@ defineExpose({
 .table-header {
   display: flex;
   justify-content: end;
-  padding: 1rem;
+  // padding: 1rem;
 }
 </style>

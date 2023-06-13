@@ -22,9 +22,6 @@ const props = defineProps({
   }
 })
 const formData = ref({})
-onBeforeMount(() => {
-  console.log(1)
-})
 </script>
 <style lang="scss" scoped>
 .header {

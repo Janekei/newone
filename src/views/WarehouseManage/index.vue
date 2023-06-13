@@ -1,13 +1,15 @@
 <template>
-    <TableK url="/jinkotms/baseWarehouse/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption">
+    <TableK class="table" url="/jinkotms/baseWarehouse/page" method="get" :params="formData" ref="myTable"
+        :tableOption="tableOption">
         <template #buttons>
-            <div class="search-box">
-                <!-- {{ formData }} -->
-                <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" />
-            </div>
+            <TopSearchForm :formOption="formOption" />
             <div class="btn-box">
-                <ElButton @click="search">{{ t('warehousemanage.searchButton') }}</ElButton>
-                <ElButton @click="openForm('增加')">{{ t('warehousemanage.addButton') }}</ElButton>
+                <ElButton @click="search">{{ t('warehousemanage.searchButton') }}
+                </ElButton>
+                <ElButton @click="openForm('增加')" key="primary" type="primary" plain :icon="Plus">{{
+                    t('warehousemanage.addButton') }}</ElButton>
+                <ElButton key="primary" type="primary" plain :icon="Upload">导入</ElButton>
+                <ElButton key="primary" type="primary" plain :icon="Download">导出</ElButton>
                 <ElButton @click="deleteItem">{{ t('warehousemanage.deleteButton') }}</ElButton>
                 <ElButton @click="openForm('修改')">{{ t('warehousemanage.editButton') }}</ElButton>
                 <ElButton @click="refresh">{{ t('warehousemanage.refreshButton') }}</ElButton>
@@ -23,8 +25,9 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElButton } from 'element-plus'
+import { Plus, Upload, Download } from '@element-plus/icons-vue'
 import WarehouseManageDialog from './WarehouseManageForm/index.vue'
-import FormK from '@/components/FormK/index.vue'
+import TopSearchForm from './TopSearchForm/index.vue'
 import TableK from '@/components/TableK/index.vue'
 import * as WarehouseManageApi from '@/api/warehousemanage'
 
@@ -59,11 +62,30 @@ const formOption = reactive([
     {
         type: 'input',
         field: 'name',
-        placeholder: `${t('warehousemanage.nameInput')}`,
-        label: `${t('warehousemanage.name')}`,
+        placeholder: `请填写具体地址`,
+        label: `具体地址`,
         rules: [
-            { message: `${t('warehousemanage.nameInput')}`, trigger: 'change' }
+            { message: `请填写具体地址`, trigger: 'change' }
         ]
+    },
+    {
+        type: 'select',
+        field: 'country',
+        placeholder: '请选择国家',
+        label: '国家',
+        requestOptions: {
+            url: '/warehouse/list',
+            method: 'get',
+            params: {},
+            handleOptions: (res: any) => {
+                return res.data.map((item: any) => {
+                    return {
+                        label: item.name,
+                        value: item.code
+                    }
+                })
+            }
+        },
     }
 ])
 const search = () => {
@@ -125,6 +147,10 @@ const deleteItem = async () => {
 }
 </script>
 <style lang="scss" scoped>
+::v-deep .table {
+    padding: 0 !important;
+}
+
 .btn-box {
     display: inline-flex;
     justify-content: flex-start;
@@ -132,5 +158,9 @@ const deleteItem = async () => {
     padding-left: 3.25rem;
     margin-bottom: .625rem;
     width: 100%;
+    border: 1px solid #dadcdf;
+    background-color: #f5f8ff;
+    padding: 0.625rem 1.25rem;
+    border-radius: 10px;
 }
 </style>
