@@ -1,7 +1,8 @@
 <template>
     <div class="header">
         <div class="form-box">
-            <FormK :formOption="props.formOption" v-model:formState="formData" labelWidth="" ref="formK" />
+            <FormK :formOption="props.formOption" v-model:formState="formData" labelWidth="100px" lable-position="left"
+                ref="formK" />
         </div>
         <div class="btn-box">
             <el-button type="primary">高级查询</el-button>

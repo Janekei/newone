@@ -36,14 +36,14 @@ const { t } = useI18n()
 // 新增/修改操作
 const myTable = ref()
 let formData = ref({
-    id: null,
-    code: '',
-    name: '',
-    longitude: null,
-    latitude: null,
-    bsWhareaCode: '',
-    bsWhareaName: '',
-    bsWhareaId: null
+    id: undefined,
+    code: undefined,
+    name: undefined,
+    longitude: undefined,
+    latitude: undefined,
+    bsWhareaCode: undefined,
+    bsWhareaName: undefined,
+    bsWhareaId: undefined
 })
 const formRef = ref()
 const openForm = (type: string) => {
