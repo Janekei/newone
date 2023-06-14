@@ -17,7 +17,8 @@
     <slot name="buttons" :selectRow="selectAll"></slot>
     <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
       ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
-      @row-contextmenu="rowContextmenu">
+      @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }"
+      :header-cell-style="{ 'text-align': 'center' }">
       <ElTableColumn type=" selection" width="55" v-if="showCheckBox" />
       <ElTableColumn :prop="item.prop" :label="item.label" :width="item.width" v-for="(item, index) in tableOption"
         :key="index + 'a'">
@@ -28,6 +29,11 @@
       <ElTableColumn type="expand" v-if="showExpand">
         <template #default="{ row }">
           <slot name="expand" :expandRow="row"></slot>
+        </template>
+      </ElTableColumn>
+      <ElTableColumn fixed="right" label="操作" width="150" v-if="showFixedOperation">
+        <template #default="{ row }">
+          <slot name="operation" :operateRow="row"></slot>
         </template>
       </ElTableColumn>
     </ElTable>
@@ -76,6 +82,10 @@ const props = defineProps({
     default: true
   },
   showExpand: {
+    type: Boolean,
+    default: false
+  },
+  showFixedOperation: {
     type: Boolean,
     default: false
   }

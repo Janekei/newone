@@ -76,7 +76,7 @@ const formOption = reactive([
         requestOptions: {
             url: '/bidding/area/location/findCountry',
             method: 'get',
-            params: { id: 2 },
+            params: { id: 12 },
             handleOptions: (res: any) => {
                 return res.data.map((item: any) => {
                     return {
