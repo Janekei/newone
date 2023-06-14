@@ -77,7 +77,9 @@ const list = reactive([
   }
 
   .count {
-   font-size: 1.5rem
+   font-size: 2rem;
+   color: #1d84f2;
+   font-weight: 700;
   }
 
   .footer {
@@ -87,6 +89,8 @@ const list = reactive([
 
    .footer-count {
     font-size: 1.25rem;
+    color: #f59f4d;
+    font-weight: 700;
    }
   }
  }
