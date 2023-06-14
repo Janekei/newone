@@ -15,6 +15,7 @@
   </div>
   <RightClickCard style="background-color: #fff;">
     <slot name="buttons" :selectRow="selectAll"></slot>
+    <!-- tableData.slice((page - 1) * limit, page * limit) -->
     <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
       ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
       @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }"
@@ -39,7 +40,7 @@
     </ElTable>
     <div class="pagination">
       <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"
-        :disabled="disabledPage" :firstPages="firstPages" :total="total" ref="pagination" />
+        :disabled="disabledPage" :firstPages="firstPages" :total="total" ref="pagination" :small="pageSmall" />
     </div>
   </RightClickCard>
 </template>
@@ -47,6 +48,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, reactive } from 'vue'
 import { ElTable, ElTableColumn, ElIcon, ElPopover } from 'element-plus'
+import { cloneDeep } from 'lodash-es'
 import PaginationK from '@/components/PaginationK/index.vue'
 import ColumnSort from '@/components/TableK/Components/ColumnSort.vue'
 import RightClickCard from '@/components/TableK/Components/RightClickCard.vue'
@@ -88,6 +90,14 @@ const props = defineProps({
   showFixedOperation: {
     type: Boolean,
     default: false
+  },
+  staticData: {
+    type: [Array, Object] as any,
+    default: null
+  },
+  pageSmall: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -103,6 +113,12 @@ const disabledPage = ref(false)
 
 // 发送请求获取数据
 const getData = () => {
+  if (props.staticData) {
+    const cloneTableData = cloneDeep(props.staticData)
+    total.value = cloneTableData.length
+    tableData.value = cloneTableData.slice((pageParams.pageNo - 1) * pageParams.pageSize, pageParams.pageNo * pageParams.pageSize)
+    return
+  }
   const { method, url, params } = props
   const parameter = Object.assign({}, pageParams, params)
 
@@ -170,8 +186,6 @@ const rowDblclick = (row) => {
 const rowContextmenu = (row, column, event) => {
   console.log(row, column, event);
 }
-
-
 
 defineExpose({
   refresh,

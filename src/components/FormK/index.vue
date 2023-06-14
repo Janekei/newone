@@ -9,6 +9,8 @@
     @onChange="onChange" />
    <MyAutodcomplete v-else-if="item.type === 'autocomplete'" :placeholder="item.placeholder"
     :requestOptions="item.requestOptions" v-model="formData[item.field]" @onChange="onChange" />
+   <MyInputTable v-else-if="item.type === 'inputTable'" :placeholder="item.placeholder" v-model="formData[item.field]"
+    :valueKey="item.valueKey" :tableData="item.tableData" :tableConfig="item.tableConfig" @onChange="onChange" />
   </ElFormItem>
  </ElForm>
 </template>
@@ -16,11 +18,12 @@
 <script lang="ts" setup>
 import { watch, ref, reactive, onMounted, computed } from 'vue'
 import { ElForm, ElFormItem } from 'element-plus'
-import _ from 'lodash'
+import { cloneDeep } from 'lodash-es'
 import MyInput from './Components/MyInput.vue'
 import MySelect from './Components/MySelect.vue'
 import MyDatePicker from './Components/MyDatePicker.vue'
 import MyAutodcomplete from './Components/MyAutodcomplete.vue'
+import MyInputTable from './Components/MyInputTable.vue'
 
 const emits = defineEmits(['update:formState'])
 const props = defineProps({
@@ -44,12 +47,12 @@ const props = defineProps({
 
 let defaultFormData = ref({})
 onMounted(() => {
- defaultFormData.value = _.cloneDeep(props.formState)
+ defaultFormData.value = cloneDeep(props.formState)
 })
 
 const formData = ref({})
 watch(() => props.formState, (newV: Object) => {
- formData.value = _.cloneDeep(newV)
+ formData.value = cloneDeep(newV)
 }, { immediate: true })
 
 const onChange = () => {

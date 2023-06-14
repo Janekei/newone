@@ -7,6 +7,24 @@
 import { ref, markRaw, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
 import _ from 'lodash'
+
+var markPointData = [{
+ name: "四川移动",
+ coord: [
+  108.393982, 31.175037 //坐标，通过高德
+ ],
+ selected: false,
+ symbol: 'image://https://img1.baidu.com/it/u=777884207,2018784782&fm=26&fmt=auto&gp=0.jpg', // 标注图片地址路径
+ symbolSize: 20,
+}, {
+ name: "河南电信",
+ coord: [
+  98.391429, 20.177332
+ ],
+ selected: false,
+ symbol: 'image://https://img1.baidu.com/it/u=777884207,2018784782&fm=26&fmt=auto&gp=0.jpg', // 标注图片地址路径
+ symbolSize: 20,
+}];
 const emits = defineEmits(['toggleMapFlagFn'])
 let myChart = ref()
 const setOption = function (name: string) {
@@ -14,7 +32,9 @@ const setOption = function (name: string) {
   tooltip: {
    trigger: 'item',
    show: true,
-   formatter: function () {
+   formatter: function (a) {
+    console.log(a);
+
     var showHtml = `<div>测试</div>`
     return showHtml
    }
@@ -65,12 +85,28 @@ const setOption = function (name: string) {
      }
     },
     data: [
-     { name: '中国', value: 100 },
+     { name: 'China', value: 100 },
      { name: 'United States', value: 80 },
      { name: 'India', value: 60 },
      { name: 'Brazil', value: 40 },
      { name: 'Russia', value: 20 }
-    ] //数据
+    ], //数据
+    markPoint: { //图标标注。
+     label: {
+      normal: {
+       show: true,
+       formatter: function (params) { //标签内容       如果只显示图片则隐藏
+        return params.name;
+       },
+      },
+     },
+     itemStyle: {
+      normal: {
+       color: 'none'
+      },
+     },
+     data: markPointData
+    }
    }
   ]
  }
@@ -84,8 +120,10 @@ const initChart = async function (name: string) {
   echarts.registerMap(name, world.default)
   // 绘制图表
   chart.setOption(setOption(name), true)
-  chart.on('click', function () {
-   initChart('china')
+  chart.on('click', function (params: any) {
+   console.log(params, 88);
+
+   initChart(params.name)
    emits('toggleMapFlagFn')
   })
   myChart.value = markRaw(chart)

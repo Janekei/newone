@@ -11,7 +11,7 @@ import { ElPagination } from 'element-plus'
 const props = defineProps({
  pageSizes: {
   type: Array as any,
-  default: () => [10, 20, 30, 50, 100]
+  default: () => [5, 10, 20, 30, 50, 100]
  },
  small: {
   type: Boolean,

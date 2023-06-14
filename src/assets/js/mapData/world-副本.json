@@ -1,0 +1,10 @@
+{
+  "info": "特征集合式geoJson用于微步在线测试",
+  "type": "FeatureCollection",
+  "offset": {
+    "x": 170,
+    "y": 90
+  },
+  "features": [
+  ]
+}
