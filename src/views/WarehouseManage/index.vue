@@ -1,22 +1,21 @@
 <template>
     <TableK class="table" url="/jinkotms/baseWarehouse/page" method="get" :params="formData" ref="myTable"
-        :tableOption="tableOption">
+        :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false">
         <template #buttons>
             <TopSearchForm :formOption="formOption" />
             <div class="btn-box">
-                <ElButton @click="search">{{ t('warehousemanage.searchButton') }}
-                </ElButton>
-                <ElButton @click="openForm('增加')" key="primary" type="primary" plain :icon="Plus">{{
+                <ElButton class="btn" @click="openForm('增加')" type="primary" :icon="Plus">{{
                     t('warehousemanage.addButton') }}</ElButton>
-                <ElButton key="primary" type="primary" plain :icon="Upload">导入</ElButton>
-                <ElButton key="primary" type="primary" plain :icon="Download">导出</ElButton>
-                <ElButton @click="deleteItem">{{ t('warehousemanage.deleteButton') }}</ElButton>
-                <ElButton @click="openForm('修改')">{{ t('warehousemanage.editButton') }}</ElButton>
-                <ElButton @click="refresh">{{ t('warehousemanage.refreshButton') }}</ElButton>
+                <ElButton class="btn" type="primary" :icon="Upload">导入</ElButton>
+                <ElButton class="btn" type="primary" :icon="Download">导出</ElButton>
+
+                <ElButton class="btn" @click="refresh" :icon="Refresh">{{ t('warehousemanage.refreshButton') }}</ElButton>
+                <ElButton class="btn" @click="search" :icon="ZoomIn">全部查找</ElButton>
             </div>
         </template>
-        <template #date="{ row }">
-            <span style="color: red">{{ row.row.date }}</span>
+        <template #operation="{ operateRow }">
+            <ElButton type="warning" @click="openForm('修改')" :icon="Edit" />
+            <ElButton type="danger" @click="deleteItem(operateRow)" :icon="Delete" />
         </template>
     </TableK>
     <WarehouseManageDialog ref="formRef" @success="refresh" />
@@ -25,7 +24,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElButton } from 'element-plus'
-import { Plus, Upload, Download } from '@element-plus/icons-vue'
+import { Plus, Upload, Download, Delete, Edit, Refresh, ZoomIn } from '@element-plus/icons-vue'
 import WarehouseManageDialog from './WarehouseManageForm/index.vue'
 import TopSearchForm from './TopSearchForm/index.vue'
 import TableK from '@/components/TableK/index.vue'
@@ -37,13 +36,14 @@ const { t } = useI18n()
 const myTable = ref()
 let formData = ref({
     id: undefined,
-    code: undefined,
-    name: undefined,
+    countryCode: undefined,
+    provinceCode: undefined,
+    cityCode: undefined,
+    address: undefined,
     longitude: undefined,
     latitude: undefined,
-    bsWhareaCode: undefined,
-    bsWhareaName: undefined,
-    bsWhareaId: undefined
+    zipCode: undefined,
+    name: undefined,
 })
 const formRef = ref()
 const openForm = (type: string) => {
@@ -74,9 +74,9 @@ const formOption = reactive([
         placeholder: '请选择国家',
         label: '国家',
         requestOptions: {
-            url: '/warehouse/list',
+            url: '/bidding/area/location/findCountry',
             method: 'get',
-            params: {},
+            params: { id: 2 },
             handleOptions: (res: any) => {
                 return res.data.map((item: any) => {
                     return {
@@ -103,33 +103,51 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'code',
-        label: `${t('warehousemanage.code')}`
+        prop: 'countryCode',
+        label: '国家',
+        width: '180'
     },
     {
-        prop: 'name',
-        label: `${t('warehousemanage.name')}`
+        prop: 'provinceCode',
+        label: '省份',
+        width: '180'
+    },
+    {
+        prop: 'cityCode',
+        label: '城市',
+        width: '180'
+    },
+    {
+        prop: 'address',
+        label: '具体地址',
+        width: '180'
     },
     {
         prop: 'longitude',
-        label: `${t('warehousemanage.longitude')}`
+        label: '经度',
+        width: '180'
     },
     {
         prop: 'latitude',
-        label: `${t('warehousemanage.latitude')}`
+        label: '纬度',
+        width: '180'
     },
     {
-        prop: 'bsWhareaCode',
-        label: `${t('warehousemanage.whareaCode')}`
+        prop: 'zipCode',
+        label: 'zip code',
+        width: '180'
     },
     {
-        prop: 'bsWhareaName',
-        label: `${t('warehousemanage.whareaName')}`
+        prop: 'name',
+        label: '仓库名称',
+        width: '180'
     },
     {
-        prop: 'bsWhareaId',
-        label: `${t('warehousemanage.WhareaId')}`
+        prop: 'cityCode',
+        label: '仓库属性',
+        width: '180'
     }
+
 ])
 
 const refresh = () => {
@@ -138,10 +156,10 @@ const refresh = () => {
 
 
 // 删除
-let deleteId = ref(0)
-const deleteItem = async () => {
-    deleteId.value = myTable.value.selectAll[0].id
-    const res = await WarehouseManageApi.deleteWarehouseItem({ id: deleteId.value })
+
+const deleteItem = async (row) => {
+    // console.log(row)
+    const res = await WarehouseManageApi.deleteWarehouseItem({ id: row.id })
     console.log(res, 'delete')
     refresh()
 }
@@ -159,8 +177,14 @@ const deleteItem = async () => {
     margin-bottom: .625rem;
     width: 100%;
     border: 1px solid #dadcdf;
-    background-color: #f5f8ff;
+    // background-color: #f5f8ff;
     padding: 0.625rem 1.25rem;
     border-radius: 10px;
+
+    .btn {
+        color: #409EFF;
+        background-color: #fff;
+        border: .0625rem solid #d5d5d5;
+    }
 }
 </style>

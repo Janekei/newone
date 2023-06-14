@@ -2,7 +2,7 @@
     <Dialog v-model="dialogVisible" :title="dialogTitle">
         <div class="form-box">
             <!-- {{ formData }} -->
-            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="" ref="formRef"
+            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="4rem" ref="formRef"
                 @update:formState="updateFormData" />
         </div>
         <template #footer>

@@ -1,13 +1,9 @@
 <template>
     <div>
         <TableK url="/jinkotms/baseWharea/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption"
-            :showExpand="true">
-            <template #expand="{ expandRow }">
-                {{ expandRow }}
-            </template>
+            :showCheckBox="true">
             <template #buttons>
                 <div class="form-box">
-                    <!-- {{ formData }} -->
                     <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formK" />
                 </div>
                 <div class="btn-box">
