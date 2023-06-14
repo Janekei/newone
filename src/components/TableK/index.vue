@@ -19,7 +19,7 @@
       ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
       @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }"
       :header-cell-style="{ 'text-align': 'center' }">
-      <ElTableColumn type=" selection" width="55" v-if="showCheckBox" />
+      <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
       <ElTableColumn :prop="item.prop" :label="item.label" :width="item.width" v-for="(item, index) in tableOption"
         :key="index + 'a'">
         <template #default="{ row }" v-if="item.slotName">

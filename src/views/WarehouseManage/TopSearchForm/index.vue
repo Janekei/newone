@@ -26,7 +26,7 @@ const formData = ref({})
 // 查询方法
 const emits = defineEmits(['clickSearch'])
 const postSearchData = () => {
-    emits('clickSearch', formData)
+    emits('clickSearch', formData.value)
 }
 defineExpose({
 
