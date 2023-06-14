@@ -18,11 +18,11 @@
 </template>
  
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { ElButton } from 'element-plus'
 import FormK from '@/components/FormK/index.vue'
 import TableK from '@/components/TableK/index.vue'
-
+var disabled = ref(true)
 const formOption = reactive([
  {
   type: 'input',
@@ -47,7 +47,10 @@ const formOption = reactive([
   ],
   rules: [
    { required: true, message: '请选择区域', trigger: 'blur' }
-  ]
+  ],
+  disabled: computed(() => {
+   return disabled.value
+  })
  },
  {
   type: 'select',
@@ -136,6 +139,7 @@ const submit = () => {
 }
 const reset = () => {
  formK.value.resetFields()
+ disabled.value = false
 }
 
 const myTable = ref()

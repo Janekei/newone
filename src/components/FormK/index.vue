@@ -4,7 +4,7 @@
    <MyInput v-if="item.type === 'input'" :placeholder="item.placeholder" v-model="formData[item.field]"
     @onChange="onChange" />
    <MySelect v-else-if="item.type === 'select'" :placeholder="item.placeholder" v-model="formData[item.field]"
-    :options="item.options" :requestOptions="item.requestOptions" @onChange="onChange" />
+    :options="item.options" :requestOptions="item.requestOptions" :disabled="item.disabled" @onChange="onChange" />
    <MyDatePicker v-else-if="item.type === 'date'" :placeholder="item.placeholder" v-model="formData[item.field]"
     @onChange="onChange" />
    <MyAutodcomplete v-else-if="item.type === 'autocomplete'" :placeholder="item.placeholder"
