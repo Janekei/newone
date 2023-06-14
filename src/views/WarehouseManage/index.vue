@@ -2,20 +2,20 @@
     <TableK class="table" url="/jinkotms/baseWarehouse/page" method="get" :params="formData" ref="myTable"
         :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false">
         <template #buttons>
-            <TopSearchForm :formOption="formOption" />
+            <TopSearchForm :formOption="formOption" @clickSearch="clickSearch" />
             <div class="btn-box">
                 <ElButton class="btn" @click="openForm('增加')" type="primary" :icon="Plus">{{
                     t('warehousemanage.addButton') }}</ElButton>
                 <ElButton class="btn" type="primary" :icon="Upload">导入</ElButton>
-                <ElButton class="btn" type="primary" :icon="Download">导出</ElButton>
+                <ElButton class="btn" type="primary" :icon="Download" @click="exportData">导出</ElButton>
 
                 <ElButton class="btn" @click="refresh" :icon="Refresh">{{ t('warehousemanage.refreshButton') }}</ElButton>
-                <ElButton class="btn" @click="search" :icon="ZoomIn">全部查找</ElButton>
+                <ElButton class="btn" :icon="ZoomIn">全部查找</ElButton>
             </div>
         </template>
         <template #operation="{ operateRow }">
-            <ElButton type="warning" @click="openForm('修改')" :icon="Edit" />
-            <ElButton type="danger" @click="deleteItem(operateRow)" :icon="Delete" />
+            <ElButton class="edit-btn" type="warning" @click="openForm('修改')" :icon="Edit" />
+            <ElButton class="delete-btn" type="danger" @click="deleteItem(operateRow)" :icon="Delete" />
         </template>
     </TableK>
     <WarehouseManageDialog ref="formRef" @success="refresh" />
@@ -76,20 +76,21 @@ const formOption = reactive([
         requestOptions: {
             url: '/bidding/area/location/findCountry',
             method: 'get',
-            params: { id: 12 },
+            params: { id: 0 },
             handleOptions: (res: any) => {
-                return res.data.map((item: any) => {
+                return res.map((item: any) => {
                     return {
                         label: item.name,
-                        value: item.code
+                        value: item.id
                     }
                 })
             }
         },
     }
 ])
-const search = () => {
-    refresh()
+const clickSearch = (val) => {
+    console.log(val, 'clickSearch')
+    // refresh()
 }
 
 
@@ -163,6 +164,12 @@ const deleteItem = async (row) => {
     console.log(res, 'delete')
     refresh()
 }
+
+// 导出
+const exportData = async () => {
+    console.log(1)
+    await WarehouseManageApi.exportData({ countryId: 1, address: '1' })
+}
 </script>
 <style lang="scss" scoped>
 ::v-deep .table {
@@ -186,5 +193,15 @@ const deleteItem = async (row) => {
         background-color: #fff;
         border: .0625rem solid #d5d5d5;
     }
+}
+
+.edit-btn {
+    background-color: #67C23A;
+    border: none;
+}
+
+.delete-btn {
+    background-color: #F56C6C;
+    border: none;
 }
 </style>

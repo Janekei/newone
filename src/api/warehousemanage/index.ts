@@ -22,3 +22,9 @@ export const deleteWarehouseItem = async (params) => {
     console.log(params)
     return await request.delete({ url: '/jinkotms/baseWarehouse/delete', params })
 } 
+
+// 导出数据
+export const exportData = async (params) => {
+    console.log(params)
+    return await request.get({ url: '/jinkotms/baseWarehouse/export-excel', params })
+} 
