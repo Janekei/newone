@@ -5,7 +5,7 @@
  </div>
  <ElButton @click="submit">提交</ElButton>
  <ElButton @click="reset">重置</ElButton>
- <hr />  
+ <hr />
  <TableK url="/table/list" method="get" :params="formData" ref="myTable" :firstPages="20" :tableOption="tableOption">
   <template #buttons="{ selectRow }">
    <span>{{ selectRow.length }}</span>
@@ -101,6 +101,23 @@ const formOption = reactive([
   rules: [
    { required: true, message: '请输入企业名称', trigger: 'blur' }
   ]
+ },
+ {
+  type: 'inputTable',
+  field: 'remake1',
+  placeholder: '请输入代码',
+  label: '代码',
+  rules: [
+   { required: true, message: '请输入代码', trigger: 'change' }
+  ],
+  valueKey: 'code',
+  tableConfig: {
+   params: {
+    a: 1,
+    b: 2
+   },
+   url: ''
+  },
  },
 ])
 
