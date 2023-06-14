@@ -9900,7 +9900,7 @@
       "type": "Feature",
       "id": "CHN",
       "properties": {
-        "name": "中国"
+        "name": "China"
       },
       "geometry": {
         "type": "MultiPolygon",

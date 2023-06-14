@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
 import _ from 'lodash'
 defineProps({

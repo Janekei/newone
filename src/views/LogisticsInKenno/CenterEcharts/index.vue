@@ -3,20 +3,28 @@
   <div class="title">
    系统监控
   </div>
-  <div class="echarts">
-   <div class="echart">
-    <PieEchart />
-   </div>
-   <div class="echart">
-    <BarBar />
-   </div>
-   <div class="echart">
-    <PodLine />
-   </div>
-   <div class="echart">
-    <BarLine />
-   </div>
-  </div>
+  <ElRow class="echarts">
+   <ElCol :xl="6" :lg="6" :md="12" :sm="24" :xs="24">
+    <div class="echart">
+     <PieEchart />
+    </div>
+   </ElCol>
+   <ElCol :xl="6" :lg="6" :md="12" :sm="24" :xs="24">
+    <div class="echart">
+     <BarBar />
+    </div>
+   </ElCol>
+   <ElCol :xl="6" :lg="6" :md="12" :sm="24" :xs="24">
+    <div class="echart">
+     <PodLine />
+    </div>
+   </ElCol>
+   <ElCol :xl="6" :lg="6" :md="12" :sm="24" :xs="24">
+    <div class="echart">
+     <BarLine />
+    </div>
+   </ElCol>
+  </ElRow>
  </div>
 </template>
  
@@ -39,15 +47,10 @@ import BarLine from './BarLine.vue'
 
  .echarts {
   margin-top: 1rem;
-  display: flex;
 
   .echart {
-   flex: 1;
-   border-radius: .5rem;
-   padding: 1rem;
-   background-color: #fff;
-   margin: 0 .5rem;
    height: 15rem;
+   margin: 1rem
   }
 
   .echart:first-child {

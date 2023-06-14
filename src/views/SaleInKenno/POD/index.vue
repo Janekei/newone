@@ -26,6 +26,7 @@ const date = ref('')
  background-color: #fff;
  border-radius: 3px;
  padding: 1rem;
+ width: 100%;
 
  .title {
   font-size: 1.5rem;

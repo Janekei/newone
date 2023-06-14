@@ -2,63 +2,83 @@
  <div>
   <HeaderCards :cards="list" />
  </div>
- <div class="center">
-  <POD class="left" />
-  <div class="right">
-   <div class="right-box">
-    <header style="font-size: 1.5rem;">订单超期末POD</header>
-    <div class="right-box-center">
-     <div>为POD单数</div>
-     <div class="count">23票</div>
-    </div>
-    <div style="text-align: right; color: #f59a24; font-size: 1.25rem; cursor: pointer;">查看更多</div>
-   </div>
-  </div>
- </div>
- <div class="bottom">
-  <div class="bottom-left">
-   <div class="left-title">发货量
-    <ElIcon>
-     <calendar />
-    </ElIcon>
-    <ElDatePicker v-model="date" type="date" placeholder="选择日期" style="margin-left: .5rem; width: 7.5rem;" />
-   </div>
-   <div class="echart1">
-    <DeliveringAmount />
-   </div>
-  </div>
-  <div class="bottom-center">
-   <div class="center-1">
-    <div class="top-title">已交付 <ElIcon>
-      <calendar />
-     </ElIcon>
-     <ElDatePicker v-model="date" type="date" placeholder="选择日期" style="margin-left: .5rem; width: 7.5rem;" />
-    </div>
-    <div class="delivered">
-     <Delivered />
-    </div>
-   </div>
-   <div class="center-2">
-    <div class="top-title">未交付 <ElIcon>
-      <calendar />
-     </ElIcon>
-     <ElDatePicker v-model="date" type="date" placeholder="选择日期" style="margin-left: .5rem; width: 7.5rem;" />
-    </div>
-    <div class="delivered">
-     <Undelivered />
-    </div>
-   </div>
-  </div>
-  <div class="bottom-right">
-   <header style="font-size: 1.5rem;">单据超期末上传</header>
-   <div class="right-box-center">
-    <div>缺失单据数量</div>
-    <div class="count">23票</div>
-   </div>
-   <div style="text-align: right; color: #f59a24; font-size: 1.25rem; cursor: pointer;">查看更多</div>
 
-  </div>
- </div>
+ <ElRow :gutter="16">
+  <ElCol :xl="18" :lg="18" :md="24" :sm="24" :xs="24">
+   <ElRow>
+    <POD />
+   </ElRow>
+   <ElRow>
+    <ElCol :span="8">
+     <div class="bottom">
+      <div class="bottom-left">
+       <div class="left-title">发货量
+        <ElIcon>
+         <calendar />
+        </ElIcon>
+        <ElDatePicker v-model="date" type="date" placeholder="选择日期" style="margin-left: .5rem; width: 7.5rem;" />
+       </div>
+       <div class="echart1">
+        <DeliveringAmount />
+       </div>
+      </div>
+     </div>
+
+    </ElCol>
+    <ElCol :span="16">
+     <div class="bottom">
+      <div class="bottom-center">
+       <div class="center-1">
+        <div class="top-title">已交付 <ElIcon>
+          <calendar />
+         </ElIcon>
+         <ElDatePicker v-model="date" type="date" placeholder="选择日期" style="margin-left: .5rem; width: 7.5rem;" />
+        </div>
+        <div class="delivered">
+         <Delivered />
+        </div>
+       </div>
+       <div class="center-2">
+        <div class="top-title">未交付 <ElIcon>
+          <calendar />
+         </ElIcon>
+         <ElDatePicker v-model="date" type="date" placeholder="选择日期" style="margin-left: .5rem; width: 7.5rem;" />
+        </div>
+        <div class="delivered">
+         <Undelivered />
+        </div>
+       </div>
+      </div>
+     </div>
+
+    </ElCol>
+   </ElRow>
+  </ElCol>
+  <ElCol :xl="6" :lg="6" :md="24" :sm="24" :xs="24">
+   <ElRow style="height: 50%;">
+    <div class="right-box">
+     <header style="font-size: 1.5rem;">订单超期末POD</header>
+     <div class="right-box-center">
+      <div>为POD单数</div>
+      <div class="count">23票</div>
+     </div>
+     <div style="text-align: right; color: #f59a24; font-size: 1.25rem; cursor: pointer;">查看更多</div>
+    </div>
+   </ElRow>
+
+   <ElRow style="height: 50%;">
+    <div class="right-box">
+     <header style="font-size: 1.5rem;">单据超期末上传</header>
+     <div class="right-box-center">
+      <div>缺失单据数量</div>
+      <div class="count">23票</div>
+     </div>
+     <div style="text-align: right; color: #f59a24; font-size: 1.25rem; cursor: pointer;">查看更多</div>
+    </div>
+   </ElRow>
+
+  </ElCol>
+ </ElRow>
 </template>
 
 <script setup lang="ts">
@@ -101,6 +121,28 @@ const date = ref('')
 </script>
 
 <style scoped lang="scss">
+.right-box {
+ width: 100%;
+ height: 100%;
+ display: flex;
+ flex-direction: column;
+
+ &-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+
+  .count {
+   font-size: 2.5rem;
+   font-weight: 700;
+   color: #6226f5;
+  }
+ }
+}
+
 .center {
  margin-top: 1rem;
  display: flex;
@@ -117,28 +159,7 @@ const date = ref('')
   border-radius: 3px;
  }
 
- .right-box {
-  padding: 1rem;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 
-  &-center {
-   flex: 1;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   font-size: 1.25rem;
-
-   .count {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #6226f5;
-   }
-  }
- }
 }
 
 .bottom {
