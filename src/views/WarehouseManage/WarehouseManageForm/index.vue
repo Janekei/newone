@@ -6,8 +6,9 @@
                 @update:formState="updateFormData" />
         </div>
         <template #footer>
-            <el-button @click="submitForm" type="primary" :disabled="formLoading">确 定</el-button>
-            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button @click="submitForm" type="primary" :disabled="formLoading">{{ t('warehousemanage.confirmButton')
+            }}</el-button>
+            <el-button @click="dialogVisible = false">{{ t('warehousemanage.cancleButton') }}</el-button>
         </template>
     </Dialog>
 </template>
@@ -18,6 +19,9 @@ import { ElButton, ElMessage } from 'element-plus'
 import { ref, reactive } from 'vue'
 // import * as ZoneManageApi from '@/api/zonemanage'
 import * as WarehouseManageApi from '@/api/warehousemanage'
+
+// 国际化
+const { t } = useI18n()
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
@@ -99,28 +103,28 @@ const formOption = reactive([
     {
         type: 'input',
         field: 'address',
-        placeholder: '请输入具体地址',
-        label: '具体地址',
+        placeholder: `${t('warehousemanage.inputAddress')}`,
+        label: `${t('warehousemanage.address')}`,
         rules: [
-            { required: true, message: '请输入ID', trigger: 'change' }
+            { required: true, message: `${t('warehousemanage.inputAddress')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'longitude',
-        placeholder: '请输入经度',
-        label: '经度',
+        placeholder: `${t('warehousemanage.inputLongitude')}`,
+        label: `${t('warehousemanage.longitude')}`,
         rules: [
-            { required: true, message: '请输入经度', trigger: 'change' }
+            { required: true, message: `${t('warehousemanage.inputLongitude')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'latitude',
-        placeholder: '请输入纬度',
-        label: '纬度',
+        placeholder: `${t('warehousemanage.inputLatitude')}`,
+        label: `${t('warehousemanage.latitude')}`,
         rules: [
-            { required: true, message: '请输入纬度', trigger: 'change' }
+            { required: true, message: `${t('warehousemanage.inputLatitude')}`, trigger: 'change' }
         ]
     },
     {
@@ -135,91 +139,91 @@ const formOption = reactive([
     {
         type: 'input',
         field: 'name',
-        placeholder: '请输入仓库名称',
-        label: '仓库名称',
+        placeholder: `${t('warehousemanage.inputName')}`,
+        label: `${t('warehousemanage.name')}`,
         rules: [
-            { required: true, message: '请输入仓库名称', trigger: 'change' }
+            { required: true, message: `${t('warehousemanage.inputName')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'area',
-        placeholder: '请输入仓库面积',
-        label: '仓库面积（m²）',
+        placeholder: `${t('warehousemanage.inputArea')}`,
+        label: `${t('warehousemanage.area')}`,
         rules: [
-            { message: '请输入仓库面积', trigger: 'change' }
+            { message: `${t('warehousemanage.inputArea')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'storageCapacity',
-        placeholder: '请输入仓库库容',
-        label: '仓库库容（托）',
+        placeholder: `${t('warehousemanage.inputStorageCapacity')}`,
+        label: `${t('warehousemanage.storageCapacity')}`,
         rules: [
-            { message: '请输入仓库库容', trigger: 'change' }
+            { message: `${t('warehousemanage.inputAddress')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'supplierName',
-        placeholder: '请输入归属供应商',
-        label: '归属供应商',
+        placeholder: `${t('warehousemanage.inputSupplierName')}`,
+        label: `${t('warehousemanage.supplierName')}`,
         rules: [
-            { message: '请输入归属供应商', trigger: 'change' }
+            { message: `${t('warehousemanage.inputSupplierName')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'loadingCapacity',
-        placeholder: '请输入装货能力',
-        label: '装货能力',
+        placeholder: `${t('warehousemanage.inputLoadingCapacity')}`,
+        label: `${t('warehousemanage.loadingCapacity')}`,
         rules: [
-            { message: '请输入装货能力', trigger: 'change' }
+            { message: `${t('warehousemanage.inputLoadingCapacity')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'unloadingCapacity',
-        placeholder: '请输入卸货能力',
-        label: '卸货能力',
+        placeholder: `${t('warehousemanage.inputUnloadingCapacity')}`,
+        label: `${t('warehousemanage.unloadingCapacity')}`,
         rules: [
-            { message: '请输入卸货能力', trigger: 'change' }
+            { message: `${t('warehousemanage.inputUnloadingCapacity')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'shippingCapacity',
-        placeholder: '请输入出货能力',
-        label: '出货能力',
+        placeholder: `${t('warehousemanage.inputShippingCapacity')}`,
+        label: `${t('warehousemanage.shippingCapacity')}`,
         rules: [
-            { message: '请输入出货能力', trigger: 'change' }
+            { message: `${t('warehousemanage.inputShippingCapacity')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'contactName',
-        placeholder: '请输入仓库联系人姓名',
-        label: '仓库联系人姓名',
+        placeholder: `${t('warehousemanage.inputContactName')}`,
+        label: `${t('warehousemanage.contactName')}`,
         rules: [
-            { message: '请输入仓库联系人姓名', trigger: 'change' }
+            { message: `${t('warehousemanage.inputContactName')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'contactPhone',
-        placeholder: '请输入仓库联系人电话',
-        label: '仓库联系人电话',
+        placeholder: `${t('warehousemanage.inputContactPhone')}`,
+        label: `${t('warehousemanage.contactPhone')}`,
         rules: [
-            { message: '仓库联系人电话', trigger: 'change' }
+            { message: `${t('warehousemanage.inputContactPhone')}`, trigger: 'change' }
         ]
     },
     {
         type: 'input',
         field: 'contactEmail',
-        placeholder: '请输入仓库联系人邮箱',
-        label: '仓库联系人邮箱',
+        placeholder: `${t('warehousemanage.inputContactEmail')}`,
+        label: `${t('warehousemanage.contactEmail')}`,
         rules: [
-            { message: '请输入仓库联系人邮箱', trigger: 'change' }
+            { message: `${t('warehousemanage.inputContactEmail')}`, trigger: 'change' }
         ]
     },
     // {
@@ -276,7 +280,13 @@ const updateFormData = (val) => {
 //     const res = await ZoneManageApi.getZoneList(pageInfo)
 //     zoneList = res.list
 //     console.log(zoneList, 'zoneList')
+// }
 
+// 获取国家区域
+// let country: any = reactive([])
+// const getCountry = async () => {
+//     const res = await WarehouseManageApi.getCountryData({ id: 0 })
+//     country = res.data
 // }
 
 
@@ -292,6 +302,8 @@ const open = async (type: string, id?: number) => {
     formType.value = type
     dialogTitle.value = type + '仓库信息'
     // getZoneList()
+    // 获取国家列表
+    // getCountry()
     if (id) {
         formLoading.value = true
         try {

@@ -2,12 +2,12 @@
     <div class="header">
         <div class="form-box">
             <FormK :formOption="props.formOption" v-model:formState="formData" labelWidth="100px" lable-position="left"
-                ref="formSearch" />
+                ref="formSearch" @update:form-state="UpdateFormState" />
         </div>
         <div class="btn-box">
-            <el-button type="primary">高级查询</el-button>
-            <el-button type="primary" :icon="Search" @click="postSearchData">查询</el-button>
-            <el-button type="default">重置</el-button>
+            <el-button type="primary">{{ t('warehousemanage.highSearchButton') }}</el-button>
+            <el-button type="primary" :icon="Search" @click="postSearchData">{{ t('warehousemanage.searchButton')}}</el-button>
+            <el-button type="default">{{ t('warehousemanage.resetButton') }}</el-button>
         </div>
     </div>
 </template>
@@ -16,6 +16,7 @@
 import { ElButton } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
+const { t } = useI18n()
 const props = defineProps({
     formOption: {
         type: Object as any,
@@ -24,13 +25,13 @@ const props = defineProps({
 })
 const formData = ref({})
 // 查询方法
-const emits = defineEmits(['clickSearch'])
+const emits = defineEmits(['clickSearch', 'update:form-state'])
 const postSearchData = () => {
     emits('clickSearch', formData.value)
 }
-defineExpose({
-
-})
+const UpdateFormState = () => {
+    emits('update:form-state', formData.value)
+}
 </script> 
 <style lang="scss" scoped>
 .header {
