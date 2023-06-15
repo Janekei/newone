@@ -339,28 +339,46 @@ const submitForm = async () => {
 }
 
 let formData = ref({
-    id: undefined,
-    code: undefined,
-    name: undefined,
-    longitude: undefined,
+    countryId: undefined,
+    provinceId: undefined,
+    cityId: undefined,
+    address: undefined,
     latitude: undefined,
-    bsWhareaCode: undefined,
-    bsWhareaName: undefined,
-    bsWhareaId: undefined
+    longitude: undefined,
+    zipCode: undefined,
+    name: undefined,
+    storageCapacity: undefined,
+    area: undefined,
+    supplierName: undefined,
+    loadingCapacity: undefined,
+    shippingCapacity: undefined,
+    unloadingCapacity: undefined,
+    contactName: undefined,
+    contactPhone: undefined,
+    contactEmail: undefined
 })
 
 // 重置表单数据
 /** 重置表单 */
 const resetForm = () => {
     formData.value = {
-        id: undefined,
-        code: undefined,
-        name: undefined,
-        longitude: undefined,
+        countryId: undefined,
+        provinceId: undefined,
+        cityId: undefined,
+        address: undefined,
         latitude: undefined,
-        bsWhareaCode: undefined,
-        bsWhareaName: undefined,
-        bsWhareaId: undefined
+        longitude: undefined,
+        zipCode: undefined,
+        name: undefined,
+        storageCapacity: undefined,
+        area: undefined,
+        supplierName: undefined,
+        loadingCapacity: undefined,
+        shippingCapacity: undefined,
+        unloadingCapacity: undefined,
+        contactName: undefined,
+        contactPhone: undefined,
+        contactEmail: undefined
     }
 }
 
