@@ -14,7 +14,7 @@
             </div>
         </template>
         <template #operation="{ operateRow }">
-            <ElButton class="edit-btn" type="warning" @click="openForm('修改')" :icon="Edit" />
+            <ElButton class="edit-btn" type="warning" @click="openForm('修改', operateRow.id)" :icon="Edit" />
             <ElButton class="delete-btn" type="danger" @click="deleteItem(operateRow)" :icon="Delete" />
         </template>
     </TableK>
@@ -46,10 +46,8 @@ let formData = ref({
     name: undefined,
 })
 const formRef = ref()
-const openForm = (type: string) => {
+const openForm = (type: string, id?: number) => {
     if (type === '修改') {
-        let id = myTable.value.selectAll[0].id
-        console.log(id, 'selectId')
         formRef.value.open(type, id)
     } else {
         formRef.value.open(type)
