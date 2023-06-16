@@ -45,6 +45,9 @@ const list = computed(() => {
     console.log(data, 'data')
     return data
 })
+onBeforeMount(() => {
+    console.log(props.data)
+})
 </script>
 <style lang="scss" scoped>
 .box {

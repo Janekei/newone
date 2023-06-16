@@ -1,7 +1,7 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle" width="1200">
         <div class="form-box">
-            {{ formData }}
+            <!-- {{ formData }} -->
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="9rem" ref="formRef"
                 @update:formState="updateFormData" />
         </div>
@@ -17,6 +17,7 @@
 import { Dialog } from '@/components/Dialog'
 import { ElButton, ElMessage } from 'element-plus'
 import { ref, reactive } from 'vue'
+import FormK from '@/components/FormK/index.vue'
 // import * as ZoneManageApi from '@/api/zonemanage'
 import * as WarehouseManageApi from '@/api/warehousemanage'
 
@@ -35,70 +36,48 @@ let cityId = ref()
 
 const formOption = reactive([
     {
-        type: 'select',
-        field: 'countryId',
-        placeholder: '请选择国家',
-        requestOptions: {
-            url: '/bidding/area/location/findCountry',
-            method: 'get',
-            params: { id: 0 },
-            handleOptions: (res: any) => {
-                return res.map((item: any) => {
-                    return {
-                        label: item.name,
-                        value: item.id
-                    }
-                })
-            }
-        },
+        type: 'inputTable',
+        field: 'tableCountry',
+        placeholder: '请输入国家',
         label: '国家',
+        modelValue: '中国',
         rules: [
-            { required: true, message: '请选择国家', trigger: 'blur' }
-        ]
+            { required: true, message: '请输入国家', trigger: 'change' }
+        ],
+        valueKey: 'name',
+        tableConfig: {
+            params: { id: 0 },
+            url: '/bidding/area/location/findCountry'
+        }
     },
     {
-        type: 'select',
-        field: 'provinceId',
-        placeholder: '请选择省份',
-        requestOptions: {
-            url: '/bidding/area/location/findCountry',
-            method: 'get',
-            params: { id: provinceId },
-            handleOptions: (res: any) => {
-                return res.map((item: any) => {
-                    return {
-                        label: item.name,
-                        value: item.id
-                    }
-                })
-            }
-        },
+        type: 'inputTable',
+        field: 'tableProvince',
+        placeholder: '请输入省份',
         label: '省份',
         rules: [
-            { required: true, message: '请选择省份', trigger: 'blur' }
-        ]
+            { required: true, message: '请输入省份', trigger: 'change' }
+        ],
+        valueKey: 'name',
+        tableConfig: {
+            params: { id: 1 },
+            url: '/bidding/area/location/findCountry'
+        }
     },
     {
-        type: 'select',
-        field: 'cityId',
-        placeholder: '请选择城市',
-        requestOptions: {
-            url: '/bidding/area/location/findCountry',
-            method: 'get',
-            params: { id: cityId },
-            handleOptions: (res: any) => {
-                return res.map((item: any) => {
-                    return {
-                        label: item.name,
-                        value: item.id
-                    }
-                })
-            }
-        },
+        type: 'inputTable',
+        field: 'tableCity',
+        placeholder: '请输入城市',
         label: '城市',
         rules: [
-            { required: true, message: '请选择城市', trigger: 'blur' }
-        ]
+            { required: true, message: '请输入城市', trigger: 'change' }
+        ],
+        valueKey: 'name',
+        tableConfig: {
+            params: { id: 3 },
+            url: '/bidding/area/location/findCountry'
+        },
+
     },
     {
         type: 'input',
@@ -140,91 +119,61 @@ const formOption = reactive([
         type: 'input',
         field: 'name',
         placeholder: `${t('warehousemanage.inputName')}`,
-        label: `${t('warehousemanage.name')}`,
-        rules: [
-            { required: true, message: `${t('warehousemanage.inputName')}`, trigger: 'change' }
-        ]
+        label: `${t('warehousemanage.name')}`
     },
     {
         type: 'input',
         field: 'area',
         placeholder: `${t('warehousemanage.inputArea')}`,
         label: `${t('warehousemanage.area')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputArea')}`, trigger: 'change' }
-        ]
     },
     {
         type: 'input',
         field: 'storageCapacity',
         placeholder: `${t('warehousemanage.inputStorageCapacity')}`,
         label: `${t('warehousemanage.storageCapacity')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputAddress')}`, trigger: 'change' }
-        ]
     },
     {
         type: 'input',
         field: 'supplierName',
         placeholder: `${t('warehousemanage.inputSupplierName')}`,
-        label: `${t('warehousemanage.supplierName')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputSupplierName')}`, trigger: 'change' }
-        ]
+        label: `${t('warehousemanage.supplierName')}`
     },
     {
         type: 'input',
         field: 'loadingCapacity',
         placeholder: `${t('warehousemanage.inputLoadingCapacity')}`,
         label: `${t('warehousemanage.loadingCapacity')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputLoadingCapacity')}`, trigger: 'change' }
-        ]
     },
     {
         type: 'input',
         field: 'unloadingCapacity',
         placeholder: `${t('warehousemanage.inputUnloadingCapacity')}`,
         label: `${t('warehousemanage.unloadingCapacity')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputUnloadingCapacity')}`, trigger: 'change' }
-        ]
     },
     {
         type: 'input',
         field: 'shippingCapacity',
         placeholder: `${t('warehousemanage.inputShippingCapacity')}`,
         label: `${t('warehousemanage.shippingCapacity')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputShippingCapacity')}`, trigger: 'change' }
-        ]
     },
     {
         type: 'input',
         field: 'contactName',
         placeholder: `${t('warehousemanage.inputContactName')}`,
         label: `${t('warehousemanage.contactName')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputContactName')}`, trigger: 'change' }
-        ]
     },
     {
         type: 'input',
         field: 'contactPhone',
         placeholder: `${t('warehousemanage.inputContactPhone')}`,
-        label: `${t('warehousemanage.contactPhone')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputContactPhone')}`, trigger: 'change' }
-        ]
+        label: `${t('warehousemanage.contactPhone')}`
     },
     {
         type: 'input',
         field: 'contactEmail',
         placeholder: `${t('warehousemanage.inputContactEmail')}`,
         label: `${t('warehousemanage.contactEmail')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputContactEmail')}`, trigger: 'change' }
-        ]
     },
     // {
     //     type: 'select',
@@ -284,9 +233,16 @@ const updateFormData = (val) => {
 
 // 获取国家区域
 // let country: any = reactive([])
-// const getCountry = async () => {
-//     const res = await WarehouseManageApi.getCountryData({ id: 0 })
-//     country = res.data
+// const getAreaData = async (id?: number) => {
+//     console.log(id, 222)
+//     if (typeof id === 'number') {
+//         const res = await WarehouseManageApi.getAreaData({ id })
+//         console.log(res, 111)
+//     }
+// }
+
+// const getCountry = (params) => {
+//     getCountry(params)
 // }
 
 
@@ -296,18 +252,22 @@ const updateFormData = (val) => {
 const formRef = ref()
 
 // 打开弹窗方法
-const open = async (type: string, id?: number) => {
+const open = async (type: string, id?: number, countryId?: number) => {
     resetForm()
     dialogVisible.value = true
     formType.value = type
     dialogTitle.value = type + '仓库信息'
+    console.log(countryId, 'countryId')
     // getZoneList()
     // 获取国家列表
-    // getCountry()
+    // getAreaData(countryId)
     if (id) {
         formLoading.value = true
         try {
             formData.value = await WarehouseManageApi.getWarehouseList({ id })
+            provinceId.value = formData.value.countryId
+            cityId.value = formData.value.provinceId
+            console.log(provinceId.value, cityId.value, 888)
             // 过滤区域选择器的数据
             // zoneList.forEach(item => {
             //     if (item.id == formData.value.bsWhareaId) {

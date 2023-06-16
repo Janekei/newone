@@ -1,0 +1,24 @@
+[
+  {
+    "departureCode": null,
+    "departureName": null,
+    "departureId": null,
+    "arrivalCode": null,
+    "arrivalName": null,
+    "arrivalId": null,
+    "id": 1,
+    "createTime": null,
+    "name": "中国"
+  },
+  {
+    "departureCode": null,
+    "departureName": null,
+    "departureId": null,
+    "arrivalCode": null,
+    "arrivalName": null,
+    "arrivalId": null,
+    "id": 3261,
+    "createTime": null,
+    "name": "French Southern Territories"
+  }
+]

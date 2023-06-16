@@ -30,6 +30,35 @@ const res1 = reactive({
         { title: '需求方', value: 'xxxxx' },
     ]
 })
+// const res2 = reactive({
+//     title: '货品明细',
+//     list: [
+//         { title: '提单号', value: 'xxxxx' },
+//         { title: '发票号', value: 'xxxxx' },
+//         { title: '合同号', value: 'xxxxx' },
+//         { title: '集装箱数', value: 'xxxxx' },
+//         { title: '货值', value: 'xxxxx' },
+//         { title: '瓦数', value: 'xxxxx' },
+//         { title: '功率档位', value: 'xxxxx' },
+//         { title: '托盘数量', value: 'xxxxx' },
+//         { title: '片数', value: 'xxxxx' }
+//     ]
+// })
+// const res3 = reactive({
+//     title: '时间明细',
+//     list: [
+//         { title: '生成入库指令时间', value: 'xxxxx' },
+//         { title: 'ETD日期', value: 'xxxxx' },
+//         { title: 'ETD New 日期', value: 'xxxxx' },
+//         { title: 'ATD日期', value: 'xxxxx' },
+//         { title: 'ETA日期', value: 'xxxxx' },
+//         { title: 'ETA New 日期', value: 'xxxxx' },
+//         { title: 'ATA日期', value: 'xxxxx' },
+//         { title: '预计入库时间', value: 'xxxxx' },
+//         { title: '港口提货时间', value: 'xxxxx' },
+//         { title: '清关完成时间', value: 'xxxxx' }
+//     ]
+// })
 </script>
 <style lang="scss" scoped>
 .box-btn {

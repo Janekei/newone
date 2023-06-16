@@ -128,6 +128,7 @@ const getData = () => {
     tableData.value = cloneTableData.slice((pageParams.pageNo - 1) * pageParams.pageSize, pageParams.pageNo * pageParams.pageSize)
     return
   }
+
   const { method, url, params } = props
   const parameter = Object.assign({}, pageParams, params)
 
@@ -135,8 +136,8 @@ const getData = () => {
   loaded.value = false
   disabledPage.value = true
   request[method]({ url, params: parameter }).then((res: any) => {
-    // console.log(res, 111)
-    tableData.value = res.list
+    console.log(res, 111)
+    tableData.value = res.list || res
     total.value = res.total
     loading.value = false
   }).catch(() => {

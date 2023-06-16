@@ -1,15 +1,15 @@
 <template>
     <SearchContent :formOption="formOptionBox" />
     <AllBoxInfo />
-    <PartBoxInbound />
-    <AbnormalInbound />
+    <!-- <PartBoxInbound />
+    <AbnormalInbound /> -->
 </template>
 
 <script lang="ts" setup>
 import SearchContent from '../../components/SearchContent.vue'
 import AllBoxInfo from './BoxPageSwitching/AllBoxInfo.vue'
-import PartBoxInbound from './BoxPageSwitching/PartBoxInbound.vue'
-import AbnormalInbound from './BoxPageSwitching/AbnormalInbound.vue'
+// import PartBoxInbound from './BoxPageSwitching/PartBoxInbound.vue'
+// import AbnormalInbound from './BoxPageSwitching/AbnormalInbound.vue'
 // 柜信息搜索框数据
 const formOptionBox = reactive([
     {
