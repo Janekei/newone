@@ -32,6 +32,11 @@
           <slot name="expand" :expandRow="row"></slot>
         </template>
       </ElTableColumn>
+      <!-- <ElTableColumn v-for="(item, index) in specialColumn" v-if="specialColumn.length > 0" :key="index + 'b'">
+        <template #default="{ row }">
+          <slot name="expand" :expandRow="row"></slot>
+        </template>
+      </ElTableColumn> -->
       <ElTableColumn fixed="right" label="操作" width="150" v-if="showFixedOperation">
         <template #default="{ row }">
           <slot name="operation" :operateRow="row"></slot>
@@ -98,6 +103,10 @@ const props = defineProps({
   pageSmall: {
     type: Boolean,
     default: false
+  },
+  specialColumn: {
+    type: Array as any,
+    defalut: () => []
   }
 })
 
