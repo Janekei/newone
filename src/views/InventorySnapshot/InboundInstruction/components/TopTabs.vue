@@ -2,13 +2,13 @@
     <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
         <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name">
 
-            <slot :name="item.name" v-if="(item.name !== 'waybill' || item.name !== 'boxInfo')">
+            <slot :name="item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
                     <SearchContent :formOption="formOptionHome" />
                     <TableContent />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
-                    <WayBillDatailInfo />
+                    <WayBillDatailInfo :waybillID="props.waybillID" />
                 </div>
                 <div v-else>
                     <BoxDetailInfo />
@@ -25,10 +25,16 @@ import SearchContent from '../components/SearchContent.vue'
 import TableContent from '../components/TableContent.vue'
 import WayBillDatailInfo from '../DetailInboundInstruction/WayBillDetailInfo/index.vue'
 import BoxDetailInfo from '../DetailInboundInstruction/BoxDetailInfo/index.vue'
+import { number } from 'vue-types'
+
 const props = defineProps({
     tabList: {
         type: Array as any,
         default: () => []
+    },
+    waybillID: {
+        type: number as any,
+        default: 0
     }
 })
 
@@ -79,14 +85,11 @@ const formOptionHome = reactive([
 ])
 
 
-
-
 const emit = defineEmits(['getTabState'])
 const activeName = ref(props.tabList[0].name)
 const handleClick = (tab) => {
     emit('getTabState', tab.props.name)
     console.log(tab.props.name, 'tab');
-
 }
 </script>
 <style lang="scss" scoped>
