@@ -1,8 +1,12 @@
 <template>
     <SearchContent :formOption="formOptionBox" />
-    <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false)" @backWaybill="backWaybill" />
-    <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud)" @backWaybill="backWaybill" />
-    <AllBoxInfo :boxDetailInfo="props.boxDetailInfo" v-else />
+    <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false && isShowTray === false) && iscloseTray"
+        @backWaybill="backWaybill" @showTrayList="showTrayList" />
+    <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud && isShowTray === false) && iscloseTray"
+        @backWaybill="backWaybill" />
+    <AllBoxInfo :boxDetailInfo="props.boxDetailInfo"
+        v-else-if="(showPartInboud === false && showErrorInboud === false && isShowTray === false) && iscloseTray" />
+    <ChooseTray v-else @update:changeCloseTray="closeChooseTray" :iscloseTray="iscloseTray" />
 </template>
 
 <script lang="ts" setup>
@@ -10,6 +14,7 @@ import SearchContent from '../../components/SearchContent.vue'
 import AllBoxInfo from './BoxPageSwitching/AllBoxInfo.vue'
 import PartBoxInbound from './BoxPageSwitching/PartBoxInbound.vue'
 import AbnormalInbound from './BoxPageSwitching/AbnormalInbound.vue'
+import ChooseTray from './BoxPageSwitching/ChooseTray.vue'
 // 柜信息搜索框数据
 const props = defineProps({
     boxDetailInfo: {
@@ -26,9 +31,28 @@ const props = defineProps({
     }
 })
 const emits = defineEmits(['backWay'])
+
+// 返回运单信息页面
 const backWaybill = () => {
     emits('backWay', true)
 }
+
+// 显示对应箱的托盘纬度的列表
+let isShowTray = ref(false)
+let iscloseTray = ref(true)  // 是否隐藏选托页面
+const showTrayList = () => {
+    isShowTray.value = true
+    iscloseTray.value = false
+}
+
+// 关闭部分入库的托盘列表页面
+const closeChooseTray = (val) => {
+    console.log('colseChooseTray', val)
+    isShowTray.value = false
+    iscloseTray.value = val
+}
+
+// 表格列
 const formOptionBox = reactive([
     {
         type: 'input',

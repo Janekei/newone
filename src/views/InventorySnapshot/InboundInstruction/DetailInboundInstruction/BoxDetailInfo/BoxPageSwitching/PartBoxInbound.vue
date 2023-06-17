@@ -1,7 +1,11 @@
 <template>
     部分
     <TableK class="pagination" url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="formData"
-        :showIndex="true" :firstPages="20" :tableOption="tableOption" />
+        :showIndex="true" :showFixedOperation="true" :firstPages="20" :tableOption="tableOption">
+        <template #operation>
+            <ElButton class="edit-btn" type="warning" @click="clickTray">托</ElButton>
+        </template>
+    </TableK>
     <div class="box-btn">
         <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="partInbound">确认入库</el-button>
@@ -68,8 +72,14 @@ const partInbound = () => {
     refDialog.value.open('消息', '您确定要入库？')
 }
 
+const emits = defineEmits(['backWaybill', 'showTrayList'])
+
+// 选托
+const clickTray = () => {
+    emits('showTrayList')
+}
+
 // 返回运单信息
-const emits = defineEmits(['backWaybill'])
 const back = () => {
     emits('backWaybill')
 }
@@ -86,5 +96,10 @@ const back = () => {
     .button {
         margin-right: 1.25rem;
     }
+}
+
+.edit-btn {
+    font-weight: 700;
+    border: none;
 }
 </style>
