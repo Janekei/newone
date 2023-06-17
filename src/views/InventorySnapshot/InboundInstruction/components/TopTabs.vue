@@ -124,6 +124,7 @@ const handleClick = (tab) => {
 const backWay = () => {
     activeName.value = 'waybill'
     showPartInboud.value = false
+    showErrorInboud.value = false
 }
 
 

@@ -2,7 +2,7 @@
     异常
     <TableK url="/jinkotms/baseWarehouse" method="get" :params="formData" :firstPages="20" :tableOption="tableOption" />
     <div class="box-btn">
-        <el-button class="button" type="primary">返回</el-button>
+        <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="errorRecord">异常登记</el-button>
     </div>
     <DialogInbound ref="refDialog">
@@ -47,6 +47,11 @@ const refDialog = ref()
 // 确认异常登记
 const errorRecord = () => {
     refDialog.value.open('异常类型确认')
+}
+// 返回运单信息
+const emits = defineEmits(['backWaybill'])
+const back = () => {
+    emits('backWaybill')
 }
 
 // table表格列数据

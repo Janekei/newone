@@ -1,7 +1,7 @@
 <template>
     <SearchContent :formOption="formOptionBox" />
     <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false)" @backWaybill="backWaybill" />
-    <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud)" />
+    <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud)" @backWaybill="backWaybill" />
     <AllBoxInfo :boxDetailInfo="props.boxDetailInfo" v-else />
 </template>
 
