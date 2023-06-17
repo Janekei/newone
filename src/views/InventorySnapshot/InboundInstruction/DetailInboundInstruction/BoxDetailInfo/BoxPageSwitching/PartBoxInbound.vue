@@ -1,17 +1,20 @@
 <template>
     部分
-    <TableK url="/jinkotms/baseWarehouse" method="get" :params="formData" :firstPages="20" :tableOption="tableOption" />
+    <TableK class="pagination" url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="formData"
+        :showIndex="true" :firstPages="20" :tableOption="tableOption" />
+    <div class="box-btn">
+        <el-button class="button" type="primary">返回</el-button>
+        <el-button class="button" type="primary" @click="partInbound">确认入库</el-button>
+    </div>
+    <DialogInbound ref="refDialog" />
 </template>
 
 <script lang="ts" setup>
 import TableK from '@/components/TableK/index.vue'
+import DialogInbound from '../../../components/DialogInbound.vue';
 // table表格列数据
 const formData = ref({})
 const tableOption = reactive([
-    {
-        prop: 'No',
-        label: '序号',
-    },
     {
         prop: 'boxNo',
         label: '箱号',
@@ -57,5 +60,25 @@ const tableOption = reactive([
         label: '更新时间',
     }
 ])
+// ref弹窗
+const refDialog = ref()
+
+// 确认整批入库
+const partInbound = () => {
+    refDialog.value.open('消息', '您确定要入库？')
+}
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.box-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.125rem;
+    width: 100%;
+    margin: 1.25rem 0;
+
+    .button {
+        margin-right: 1.25rem;
+    }
+}
+</style>

@@ -1,6 +1,11 @@
 <template>
-  <ElDialog v-model="dialogVisible" :title="dialogTitle" width="30%" center>
-    <div ref="refDialog" class="content">{{ formData }}</div>
+  <ElDialog v-model="dialogVisible" :title="dialogTitle" width="400" center>
+    <div ref="refDialog" class="content">
+      {{ formData }}
+    </div>
+    <div class="formContent">
+      <slot name="formError"></slot>
+    </div>
     <template #footer>
       <el-button type="primary" :disabled="formLoading">确认</el-button>
       <el-button @click="dialogVisible = false">取消</el-button>
@@ -47,5 +52,10 @@ defineExpose({
   text-align: center;
   font-size: 1.125rem;
   color: #333;
+}
+
+.formContent {
+  width: 100%;
+  margin: 0 auto;
 }
 </style>
