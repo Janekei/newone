@@ -1,6 +1,6 @@
 <template>
     <SearchContent :formOption="formOptionBox" />
-    <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false)" />
+    <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false)" @backWaybill="backWaybill" />
     <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud)" />
     <AllBoxInfo :boxDetailInfo="props.boxDetailInfo" v-else />
 </template>
@@ -25,6 +25,10 @@ const props = defineProps({
         default: false
     }
 })
+const emits = defineEmits(['backWay'])
+const backWaybill = () => {
+    emits('backWay', true)
+}
 const formOptionBox = reactive([
     {
         type: 'input',

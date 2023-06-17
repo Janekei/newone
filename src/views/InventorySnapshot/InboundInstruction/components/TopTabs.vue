@@ -12,7 +12,7 @@
                 </div>
                 <div v-else>
                     <BoxDetailInfo :boxDetailInfo="props.boxDetailInfo" :showPartInboud="showPartInboud"
-                        :showErrorInboud="showErrorInboud" />
+                        :showErrorInboud="showErrorInboud" @backWay="backWay" />
                 </div>
             </slot>
         </el-tab-pane>
@@ -118,6 +118,12 @@ const handleClick = (tab) => {
         showPartInboud.value = false
         showErrorInboud.value = false
     }
+}
+
+// 触发异常订单、部分入库的返回按钮，返回到运单信息页面
+const backWay = () => {
+    activeName.value = 'waybill'
+    showPartInboud.value = false
 }
 
 

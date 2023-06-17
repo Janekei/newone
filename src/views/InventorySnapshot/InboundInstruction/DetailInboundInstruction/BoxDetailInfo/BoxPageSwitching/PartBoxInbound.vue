@@ -3,7 +3,7 @@
     <TableK class="pagination" url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="formData"
         :showIndex="true" :firstPages="20" :tableOption="tableOption" />
     <div class="box-btn">
-        <el-button class="button" type="primary">返回</el-button>
+        <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="partInbound">确认入库</el-button>
     </div>
     <DialogInbound ref="refDialog" />
@@ -66,6 +66,12 @@ const refDialog = ref()
 // 确认整批入库
 const partInbound = () => {
     refDialog.value.open('消息', '您确定要入库？')
+}
+
+// 返回运单信息
+const emits = defineEmits(['backWaybill'])
+const back = () => {
+    emits('backWaybill')
 }
 </script>
 <style lang="scss" scoped>
