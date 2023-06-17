@@ -1,20 +1,20 @@
 <template>
     <div class="box">
         <div class="content">
-            <el-descriptions class="elDescriptions" :title="res1.title" align="center" :column="2" border>
-                <el-descriptions-item v-for="(item, index) in res1.list" :key="index + 'k'" :label="item.title"
+            <el-descriptions class="elDescriptions" title="任务明细" align="center" :column="2" border>
+                <el-descriptions-item v-for="(item, index) in taskDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content" width="180">{{
-                        item.value
+                        item.name
                     }}</el-descriptions-item>
             </el-descriptions>
-            <el-descriptions class="elDescriptions" :title="res2.title" :column="2" border>
-                <el-descriptions-item v-for="(item, index) in res2.list" :key="index + 'k'" :label="item.title"
-                    label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.value
+            <el-descriptions class="elDescriptions" title="货品明细" :column="2" border>
+                <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
+                    label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item>
             </el-descriptions>
-            <el-descriptions class="elDescriptions" :title="res3.title" :column="2" border>
-                <el-descriptions-item v-for="(item, index) in res3.list" :key="index + 'k'" :label="item.title"
-                    label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.value
+            <el-descriptions class="elDescriptions" title="时间明细" :column="2" border>
+                <el-descriptions-item v-for="(item, index) in timeDetail" :key="index + 'k'" :label="item.title"
+                    label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item>
             </el-descriptions>
         </div>
@@ -24,52 +24,51 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
-const res1 = reactive({
-    title: '任务明细',
-    list: [
-        { title: '任务单号', value: 'xxxxx' },
-        { title: '发货方', value: 'xxxxx' },
-        { title: 'SAP ID', value: 'xxxxx' },
-        { title: '收货方', value: 'xxxxx' },
-        { title: '业务类型', value: 'xxxxx' },
-        { title: '承运商', value: 'xxxxx' },
-        { title: '运输方式', value: 'xxxxx' },
-        { title: '贸易方式', value: 'xxxxx' },
-        { title: '起运港', value: 'xxxxx' },
-        { title: '目的港', value: 'xxxxx' },
-        { title: '提货时间', value: 'xxxxx' },
-        { title: '需求方', value: 'xxxxx' },
-    ]
-})
-const res2 = reactive({
-    title: '货品明细',
-    list: [
-        { title: '提单号', value: 'xxxxx' },
-        { title: '发票号', value: 'xxxxx' },
-        { title: '合同号', value: 'xxxxx' },
-        { title: '集装箱数', value: 'xxxxx' },
-        { title: '货值', value: 'xxxxx' },
-        { title: '瓦数', value: 'xxxxx' },
-        { title: '功率档位', value: 'xxxxx' },
-        { title: '托盘数量', value: 'xxxxx' },
-        { title: '片数', value: 'xxxxx' }
-    ]
-})
-const res3 = reactive({
-    title: '时间明细',
-    list: [
-        { title: '生成入库指令时间', value: 'xxxxx' },
-        { title: 'ETD日期', value: 'xxxxx' },
-        { title: 'ETD New 日期', value: 'xxxxx' },
-        { title: 'ATD日期', value: 'xxxxx' },
-        { title: 'ETA日期', value: 'xxxxx' },
-        { title: 'ETA New 日期', value: 'xxxxx' },
-        { title: 'ATA日期', value: 'xxxxx' },
-        { title: '预计入库时间', value: 'xxxxx' },
-        { title: '港口提货时间', value: 'xxxxx' },
-        { title: '清关完成时间', value: 'xxxxx' }
-    ]
-})
+// const props = defineProps({
+//     boxDetailInfo: {
+//         type: Array as any,
+//         default: () => []
+//     }
+// })
+// console.log(props)
+const taskDetail = reactive([
+    { title: '任务单号', name: 'departureLocationId' },
+    { title: '发货方', name: 'carrierName' },
+    { title: 'SAP ID', name: 'sapDn' },
+    { title: '收货方', name: 'arrivalLocationId' },
+    { title: '业务类型', name: 'type' },
+    { title: '承运商', name: 'carrierName' },
+    { title: '运输方式', name: 'transportMode' },
+    { title: '贸易方式', name: 'tradeWayConfigId' },
+    { title: '起运港', name: 'departurePortName' },
+    { title: '目的港', name: 'arrivalPortName' },
+    { title: '提货时间', name: 'realDepartureTime' },
+    { title: '需求方', name: 'salesman' }
+])
+const productDetail = reactive([
+    { title: '提单号', name: 'bl' },
+    { title: '发票号', name: 'invoice_no' },
+    { title: '合同号', name: 'contractNo' },
+    { title: '集装箱数', name: 'totalBox' },
+    { title: '货值', name: 'unitPrice' },
+    { title: '瓦数', name: 'carrierName' },
+    { title: '功率档位', name: 'goodsId' },
+    { title: '托盘数量', name: 'palletQty' },
+    { title: '片数', name: 'totalWatt' }
+])
+const timeDetail = reactive([
+    { title: '生成入库指令时间', name: 'estInTime' },
+    { title: 'ETD日期', name: 'etd' },
+    { title: 'ETD New 日期', name: 'newEtd' },
+    { title: 'ATD日期', name: 'atd' },
+    { title: 'ETA日期', name: 'eta' },
+    { title: 'ETA New 日期', name: 'newEta' },
+    { title: 'ATA日期', name: 'ata' },
+    { title: '预计入库时间', name: 'requiredArrivalTime' },
+    { title: '港口提货时间', name: 'qty' },
+    { title: '清关完成时间', name: 'qty' }
+])
+
 </script>
 <style lang="scss" scoped>
 .box {

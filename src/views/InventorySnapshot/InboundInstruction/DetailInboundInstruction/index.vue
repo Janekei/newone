@@ -1,5 +1,5 @@
 <template>
-  <TopTabs :tabList="tabList" :waybillID="listItemId" />
+  <TopTabs :tabList="tabList" :boxDetailInfo="boxDetailInfo"/>
 </template>
 
 <script lang="ts" setup>
@@ -17,9 +17,10 @@ const tabList = reactive([
 // listItemId：入库指令列表传过来的参数
 const route = useRoute()
 let listItemId: number = parseInt(JSON.parse(route.query.id as any));
+let boxDetailInfo;
 const getMainData = async () => {
   const res = await InboundInstruction.getListItemDetail({ id: listItemId })
-  console.log(res, 'getMainData')
+  boxDetailInfo = res.data
 }
 onBeforeMount(() => {
   getMainData()
