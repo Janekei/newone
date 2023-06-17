@@ -80,6 +80,19 @@ const tableOption = reactive([
 ])
 </script>
 <style lang="scss" scoped>
+.box-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.125rem;
+    width: 100%;
+    margin: 1.25rem 0;
+
+    .button {
+        margin-right: 1.25rem;
+    }
+}
+
 .edit-btn {
     background-color: #67C23A;
     border: none;

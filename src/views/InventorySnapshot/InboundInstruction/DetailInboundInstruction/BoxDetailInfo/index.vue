@@ -1,12 +1,14 @@
 <template>
-    <SearchContent :formOption="formOptionBox" />
-    <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false && isShowTray === false) && iscloseTray"
-        @backWaybill="backWaybill" @showTrayList="showTrayList" />
-    <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud && isShowTray === false) && iscloseTray"
-        @backWaybill="backWaybill" />
-    <AllBoxInfo :boxDetailInfo="props.boxDetailInfo"
-        v-else-if="(showPartInboud === false && showErrorInboud === false && isShowTray === false) && iscloseTray" />
-    <ChooseTray v-else @update:changeCloseTray="closeChooseTray" :iscloseTray="iscloseTray" />
+    <div>
+        <SearchContent :formOption="formOptionBox" />
+        <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false && isShowTray === false) && iscloseTray"
+            @backWaybill="backWaybill" @showTrayList="showTrayList" />
+        <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud && isShowTray === false) && iscloseTray"
+            @backWaybill="backWaybill" />
+        <AllBoxInfo :boxDetailInfo="props.boxDetailInfo"
+            v-else-if="(showPartInboud === false && showErrorInboud === false && isShowTray === false) && iscloseTray" />
+        <ChooseTray v-else @update:changeCloseTray="closeChooseTray" :iscloseTray="iscloseTray" />
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -51,6 +53,16 @@ const closeChooseTray = (val) => {
     isShowTray.value = false
     iscloseTray.value = val
 }
+
+// 
+const switchChooseTray = () => {
+    isShowTray.value = false
+    iscloseTray.value = true
+}
+defineExpose({
+    iscloseTray,
+    switchChooseTray
+})
 
 // 表格列
 const formOptionBox = reactive([

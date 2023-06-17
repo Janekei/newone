@@ -11,7 +11,7 @@
                         @clickError="swicthErrorOrder" />
                 </div>
                 <div v-else>
-                    <BoxDetailInfo :boxDetailInfo="props.boxDetailInfo" :showPartInboud="showPartInboud"
+                    <BoxDetailInfo ref="trayRef" :boxDetailInfo="props.boxDetailInfo" :showPartInboud="showPartInboud"
                         :showErrorInboud="showErrorInboud" @backWay="backWay" />
                 </div>
             </slot>
@@ -93,6 +93,8 @@ const formOptionHome = reactive([
     }
 ])
 
+const trayRef = ref()
+
 // 接收点击部分入库按钮状态
 let showPartInboud = ref(false)
 let showErrorInboud = ref(false)
@@ -112,7 +114,7 @@ const swicthErrorOrder = (val) => {
 
 // 选中的tab触发
 const handleClick = (tab) => {
-    // console.log(tab.props.name, 'tab');
+    trayRef.value[0].switchChooseTray
     activeName.value = tab.props.name
     if (tab.props.name === 'waybill') {
         showPartInboud.value = false
