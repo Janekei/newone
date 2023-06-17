@@ -1,16 +1,30 @@
 <template>
     <SearchContent :formOption="formOptionBox" />
-    <AllBoxInfo />
-    <!-- <PartBoxInbound />
-    <AbnormalInbound /> -->
+    <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false)" />
+    <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud)" />
+    <AllBoxInfo :boxDetailInfo="props.boxDetailInfo" v-else />
 </template>
 
 <script lang="ts" setup>
 import SearchContent from '../../components/SearchContent.vue'
 import AllBoxInfo from './BoxPageSwitching/AllBoxInfo.vue'
-// import PartBoxInbound from './BoxPageSwitching/PartBoxInbound.vue'
-// import AbnormalInbound from './BoxPageSwitching/AbnormalInbound.vue'
+import PartBoxInbound from './BoxPageSwitching/PartBoxInbound.vue'
+import AbnormalInbound from './BoxPageSwitching/AbnormalInbound.vue'
 // 柜信息搜索框数据
+const props = defineProps({
+    boxDetailInfo: {
+        type: Array as any,
+        default: () => []
+    },
+    showPartInboud: {
+        type: Boolean,
+        default: false
+    },
+    showErrorInboud: {
+        type: Boolean,
+        default: false
+    }
+})
 const formOptionBox = reactive([
     {
         type: 'input',

@@ -1,9 +1,9 @@
 <template>
-    <TableWayBill />
+    <TableWayBill :boxDetailInfo="props.boxDetailInfo" />
     <div class="box-btn">
-        <el-button class="button" type="primary">异常订单</el-button>
-        <el-button class="button" type="primary" @click="AllInbound">整批入库</el-button>
-        <el-button class="button" type="primary">部分入库</el-button>
+        <el-button class="button" type="primary" @click="errorOrder">异常订单</el-button>
+        <el-button class="button" type="primary" @click="allInbound">整批入库</el-button>
+        <el-button class="button" type="primary" @click="partInbound">部分入库</el-button>
     </div>
     <DialogInbound ref="refDialog" />
 </template>
@@ -13,10 +13,30 @@ import { ElButton } from 'element-plus'
 import TableWayBill from '../../components/TableWayBill.vue'
 import DialogInbound from '../../components/DialogInbound.vue';
 
+const props = defineProps({
+    boxDetailInfo: {
+        type: Array as any,
+        default: () => []
+    }
+})
+
+// ref弹窗
 const refDialog = ref()
-const AllInbound = () => {
-    console.log(refDialog.value)
+
+// 确认整批入库
+const allInbound = () => {
     refDialog.value.open('消息', '您确定要整批入库吗？')
+}
+// 发送所点击的按钮类型----部分入库---异常订单
+const emits = defineEmits(['clickPart', 'clickError'])
+// 部分入库
+const partInbound = () => {
+    emits('clickPart', true)
+}
+
+// 异常订单
+const errorOrder = () => {
+    emits('clickError', true)
 }
 
 </script>

@@ -1,17 +1,18 @@
 <template>
     <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
-        <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name">
-
+        <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name" v-loading="loading">
             <slot :name="item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
                     <SearchContent :formOption="formOptionHome" />
                     <TableContent />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
-                    <WayBillDatailInfo :waybillID="props.waybillID" />
+                    <WayBillDatailInfo :boxDetailInfo="props.boxDetailInfo" @clickPart="swicthPartInboud"
+                        @clickError="swicthErrorOrder" />
                 </div>
                 <div v-else>
-                    <BoxDetailInfo />
+                    <BoxDetailInfo :boxDetailInfo="props.boxDetailInfo" :showPartInboud="showPartInboud"
+                        :showErrorInboud="showErrorInboud" />
                 </div>
             </slot>
         </el-tab-pane>
@@ -25,17 +26,25 @@ import SearchContent from '../components/SearchContent.vue'
 import TableContent from '../components/TableContent.vue'
 import WayBillDatailInfo from '../DetailInboundInstruction/WayBillDetailInfo/index.vue'
 import BoxDetailInfo from '../DetailInboundInstruction/BoxDetailInfo/index.vue'
-import { number } from 'vue-types'
 
 const props = defineProps({
     tabList: {
         type: Array as any,
         default: () => []
     },
-    waybillID: {
-        type: number as any,
-        default: 0
+    boxDetailInfo: {
+        type: Array as any,
+        default: () => []
     }
+})
+
+const loading = ref(false)
+let activeName = ref(props.tabList[0].name)
+onMounted(() => {
+    loading.value = true
+    setTimeout(() => {
+        loading.value = false
+    }, 800);
 })
 
 // 过滤tabList数据
@@ -84,13 +93,35 @@ const formOptionHome = reactive([
     }
 ])
 
-
-const emit = defineEmits(['getTabState'])
-const activeName = ref(props.tabList[0].name)
-const handleClick = (tab) => {
-    emit('getTabState', tab.props.name)
-    console.log(tab.props.name, 'tab');
+// 接收点击部分入库按钮状态
+let showPartInboud = ref(false)
+let showErrorInboud = ref(false)
+const swicthPartInboud = (val) => {
+    console.log(val, 'clickswicthPartInboud')
+    activeName.value = 'boxInfo'
+    showPartInboud.value = true
 }
+
+// 接收点击异常订单按钮状态
+const swicthErrorOrder = (val) => {
+    console.log(val, 'clickswicthErrorOrder')
+    activeName.value = 'boxInfo'
+    showErrorInboud.value = true
+}
+
+
+// 选中的tab触发
+const handleClick = (tab) => {
+    // console.log(tab.props.name, 'tab');
+    activeName.value = tab.props.name
+    if (tab.props.name === 'waybill') {
+        showPartInboud.value = false
+        showErrorInboud.value = false
+    }
+}
+
+
+
 </script>
 <style lang="scss" scoped>
 .demo-tabs>.el-tabs__content {

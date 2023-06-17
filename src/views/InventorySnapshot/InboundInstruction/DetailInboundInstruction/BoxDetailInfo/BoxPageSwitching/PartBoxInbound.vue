@@ -1,6 +1,6 @@
 <template>
-    <TableK url="/jinkotms/baseWarehouse" method="get" :params="formData" :firstPages="20" :tableOption="tableOption"
-         />
+    部分
+    <TableK url="/jinkotms/baseWarehouse" method="get" :params="formData" :firstPages="20" :tableOption="tableOption" />
 </template>
 
 <script lang="ts" setup>

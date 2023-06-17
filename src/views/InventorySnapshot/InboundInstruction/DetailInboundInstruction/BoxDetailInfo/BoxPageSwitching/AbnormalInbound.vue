@@ -1,4 +1,5 @@
 <template>
+    异常
     <TableK url="/jinkotms/baseWarehouse" method="get" :params="formData" :firstPages="20" :tableOption="tableOption" />
 </template>
 
