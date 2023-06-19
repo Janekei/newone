@@ -1,7 +1,7 @@
 <template>
     <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
         <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name" v-loading="loading">
-            <slot :name="item.name">
+            <slot :name="item.name" v-if="activeName === item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
                     <SearchContent :formOption="formOptionHome" />
                     <TableContent />

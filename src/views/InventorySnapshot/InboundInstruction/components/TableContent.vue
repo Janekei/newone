@@ -5,7 +5,13 @@
             @clickThisColumn="clickThisColumn">
             <template #expand="{ expandRow }">
                 {{ expandRow }}
-                <DescriptionInboundList :dataList="expandRow" />
+                <DescriptionInboundList :descList="expandRow" />
+            </template>
+            <template #transportStatus="{ row }">
+                <span v-if="row.row.transportStatus === 1">未到港</span>
+                <span v-if="row.row.transportStatus === 2">未清关</span>
+                <span v-if="row.row.transportStatus === 3">清关中</span>
+                <span v-if="row.row.transportStatus === 4">清关完成</span>
             </template>
         </TableK>
     </div>
@@ -26,11 +32,11 @@ const tableOption = reactive([
         label: 'SAP任务号',
     },
     {
-        prop: 'billNo',
+        prop: 'bl',
         label: '提单号',
     },
     {
-        prop: 'containerNum',
+        prop: 'containerNumber',
         label: '柜量',
     },
     {
@@ -50,8 +56,9 @@ const tableOption = reactive([
         label: '贸易条款',
     },
     {
-        prop: 'status',
+        prop: 'transportStatus',
         label: '状态',
+        soltName: 'transportStatus'
     }
 ])
 
