@@ -10,3 +10,38 @@ export const getInboundList = async (params) => {
 export const getListItemDetail = async (params) => {
     return await request.get({ url: '/jinkotms-moduule-core-biz/gsc-wh-inbound/getInformation', params })
 }
+
+// 整批入库功能
+export const postAllInbound = async (params) => {
+    return await request.get({ url: '/jinko/gsc-wh-stock-pallets/warehousingOperation', params })
+}
+
+// 获取箱列表信息
+export const getPartInboundBox = async (params) => {
+    return await request.get({ url: '/jinkotms-moduule-core-biz/gsc-wh-inbound-container/page', params })
+}
+
+// 部分入库功能----箱纬度
+export const postPartInboundBox = async (params) => {
+    return await request.get({ url: '/jinko/gsc-wh-stock-pallets/warehousingWithBox', params })
+}
+
+// 获取托列表信息
+export const getPartInboundTray = async (params) => {
+    return await request.get({ url: '/jinkotms-moduule-core-biz/gsc-wh-inbound-pallets/page', params })
+}
+
+// 部分入库功能----托纬度
+export const postPartInboundTray = async (params) => {
+    return await request.get({ url: '/jinko/gsc-wh-stock-pallets/warehousingWithTray', params })
+}
+
+// 异常登记----箱纬度
+export const recordErrorBox= async (params) => {
+    return await request.get({ url: '/jinko/gsc-wh-stock-pallets/boxAndException', params })
+}
+
+// 异常登记----托纬度
+export const recordErrorTray = async (params) => {
+    return await request.get({ url: '/jinko/gsc-wh-stock-pallets/trayAndException', params })
+}
