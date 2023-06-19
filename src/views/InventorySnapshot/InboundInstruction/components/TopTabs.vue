@@ -12,7 +12,8 @@
                 </div>
                 <div v-else>
                     <BoxDetailInfo ref="trayRef" :boxDetailInfo="props.boxDetailInfo" :showPartInboud="showPartInboud"
-                        :showErrorInboud="showErrorInboud" @backWay="backWay" />
+                        :showErrorInboud="showErrorInboud" :isClickPartInboundBtn="isClickPartInboundBtn"
+                        :isClickErrorBtn="isClickErrorBtn" @backWay="backWay" />
                 </div>
             </slot>
         </el-tab-pane>
@@ -95,13 +96,18 @@ const formOptionHome = reactive([
 
 const trayRef = ref()
 
+
+
 // 接收点击部分入库按钮状态
+let isClickPartInboundBtn = ref(false)
+let isClickErrorBtn = ref(false)
 let showPartInboud = ref(false)
 let showErrorInboud = ref(false)
 const swicthPartInboud = (val) => {
     console.log(val, 'clickswicthPartInboud')
     activeName.value = 'boxInfo'
     showPartInboud.value = true
+    isClickPartInboundBtn.value = true
 }
 
 // 接收点击异常订单按钮状态
@@ -109,16 +115,19 @@ const swicthErrorOrder = (val) => {
     console.log(val, 'clickswicthErrorOrder')
     activeName.value = 'boxInfo'
     showErrorInboud.value = true
+    isClickErrorBtn.value = true
 }
 
 
 // 选中的tab触发
 const handleClick = (tab) => {
-    trayRef.value[0].switchChooseTray
+    trayRef.value[0].switchChooseTray()
     activeName.value = tab.props.name
     if (tab.props.name === 'waybill') {
         showPartInboud.value = false
         showErrorInboud.value = false
+        isClickPartInboundBtn.value = false
+        isClickErrorBtn.value = false
     }
 }
 
@@ -127,6 +136,8 @@ const backWay = () => {
     activeName.value = 'waybill'
     showPartInboud.value = false
     showErrorInboud.value = false
+    isClickPartInboundBtn.value = false
+    isClickErrorBtn.value = false
 }
 
 

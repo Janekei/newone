@@ -1,6 +1,11 @@
 <template>
     异常
-    <TableK url="/jinkotms/baseWarehouse" method="get" :params="formData" :firstPages="20" :tableOption="tableOption" />
+    <TableK url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="formData" :firstPages="20"
+        :showFixedOperation="true" :showIndex="true" :tableOption="tableOption">
+        <template #operation>
+            <ElButton class="edit-btn" type="warning" @click="clickTray">托</ElButton>
+        </template>
+    </TableK>
     <div class="box-btn">
         <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="errorRecord">异常登记</el-button>
@@ -48,8 +53,14 @@ const refDialog = ref()
 const errorRecord = () => {
     refDialog.value.open('异常类型确认')
 }
+
+// 选托
+const emits = defineEmits(['backWaybill', 'showTrayList'])
+const clickTray = () => {
+    emits('showTrayList')
+}
+
 // 返回运单信息
-const emits = defineEmits(['backWaybill'])
 const back = () => {
     emits('backWaybill')
 }
@@ -57,10 +68,6 @@ const back = () => {
 // table表格列数据
 const formData = ref({})
 const tableOption = reactive([
-    {
-        prop: 'No',
-        label: '序号',
-    },
     {
         prop: 'boxNo',
         label: '箱号',
@@ -120,5 +127,10 @@ const tableOption = reactive([
     .button {
         margin-right: 1.25rem;
     }
+}
+
+.edit-btn {
+    font-weight: 700;
+    border: none;
 }
 </style>

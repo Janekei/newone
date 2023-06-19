@@ -4,7 +4,8 @@
         :tableOption="tableOption" :showCheckBox="true" />
     <div class="box-btn">
         <el-button class="button" type="primary" @click="backPartInbound">返回</el-button>
-        <el-button class="button" type="primary" @click="partInbound">确认入库</el-button>
+        <el-button v-if="props.isClickPartInboundBtn" class="button" type="primary" @click="partInbound">确认入库</el-button>
+        <el-button v-else-if="props.isClickErrorBtn" class="button" type="primary" @click="partInbound">异常登记</el-button>
     </div>
     <DialogInbound ref="refDialog" />
 </template>
@@ -17,6 +18,14 @@ const props = defineProps({
     iscloseTray: {
         type: Boolean,
         default: true
+    },
+    isClickPartInboundBtn: {
+        type: Boolean,
+        default: false
+    },
+    isClickErrorBtn: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -27,7 +36,6 @@ const refDialog = ref()
 const partInbound = () => {
     refDialog.value.open('消息', '您确定要入库？')
 }
-
 // 返回部分入库箱维度详情页面
 const emits = defineEmits(['update:changeCloseTray'])
 const backPartInbound = () => {

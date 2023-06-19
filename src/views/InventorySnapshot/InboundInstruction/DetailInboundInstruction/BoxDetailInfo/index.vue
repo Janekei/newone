@@ -4,10 +4,11 @@
         <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false && isShowTray === false) && iscloseTray"
             @backWaybill="backWaybill" @showTrayList="showTrayList" />
         <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud && isShowTray === false) && iscloseTray"
-            @backWaybill="backWaybill" />
+            @backWaybill="backWaybill" @showTrayList="showTrayList" />
         <AllBoxInfo :boxDetailInfo="props.boxDetailInfo"
             v-else-if="(showPartInboud === false && showErrorInboud === false && isShowTray === false) && iscloseTray" />
-        <ChooseTray v-else @update:changeCloseTray="closeChooseTray" :iscloseTray="iscloseTray" />
+        <ChooseTray v-else :isClickPartInboundBtn="props.isClickPartInboundBtn" :isClickErrorBtn="props.isClickErrorBtn"
+            @update:changeCloseTray="closeChooseTray" :iscloseTray="iscloseTray" />
     </div>
 </template>
 
@@ -30,6 +31,14 @@ const props = defineProps({
     showErrorInboud: {
         type: Boolean,
         default: false
+    },
+    isClickPartInboundBtn: {
+        type: Boolean,
+        default: false
+    },
+    isClickErrorBtn: {
+        type: Boolean,
+        default: false
     }
 })
 const emits = defineEmits(['backWay'])
@@ -49,19 +58,18 @@ const showTrayList = () => {
 
 // 关闭部分入库的托盘列表页面
 const closeChooseTray = (val) => {
-    console.log('colseChooseTray', val)
     isShowTray.value = false
     iscloseTray.value = val
 }
 
-// 
 const switchChooseTray = () => {
     isShowTray.value = false
     iscloseTray.value = true
 }
 defineExpose({
     iscloseTray,
-    switchChooseTray
+    switchChooseTray,
+    closeChooseTray
 })
 
 // 表格列
