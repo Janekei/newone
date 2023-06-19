@@ -23,14 +23,26 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
-// const props = defineProps({
-//     boxDetailInfo: {
-//         type: Array as any,
-//         default: () => []
-//     }
-// })
-// console.log(props)
+import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
+
+
+// 获取运单信息、柜信息数据
+// listItemId：入库指令列表传过来的参数
+const route = useRoute()
+let listItemId: number = parseInt(JSON.parse(route.query.id as any));
+let boxDetailInfo;
+let waybillInfo;
+const getMainData = async () => {
+    const res = await InboundInstruction.getListItemDetail({ id: listItemId })
+    boxDetailInfo = res
+    waybillInfo = boxDetailInfo[0]
+    console.log(boxDetailInfo, 'waybilldetailinfo/index.vue')
+}
+
+
+
 const taskDetail = reactive([
     { title: '任务单号', name: 'departureLocationId' },
     { title: '发货方', name: 'carrierName' },
@@ -68,6 +80,16 @@ const timeDetail = reactive([
     { title: '港口提货时间', name: 'qty' },
     { title: '清关完成时间', name: 'qty' }
 ])
+
+const filtersData = () => {
+    for (let key in waybillInfo) {
+        console.log(key, 'key')
+    }
+}
+onBeforeMount(() => {
+    getMainData()
+    filtersData()
+})
 
 </script>
 <style lang="scss" scoped>

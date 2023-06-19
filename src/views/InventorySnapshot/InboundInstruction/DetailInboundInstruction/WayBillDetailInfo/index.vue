@@ -1,5 +1,5 @@
 <template>
-    <TableWayBill :boxDetailInfo="props.boxDetailInfo" />
+    <TableWayBill />
     <div class="box-btn">
         <el-button class="button" type="primary" @click="errorOrder">异常订单</el-button>
         <el-button class="button" type="primary" @click="allInbound">整批入库</el-button>
@@ -12,13 +12,6 @@
 import { ElButton } from 'element-plus'
 import TableWayBill from '../../components/TableWayBill.vue'
 import DialogInbound from '../../components/DialogInbound.vue';
-
-const props = defineProps({
-    boxDetailInfo: {
-        type: Array as any,
-        default: () => []
-    }
-})
 
 // ref弹窗
 const refDialog = ref()
