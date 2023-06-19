@@ -2,7 +2,7 @@
  <div style="height: 100%; overflow: auto;">
   <div class="global-background big-box">
    <FilterHeader />
-   <List />
+   <List :list="list" />
    <div class="statistik">
     <DataStatistik />
    </div>
@@ -11,9 +11,24 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import FilterHeader from '@/views/StandardTime/FilterHeader/index.vue'
 import List from './Components/List.vue'
 import DataStatistik from './DataStatistik/index.vue'
+import { stageOrderDetails } from '@/api/transportBI/index'
+
+const list = ref()
+
+const getStageOrderDetails = () => {
+ stageOrderDetails({}).then(res => {
+  list.value = res
+ })
+}
+
+onMounted(() => {
+ getStageOrderDetails()
+})
+
 </script>
 
 <style scoped lang="scss">

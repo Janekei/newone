@@ -2,33 +2,80 @@
  <div class="echarts-list">
   <div class="item">
    <ListTemp title="发货量">
-    <DeliveringAmount />
+    <DeliveringAmount v-if="showDeliveringAmount" :data="deliveringAmountData" />
    </ListTemp>
   </div>
   <div class="item">
    <ListTemp title="POD及时率">
-    <POD />
+    <POD v-if="showListTemp" :data="PODData" />
    </ListTemp>
   </div>
   <div class="item">
    <ListTemp title="准时交付率">
-    <OnTime />
+    <OnTime v-if="showOnTime" :data="OnTimetData" />
    </ListTemp>
   </div>
   <div class="item">
    <ListTemp title="运输周期">
-    <Cycle />
+    <Cycle v-if="showCycle" :data="CycleData" />
    </ListTemp>
   </div>
  </div>
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import ListTemp from './Components/ListTemp.vue'
 import DeliveringAmount from './MapList/DeliveringAmount.vue'
 import POD from './MapList/POD.vue'
 import OnTime from './MapList/OnTime.vue'
 import Cycle from './MapList/Cycle.vue'
+import { deliveringAmount, timelinessRate, punctuality, transportationCycle } from '@/api/standardTime/index.ts'
+
+const showDeliveringAmount = ref(false)
+const showListTemp = ref(false)
+const showOnTime = ref(false)
+const showCycle = ref(false)
+
+const deliveringAmountData = ref()
+const PODData = ref()
+const OnTimetData = ref()
+const CycleData = ref()
+
+const getDeliveringAmount = () => {
+ deliveringAmount({}).then(res => {
+  deliveringAmountData.value = res
+  showDeliveringAmount.value = true
+ })
+}
+
+const getTimelinessRate = () => {
+ timelinessRate({}).then(res => {
+  PODData.value = res
+  showListTemp.value = true
+ })
+}
+
+const getPunctuality = () => {
+ punctuality({}).then(res => {
+  OnTimetData.value = res
+  showOnTime.value = true
+ })
+}
+
+const getTransportationCycle = () => {
+ transportationCycle({}).then(res => {
+  CycleData.value = res
+  showCycle.value = true
+ })
+}
+
+onMounted(() => {
+ getDeliveringAmount()
+ getTimelinessRate()
+ getPunctuality()
+ getTransportationCycle()
+})
 </script>
 
 <style lang="scss">

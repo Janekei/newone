@@ -2,7 +2,7 @@
  <div class="flex-div">
   <div class="flex-div-item">
    <Card title="正常订单分布">
-    <NormaleAuftrage />
+    <NormaleAuftrage :data="normaleAuftrageData" v-if="showNormaleAuftrage" />
    </Card>
   </div>
   <div class="flex-div-item">
@@ -24,11 +24,27 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import Card from '../Components/Card.vue'
 import NormaleAuftrage from './NormaleAuftrage.vue'
 import Normalversorgung from './Normalversorgung.vue'
 import UberfalligeAuftrage from './UberfalligeAuftrage.vue'
 import UberfalligeAuftrageG from './UberfalligeAuftrageG.vue'
+import { normaleAuftrage } from '@/api/transportBI/index'
+
+const normaleAuftrageData = ref()
+const showNormaleAuftrage = ref(false)
+const getNormaleAuftrageData = () => {
+ normaleAuftrage({}).then(res => {
+  showNormaleAuftrage.value = true
+  normaleAuftrageData.value = res
+ })
+}
+
+onMounted(() => {
+ getNormaleAuftrageData()
+})
+
 </script>
 
 <style lang="scss">

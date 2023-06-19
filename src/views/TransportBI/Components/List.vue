@@ -12,14 +12,14 @@
     </div>
     <div class="detail">
      <div class="detail-top">
-      <div>运单：{{ item.a }}</div>
-      <div>柜数：{{ item.b }}</div>
-      <div>兆瓦：{{ item.c }}</div>
+      <div>运单：{{ item.waybill }}</div>
+      <div>柜数：{{ item.cabinets }}</div>
+      <div>兆瓦：{{ item.megawatt }}</div>
      </div>
      <div class="detail-bottom" style="color: #de4053;">
-      <div>运单：{{ item.d }}</div>
-      <div>柜数：{{ item.e }}</div>
-      <div>兆瓦：{{ item.f }}</div>
+      <div>运单：{{ item.overdueWaybill }}</div>
+      <div>柜数：{{ item.overdueCabinets }}</div>
+      <div>兆瓦：{{ item.overdueMegawatt }}</div>
      </div>
     </div>
    </div>
@@ -33,71 +33,7 @@
 defineProps({
  list: {
   type: Array as any,
-  default: () => [
-   {
-    title: '工厂至离港',
-    a: 23,
-    b: 49,
-    c: '1.2MW',
-    d: 23,
-    e: 49,
-    f: '1.2MW'
-   },
-   {
-    title: '离港至到港',
-    a: 23,
-    b: 49,
-    c: '1.2MW',
-    d: 23,
-    e: 49,
-    f: '1.2MW'
-   },
-   {
-    title: '提箱状态',
-    a: 23,
-    b: 49,
-    c: '1.2MW',
-    d: 23,
-    e: 49,
-    f: '1.2MW'
-   },
-   {
-    title: '直发客户',
-    a: 23,
-    b: 49,
-    c: '1.2MW',
-    d: 23,
-    e: 49,
-    f: '1.2MW'
-   },
-   {
-    title: '港口至仓库',
-    a: 23,
-    b: 49,
-    c: '1.2MW',
-    d: 23,
-    e: 49,
-    f: '1.2MW'
-   },
-   {
-    title: '仓库至客户',
-    a: 23,
-    b: 49,
-    c: '1.2MW',
-    d: 23,
-    e: 49,
-    f: '1.2MW'
-   },
-   {
-    title: '合计',
-    a: 23,
-    b: 49,
-    c: '1.2MW',
-    d: 23,
-    e: 49,
-    f: '1.2MW'
-   },
-  ]
+  default: () => []
  }
 })
 </script>
