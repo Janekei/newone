@@ -8,7 +8,7 @@ export const getInboundList = async (params) => {
 
 // 获取运单信息、柜信息 ----传入参数id
 export const getListItemDetail = async (params) => {
-    return await request.get({ url: '/jinkotms-moduule-core-biz/gsc-wh-inbound/getInformation', params })
+    return await request.get({ url: '/jinko/gsc-wh-inbound-container/page', params })
 }
 
 // 整批入库功能
@@ -23,6 +23,7 @@ export const getPartInboundBox = async (params) => {
 
 // 部分入库功能----箱纬度
 export const postPartInboundBox = async (params) => {
+    console.log(params.ids, 'box')
     return await request.get({ url: '/jinko/gsc-wh-stock-pallets/warehousingWithBox', params })
 }
 
@@ -37,7 +38,7 @@ export const postPartInboundTray = async (params) => {
 }
 
 // 异常登记----箱纬度
-export const recordErrorBox= async (params) => {
+export const recordErrorBox = async (params) => {
     return await request.get({ url: '/jinko/gsc-wh-stock-pallets/boxAndException', params })
 }
 

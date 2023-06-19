@@ -1,7 +1,9 @@
 <template>
     部分
-    <TableK class="pagination" url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="formData"
-        :showIndex="true" :showFixedOperation="true" :firstPages="20" :tableOption="tableOption">
+    {{ formData }}
+    <TableK class="pagination" url="/jinko/gsc-wh-inbound-container/page" method="get" :params="formData" :showIndex="true"
+        :showFixedOperation="true" :firstPages="20" :tableOption="tableOption" @selectThisColumn="selectThisColumn"
+        @clickThisColumn="clickThisColumn">
         <template #operation>
             <ElButton class="edit-btn" type="warning" @click="clickTray">托</ElButton>
         </template>
@@ -10,7 +12,7 @@
         <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="partInbound">确认入库</el-button>
     </div>
-    <DialogInbound ref="refDialog" />
+    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" />
 </template>
 
 <script lang="ts" setup>
@@ -64,19 +66,34 @@ const tableOption = reactive([
         label: '更新时间',
     }
 ])
+
+// 选中当前行
+// 保存当前行的id
+let inboundIdsBox: any;
+const selectThisColumn = (rows) => {
+    inboundIdsBox = []
+    rows.forEach((item) => {
+        inboundIdsBox.push(item.inboundId)
+    })
+}
+
 // ref弹窗
 const refDialog = ref()
 
-// 确认整批入库
+// 确认部分入库
 const partInbound = () => {
-    refDialog.value.open('消息', '您确定要入库？')
+    console.log(inboundIdsBox, 'ids')
+    refDialog.value.open('箱部分入库', '消息', '您确定要入库？')
 }
 
 const emits = defineEmits(['backWaybill', 'showTrayList'])
 
+const clickThisColumn = (row) => {
+    emits('showTrayList', row.id)
+}
 // 选托
 const clickTray = () => {
-    emits('showTrayList')
+    // 
 }
 
 // 返回运单信息

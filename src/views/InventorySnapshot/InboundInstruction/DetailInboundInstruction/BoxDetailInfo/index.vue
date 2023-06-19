@@ -8,7 +8,7 @@
         <AllBoxInfo :boxDetailInfo="props.boxDetailInfo"
             v-else-if="(showPartInboud === false && showErrorInboud === false && isShowTray === false) && iscloseTray" />
         <ChooseTray v-else :isClickPartInboundBtn="props.isClickPartInboundBtn" :isClickErrorBtn="props.isClickErrorBtn"
-            @update:changeCloseTray="closeChooseTray" :iscloseTray="iscloseTray" />
+            @update:changeCloseTray="closeChooseTray" :iscloseTray="iscloseTray" :containerId="containerId" />
     </div>
 </template>
 
@@ -51,7 +51,11 @@ const backWaybill = () => {
 // 显示对应箱的托盘纬度的列表
 let isShowTray = ref(false)
 let iscloseTray = ref(true)  // 是否隐藏选托页面
-const showTrayList = () => {
+// 获取到所获取到的箱ID
+let containerId = ref()
+const showTrayList = (val) => {
+    console.log(val, 'show')
+    containerId = val
     isShowTray.value = true
     iscloseTray.value = false
 }

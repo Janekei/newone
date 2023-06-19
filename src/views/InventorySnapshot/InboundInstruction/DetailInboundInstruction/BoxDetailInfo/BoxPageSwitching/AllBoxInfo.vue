@@ -1,13 +1,17 @@
 <template>
     全部
-    <TableK url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="formData" :firstPages="20"
+    <TableK url="/jinko/gsc-wh-inbound-container/page" method="get" :params="{ id: listItemId }" :firstPages="20"
         :tableOption="tableOption" :showCheckBox="false" :showIndex="true" />
 </template>
 
 <script lang="ts" setup>
+import { useRoute } from 'vue-router'
 import TableK from '@/components/TableK/index.vue'
+
+// listItemId：入库指令列表传过来的参数
+const route = useRoute()
+let listItemId: number = parseInt(JSON.parse(route.query.id as any));
 // table表格列数据
-const formData = ref({})
 const tableOption = reactive([
     {
         prop: 'boxNo',

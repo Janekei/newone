@@ -7,7 +7,7 @@
       <slot name="formError"></slot>
     </div>
     <template #footer>
-      <el-button type="primary" :disabled="formLoading">确认</el-button>
+      <el-button type="primary" :disabled="formLoading" @click="submitForm">确认</el-button>
       <el-button @click="dialogVisible = false">取消</el-button>
     </template>
   </ElDialog>
@@ -16,8 +16,21 @@
 <script lang="ts" setup>
 import { ElButton } from 'element-plus'
 import { ref } from 'vue'
+import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 
+const props = defineProps({
+  inboundID: {
+    type: Number,
+    default: 0
+  },
+  inboundIdsBox: {
+    type: Array,
+    required: true,
+    default: () => []
+  }
+})
 
+watch(() => props.inboundIdsBox, (val, preVal) => { console.log("message", val, preVal) }, { immediate: true })
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
@@ -28,11 +41,24 @@ const formData = ref()    // 表单内容
 
 
 // 打开弹窗方法
-const open = async (title: string, content: string) => {
+const open = async (type: string, title: string, content: string) => {
   dialogVisible.value = true
-  formType.value = title
+  formType.value = type
   formData.value = content
   dialogTitle.value = title
+}
+
+const submitForm = async () => {
+  if (formType.value === '整批入库') {
+    const res = await InboundInstruction.postAllInbound({ id: props.inboundID })
+    console.log(res)
+  } else if (formType.value === '箱部分入库') {
+    console.log(props, 'props')
+    console.log(props.inboundIdsBox, 'props.inboundIdsBox')
+    // const res = await InboundInstruction.postPartInboundBox({ ids: props.inboundIdsBox })
+    // console.log(res, '箱部分入库')
+  }
+  dialogVisible.value = true
 }
 defineExpose({
   open

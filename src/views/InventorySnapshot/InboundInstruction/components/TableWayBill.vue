@@ -27,21 +27,13 @@ import { useRoute } from 'vue-router'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 
-
 // 获取运单信息、柜信息数据
 // listItemId：入库指令列表传过来的参数
 const route = useRoute()
 let listItemId: number = parseInt(JSON.parse(route.query.id as any));
-let boxDetailInfo;
-let waybillInfo;
 const getMainData = async () => {
-    const res = await InboundInstruction.getListItemDetail({ id: listItemId })
-    boxDetailInfo = res
-    waybillInfo = boxDetailInfo[0]
-    console.log(boxDetailInfo, 'waybilldetailinfo/index.vue')
+    await InboundInstruction.getListItemDetail({ id: listItemId })
 }
-
-
 
 const taskDetail = reactive([
     { title: '任务单号', name: 'departureLocationId' },
@@ -82,9 +74,9 @@ const timeDetail = reactive([
 ])
 
 const filtersData = () => {
-    for (let key in waybillInfo) {
-        console.log(key, 'key')
-    }
+    // for (let key in waybillInfo) {
+    //     console.log(key, 'key')
+    // }
 }
 onBeforeMount(() => {
     getMainData()

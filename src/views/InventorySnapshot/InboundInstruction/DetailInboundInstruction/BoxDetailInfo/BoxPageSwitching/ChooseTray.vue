@@ -1,6 +1,6 @@
 <template>
     选托
-    <TableK url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="formData" :firstPages="20"
+    <TableK url="/jinko/gsc-wh-stock-pallets/page" method="get" :params="{ containerId }" :firstPages="20"
         :tableOption="tableOption" :showCheckBox="true" />
     <div class="box-btn">
         <el-button class="button" type="primary" @click="backPartInbound">返回</el-button>
@@ -13,6 +13,7 @@
 <script lang="ts" setup>
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
+import { number } from 'vue-types';
 
 const props = defineProps({
     iscloseTray: {
@@ -26,6 +27,10 @@ const props = defineProps({
     isClickErrorBtn: {
         type: Boolean,
         default: false
+    },
+    containerId: {
+        type: number,
+        default: 0
     }
 })
 
@@ -43,7 +48,7 @@ const backPartInbound = () => {
     emits('update:changeCloseTray', params)
 }
 // table表格列数据
-const formData = ref({})
+// const formData = ref({})
 const tableOption = reactive([
     {
         prop: 'boxNo',

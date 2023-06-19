@@ -184,9 +184,10 @@ const refresh = () => {
 // 选中项
 const elTable = ref()
 const selectAll = ref([])
-const emits = defineEmits(['clickThisColumn'])
+const emits = defineEmits(['clickThisColumn', 'selectThisColumn'])
 const handleSelectionChange = (rows) => {
   selectAll.value = rows
+  emits('selectThisColumn', rows)
 }
 const rowClick = (row) => {
   emits('clickThisColumn', row)
