@@ -4,7 +4,6 @@
             :firstPages="20" :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
             @clickThisColumn="clickThisColumn">
             <template #expand="{ expandRow }">
-                {{ expandRow }}
                 <DescriptionInboundList :descList="expandRow" />
             </template>
             <template #transportStatus="{ row }">
