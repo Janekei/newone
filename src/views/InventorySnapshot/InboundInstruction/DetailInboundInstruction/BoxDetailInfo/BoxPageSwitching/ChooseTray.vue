@@ -1,19 +1,19 @@
 <template>
     选托
-    <TableK url="/jinko/gsc-wh-stock-pallets/page" method="get" :params="{ containerId }" :firstPages="20"
-        :tableOption="tableOption" :showCheckBox="true" />
+    <TableK url="/jinko/gsc-wh-stock-pallets/page" method="get" :params="formData" :firstPages="20"
+        :tableOption="tableOption" :showCheckBox="true" @selectThisColumn="selectThisColumn" />
     <div class="box-btn">
         <el-button class="button" type="primary" @click="backPartInbound">返回</el-button>
         <el-button v-if="props.isClickPartInboundBtn" class="button" type="primary" @click="partInbound">确认入库</el-button>
-        <el-button v-else-if="props.isClickErrorBtn" class="button" type="primary" @click="partInbound">异常登记</el-button>
+        <el-button v-else-if="props.isClickErrorBtn" class="button" type="primary" @click="errorRecord">异常登记</el-button>
     </div>
-    <DialogInbound ref="refDialog" />
+    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" />
 </template>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
-import { number } from 'vue-types';
 
 const props = defineProps({
     iscloseTray: {
@@ -29,18 +29,45 @@ const props = defineProps({
         default: false
     },
     containerId: {
-        type: number,
+        type: Number,
         default: 0
-    }
+    },
 })
+
+// 保存当前行的id
+let inboundIdsBox: any = ref([]);
+const selectThisColumn = (rows) => {
+    inboundIdsBox.value = []
+    rows.forEach((item) => {
+        inboundIdsBox.value.push(item.palletId)
+    })
+
+    console.log(inboundIdsBox.value, 50)
+}
+
+
 
 // ref弹窗
 const refDialog = ref()
 
 // 确认整批入库
 const partInbound = () => {
-    refDialog.value.open('消息', '您确定要入库？')
+    if (inboundIdsBox.value.length > 0) {
+        refDialog.value.open('部分入库', '消息', '您确定要入库？')
+    } else {
+        ElMessage.error('请选择所需要入库的托！')
+    }
 }
+
+// 确认异常登记
+const errorRecord = () => {
+    if (inboundIdsBox.value.length > 0) {
+        refDialog.value.open('异常类型确认', '异常类型确认')
+    } else {
+        ElMessage.error('请选择所需要异常登记的托！')
+    }
+}
+
 // 返回部分入库箱维度详情页面
 const emits = defineEmits(['update:changeCloseTray'])
 const backPartInbound = () => {
@@ -48,14 +75,16 @@ const backPartInbound = () => {
     emits('update:changeCloseTray', params)
 }
 // table表格列数据
-// const formData = ref({})
+const formData = ref({
+    containerId: props.containerId
+})
 const tableOption = reactive([
     {
-        prop: 'boxNo',
+        prop: 'palletNo',
         label: '托盘号',
     },
     {
-        prop: 'billNo',
+        prop: 'quantity',
         label: '数量',
     },
     {
@@ -67,15 +96,15 @@ const tableOption = reactive([
         label: '材料',
     },
     {
-        prop: 'boxNumber',
+        prop: 'weight',
         label: '重量',
     },
     {
-        prop: 'weight',
+        prop: 'volume',
         label: '体积',
     },
     {
-        prop: 'createPeople',
+        prop: 'creator',
         label: '创建人',
     },
     {
@@ -83,7 +112,7 @@ const tableOption = reactive([
         label: '创建时间',
     },
     {
-        prop: 'updatePeople',
+        prop: 'updater',
         label: '更新人',
     },
     {

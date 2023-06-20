@@ -4,7 +4,7 @@
         <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false && isShowTray === false) && iscloseTray"
             @backWaybill="backWaybill" @showTrayList="showTrayList" />
         <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud && isShowTray === false) && iscloseTray"
-            @backWaybill="backWaybill" @showTrayList="showTrayList" />
+            @backWaybill="backWaybill" @showTrayList="showTrayList" :errorInboundID="props.errorInboundID" />
         <AllBoxInfo :boxDetailInfo="props.boxDetailInfo"
             v-else-if="(showPartInboud === false && showErrorInboud === false && isShowTray === false) && iscloseTray" />
         <ChooseTray v-else :isClickPartInboundBtn="props.isClickPartInboundBtn" :isClickErrorBtn="props.isClickErrorBtn"
@@ -39,6 +39,10 @@ const props = defineProps({
     isClickErrorBtn: {
         type: Boolean,
         default: false
+    },
+    errorInboundID: {
+        type: Number,
+        default: 0
     }
 })
 const emits = defineEmits(['backWay'])

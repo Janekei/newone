@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
 // table表格列数据
@@ -69,11 +70,11 @@ const tableOption = reactive([
 
 // 选中当前行
 // 保存当前行的id
-let inboundIdsBox: any;
+let inboundIdsBox: any = ref([]);
 const selectThisColumn = (rows) => {
-    inboundIdsBox = []
+    inboundIdsBox.value = []
     rows.forEach((item) => {
-        inboundIdsBox.push(item.inboundId)
+        inboundIdsBox.value.push(item.inboundId)
     })
 }
 
@@ -82,8 +83,11 @@ const refDialog = ref()
 
 // 确认部分入库
 const partInbound = () => {
-    console.log(inboundIdsBox, 'ids')
-    refDialog.value.open('箱部分入库', '消息', '您确定要入库？')
+    if (inboundIdsBox.value.length > 0) {
+        refDialog.value.open('箱部分入库', '消息', '您确定要入库？')
+    } else {
+        ElMessage.error('请选择所需要入库的箱！')
+    }
 }
 
 const emits = defineEmits(['backWaybill', 'showTrayList'])

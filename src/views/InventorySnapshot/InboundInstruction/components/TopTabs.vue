@@ -13,7 +13,7 @@
                 <div v-else>
                     <BoxDetailInfo ref="trayRef" :boxDetailInfo="props.boxDetailInfo" :showPartInboud="showPartInboud"
                         :showErrorInboud="showErrorInboud" :isClickPartInboundBtn="isClickPartInboundBtn"
-                        :isClickErrorBtn="isClickErrorBtn" @backWay="backWay" />
+                        :isClickErrorBtn="isClickErrorBtn" :errorInboundID="errorInboundID" @backWay="backWay" />
                 </div>
             </slot>
         </el-tab-pane>
@@ -111,8 +111,10 @@ const swicthPartInboud = (val) => {
 }
 
 // 接收点击异常订单按钮状态
+let errorInboundID = ref(0)
 const swicthErrorOrder = (val) => {
     console.log(val, 'clickswicthErrorOrder')
+    errorInboundID.value = val
     activeName.value = 'boxInfo'
     showErrorInboud.value = true
     isClickErrorBtn.value = true

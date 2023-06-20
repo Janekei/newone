@@ -1,63 +1,70 @@
 <template>
     异常
-    <TableK url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="formData" :firstPages="20"
-        :showFixedOperation="true" :showIndex="true" :tableOption="tableOption">
-        <template #operation>
-            <ElButton class="edit-btn" type="warning" @click="clickTray">托</ElButton>
+    <TableK url="/jinko/gsc-wh-inbound-container/page" method="get" :params="formData" :firstPages="20"
+        :showFixedOperation="true" :showIndex="true" :tableOption="tableOption" @selectThisColumn="selectThisColumn">
+        <template #operation="{ operateRow }">
+            <ElButton class="edit-btn" type="warning" @click="clickTray(operateRow)">托</ElButton>
         </template>
     </TableK>
     <div class="box-btn">
         <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="errorRecord">异常登记</el-button>
     </div>
-    <DialogInbound ref="refDialog">
-        <template #formError>
-            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="6em" ref="formRef" />
-        </template>
+    <DialogInbound v-if="flag" :inboundIdsBox="inboundIdsBox" ref="refDialog">
+        <!-- <template #formError>
+            {{ recordData }}
+            <FormK :formOption="formOption" v-model:formState="recordData" labelWidth="6em" ref="formRef" />
+        </template> -->
     </DialogInbound>
 </template>
 
 <script lang="ts" setup>
-import { ElButton } from 'element-plus'
+import { ElButton, ElMessage } from 'element-plus'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
-import FormK from '@/components/FormK/index.vue'
+// import FormK from '@/components/FormK/index.vue'
 
-const formOption = reactive([
-    {
-        type: 'select',
-        field: 'region',
-        placeholder: '请选择异常类型',
-        label: '异常类型',
-        options: [
-            { label: '货量破损', value: 0 },
-            { label: '数量短缺', value: 1 },
-            { label: '型号不符', value: 2 }
-        ],
-        rules: [
-            { required: true, message: '请选择异常类型', trigger: 'blur' }
-        ]
-    },
-    {
-        type: 'input',
-        field: 'code',
-        placeholder: '请输入内容',
-        label: '其他类型'
-    },
-])
+const props = defineProps({
+    errorInboundID: {
+        type: Number,
+        default: 0
+    }
+})
+
+// 保存当前行的id
+let inboundIdsBox: any;
+let flag = ref(false)
+const selectThisColumn = (rows) => {
+    inboundIdsBox = []
+    rows.forEach((item) => {
+        inboundIdsBox.push(item.inboundId)
+    })
+    if (inboundIdsBox.length > 0) {
+        flag.value = true
+    } else {
+        flag.value = true
+    }
+}
+
 
 // ref弹窗
 const refDialog = ref()
 
 // 确认异常登记
 const errorRecord = () => {
-    refDialog.value.open('异常类型确认')
+    if (flag.value) {
+        refDialog.value.open('异常类型确认', '异常类型确认')
+
+    } else {
+        ElMessage.error('请选择所需要入库的箱！')
+    }
 }
+
 
 // 选托
 const emits = defineEmits(['backWaybill', 'showTrayList'])
-const clickTray = () => {
-    emits('showTrayList')
+const clickTray = (row) => {
+    emits('showTrayList', row.id)
 }
 
 // 返回运单信息
@@ -66,18 +73,20 @@ const back = () => {
 }
 
 // table表格列数据
-const formData = ref({})
+const formData = ref({
+    id: props.errorInboundID
+})
 const tableOption = reactive([
     {
-        prop: 'boxNo',
+        prop: 'cabinetTypeId',
         label: '箱号',
     },
     {
-        prop: 'billNo',
+        prop: 'bl',
         label: '提单号',
     },
     {
-        prop: 'boxType',
+        prop: 'cabinetTypeName',
         label: '箱型',
     },
     {
@@ -85,19 +94,19 @@ const tableOption = reactive([
         label: '锁号',
     },
     {
-        prop: 'boxNumber',
+        prop: 'totalQuantity',
         label: '件数',
     },
     {
-        prop: 'weight',
+        prop: 'totalWeight',
         label: '重量',
     },
     {
-        prop: 'volumn',
+        prop: 'totalVolumn',
         label: '体积',
     },
     {
-        prop: 'createPeople',
+        prop: 'creator',
         label: '创建人',
     },
     {
@@ -105,7 +114,7 @@ const tableOption = reactive([
         label: '创建时间',
     },
     {
-        prop: 'updatePeople',
+        prop: 'updater',
         label: '更新人',
     },
     {

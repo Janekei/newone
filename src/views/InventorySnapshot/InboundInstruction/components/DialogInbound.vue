@@ -1,10 +1,13 @@
 <template>
   <ElDialog v-model="dialogVisible" :title="dialogTitle" width="400" center>
-    <div ref="refDialog" class="content">
-      {{ formData }}
-    </div>
-    <div class="formContent">
-      <slot name="formError"></slot>
+    <div ref="refDialog">
+      <div>
+        <div v-if="formType === '异常类型确认'">
+          {{ recordData }}
+          <FormK :formOption="formOption" v-model:formState="recordData" labelWidth="6em" ref="formRef" />
+        </div>
+        <div v-else class="formContent">{{ formData }}</div>
+      </div>
     </div>
     <template #footer>
       <el-button type="primary" :disabled="formLoading" @click="submitForm">确认</el-button>
@@ -24,11 +27,37 @@ const props = defineProps({
     default: 0
   },
   inboundIdsBox: {
-    type: Array,
-    required: true,
+    type: Array as any,
     default: () => []
   }
 })
+
+const recordData = ref({
+  ids: undefined,
+  exception: undefined
+})
+const formOption = reactive([
+  {
+    type: 'select',
+    field: 'exception',
+    placeholder: '请选择异常类型',
+    label: '异常类型',
+    options: [
+      { label: '货量破损', value: 0 },
+      { label: '数量短缺', value: 1 },
+      { label: '型号不符', value: 2 }
+    ],
+    rules: [
+      { required: true, message: '请选择异常类型', trigger: 'blur' }
+    ]
+  },
+  {
+    type: 'input',
+    field: 'content',
+    placeholder: '请输入内容',
+    label: '其他类型'
+  },
+])
 
 watch(() => props.inboundIdsBox, (val, preVal) => { console.log("message", val, preVal) }, { immediate: true })
 
@@ -41,29 +70,40 @@ const formData = ref()    // 表单内容
 
 
 // 打开弹窗方法
-const open = async (type: string, title: string, content: string) => {
+const open = (type: string, title: string, content: string) => {
+  reset()
   dialogVisible.value = true
   formType.value = type
   formData.value = content
   dialogTitle.value = title
+  console.log(props.inboundIdsBox, 'props')
 }
 
 const submitForm = async () => {
   if (formType.value === '整批入库') {
-    const res = await InboundInstruction.postAllInbound({ id: props.inboundID })
-    console.log(res)
+    await InboundInstruction.postAllInbound({ id: props.inboundID })
   } else if (formType.value === '箱部分入库') {
-    console.log(props, 'props')
-    console.log(props.inboundIdsBox, 'props.inboundIdsBox')
-    // const res = await InboundInstruction.postPartInboundBox({ ids: props.inboundIdsBox })
-    // console.log(res, '箱部分入库')
+    await InboundInstruction.postPartInboundBox({ ids: props.inboundIdsBox })
+  } else if (formType.value === '异常类型确认') {
+    let params = {
+      ids: props.inboundIdsBox,
+      exception: recordData.value.exception
+    }
+    await InboundInstruction.recordErrorBox(params)
   }
-  dialogVisible.value = true
+  dialogVisible.value = false
 }
+
 defineExpose({
   open
 })
 
+const reset = () => {
+  recordData.value = {
+    ids: undefined,
+    exception: undefined
+  }
+}
 
 </script>
 
@@ -82,6 +122,7 @@ defineExpose({
 
 .formContent {
   width: 100%;
+  text-align: center;
   margin: 0 auto;
 }
 </style>
