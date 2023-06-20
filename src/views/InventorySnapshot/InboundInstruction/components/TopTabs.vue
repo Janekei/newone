@@ -4,7 +4,7 @@
             <slot :name="item.name" v-if="activeName === item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
                     <SearchContent :formOption="formOptionHome" @clickSearch="clickSearch"
-                        @update:form-state="updateFormState" />
+                        @update:form-state="updateFormState" @resetForm="resetForm" />
                     <TableContent :searchData="searchData" ref="tableRef" />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
@@ -79,19 +79,13 @@ const formOptionHome = reactive([
         type: 'input',
         field: 'sapDn',
         placeholder: '请输入SAP任务号',
-        label: 'SAP任务号',
-        rules: [
-            { required: true, message: '请输入SAP任务号', trigger: 'change' }
-        ]
+        label: 'SAP任务号'
     },
     {
         type: 'date',
         field: 'estInTime',
         placeholder: '请选择预计入库时间',
-        label: '预计入库时间',
-        rules: [
-            { required: true, message: '请选择时间', trigger: 'blur' }
-        ]
+        label: '预计入库时间'
     }
 ])
 
@@ -123,12 +117,17 @@ const swicthErrorOrder = (val) => {
 
 // 搜索
 const tableRef = ref()
-let searchData = ref({})
+let searchData = reactive({})
 const clickSearch = () => {
     tableRef.value[0].refresh()
 }
 const updateFormState = (val) => {
-    searchData.value = val
+    console.log(1, val)
+    searchData = val
+}
+const resetForm = () => {
+    searchData = {}
+    clickSearch()
 }
 
 

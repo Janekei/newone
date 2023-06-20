@@ -78,8 +78,6 @@ const refresh = () => {
     myTable.value.refresh()
 }
 
-
-
 //跳转对应行的详情页信息
 const clickThisColumn = (row) => {
     // 获取当前行的id
