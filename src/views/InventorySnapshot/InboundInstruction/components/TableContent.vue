@@ -1,8 +1,12 @@
 <template>
     <div>
-        <TableK url="/jinkotms-moduule-core-biz/gsc-wh-inbound/page" method="get" :params="props.searchData" ref="myTable"
-            :firstPages="20" :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
-            @clickThisColumn="clickThisColumn">
+        <TableK url="/jinko/gsc-wh-inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
+            :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
+            @click-this-column="clickThisColumn">
+            <template #buttons>
+                <SearchContent :formOption="formOptionHome" @click-search="clickSearch"
+                    @update:form-state="updateSearchData" @reset-form="resetForm" />
+            </template>
             <template #expand="{ expandRow }">
                 <DescriptionInboundList :descList="expandRow" />
             </template>
@@ -20,17 +24,16 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import TableK from '@/components/TableK/index.vue'
+import SearchContent from '../components/SearchContent.vue'
 import DescriptionInboundList from './DescriptionInboundList.vue';
-
 const props = defineProps({
-    searchData: {
-        type: Object,
-        default: () => { }
-    },
-    isSearch: {
-        type: Boolean,
-        default: false
+    transportStatus: {
+        type: Number,
+        default: 0
     }
+})
+let formData = ref({
+    transportStatus: props.transportStatus
 })
 
 // const { t } = useI18n()
@@ -70,18 +73,47 @@ const tableOption = reactive([
         soltName: 'transportStatus'
     }
 ])
+// 入库指令首页搜索框数据
+const tableRef = ref()
+const formOptionHome = reactive([
+    {
+        type: 'input',
+        field: 'sapDn',
+        placeholder: '请输入SAP任务号',
+        label: 'SAP任务号'
+    },
+    {
+        type: 'date',
+        field: 'estInTime',
+        placeholder: '请选择预计入库时间',
+        label: '预计入库时间'
+    }
+])
+
+// 搜索
+let searchData = ref({})
+const clickSearch = () => {
+    refresh()
+}
+const updateSearchData = (val) => {
+    searchData.value = val
+}
+const resetForm = () => {
+    searchData.value = {}
+    refresh()
+}
+
 
 // 刷新列表
-const myTable = ref()
 const refresh = () => {
-    myTable.value.refresh()
+    tableRef.value.refresh()
 }
+
 
 //跳转对应行的详情页信息
 const clickThisColumn = (row) => {
     // 获取当前行的id
     let id = row.id
-    // console.log(router)
     router.push({ path: '/InventorySnapshot/detailinboundinstruction', query: { id } })
 }
 

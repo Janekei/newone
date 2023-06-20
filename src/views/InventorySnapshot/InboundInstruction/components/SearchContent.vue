@@ -27,7 +27,7 @@ const formRef = ref()
 // 查询方法
 const emits = defineEmits(['clickSearch', 'update:form-state', 'resetForm'])
 const postSearchData = () => {
-  emits('clickSearch', formData)
+  emits('clickSearch')
 }
 const UpdateFormState = () => {
   emits('update:form-state', formData)
@@ -35,7 +35,9 @@ const UpdateFormState = () => {
 const resetform = () => {
   formRef.value.resetFields()
   formData = {}
-  postSearchData()
+  setTimeout(() => {
+    postSearchData()
+  }, 10);
 }
 </script>
 <style lang="scss" scoped>
@@ -46,6 +48,7 @@ const resetform = () => {
   border-radius: 10px;
   background-color: #f5f8ff;
   padding: 1.25rem;
+  margin-bottom: 1.25rem;
 
   .btn-box {
     display: inline-flex;

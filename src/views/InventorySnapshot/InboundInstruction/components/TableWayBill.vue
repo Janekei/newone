@@ -1,87 +1,135 @@
 <template>
     <div class="box">
         <div class="content">
-            <el-descriptions class="elDescriptions" title="任务明细" align="center" :column="2" border>
-                <el-descriptions-item v-for="(item, index) in taskDetail" :key="index + 'k'" :label="item.title"
+            <el-descriptions class="elDescriptions" title="任务明细" label-width="100" align="center" :column="2" border>
+                <el-descriptions-item label="任务单号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.sapDn }}</el-descriptions-item>
+                <el-descriptions-item label="发货方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.departureLocationName }}</el-descriptions-item>
+                <el-descriptions-item label="SAP ID" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.sapDn }}</el-descriptions-item>
+                <el-descriptions-item label="收货方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.arrivalocationName }}</el-descriptions-item>
+                <el-descriptions-item label="业务类型" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.type }}</el-descriptions-item>
+                <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.carrierName }}</el-descriptions-item>
+                <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.transportMode }}</el-descriptions-item>
+                <el-descriptions-item label="贸易方式" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.tradeWayConfigMode }}</el-descriptions-item>
+                <el-descriptions-item label="起运港" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.departurePortName }}</el-descriptions-item>
+                <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.arrivalPortName }}</el-descriptions-item>
+                <el-descriptions-item label="提货时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.realDepartureTime }}</el-descriptions-item>
+                <el-descriptions-item label="需求方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.salesman }}</el-descriptions-item>
+                <!-- <el-descriptions-item v-for="(item, index) in taskDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content" width="180">{{
                         item.name
-                    }}</el-descriptions-item>
+                    }}</el-descriptions-item> -->
             </el-descriptions>
-            <el-descriptions class="elDescriptions" title="货品明细" :column="2" border>
-                <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
+            <el-descriptions class="elDescriptions" title="货品明细" label-width="100" :column="2" border>
+                <el-descriptions-item label="提单号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.bl }}</el-descriptions-item>
+                <el-descriptions-item label="发票号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.invoice_no }}</el-descriptions-item>
+                <el-descriptions-item label="合同号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.contractNo }}</el-descriptions-item>
+                <el-descriptions-item label="集装箱数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.totalBox }}</el-descriptions-item>
+                <el-descriptions-item label="货值" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.unitPrice }}</el-descriptions-item>
+                <el-descriptions-item label="瓦数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.carrierName }}</el-descriptions-item>
+                <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.goodsId }}</el-descriptions-item>
+                <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.palletQty }}</el-descriptions-item>
+                <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.totalWatt }}</el-descriptions-item>
+                <!-- <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
-                    }}</el-descriptions-item>
+                    }}</el-descriptions-item> -->
             </el-descriptions>
-            <el-descriptions class="elDescriptions" title="时间明细" :column="2" border>
-                <el-descriptions-item v-for="(item, index) in timeDetail" :key="index + 'k'" :label="item.title"
+            <el-descriptions class="elDescriptions" title="时间明细" label-width="100" :column="2" border>
+                <el-descriptions-item label="生成入库指令时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.createTime }}</el-descriptions-item>
+                <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.etd }}</el-descriptions-item>
+                <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.newEtd }}</el-descriptions-item>
+                <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.atd }}</el-descriptions-item>
+                <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.eta }}</el-descriptions-item>
+                <el-descriptions-item label="ETA New 日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.newAta }}</el-descriptions-item>
+                <el-descriptions-item label="ATA日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.ata }}</el-descriptions-item>
+                <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.estInTime }}</el-descriptions-item>
+                <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.requiredArrivalTime }}</el-descriptions-item>
+                <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ props.waybillInfo.requiredArrivalTime }}</el-descriptions-item>
+                <!-- <el-descriptions-item v-for="(item, index) in timeDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
-                    }}</el-descriptions-item>
+                    }}</el-descriptions-item> -->
             </el-descriptions>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
-import { useRoute } from 'vue-router'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
-import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
-
-// 获取运单信息、柜信息数据
-// listItemId：入库指令列表传过来的参数
-const route = useRoute()
-let listItemId: number = parseInt(JSON.parse(route.query.id as any));
-const getMainData = async () => {
-    await InboundInstruction.getListItemDetail({ id: listItemId })
-}
-
-const taskDetail = reactive([
-    { title: '任务单号', name: 'departureLocationId' },
-    { title: '发货方', name: 'carrierName' },
-    { title: 'SAP ID', name: 'sapDn' },
-    { title: '收货方', name: 'arrivalLocationId' },
-    { title: '业务类型', name: 'type' },
-    { title: '承运商', name: 'carrierName' },
-    { title: '运输方式', name: 'transportMode' },
-    { title: '贸易方式', name: 'tradeWayConfigId' },
-    { title: '起运港', name: 'departurePortName' },
-    { title: '目的港', name: 'arrivalPortName' },
-    { title: '提货时间', name: 'realDepartureTime' },
-    { title: '需求方', name: 'salesman' }
-])
-const productDetail = reactive([
-    { title: '提单号', name: 'bl' },
-    { title: '发票号', name: 'invoice_no' },
-    { title: '合同号', name: 'contractNo' },
-    { title: '集装箱数', name: 'totalBox' },
-    { title: '货值', name: 'unitPrice' },
-    { title: '瓦数', name: 'carrierName' },
-    { title: '功率档位', name: 'goodsId' },
-    { title: '托盘数量', name: 'palletQty' },
-    { title: '片数', name: 'totalWatt' }
-])
-const timeDetail = reactive([
-    { title: '生成入库指令时间', name: 'estInTime' },
-    { title: 'ETD日期', name: 'etd' },
-    { title: 'ETD New 日期', name: 'newEtd' },
-    { title: 'ATD日期', name: 'atd' },
-    { title: 'ETA日期', name: 'eta' },
-    { title: 'ETA New 日期', name: 'newEta' },
-    { title: 'ATA日期', name: 'ata' },
-    { title: '预计入库时间', name: 'requiredArrivalTime' },
-    { title: '港口提货时间', name: 'qty' },
-    { title: '清关完成时间', name: 'qty' }
-])
-
-const filtersData = () => {
-    // for (let key in waybillInfo) {
-    //     console.log(key, 'key')
-    // }
-}
-onBeforeMount(() => {
-    getMainData()
-    filtersData()
+const props = defineProps({
+    waybillInfo: {
+        type: Object,
+        default: () => { }
+    }
 })
+// const taskDetail = reactive([
+//     { title: '任务单号', name: 'departureLocationId' },
+//     { title: '发货方', name: 'carrierName' },
+//     { title: 'SAP ID', name: 'sapDn' },
+//     { title: '收货方', name: 'arrivalLocationId' },
+//     { title: '业务类型', name: 'type' },
+//     { title: '承运商', name: 'carrierName' },
+//     { title: '运输方式', name: 'transportMode' },
+//     { title: '贸易方式', name: 'tradeWayConfigMode' },
+//     { title: '起运港', name: 'departurePortName' },
+//     { title: '目的港', name: 'arrivalPortName' },
+//     { title: '提货时间', name: 'realDepartureTime' },
+//     { title: '需求方', name: 'salesman' }
+// ])
+// const productDetail = reactive([
+//     { title: '提单号', name: 'bl' },
+//     { title: '发票号', name: 'invoice_no' },
+//     { title: '合同号', name: 'contractNo' },
+//     { title: '集装箱数', name: 'totalBox' },
+//     { title: '货值', name: 'unitPrice' },
+//     { title: '瓦数', name: 'carrierName' },
+//     { title: '功率档位', name: 'goodsId' },
+//     { title: '托盘数量', name: 'palletQty' },
+//     { title: '片数', name: 'totalWatt' }
+// ])
+// const timeDetail = reactive([
+//     { title: '生成入库指令时间', name: 'estInTime' },
+//     { title: 'ETD日期', name: 'etd' },
+//     { title: 'ETD New 日期', name: 'newEtd' },
+//     { title: 'ATD日期', name: 'atd' },
+//     { title: 'ETA日期', name: 'eta' },
+//     { title: 'ETA New 日期', name: 'newEta' },
+//     { title: 'ATA日期', name: 'ata' },
+//     { title: '预计入库时间', name: 'requiredArrivalTime' },
+//     { title: '港口提货时间', name: 'qty' },
+//     { title: '清关完成时间', name: 'qty' }
+// ])
+
+
 
 </script>
 <style lang="scss" scoped>

@@ -1,7 +1,9 @@
 <template>
-    异常
-    <TableK url="/jinko/gsc-wh-inbound-container/page" method="get" :params="formData" :firstPages="20"
+    <TableK url="/jinko/inbound-container/page" method="get" :params="formData" :firstPages="20" ref="tableRef"
         :showFixedOperation="true" :showIndex="true" :tableOption="tableOption" @selectThisColumn="selectThisColumn">
+        <template #buttons>
+            <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
+        </template>
         <template #operation="{ operateRow }">
             <ElButton class="edit-btn" type="warning" @click="clickTray(operateRow)">托</ElButton>
         </template>
@@ -10,51 +12,72 @@
         <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="errorRecord">异常登记</el-button>
     </div>
-    <DialogInbound v-if="flag" :inboundIdsBox="inboundIdsBox" ref="refDialog">
-        <!-- <template #formError>
-            {{ recordData }}
-            <FormK :formOption="formOption" v-model:formState="recordData" labelWidth="6em" ref="formRef" />
-        </template> -->
-    </DialogInbound>
+    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" />
 </template>
 
 <script lang="ts" setup>
-import { ElButton, ElMessage } from 'element-plus'
+import { ElButton } from 'element-plus'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
-// import FormK from '@/components/FormK/index.vue'
+import SearchContent from '../../../components/SearchContent.vue';
 
 const props = defineProps({
-    errorInboundID: {
+    inboundId: {
         type: Number,
-        default: 0
+        default: 1
     }
+})
+let formData = ref({
+    inboundId: props.inboundId
 })
 
 // 保存当前行的id
 let inboundIdsBox: any;
-let flag = ref(false)
 const selectThisColumn = (rows) => {
     inboundIdsBox = []
     rows.forEach((item) => {
-        inboundIdsBox.push(item.inboundId)
+        inboundIdsBox.push(item.id)
     })
-    if (inboundIdsBox.length > 0) {
-        flag.value = true
-    } else {
-        flag.value = true
-    }
 }
+
+// 搜索
+const tableRef = ref()
+const formOption = reactive([
+    {
+        type: 'input',
+        field: 'cabinetTypeId',
+        placeholder: '请填写箱号',
+        label: '箱号'
+    },
+    {
+        type: 'input',
+        field: 'lockNo',
+        placeholder: '请输入锁号',
+        label: '锁号'
+    }
+])
+const clickSearch = () => {
+    refresh()
+}
+const updateSearchData = async (val) => {
+    formData.value = {
+        inboundId: props.inboundId
+    }
+    await Object.assign(formData.value, val)
+}
+// 刷新列表
+const refresh = () => {
+    tableRef.value.refresh()
+}
+
 
 
 // ref弹窗
 const refDialog = ref()
-
 // 确认异常登记
 const errorRecord = () => {
-    if (flag.value) {
-        refDialog.value.open('异常类型确认', '异常类型确认')
-
+    if (inboundIdsBox.value.length > 0) {
+        refDialog.value.open('异常登记', '异常类型确认', '箱')
     } else {
         ElMessage.error('请选择所需要入库的箱！')
     }
@@ -73,9 +96,6 @@ const back = () => {
 }
 
 // table表格列数据
-const formData = ref({
-    id: props.errorInboundID
-})
 const tableOption = reactive([
     {
         prop: 'cabinetTypeId',

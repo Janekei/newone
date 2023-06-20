@@ -1,9 +1,10 @@
 <template>
-    部分
-    {{ formData }}
-    <TableK class="pagination" url="/jinko/gsc-wh-inbound-container/page" method="get" :params="formData" :showIndex="true"
-        :showFixedOperation="true" :firstPages="20" :tableOption="tableOption" @selectThisColumn="selectThisColumn"
-        @clickThisColumn="clickThisColumn">
+    <TableK class="pagination" url="/jinko/inbound-container/page" method="get" :params="formData" ref="tableRef"
+        :showIndex="true" :showFixedOperation="true" :firstPages="20" :tableOption="tableOption"
+        @selectThisColumn="selectThisColumn" @clickThisColumn="clickThisColumn">
+        <template #buttons>
+            <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
+        </template>
         <template #operation>
             <ElButton class="edit-btn" type="warning" @click="clickTray">托</ElButton>
         </template>
@@ -18,20 +19,29 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import TableK from '@/components/TableK/index.vue'
+import SearchContent from '../../../components/SearchContent.vue';
 import DialogInbound from '../../../components/DialogInbound.vue';
+const props = defineProps({
+    inboundId: {
+        type: Number,
+        default: 1
+    }
+})
 // table表格列数据
-const formData = ref({})
+const formData = ref({
+    inboundId: props.inboundId
+})
 const tableOption = reactive([
-    {
-        prop: 'boxNo',
+   {
+        prop: 'cabinetTypeId',
         label: '箱号',
     },
     {
-        prop: 'billNo',
+        prop: 'bl',
         label: '提单号',
     },
     {
-        prop: 'boxType',
+        prop: 'cabinetTypeName',
         label: '箱型',
     },
     {
@@ -39,19 +49,19 @@ const tableOption = reactive([
         label: '锁号',
     },
     {
-        prop: 'boxNumber',
+        prop: 'totalQuantity',
         label: '件数',
     },
     {
-        prop: 'weight',
+        prop: 'totalWeight',
         label: '重量',
     },
     {
-        prop: 'volumn',
+        prop: 'totalVolumn',
         label: '体积',
     },
     {
-        prop: 'createPeople',
+        prop: 'creator',
         label: '创建人',
     },
     {
@@ -59,7 +69,7 @@ const tableOption = reactive([
         label: '创建时间',
     },
     {
-        prop: 'updatePeople',
+        prop: 'updater',
         label: '更新人',
     },
     {
@@ -68,13 +78,44 @@ const tableOption = reactive([
     }
 ])
 
+// 搜索
+const tableRef = ref()
+const formOption = reactive([
+    {
+        type: 'input',
+        field: 'cabinetTypeId',
+        placeholder: '请填写箱号',
+        label: '箱号'
+    },
+    {
+        type: 'input',
+        field: 'lockNo',
+        placeholder: '请输入锁号',
+        label: '锁号'
+    }
+])
+const clickSearch = () => {
+    refresh()
+}
+const updateSearchData = async (val) => {
+    formData.value = {
+        inboundId: props.inboundId
+    }
+    await Object.assign(formData.value, val)
+}
+// 刷新列表
+const refresh = () => {
+    tableRef.value.refresh()
+}
+
+
 // 选中当前行
 // 保存当前行的id
 let inboundIdsBox: any = ref([]);
 const selectThisColumn = (rows) => {
     inboundIdsBox.value = []
     rows.forEach((item) => {
-        inboundIdsBox.value.push(item.inboundId)
+        inboundIdsBox.value.push(item.id)
     })
 }
 

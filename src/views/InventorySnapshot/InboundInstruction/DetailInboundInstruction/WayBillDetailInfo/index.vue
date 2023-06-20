@@ -1,5 +1,5 @@
 <template>
-    <TableWayBill />
+    <TableWayBill :waybillInfo="waybillInfo" />
     <div class="box-btn">
         <el-button class="button" type="primary" @click="errorOrder">异常订单</el-button>
         <el-button class="button" type="primary" @click="allInbound">整批入库</el-button>
@@ -12,11 +12,19 @@
 import { ElButton } from 'element-plus'
 import TableWayBill from '../../components/TableWayBill.vue'
 import DialogInbound from '../../components/DialogInbound.vue';
-
+import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 // 入库指令id
 const route = useRoute()
 let inboundID: number = parseInt(JSON.parse(route.query.id as any));
-
+let waybillInfo = ref({})
+const getMainData = async () => {
+    const res = await InboundInstruction.getListItemDetail({ id: inboundID })
+    waybillInfo.value = res
+    console.log(waybillInfo.value)
+}
+onBeforeMount(() => {
+    getMainData()
+})
 // ref弹窗
 const refDialog = ref()
 

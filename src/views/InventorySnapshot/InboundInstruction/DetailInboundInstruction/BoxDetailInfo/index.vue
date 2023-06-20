@@ -1,10 +1,9 @@
 <template>
     <div>
-        <SearchContent :formOption="formOptionBox" />
         <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false && isShowTray === false) && iscloseTray"
-            @backWaybill="backWaybill" @showTrayList="showTrayList" />
+            @backWaybill="backWaybill" @showTrayList="showTrayList" :inboundId="inboundId" />
         <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud && isShowTray === false) && iscloseTray"
-            @backWaybill="backWaybill" @showTrayList="showTrayList" :errorInboundID="props.errorInboundID" />
+            @backWaybill="backWaybill" @showTrayList="showTrayList" :inboundId="inboundId" />
         <AllBoxInfo :boxDetailInfo="props.boxDetailInfo"
             v-else-if="(showPartInboud === false && showErrorInboud === false && isShowTray === false) && iscloseTray" />
         <ChooseTray v-else :isClickPartInboundBtn="props.isClickPartInboundBtn" :isClickErrorBtn="props.isClickErrorBtn"
@@ -13,11 +12,16 @@
 </template>
 
 <script lang="ts" setup>
-import SearchContent from '../../components/SearchContent.vue'
+import { useRoute } from 'vue-router'
 import AllBoxInfo from './BoxPageSwitching/AllBoxInfo.vue'
 import PartBoxInbound from './BoxPageSwitching/PartBoxInbound.vue'
 import AbnormalInbound from './BoxPageSwitching/AbnormalInbound.vue'
 import ChooseTray from './BoxPageSwitching/ChooseTray.vue'
+
+// listItemId：入库指令列表传过来的参数
+const route = useRoute()
+let inboundId: number = parseInt(JSON.parse(route.query.id as any));
+// table表格列数据
 // 柜信息搜索框数据
 const props = defineProps({
     boxDetailInfo: {
@@ -39,13 +43,11 @@ const props = defineProps({
     isClickErrorBtn: {
         type: Boolean,
         default: false
-    },
-    errorInboundID: {
-        type: Number,
-        default: 0
     }
 })
 const emits = defineEmits(['backWay'])
+
+
 
 // 返回运单信息页面
 const backWaybill = () => {
@@ -81,26 +83,20 @@ defineExpose({
 })
 
 // 表格列
-const formOptionBox = reactive([
-    {
-        type: 'input',
-        field: 'boxNo',
-        placeholder: '请填写箱号',
-        label: '箱号',
-        rules: [
-            { required: true, message: '请填写箱号', trigger: 'change' }
-        ]
-    },
-    {
-        type: 'input',
-        field: 'code',
-        placeholder: '请输入锁号',
-        label: '锁号',
-        rules: [
-            { required: true, message: '请填写锁号', trigger: 'change' }
-        ]
-    }
-])
+// const formOptionBox = reactive([
+//     {
+//         type: 'input',
+//         field: 'boxNo',
+//         placeholder: '请填写箱号',
+//         label: '箱号'
+//     },
+//     {
+//         type: 'input',
+//         field: 'lockNo',
+//         placeholder: '请输入锁号',
+//         label: '锁号'
+//     }
+// ])
 
 
 </script>

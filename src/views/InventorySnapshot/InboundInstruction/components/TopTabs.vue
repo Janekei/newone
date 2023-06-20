@@ -1,11 +1,10 @@
 <template>
     <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
-        <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name" v-loading="loading">
+        <el-tab-pane v-for="(item, index) in tabList" :label="item.lable" :key="item.title" :name="item.name"
+            v-loading="loading">
             <slot :name="item.name" v-if="activeName === item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
-                    <SearchContent :formOption="formOptionHome" @clickSearch="clickSearch"
-                        @update:form-state="updateFormState" @resetForm="resetForm" />
-                    <TableContent :searchData="searchData" ref="tableRef" />
+                    <TableContent ref="tableRef" :transportStatus="index" />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
                     <WayBillDatailInfo :boxDetailInfo="props.boxDetailInfo" @clickPart="swicthPartInboud"
@@ -24,7 +23,6 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { ElTabPane, ElTabs } from 'element-plus'
-import SearchContent from '../components/SearchContent.vue'
 import TableContent from '../components/TableContent.vue'
 import WayBillDatailInfo from '../DetailInboundInstruction/WayBillDetailInfo/index.vue'
 import BoxDetailInfo from '../DetailInboundInstruction/BoxDetailInfo/index.vue'
@@ -73,21 +71,6 @@ const tabList = computed(() => {
     return data;
 })
 
-// 入库指令首页搜索框数据
-const formOptionHome = reactive([
-    {
-        type: 'input',
-        field: 'sapDn',
-        placeholder: '请输入SAP任务号',
-        label: 'SAP任务号'
-    },
-    {
-        type: 'date',
-        field: 'estInTime',
-        placeholder: '请选择预计入库时间',
-        label: '预计入库时间'
-    }
-])
 
 const trayRef = ref()
 
@@ -116,19 +99,19 @@ const swicthErrorOrder = (val) => {
 }
 
 // 搜索
-const tableRef = ref()
-let searchData = reactive({})
-const clickSearch = () => {
-    tableRef.value[0].refresh()
-}
-const updateFormState = (val) => {
-    console.log(1, val)
-    searchData = val
-}
-const resetForm = () => {
-    searchData = {}
-    clickSearch()
-}
+// const tableRef = ref()
+// let searchData = reactive({})
+// const clickSearch = () => {
+//     tableRef.value[0].refresh()
+// }
+// const updateFormState = (val) => {
+//     console.log(1, val)
+//     searchData = val
+// }
+// const resetForm = () => {
+//     searchData = {}
+//     clickSearch()
+// }
 
 
 // 选中的tab触发

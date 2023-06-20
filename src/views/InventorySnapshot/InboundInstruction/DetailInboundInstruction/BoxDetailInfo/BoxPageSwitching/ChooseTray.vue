@@ -1,7 +1,10 @@
 <template>
-    选托
-    <TableK url="/jinko/gsc-wh-stock-pallets/page" method="get" :params="formData" :firstPages="20"
-        :tableOption="tableOption" :showCheckBox="true" @selectThisColumn="selectThisColumn" />
+    <TableK url="/jinko/inbound-pallets/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
+        :tableOption="tableOption" :showCheckBox="true" @selectThisColumn="selectThisColumn">
+        <template #buttons>
+            <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
+        </template>
+    </TableK>
     <div class="box-btn">
         <el-button class="button" type="primary" @click="backPartInbound">返回</el-button>
         <el-button v-if="props.isClickPartInboundBtn" class="button" type="primary" @click="partInbound">确认入库</el-button>
@@ -14,7 +17,7 @@
 import { ElMessage } from 'element-plus'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
-
+import SearchContent from '../../../components/SearchContent.vue';
 const props = defineProps({
     iscloseTray: {
         type: Boolean,
@@ -32,6 +35,10 @@ const props = defineProps({
         type: Number,
         default: 0
     },
+    searchData: {
+        type: Object,
+        default: () => { }
+    }
 })
 
 // 保存当前行的id
@@ -39,10 +46,41 @@ let inboundIdsBox: any = ref([]);
 const selectThisColumn = (rows) => {
     inboundIdsBox.value = []
     rows.forEach((item) => {
-        inboundIdsBox.value.push(item.palletId)
+        inboundIdsBox.value.push(item.id)
     })
+}
 
-    console.log(inboundIdsBox.value, 50)
+// 搜索
+const formData = ref({
+    containerId: props.containerId
+})
+const tableRef = ref()
+const formOption = reactive([
+    {
+        type: 'input',
+        field: 'cabinetTypeId',
+        placeholder: '请填写箱号',
+        label: '箱号'
+    },
+    {
+        type: 'input',
+        field: 'lockNo',
+        placeholder: '请输入锁号',
+        label: '锁号'
+    }
+])
+const clickSearch = () => {
+    refresh()
+}
+const updateSearchData = async (val) => {
+    formData.value = {
+        containerId: props.containerId
+    }
+    await Object.assign(formData.value, val)
+}
+// 刷新列表
+const refresh = () => {
+    tableRef.value.refresh()
 }
 
 
@@ -53,7 +91,7 @@ const refDialog = ref()
 // 确认整批入库
 const partInbound = () => {
     if (inboundIdsBox.value.length > 0) {
-        refDialog.value.open('部分入库', '消息', '您确定要入库？')
+        refDialog.value.open('托部分入库', '消息', '您确定要入库？')
     } else {
         ElMessage.error('请选择所需要入库的托！')
     }
@@ -62,7 +100,7 @@ const partInbound = () => {
 // 确认异常登记
 const errorRecord = () => {
     if (inboundIdsBox.value.length > 0) {
-        refDialog.value.open('异常类型确认', '异常类型确认')
+        refDialog.value.open('异常登记', '异常类型确认', '托')
     } else {
         ElMessage.error('请选择所需要异常登记的托！')
     }
@@ -75,9 +113,6 @@ const backPartInbound = () => {
     emits('update:changeCloseTray', params)
 }
 // table表格列数据
-const formData = ref({
-    containerId: props.containerId
-})
 const tableOption = reactive([
     {
         prop: 'palletNo',

@@ -2,7 +2,7 @@
   <ElDialog v-model="dialogVisible" :title="dialogTitle" width="400" center>
     <div ref="refDialog">
       <div>
-        <div v-if="formType === '异常类型确认'">
+        <div v-if="formType === '异常登记'">
           <FormK :formOption="formOption" v-model:formState="recordData" labelWidth="6em" ref="formRef" />
         </div>
         <div v-else class="formContent">{{ formData }}</div>
@@ -18,6 +18,7 @@
 <script lang="ts" setup>
 import { ElButton } from 'element-plus'
 import { ref } from 'vue'
+import { getIntDictOptions } from '@/utils/dict'
 import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 
 const props = defineProps({
@@ -33,7 +34,8 @@ const props = defineProps({
 
 const recordData = ref({
   ids: undefined,
-  exception: undefined
+  exception: undefined,
+  exceptionStatus: undefined
 })
 const formOption = reactive([
   {
@@ -52,7 +54,7 @@ const formOption = reactive([
   },
   {
     type: 'input',
-    field: 'content',
+    field: 'exceptionStatus',
     placeholder: '请输入内容',
     label: '其他类型'
   },
@@ -67,6 +69,14 @@ const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 const formData = ref()    // 表单内容
 
+// 数据字典获取异常类型
+const getExceptionType = () => {
+  const res = getIntDictOptions('wh_inbound_exception')
+  console.log('shujuzidian', res)
+}
+onMounted(() => {
+  getExceptionType()
+})
 
 // 打开弹窗方法
 const open = (type: string, title: string, content: string) => {
@@ -82,13 +92,25 @@ const submitForm = async () => {
   if (formType.value === '整批入库') {
     await InboundInstruction.postAllInbound({ id: props.inboundID })
   } else if (formType.value === '箱部分入库') {
-    await InboundInstruction.postPartInboundBox({ ids: props.inboundIdsBox })
-  } else if (formType.value === '异常类型确认') {
+    let ids = props.inboundIdsBox
+    await InboundInstruction.postPartInboundBox({ ids })
+  } else if (formType.value === '托部分入库') {
+    let ids = props.inboundIdsBox
+    await InboundInstruction.postPartInboundTray({ ids })
+  } else if (formType.value === '异常登记' && formData.value === '箱') {
     let params = {
       ids: props.inboundIdsBox,
-      exception: recordData.value.exception
+      exceptionId: recordData.value.exception,
+      exceptionStatus: recordData.value.exceptionStatus
     }
-    await InboundInstruction.recordErrorBox(params)
+    await InboundInstruction.recordErrorTray(params)
+  } else if (formType.value === '异常登记' && formData.value === '托') {
+    let params = {
+      ids: props.inboundIdsBox,
+      exceptionId: recordData.value.exception,
+      exceptionStatus: recordData.value.exceptionStatus
+    }
+    await InboundInstruction.recordErrorTray(params)
   }
   dialogVisible.value = false
 }
@@ -100,7 +122,8 @@ defineExpose({
 const reset = () => {
   recordData.value = {
     ids: undefined,
-    exception: undefined
+    exception: undefined,
+    exceptionStatus: undefined
   }
 }
 
