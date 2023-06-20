@@ -3,8 +3,9 @@
         <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name" v-loading="loading">
             <slot :name="item.name" v-if="activeName === item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
-                    <SearchContent :formOption="formOptionHome" />
-                    <TableContent />
+                    <SearchContent :formOption="formOptionHome" @clickSearch="clickSearch"
+                        @update:form-state="updateFormState" />
+                    <TableContent :searchData="searchData" ref="tableRef" />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
                     <WayBillDatailInfo :boxDetailInfo="props.boxDetailInfo" @clickPart="swicthPartInboud"
@@ -76,7 +77,7 @@ const tabList = computed(() => {
 const formOptionHome = reactive([
     {
         type: 'input',
-        field: 'code',
+        field: 'sapDn',
         placeholder: '请输入SAP任务号',
         label: 'SAP任务号',
         rules: [
@@ -84,12 +85,12 @@ const formOptionHome = reactive([
         ]
     },
     {
-        type: 'input',
-        field: 'code',
-        placeholder: '请输入预计入库时间',
+        type: 'date',
+        field: 'estInTime',
+        placeholder: '请选择预计入库时间',
         label: '预计入库时间',
         rules: [
-            { required: true, message: '请输入预计入库时间', trigger: 'change' }
+            { required: true, message: '请选择时间', trigger: 'blur' }
         ]
     }
 ])
@@ -118,6 +119,16 @@ const swicthErrorOrder = (val) => {
     activeName.value = 'boxInfo'
     showErrorInboud.value = true
     isClickErrorBtn.value = true
+}
+
+// 搜索
+const tableRef = ref()
+let searchData = ref({})
+const clickSearch = () => {
+    tableRef.value[0].refresh()
+}
+const updateFormState = (val) => {
+    searchData.value = val
 }
 
 

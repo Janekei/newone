@@ -1,11 +1,12 @@
 <template>
   <div class="header">
     <div class="form-box">
-      <FormK :formOption="props.formOption" v-model:formState="formData" labelWidth="" ref="formK" />
+      <FormK :formOption="props.formOption" v-model:formState="formData" labelWidth="" ref="formK"
+        @update:form-state="UpdateFormState" />
     </div>
     <div class="btn-box">
       <el-button type="primary">高级查询</el-button>
-      <el-button type="primary" :icon="Search">查询</el-button>
+      <el-button type="primary" :icon="Search" @click="postSearchData">查询</el-button>
       <el-button type="default">重置</el-button>
     </div>
   </div>
@@ -22,6 +23,14 @@ const props = defineProps({
   }
 })
 const formData = ref({})
+// 查询方法
+const emits = defineEmits(['clickSearch', 'update:form-state'])
+const postSearchData = () => {
+  emits('clickSearch', formData.value)
+}
+const UpdateFormState = () => {
+  emits('update:form-state', formData.value)
+}
 </script>
 <style lang="scss" scoped>
 .header {
