@@ -48,7 +48,7 @@ const tableOption = reactive([
         label: '提单号',
     },
     {
-        prop: 'containerNumber',
+        prop: 'soNo',
         label: 'SO No',
     },
     {
