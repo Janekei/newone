@@ -94,6 +94,9 @@ service.interceptors.request.use(
    config.params = {}
    config.url = url
   }
+  if (config.url?.indexOf('/lcdp') !== -1) {
+   config.baseURL = 'http://jinko3.s.itcat.fun'
+  }
   return config
  },
  (error: AxiosError) => {
@@ -124,6 +127,8 @@ service.interceptors.response.use(
   }
   // 获取错误信息
   const msg = data.msg || errorCode[code] || errorCode['default']
+  console.log(code, 130);
+
   if (ignoreMsgs.indexOf(msg) !== -1) {
    // 如果是忽略的错误码，直接返回 msg 异常
    return Promise.reject(msg)
@@ -184,10 +189,9 @@ service.interceptors.response.use(
      '<div>5 分钟搭建本地环境</div>'
    })
    return Promise.reject(new Error(msg))
-  } else if (code !== 200) {
+  } else if (code !== 200 && code !== 1) {
    if (msg === '无效的刷新令牌') {
     // hard coding：忽略这个提示，直接登出
-    console.log(msg)
    } else {
     ElNotification.error({ title: msg })
    }

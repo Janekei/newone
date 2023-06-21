@@ -4,13 +4,17 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 const props = defineProps({
  id: {
   type: String,
   default: 'inventory-statistics'
+ },
+ data: {
+  type: Object as any,
+  default: null
  }
 })
 
@@ -51,14 +55,7 @@ const setOption = () => {
     labelLine: {
      show: false
     },
-    data: [
-     { value: 1048, name: '港口-仓库' },
-     { value: 735, name: '工厂-离港' },
-     { value: 580, name: '直发客户' },
-     { value: 484, name: '清关状态' },
-     { value: 300, name: '仓库-客户' },
-     { value: 300, name: '离港-到港' }
-    ]
+    data: props.data
    }
   ]
  };
@@ -71,7 +68,7 @@ const initChart = () => {
   myGlolbChart = myChart
  }
 }
-const resizeHandler = _.debounce(function () {
+const resizeHandler = debounce(function () {
  myGlolbChart.resize()
 }, 100)
 

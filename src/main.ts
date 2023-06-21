@@ -41,27 +41,33 @@ import '@/plugins/tongji' // 百度统计
 
 import Logger from '@/utils/Logger'
 
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
 // 创建实例
 const setupAll = async () => {
-  const app = createApp(App)
+ const app = createApp(App)
 
-  await setupI18n(app)
+ await setupI18n(app)
 
-  setupStore(app)
+ setupStore(app)
 
-  setupGlobCom(app)
+ setupGlobCom(app)
 
-  setupElementPlus(app)
+ setupElementPlus(app)
 
-  setupFormCreate(app)
+ setupFormCreate(app)
 
-  setupRouter(app)
+ setupRouter(app)
 
-  setupAuth(app)
+ setupAuth(app)
 
-  await router.isReady()
+ await router.isReady()
 
-  app.mount('#app')
+ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+ }
+
+ app.mount('#app')
 }
 
 setupAll()

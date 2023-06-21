@@ -4,13 +4,17 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 const props = defineProps({
  id: {
   type: String,
   default: 'inventory-statistics'
+ },
+ data: {
+  type: Object as any,
+  default: null
  }
 })
 
@@ -36,7 +40,7 @@ const setOption = () => {
   xAxis: [
    {
     type: 'category',
-    data: ['欧洲', '北美', '北亚', '非洲', '西亚', '印尼']
+    data: props.data.country
    }
   ],
   yAxis: [
@@ -51,9 +55,7 @@ const setOption = () => {
    {
     name: '库存',
     type: 'bar',
-    data: [
-     1200, 2000, 1420, 1723, 980, 1523
-    ],
+    data: props.data.list,
     barWidth: 20,
     itemStyle: {
      color: '#379fd8',
@@ -76,7 +78,7 @@ const initChart = () => {
   myGlolbChart = myChart
  }
 }
-const resizeHandler = _.debounce(function () {
+const resizeHandler = debounce(function () {
  myGlolbChart.resize()
 }, 100)
 

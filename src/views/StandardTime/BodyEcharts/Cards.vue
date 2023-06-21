@@ -1,71 +1,90 @@
 <template>
  <div class="cards">
-  <div class="card-item card-item-border">
-   <div class="date">
-    平均时间
+  <template v-if="show">
+   <div class="card-item card-item-border">
+    <div class="date">
+     平均时间
+    </div>
+    <div class="days">
+     {{ state.averageTime }} <span class="tian">天</span>
+    </div>
    </div>
-   <div class="days">
-    48.8 <span class="tian">天</span>
+   <div class="card-item">
+    <div class="card-item-top">
+     <span class="form">工厂</span>
+     <span>
+      <ElIcon style="color: #219ddd">
+       <DArrowRight />
+      </ElIcon>
+     </span>
+     <span>离岗</span>
+    </div>
+    <div class="card-item-bottom">
+     <div class="true-date">运行时间</div>
+     <div class="day">{{ state.factoryToDeparture.reality }} <span class="min-tian">天</span> </div>
+     <div class="standard">标准时间</div>
+     <div class="day">{{ state.factoryToDeparture.standard }} <span class="min-tian">天</span> </div>
+    </div>
    </div>
-  </div>
-  <div class="card-item">
-   <div class="card-item-top">
-    <span class="form">工厂</span>
-    <span>
-     <ElIcon style="color: #219ddd">
-      <DArrowRight />
-     </ElIcon>
-    </span>
-    <span>离岗</span>
+   <div class="card-item">
+    <div class="card-item-top">
+     <span class="form">离岗</span>
+     <span>
+      <ElIcon style="color: #219ddd">
+       <DArrowRight />
+      </ElIcon>
+     </span>
+     <span>到岗</span>
+    </div>
+    <div class="card-item-bottom">
+     <div class="true-date">运行时间</div>
+     <div class="day">{{ state.departureToArrival.reality }} <span class="min-tian">天</span> </div>
+     <div class="standard">标准时间</div>
+     <div class="day">{{ state.departureToArrival.standard }} <span class="min-tian">天</span> </div>
+    </div>
    </div>
-   <div class="card-item-bottom">
-    <div class="true-date">运行时间</div>
-    <div class="day">3.5 <span class="min-tian">天</span> </div>
-    <div class="standard">标准时间</div>
-    <div class="day">5 <span class="min-tian">天</span> </div>
+   <div class="card-item">
+    <div class="card-item-top">
+     <span class="form">到岗</span>
+     <span>
+      <ElIcon style="color: #219ddd">
+       <DArrowRight />
+      </ElIcon>
+     </span>
+     <span>客户</span>
+    </div>
+    <div class="card-item-bottom">
+     <div class="true-date">运行时间</div>
+     <div class="day">{{ state.arrivalToCustomer.reality }} <span class="min-tian">天</span> </div>
+     <div class="standard">标准时间</div>
+     <div class="day">{{ state.arrivalToCustomer.standard }} <span class="min-tian">天</span> </div>
+    </div>
    </div>
-  </div>
-  <div class="card-item">
-   <div class="card-item-top">
-    <span class="form">离岗</span>
-    <span>
-     <ElIcon style="color: #219ddd">
-      <DArrowRight />
-     </ElIcon>
-    </span>
-    <span>到岗</span>
-   </div>
-   <div class="card-item-bottom">
-    <div class="true-date">运行时间</div>
-    <div class="day">3.5 <span class="min-tian">天</span> </div>
-    <div class="standard">标准时间</div>
-    <div class="day">5 <span class="min-tian">天</span> </div>
-   </div>
-  </div>
-  <div class="card-item">
-   <div class="card-item-top">
-    <span class="form">到岗</span>
-    <span>
-     <ElIcon style="color: #219ddd">
-      <DArrowRight />
-     </ElIcon>
-    </span>
-    <span>客户</span>
-   </div>
-   <div class="card-item-bottom">
-    <div class="true-date">运行时间</div>
-    <div class="day">3.5 <span class="min-tian">天</span> </div>
-    <div class="standard">标准时间</div>
-    <div class="day">5 <span class="min-tian">天</span> </div>
-   </div>
-  </div>
+  </template>
  </div>
  <Echects />
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { ElIcon } from 'element-plus'
 import Echects from '../Echects/index.vue'
+import { phaseTime } from '@/api/standardTime/index'
+
+const state = ref({})
+const show = ref(false)
+
+const getPhaseTime = () => {
+ phaseTime({}).then(res => {
+  console.log(res, 6);
+  state.value = res
+  show.value = true
+ })
+}
+
+onMounted(() => {
+ getPhaseTime()
+})
 </script>
 
 <style scoped lang="scss">

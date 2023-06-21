@@ -6,7 +6,14 @@
 <script setup lang="ts">
 import { ref, markRaw, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
+
+const props = defineProps({
+ data: {
+  type: Object as any,
+  default: null
+ }
+})
 let myChart = ref()
 const setOption = function () {
  const option = {
@@ -33,14 +40,7 @@ const setOption = function () {
     label: {
      formatter: '{c}'
     },
-    data: [
-     { value: 1048, name: '一月' },
-     { value: 735, name: '二月' },
-     { value: 580, name: '三月' },
-     { value: 484, name: '四月' },
-     { value: 300, name: '五月' },
-     { value: 230, name: '六月' }
-    ],
+    data: props.data,
     emphasis: {
      itemStyle: {
       shadowBlur: 10,
@@ -62,7 +62,7 @@ const initChart = async function () {
   myChart.value = markRaw(chart)
  }
 }
-const resizeHandle = _.debounce(function () {
+const resizeHandle = debounce(function () {
  myChart.value.resize()
 }, 100)
 onMounted(() => {

@@ -3,8 +3,8 @@
     <div class="table-header">
       <ElPopover placement="bottom" title="列排序" trigger="click">
         <template #reference>
-          <ElIcon class="pointer">
-            <Tools />
+          <ElIcon class="pointer" style="font-size: 20px;" title="列排序">
+            <DCaret />
           </ElIcon>
         </template>
         <template #default>
@@ -12,43 +12,38 @@
         </template>
       </ElPopover>
     </div>
+    <RightClickCard style="background-color: #fff;">
+      <slot name="buttons" :selectRow="selectAll"></slot>
+      <!-- tableData.slice((page - 1) * limit, page * limit) -->
+      <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
+        ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
+        @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }"
+        :header-cell-style="{ 'text-align': 'center' }">
+        <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
+        <el-table-column label="序号" type="index" width="100" align="center" v-if="showIndex" />
+        <ElTableColumn :prop="item.prop" :label="item.label" :width="item.width" v-for="(item, index) in tableOption"
+          :key="index + 'a'">
+          <template #default="{ row }" v-if="item.slotName">
+            <slot :name="item.slotName" :row="{ row }">{{ index }}</slot>
+          </template>
+        </ElTableColumn>
+        <ElTableColumn type="expand" v-if="showExpand">
+          <template #default="{ row }">
+            <slot name="expand" :expandRow="row"></slot>
+          </template>
+        </ElTableColumn>
+        <ElTableColumn fixed="right" label="操作" width="150" v-if="showFixedOperation">
+          <template #default="{ row }">
+            <slot name="operation" :operateRow="row"></slot>
+          </template>
+        </ElTableColumn>
+      </ElTable>
+      <div class="pagination">
+        <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"
+          :disabled="disabledPage" :firstPages="firstPages" :total="total" ref="pagination" :small="pageSmall" />
+      </div>
+    </RightClickCard>
   </div>
-  <RightClickCard style="background-color: #fff;">
-    <slot name="buttons" :selectRow="selectAll"></slot>
-    <!-- tableData.slice((page - 1) * limit, page * limit) -->
-    <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
-      ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
-      @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }"
-      :header-cell-style="{ 'text-align': 'center' }">
-      <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
-      <el-table-column label="序号" type="index" width="100" align="center" v-if="showIndex" />
-      <ElTableColumn :prop="item.prop" :label="item.label" :width="item.width" v-for="(item, index) in tableOption"
-        :key="index + 'a'">
-        <template #default="{ row }" v-if="item.slotName">
-          <slot :name="item.slotName" :row="{ row }">{{ index }}</slot>
-        </template>
-      </ElTableColumn>
-      <ElTableColumn type="expand" v-if="showExpand">
-        <template #default="{ row }">
-          <slot name="expand" :expandRow="row"></slot>
-        </template>
-      </ElTableColumn>
-      <!-- <ElTableColumn v-for="(item, index) in specialColumn" v-if="specialColumn.length > 0" :key="index + 'b'">
-        <template #default="{ row }">
-          <slot name="expand" :expandRow="row"></slot>
-        </template>
-      </ElTableColumn> -->
-      <ElTableColumn fixed="right" label="操作" width="150" v-if="showFixedOperation">
-        <template #default="{ row }">
-          <slot name="operation" :operateRow="row"></slot>
-        </template>
-      </ElTableColumn>
-    </ElTable>
-    <div class="pagination">
-      <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"
-        :disabled="disabledPage" :firstPages="firstPages" :total="total" ref="pagination" :small="pageSmall" />
-    </div>
-  </RightClickCard>
 </template>
  
 <script lang="ts" setup>
@@ -108,10 +103,6 @@ const props = defineProps({
   pageSmall: {
     type: Boolean,
     default: false
-  },
-  specialColumn: {
-    type: Array as any,
-    defalut: () => []
   }
 })
 
@@ -212,8 +203,6 @@ defineExpose({
 <style scoped lang="scss">
 .table-box {
   background-color: #fff;
-
-
 }
 
 .pagination {
@@ -227,6 +216,7 @@ defineExpose({
 .table-header {
   display: flex;
   justify-content: end;
+  padding: 8px 0;
   // padding: 1rem;
 }
 </style>

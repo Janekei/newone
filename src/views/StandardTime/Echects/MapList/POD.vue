@@ -6,7 +6,15 @@
 <script setup lang="ts">
 import { ref, markRaw, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
+
+const props = defineProps({
+ data: {
+  type: Object as any,
+  default: null
+ }
+})
+
 let myChart = ref()
 const setOption = function () {
  const option = {
@@ -21,14 +29,14 @@ const setOption = function () {
   xAxis: {
    type: 'category',
    boundaryGap: false,
-   data: ['非洲', '马来', '北亚', '中国', '韩国', '北美', '欧洲']
+   data: props.data.country
   },
   yAxis: {
    type: 'value'
   },
   series: [
    {
-    data: [820, 932, 901, 934, 1290, 1330, 1320],
+    data: props.data.list,
     type: 'line',
     itemStyle: {
      color: '#e02055'
@@ -63,7 +71,7 @@ const initChart = async function () {
   myChart.value = markRaw(chart)
  }
 }
-const resizeHandle = _.debounce(function () {
+const resizeHandle = debounce(function () {
  myChart.value.resize()
 }, 100)
 onMounted(() => {

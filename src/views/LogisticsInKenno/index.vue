@@ -5,7 +5,7 @@
    <div class="count">{{ item.count }}</div>
    <div class="footer">
     <span>{{ item.footer }}</span>
-    <span class="footer-count">{{ item.heute }}</span>
+    <span class="footer-count">{{ item.today }}</span>
    </div>
   </div>
  </div>
@@ -18,42 +18,35 @@
 </template>
     
 <script lang="ts" setup>
-import { reactive } from 'vue'
+import { ref, onMounted } from 'vue'
 import CenterEcharts from './CenterEcharts/index.vue'
 import BottomWarning from './BottomWarning/index.vue'
+import { transportStatistics } from '@/api/logisticsInKenno/index'
 
-const list = reactive([
- {
-  title: '运输需求',
-  count: 234,
-  footer: '今日运输需求',
-  heute: 23
- },
- {
-  title: '运输任务',
-  count: 234,
-  footer: '今日运输需求',
-  heute: 23
- },
- {
-  title: '运输订单',
-  count: 234,
-  footer: '今日运输需求',
-  heute: 23
- },
- {
-  title: '运输调度',
-  count: 234,
-  footer: '今日运输需求',
-  heute: 23
- },
- {
-  title: '运输预警',
-  count: 234,
-  footer: '待处理预警信息',
-  heute: 23
- },
-])
+const textList = [
+ '运输需求',
+ '运输任务',
+ '运输订单',
+ '运输调度',
+ '运输预警'
+]
+const list = ref()
+const getList = () => {
+ transportStatistics({}).then((res: any) => {
+  list.value = res.map((item, index) => {
+   return {
+    title: textList[index],
+    count: item.count,
+    today: item.today,
+    footer: '今日运输需求'
+   }
+  })
+ })
+}
+
+onMounted(() => {
+ getList()
+})
 </script>
    
 <style scoped lang="scss">

@@ -4,13 +4,13 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
-import _ from 'lodash'
-defineProps({
- title: {
-  type: Array,
-  default: () => []
+import { debounce } from 'lodash-es'
+const props = defineProps({
+ data: {
+  type: Object as any,
+  default: null
  }
 })
 
@@ -70,7 +70,7 @@ const setOption = () => {
     axisLabel: {
      color: '#000'
     },
-    data: ['越南', '北亚', '非洲', '中国', '马来', '澳洲', '北美']
+    data: props.data.country
    }
 
   ],
@@ -82,7 +82,7 @@ const setOption = () => {
     emphasis: {
      focus: 'series'
     },
-    data: [320, 302, 341, 374, 390, 450, 420],
+    data: props.data.warehousing,
     barWidth: 20,
     itemStyle: {
      borderRadius: [10, 10, 10, 10], // 设置圆角大小，分别为左上、右上、右下、左下
@@ -102,7 +102,7 @@ const setOption = () => {
     emphasis: {
      focus: 'series'
     },
-    data: [-120, -132, -101, -134, -190, -230, -210],
+    data: props.data.outbound,
     itemStyle: {
      borderRadius: [10, 10, 10, 10], // 设置圆角大小，分别为左上、右上、右下、左下
      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
@@ -125,7 +125,7 @@ const initChart = () => {
   myGlolbChart = myChart
  }
 }
-const resizeHandler = _.debounce(function () {
+const resizeHandler = debounce(function () {
  myGlolbChart.resize()
 }, 100)
 

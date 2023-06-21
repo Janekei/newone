@@ -1,6 +1,5 @@
 <template>
  <div class="form-box">
-  {{ formData }}
   <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formK" />
  </div>
  <ElButton @click="submit">提交</ElButton>
