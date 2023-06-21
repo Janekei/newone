@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 defineProps({
  title: {
   type: Array,
@@ -133,7 +133,7 @@ const initChart = () => {
   myGlolbChart = myChart
  }
 }
-const resizeHandler = _.debounce(function () {
+const resizeHandler = debounce(function () {
  myGlolbChart.resize()
 }, 100)
 

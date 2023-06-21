@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { ref, markRaw, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
-import _ from 'lodash'
+import { debounce } from 'lodash-es'
 
 const props = defineProps({
  data: {
@@ -70,7 +70,7 @@ const initChart = async function () {
   myChart.value = markRaw(chart)
  }
 }
-const resizeHandle = _.debounce(function () {
+const resizeHandle = debounce(function () {
  myChart.value.resize()
 }, 100)
 onMounted(() => {

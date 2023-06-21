@@ -7,17 +7,18 @@
   </div>
   <div class="flex-div-item">
    <Card title="正常供应商分布">
-    <Normalversorgung id="normalversorgung" />
+    <Normalversorgung id="normalversorgung" :data="normalversorgungData" v-if="showNormalversorgung" />
    </Card>
   </div>
   <div class="flex-div-item" style="margin-top: 2rem">
    <Card title="超期订单分布">
-    <UberfalligeAuftrage id="uberfallige-auftrage" />
+    <UberfalligeAuftrage id="uberfallige-auftrage" :data="uberfalligeAuftrageData" v-if="showUberfalligeAuftrage" />
    </Card>
   </div>
   <div class="flex-div-item" style="margin-top: 2rem">
    <Card title="超期订单-供应商">
-    <UberfalligeAuftrageG id="uberfallige-auftrage-g" />
+    <UberfalligeAuftrageG id="uberfallige-auftrage-g" :data="supplierForOverdueOrdersData"
+     v-if="showSupplierForOverdueOrders" />
    </Card>
   </div>
  </div>
@@ -30,7 +31,7 @@ import NormaleAuftrage from './NormaleAuftrage.vue'
 import Normalversorgung from './Normalversorgung.vue'
 import UberfalligeAuftrage from './UberfalligeAuftrage.vue'
 import UberfalligeAuftrageG from './UberfalligeAuftrageG.vue'
-import { normaleAuftrage } from '@/api/transportBI/index'
+import { normaleAuftrage, normalversorgung, uberfalligeAuftrage, supplierForOverdueOrders } from '@/api/transportBI/index'
 
 const normaleAuftrageData = ref()
 const showNormaleAuftrage = ref(false)
@@ -41,8 +42,38 @@ const getNormaleAuftrageData = () => {
  })
 }
 
+const normalversorgungData = ref()
+const showNormalversorgung = ref(false)
+const getNormalversorgungData = () => {
+ normalversorgung({}).then(res => {
+  showNormalversorgung.value = true
+  normalversorgungData.value = res
+ })
+}
+
+const uberfalligeAuftrageData = ref()
+const showUberfalligeAuftrage = ref(false)
+const getUberfalligeAuftrageData = () => {
+ uberfalligeAuftrage({}).then(res => {
+  showUberfalligeAuftrage.value = true
+  uberfalligeAuftrageData.value = res
+ })
+}
+
+const supplierForOverdueOrdersData = ref()
+const showSupplierForOverdueOrders = ref(false)
+const getSupplierForOverdueOrdersData = () => {
+ supplierForOverdueOrders({}).then(res => {
+  showSupplierForOverdueOrders.value = true
+  supplierForOverdueOrdersData.value = res
+ })
+}
+
 onMounted(() => {
  getNormaleAuftrageData()
+ getNormalversorgungData()
+ getUberfalligeAuftrageData()
+ getSupplierForOverdueOrdersData()
 })
 
 </script>
