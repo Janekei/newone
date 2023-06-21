@@ -113,7 +113,7 @@ const refresh = () => {
 const clickThisColumn = (row) => {
     // 获取当前行的id
     let id = row.id
-    router.push({ path: '/InventorySnapshot/detailinboundinstruction', query: { id } })
+    router.push({ path: '/InventorySnapshot/outbounddetail', query: { id } })
 }
 
 defineExpose({

@@ -2,7 +2,15 @@
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name" v-loading="loading">
             <slot :name="item.name" v-if="activeName === item.name">
-                <OutboundList />
+                <div v-if="(item.name !== 'waybill' && item.name != 'materialInfo')">
+                    <OutboundList />
+                </div>
+                <div v-else-if="item.name === 'waybill'">
+                    <WayBillInfo/>
+                </div>
+                <div v-else>
+                    <MaterialInfo/>
+                </div>
             </slot>
         </el-tab-pane>
     </el-tabs>
@@ -12,6 +20,8 @@
 import { ref, computed } from 'vue'
 import { ElTabPane, ElTabs } from 'element-plus'
 import OutboundList from './OutboundList.vue';
+import WayBillInfo from '../OutboundDetail/WayBillInfo/index.vue'
+import MaterialInfo from '../OutboundDetail/MaterialInfo/index.vue'
 
 
 const props = defineProps({
