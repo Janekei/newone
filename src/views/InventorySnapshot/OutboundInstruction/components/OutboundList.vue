@@ -1,23 +1,14 @@
 <template>
     <div>
-        <TableK url="/jinko/gsc-wh-inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
+        <TableK url="/jinko/gsc-wh-outbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
             @click-this-column="clickThisColumn">
             <template #buttons>
-                <SearchContent :formOption="formOptionHome" @click-search="clickSearch"
+                <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
             <template #expand="{ expandRow }">
-                <DescriptionInboundList :descList="expandRow" />
-            </template>
-            <template #estInTime="{ row }">
-                <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
-            </template>
-            <template #eta="{ row }">
-                <span>{{ formatTime(row.row.eta, 'yyyy-MM-dd') }}</span>
-            </template>
-            <template #etd="{ row }">
-                <span>{{ formatTime(row.row.etd, 'yyyy-MM-dd') }}</span>
+                <OutboundDescriptionItem :descList="expandRow" />
             </template>
             <template #transportStatus="{ row }">
                 <span v-if="row.row.transportStatus === 1">未到港</span>
@@ -32,20 +23,17 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
-import SearchContent from '../components/SearchContent.vue'
-import DescriptionInboundList from './DescriptionInboundList.vue';
-
+import SearchOutbound from './SearchOutbound.vue'
+import OutboundDescriptionItem from './OutboundDescriptionItem.vue'
 const props = defineProps({
     transportStatus: {
         type: Number,
-        default: undefined
+        default: 0
     }
 })
-let transportStatus = props.transportStatus === 0 ? undefined : props.transportStatus
 let formData = ref({
-    transportStatus: transportStatus
+    transportStatus: props.transportStatus
 })
 
 // const { t } = useI18n()
@@ -60,32 +48,28 @@ const tableOption = reactive([
         label: '提单号',
     },
     {
-        prop: 'containerNumber',
-        label: '柜量',
+        prop: 'soNo',
+        label: 'SO No',
     },
     {
         prop: 'estInTime',
-        label: '预计入库时间',
-        slotName: 'estInTime'
+        label: '交货单号',
     },
     {
         prop: 'eta',
-        label: '预计到港时间',
-        slotName: 'eta'
+        label: '发货方',
     },
     {
         prop: 'etd',
-        label: '实际离港时间',
-        slotName: 'etd'
+        label: '收货方',
     },
     {
         prop: 'tardeWayConfigWay',
         label: '贸易条款',
     },
     {
-        prop: 'transportStatus',
+        prop: 'tardeWayConfigWay',
         label: '状态',
-        soltName: 'transportStatus'
     }
 ])
 // 入库指令首页搜索框数据
@@ -98,10 +82,10 @@ const formOptionHome = reactive([
         label: 'SAP任务号'
     },
     {
-        type: 'date',
-        field: 'estInTime',
-        placeholder: '请选择预计入库时间',
-        label: '预计入库时间'
+        type: 'input',
+        field: 'bl',
+        placeholder: '交货单号',
+        label: '请输入交货单号'
     }
 ])
 
@@ -129,7 +113,7 @@ const refresh = () => {
 const clickThisColumn = (row) => {
     // 获取当前行的id
     let id = row.id
-    router.push({ path: '/InventorySnapshot/detailinboundinstruction', query: { id } })
+    router.push({ path: '/InventorySnapshot/outbounddetail', query: { id } })
 }
 
 defineExpose({

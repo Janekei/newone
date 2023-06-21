@@ -88,6 +88,8 @@ const open = (type: string, title: string, content: string) => {
   // console.log(props.inboundIdsBox, 'props')
 }
 
+const emit = defineEmits(['success'])
+
 const submitForm = async () => {
   if (formType.value === '整批入库') {
     await InboundInstruction.postAllInbound({ id: props.inboundID })
@@ -113,6 +115,8 @@ const submitForm = async () => {
     await InboundInstruction.recordErrorTray(params)
   }
   dialogVisible.value = false
+  // 发送操作成功的事件
+  emit('success')
 }
 
 defineExpose({

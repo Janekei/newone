@@ -1,23 +1,32 @@
 <template>
-    <TableK class="pagination" url="/jinko/inbound-container/page" method="get" :params="formData" ref="tableRef"
-        :showIndex="true" :showFixedOperation="true" :firstPages="20" :tableOption="tableOption"
-        @selectThisColumn="selectThisColumn" @clickThisColumn="clickThisColumn">
-        <template #buttons>
-            <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
-        </template>
-        <template #operation>
-            <ElButton class="edit-btn" type="warning" @click="clickTray">托</ElButton>
-        </template>
-    </TableK>
+    <div class="table">
+        <TableK class="pagination" url="/jinko/inbound-container/page" method="get" :params="formData" ref="tableRef"
+            :showIndex="true" :showFixedOperation="true" :firstPages="10" :tableOption="tableOption"
+            @selectThisColumn="selectThisColumn" @clickThisColumn="clickThisColumn">
+            <template #createTime="{ row }">
+                <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            </template>
+            <template #updateTime="{ row }">
+                <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            </template>
+            <template #buttons>
+                <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
+            </template>
+            <template #operation>
+                <ElButton class="edit-btn" type="warning" @click="clickTray">托</ElButton>
+            </template>
+        </TableK>
+    </div>
     <div class="box-btn">
         <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="partInbound">确认入库</el-button>
     </div>
-    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" />
+    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from '../../../components/SearchContent.vue';
 import DialogInbound from '../../../components/DialogInbound.vue';

@@ -1,6 +1,12 @@
 <template>
     <TableK url="/jinko/inbound-pallets/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
         :tableOption="tableOption" :showCheckBox="true" @selectThisColumn="selectThisColumn">
+        <template #createTime="{ row }">
+            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+        </template>
+        <template #updateTime="{ row }">
+            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+        </template>
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
         </template>
@@ -10,11 +16,12 @@
         <el-button v-if="props.isClickPartInboundBtn" class="button" type="primary" @click="partInbound">确认入库</el-button>
         <el-button v-else-if="props.isClickErrorBtn" class="button" type="primary" @click="errorRecord">异常登记</el-button>
     </div>
-    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" />
+    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
 import SearchContent from '../../../components/SearchContent.vue';

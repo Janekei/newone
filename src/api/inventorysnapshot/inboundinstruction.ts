@@ -1,5 +1,9 @@
 import request from '@/config/axios'
 
+// 获取入库指令分页信息
+export const getInboundListTotal = async (params) => {
+    return await request.get({ url: '/jinko/gsc-wh-inbound/getInboundNumber', params })
+}
 
 // 获取入库指令信息 ----传入参数id
 export const getInboundList = async (params) => {

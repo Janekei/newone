@@ -23,7 +23,8 @@
                 <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ props.waybillInfo.arrivalPortName }}</el-descriptions-item>
                 <el-descriptions-item label="提货时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.realDepartureTime }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.realDepartureTime, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
                 <el-descriptions-item label="需求方" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ props.waybillInfo.salesman }}</el-descriptions-item>
                 <!-- <el-descriptions-item v-for="(item, index) in taskDetail" :key="index + 'k'" :label="item.title"
@@ -56,25 +57,29 @@
             </el-descriptions>
             <el-descriptions class="elDescriptions" title="时间明细" label-width="100" :column="2" border>
                 <el-descriptions-item label="生成入库指令时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.createTime }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.createTime,
+                        'yyyy-MM-dd') }}</el-descriptions-item>
                 <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.etd }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.etd, 'yyyy-MM-dd') }}</el-descriptions-item>
                 <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.newEtd }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.newEtd, 'yyyy-MM-dd') }}</el-descriptions-item>
                 <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.atd }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.atd, 'yyyy-MM-dd') }}</el-descriptions-item>
                 <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.eta }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.eta, 'yyyy-MM-dd') }}</el-descriptions-item>
                 <el-descriptions-item label="ETA New 日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.newAta }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.newAta, 'yyyy-MM-dd') }}</el-descriptions-item>
                 <el-descriptions-item label="ATA日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.ata }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.ata, 'yyyy-MM-dd') }}</el-descriptions-item>
                 <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.estInTime }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.estInTime, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
                 <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.requiredArrivalTime }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.requiredArrivalTime, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
                 <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ props.waybillInfo.requiredArrivalTime }}</el-descriptions-item>
+                    class-name="my-content">{{ formatTime(props.waybillInfo.requiredArrivalTime, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
                 <!-- <el-descriptions-item v-for="(item, index) in timeDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item> -->
@@ -85,6 +90,7 @@
 
 <script lang="ts" setup>
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
+import { formatTime } from '@/utils'
 const props = defineProps({
     waybillInfo: {
         type: Object,

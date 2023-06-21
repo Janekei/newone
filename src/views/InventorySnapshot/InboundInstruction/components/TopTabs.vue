@@ -4,7 +4,7 @@
             v-loading="loading">
             <slot :name="item.name" v-if="activeName === item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
-                    <TableContent ref="tableRef" :transportStatus="index" />
+                    <TableContent ref="tableRef" :transportStatus="index" @totalList="totalList" />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
                     <WayBillDatailInfo :boxDetailInfo="props.boxDetailInfo" @clickPart="swicthPartInboud"
@@ -35,6 +35,10 @@ const props = defineProps({
     boxDetailInfo: {
         type: Array as any,
         default: () => []
+    },
+    totalNumber: {
+        type: Array as any,
+        default: () => []
     }
 })
 
@@ -47,16 +51,29 @@ onMounted(() => {
     }, 800);
 })
 
+// 当前列表总条数
+let total = ref(0)
+const totalList = (val) => {
+    total.value = val
+}
+
 // 过滤tabList数据
+onBeforeMount(() => {
+    console.log(props.totalNumber[0], 'list')
+})
 const tabList = computed(() => {
+
     let data: any = []
     if (props.tabList[0].hasOwnProperty('number')) {
-        props.tabList.forEach(item => {
-            data.push({
-                title: item.title,
-                lable: item.title + '（' + item.number + '）',
-                name: item.name,
-                number: item.number
+        props.tabList.forEach((item) => {
+            props.totalNumber.forEach(ele => {
+                if (ele.name === item.name) {
+                    data.push({
+                        title: item.title,
+                        lable: item.title + '(' + ele.total + ')',
+                        name: item.name
+                    })
+                }
             })
         });
         return data;

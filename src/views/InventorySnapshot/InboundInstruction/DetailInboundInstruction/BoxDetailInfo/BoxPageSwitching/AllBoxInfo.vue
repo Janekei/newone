@@ -1,6 +1,12 @@
 <template>
     <TableK url="/jinko/inbound-container/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
         :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
+        <template #createTime="{ row }">
+            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+        </template>
+        <template #updateTime="{ row }">
+            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+        </template>
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
         </template>
@@ -8,6 +14,7 @@
 </template>
 
 <script lang="ts" setup>
+import { formatTime } from '@/utils'
 import { useRoute } from 'vue-router'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from '../../../components/SearchContent.vue';
@@ -56,6 +63,7 @@ const tableOption = reactive([
     {
         prop: 'createTime',
         label: '创建时间',
+        slotName: 'createTime'
     },
     {
         prop: 'updater',
@@ -64,6 +72,7 @@ const tableOption = reactive([
     {
         prop: 'updateTime',
         label: '更新时间',
+        slotName: 'updateTime'
     }
 ])
 
