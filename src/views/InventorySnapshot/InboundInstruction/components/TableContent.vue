@@ -10,6 +10,15 @@
             <template #expand="{ expandRow }">
                 <DescriptionInboundList :descList="expandRow" />
             </template>
+            <template #estInTime="{ row }">
+                <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            </template>
+            <template #eta="{ row }">
+                <span>{{ formatTime(row.row.eta, 'yyyy-MM-dd') }}</span>
+            </template>
+            <template #etd="{ row }">
+                <span>{{ formatTime(row.row.etd, 'yyyy-MM-dd') }}</span>
+            </template>
             <template #transportStatus="{ row }">
                 <span v-if="row.row.transportStatus === 1">未到港</span>
                 <span v-if="row.row.transportStatus === 2">未清关</span>
@@ -23,9 +32,11 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from '../components/SearchContent.vue'
 import DescriptionInboundList from './DescriptionInboundList.vue';
+
 const props = defineProps({
     transportStatus: {
         type: Number,
@@ -55,14 +66,17 @@ const tableOption = reactive([
     {
         prop: 'estInTime',
         label: '预计入库时间',
+        slotName: 'estInTime'
     },
     {
         prop: 'eta',
         label: '预计到港时间',
+        slotName: 'eta'
     },
     {
         prop: 'etd',
         label: '实际离港时间',
+        slotName: 'etd'
     },
     {
         prop: 'tardeWayConfigWay',

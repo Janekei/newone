@@ -3,6 +3,12 @@
         <TableK class="pagination" url="/jinko/inbound-container/page" method="get" :params="formData" ref="tableRef"
             :showIndex="true" :showFixedOperation="true" :firstPages="10" :tableOption="tableOption"
             @selectThisColumn="selectThisColumn" @clickThisColumn="clickThisColumn">
+            <template #createTime="{ row }">
+                <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            </template>
+            <template #updateTime="{ row }">
+                <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            </template>
             <template #buttons>
                 <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
             </template>
@@ -20,6 +26,7 @@
 
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
+import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from '../../../components/SearchContent.vue';
 import DialogInbound from '../../../components/DialogInbound.vue';
@@ -149,7 +156,6 @@ const back = () => {
 }
 </script>
 <style lang="scss" scoped>
-
 .box-btn {
     display: flex;
     align-items: center;

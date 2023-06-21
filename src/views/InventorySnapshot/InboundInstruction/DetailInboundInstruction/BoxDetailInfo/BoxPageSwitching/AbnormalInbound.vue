@@ -4,6 +4,12 @@
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
         </template>
+        <template #createTime="{ row }">
+            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+        </template>
+        <template #updateTime="{ row }">
+            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+        </template>
         <template #operation="{ operateRow }">
             <ElButton class="edit-btn" type="warning" @click="clickTray(operateRow)">托</ElButton>
         </template>
@@ -17,6 +23,7 @@
 
 <script lang="ts" setup>
 import { ElButton } from 'element-plus'
+import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
 import SearchContent from '../../../components/SearchContent.vue';
@@ -132,6 +139,7 @@ const tableOption = reactive([
     {
         prop: 'createTime',
         label: '创建时间',
+        slotName: 'createTime'
     },
     {
         prop: 'updater',
@@ -140,6 +148,7 @@ const tableOption = reactive([
     {
         prop: 'updateTime',
         label: '更新时间',
+        slotName: 'updateTime'
     }
 ])
 </script>
