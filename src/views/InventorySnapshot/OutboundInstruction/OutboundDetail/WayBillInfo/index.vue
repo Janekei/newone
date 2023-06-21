@@ -1,10 +1,11 @@
 <template>
     <div>
-        运单信息111
+        <WayBillInfo />
     </div>
 </template>
 
 <script lang="ts" setup>
+import WayBillInfo from '../../components/WayBillInfo.vue'
 
 </script>
 <style lang="scss" scoped></style>
