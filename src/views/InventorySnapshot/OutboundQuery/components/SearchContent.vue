@@ -1,29 +1,44 @@
 <template>
  <div class="header">
-  <el-form class="form-box" ref="formRef" :model="formData" label-width="100px">
-   <el-form-item label="客户:" prop="client">
-    <el-input v-model="formData.client" placeholder="请输入客户" />
-   </el-form-item>
-   <el-form-item label="提单号码:" prop="billNo">
-    <el-input v-model="formData.billNo" placeholder="请输入提单号码" />
-   </el-form-item>
-  </el-form>
-  <div class="btn-box">
-   <el-button type="primary">新增查询条件</el-button>
-   <el-button type="primary" :icon="Search">查询</el-button>
-   <el-button type="default">重置</el-button>
-  </div>
+  <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" />
+ </div>
+ <div class="btn-box">
+  <ElButton type="primary">新增查询条件</ElButton>
+  <ElButton type="primary" :icon="Search">查询</ElButton>
+  <ElButton type="default">重置</ElButton>
  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { ElForm, ElFormItem, ElInput, ElButton } from 'element-plus'
+import { ref, reactive } from 'vue'
+import { ElButton } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
-const formData = ref({
- client: undefined,
- billNo: undefined
-})
+import FormK from '@/components/FormK/index.vue'
+
+const formData = ref({})
+
+const formOption = reactive(
+ [
+  {
+   type: 'input',
+   field: 'client',
+   placeholder: '请输入客户',
+   label: '客户：',
+   rules: [
+    { required: true, message: '请输入码值', trigger: 'change' }
+   ]
+  },
+  {
+   type: 'input',
+   field: 'billNo',
+   placeholder: '请输入提单号码',
+   label: '提单号码：',
+   rules: [
+    { required: true, message: '请输入码值', trigger: 'change' }
+   ]
+  }
+ ]
+)
 onBeforeMount(() => {
  console.log(1)
 })
