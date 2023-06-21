@@ -60,7 +60,7 @@ const formOption = reactive([
   },
 ])
 
-watch(() => props.inboundIdsBox, (val, preVal) => { console.log("message", val, preVal) }, { immediate: true })
+// watch(() => props.inboundIdsBox, (val, preVal) => { console.log("message", val, preVal) }, { immediate: true })
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
@@ -85,7 +85,7 @@ const open = (type: string, title: string, content: string) => {
   formType.value = type
   formData.value = content
   dialogTitle.value = title
-  console.log(props.inboundIdsBox, 'props')
+  // console.log(props.inboundIdsBox, 'props')
 }
 
 const submitForm = async () => {

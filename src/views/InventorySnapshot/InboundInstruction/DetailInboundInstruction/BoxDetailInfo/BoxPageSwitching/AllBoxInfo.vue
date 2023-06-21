@@ -72,7 +72,7 @@ const tableRef = ref()
 const formOption = reactive([
     {
         type: 'input',
-        field: 'cabinetTypeId',
+        field: 'containerNo',
         placeholder: '请填写箱号',
         label: '箱号'
     },
