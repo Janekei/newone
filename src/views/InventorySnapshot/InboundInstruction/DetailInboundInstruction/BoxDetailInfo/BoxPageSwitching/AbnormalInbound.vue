@@ -32,11 +32,11 @@ let formData = ref({
 })
 
 // 保存当前行的id
-let inboundIdsBox: any;
+let inboundIdsBox: any = ref([]);
 const selectThisColumn = (rows) => {
-    inboundIdsBox = []
+    inboundIdsBox.value = []
     rows.forEach((item) => {
-        inboundIdsBox.push(item.id)
+        inboundIdsBox.value.push(item.id)
     })
 }
 
