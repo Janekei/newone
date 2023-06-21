@@ -29,12 +29,12 @@ import DescriptionInboundList from './DescriptionInboundList.vue';
 const props = defineProps({
     transportStatus: {
         type: Number,
-        default: 0
+        default: undefined
     }
 })
+let transportStatus = props.transportStatus === 0 ? undefined : props.transportStatus
 let formData = ref({
-    transportStatus: props.transportStatus,
-    status: 0
+    transportStatus: transportStatus
 })
 
 // const { t } = useI18n()
