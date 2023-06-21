@@ -1,26 +1,11 @@
 <template>
- <div>
-  出库指令
- </div>
+    <div>
+        出库指令
+    </div>
 </template>
 
-<script>
-export default {
- data() {
-  return {
+<script lang="ts" setup>
 
-  };
- },
- created() {
-
- },
- mounted() {
-
- },
- methods: {
-
- }
-};
 </script>
 
-<style scoped ></style>
+<style lang="scss" scoped></style>
