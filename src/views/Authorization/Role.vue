@@ -3,7 +3,6 @@ import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table } from '@/components/Table'
 import { getUserListApi } from '@/api/login'
-import { UserType } from '@/api/login/types'
 import { ref, h } from 'vue'
 import { ElButton } from 'element-plus'
 import { TableColumn, TableSlotDefault } from '@/types/table'
@@ -36,7 +35,7 @@ const columns: TableColumn[] = [
   {
     field: 'remark',
     label: t('userDemo.remark'),
-    formatter: (row: UserType) => {
+    formatter: (row) => {
       return h(
         'span',
         row.username === 'admin' ? t('userDemo.remarkMessage1') : t('userDemo.remarkMessage2')
@@ -51,7 +50,7 @@ const columns: TableColumn[] = [
 
 const loading = ref(true)
 
-let tableDataList = ref<UserType[]>([])
+let tableDataList = ref<[]>([])
 
 const getTableList = async (params?: Params) => {
   const res = await getUserListApi({
