@@ -1,10 +1,10 @@
 <template>
     <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
-        <el-tab-pane v-for="(item, index) in tabList" :label="item.lable" :key="item.title" :name="item.name"
+        <el-tab-pane v-for="(item, index) in tabList" :label="`${item.title}(${total})`" :key="item.title" :name="item.name"
             v-loading="loading">
-            <slot :name="item.name" v-if="activeName === item.name">
+            <slot :name="item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
-                    <TableContent ref="tableRef" :transportStatus="index" />
+                    <TableContent ref="tableRef" :transportStatus="index" @totalList="totalList" />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
                     <WayBillDatailInfo :boxDetailInfo="props.boxDetailInfo" @clickPart="swicthPartInboud"
@@ -47,6 +47,12 @@ onMounted(() => {
     }, 800);
 })
 
+// 当前列表总条数
+let total = ref(0)
+const totalList = (val) => {
+    total.value = val
+}
+
 // 过滤tabList数据
 const tabList = computed(() => {
     let data: any = []
@@ -54,7 +60,6 @@ const tabList = computed(() => {
         props.tabList.forEach(item => {
             data.push({
                 title: item.title,
-                lable: item.title + '（' + item.number + '）',
                 name: item.name,
                 number: item.number
             })

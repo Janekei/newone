@@ -33,7 +33,8 @@ const props = defineProps({
     }
 })
 let formData = ref({
-    transportStatus: props.transportStatus
+    transportStatus: props.transportStatus,
+    status: 0
 })
 
 // const { t } = useI18n()

@@ -10,7 +10,7 @@
         <el-button v-if="props.isClickPartInboundBtn" class="button" type="primary" @click="partInbound">确认入库</el-button>
         <el-button v-else-if="props.isClickErrorBtn" class="button" type="primary" @click="errorRecord">异常登记</el-button>
     </div>
-    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" />
+    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" @success="refresh" />
 </template>
 
 <script lang="ts" setup>

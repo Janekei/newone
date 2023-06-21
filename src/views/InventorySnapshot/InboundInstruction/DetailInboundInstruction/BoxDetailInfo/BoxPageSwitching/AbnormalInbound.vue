@@ -12,7 +12,7 @@
         <el-button class="button" type="primary" @click="back">返回</el-button>
         <el-button class="button" type="primary" @click="errorRecord">异常登记</el-button>
     </div>
-    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" />
+    <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
