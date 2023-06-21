@@ -10,5 +10,9 @@ const tabList = reactive([
   { title: '运单信息', name: 'waybill' },
   { title: '柜信息', name: 'boxInfo' },
 ])
+
+
+
+
 </script>
 <style lang="scss" scoped></style>

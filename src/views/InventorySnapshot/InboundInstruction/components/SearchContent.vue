@@ -1,12 +1,13 @@
 <template>
   <div class="header">
     <div class="form-box">
-      <FormK :formOption="props.formOption" v-model:formState="formData" labelWidth="" ref="formK" />
+      <FormK :formOption="props.formOption" v-model:formState="formData" labelWidth="" ref="formRef"
+        @update:form-state="UpdateFormState" />
     </div>
     <div class="btn-box">
       <el-button type="primary">高级查询</el-button>
-      <el-button type="primary" :icon="Search">查询</el-button>
-      <el-button type="default">重置</el-button>
+      <el-button type="primary" :icon="Search" @click="postSearchData">查询</el-button>
+      <el-button type="default" @click="resetform">重置</el-button>
     </div>
   </div>
 </template>
@@ -21,7 +22,23 @@ const props = defineProps({
     default: () => { }
   }
 })
-const formData = ref({})
+let formData = reactive({})
+const formRef = ref()
+// 查询方法
+const emits = defineEmits(['clickSearch', 'update:form-state', 'resetForm'])
+const postSearchData = () => {
+  emits('clickSearch')
+}
+const UpdateFormState = () => {
+  emits('update:form-state', formData)
+}
+const resetform = () => {
+  formRef.value.resetFields()
+  formData = {}
+  setTimeout(() => {
+    postSearchData()
+  }, 10);
+}
 </script>
 <style lang="scss" scoped>
 .header {
@@ -31,6 +48,7 @@ const formData = ref({})
   border-radius: 10px;
   background-color: #f5f8ff;
   padding: 1.25rem;
+  margin-bottom: 1.25rem;
 
   .btn-box {
     display: inline-flex;

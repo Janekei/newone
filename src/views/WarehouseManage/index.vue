@@ -17,10 +17,10 @@
             <span>{{ row.row.countryId }}</span>
         </template>
         <template #province="{ row }">
-            <span>{{ row.row.countryId }}</span>
+            <span>{{ row.row.provinceId }}</span>
         </template>
         <template #city="{ row }">
-            <span>{{ row.row.countryId }}</span>
+            <span>{{ row.row.cityId }}</span>
         </template>
         <template #operation="{ operateRow }">
             <ElButton class="edit-btn" type="warning"
@@ -61,10 +61,7 @@ const formOption = reactive([
         type: 'input',
         field: 'address',
         placeholder: `${t('warehousemanage.inputAddress')}`,
-        label: `${t('warehousemanage.address')}`,
-        rules: [
-            { message: `${t('warehousemanage.inputAddress')}`, trigger: 'change' }
-        ]
+        label: `${t('warehousemanage.address')}`
     },
     {
         type: 'select',
@@ -158,7 +155,9 @@ const getRowAreaInfo = async (id: number) => {
     console.log(res, 'getRowAreaInfo')
 }
 onBeforeMount(() => {
-    getRowAreaInfo(0)
+    getRowAreaInfo(3)
+    // getRowAreaInfo(1)
+    // getRowAreaInfo(16)
 })
 
 const refresh = () => {

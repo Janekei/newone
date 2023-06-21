@@ -1,34 +1,44 @@
 <template>
-    <TableK url="/jinko/inbound-container/page" method="get" :params="formData" :firstPages="20" ref="tableRef"
-        :showFixedOperation="true" :showIndex="true" :tableOption="tableOption" @selectThisColumn="selectThisColumn">
+    <TableK url="/jinko/inbound-pallets/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
+        :tableOption="tableOption" :showCheckBox="true" @selectThisColumn="selectThisColumn">
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
         </template>
-        <template #operation="{ operateRow }">
-            <ElButton class="edit-btn" type="warning" @click="clickTray(operateRow)">托</ElButton>
-        </template>
     </TableK>
     <div class="box-btn">
-        <el-button class="button" type="primary" @click="back">返回</el-button>
-        <el-button class="button" type="primary" @click="errorRecord">异常登记</el-button>
+        <el-button class="button" type="primary" @click="backPartInbound">返回</el-button>
+        <el-button v-if="props.isClickPartInboundBtn" class="button" type="primary" @click="partInbound">确认入库</el-button>
+        <el-button v-else-if="props.isClickErrorBtn" class="button" type="primary" @click="errorRecord">异常登记</el-button>
     </div>
     <DialogInbound :inboundIdsBox="inboundIdsBox" ref="refDialog" />
 </template>
 
 <script lang="ts" setup>
-import { ElButton } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
 import SearchContent from '../../../components/SearchContent.vue';
-
 const props = defineProps({
-    inboundId: {
+    iscloseTray: {
+        type: Boolean,
+        default: true
+    },
+    isClickPartInboundBtn: {
+        type: Boolean,
+        default: false
+    },
+    isClickErrorBtn: {
+        type: Boolean,
+        default: false
+    },
+    containerId: {
         type: Number,
-        default: 1
+        default: 0
+    },
+    searchData: {
+        type: Object,
+        default: () => { }
     }
-})
-let formData = ref({
-    inboundId: props.inboundId
 })
 
 // 保存当前行的id
@@ -41,6 +51,9 @@ const selectThisColumn = (rows) => {
 }
 
 // 搜索
+const formData = ref({
+    containerId: props.containerId
+})
 const tableRef = ref()
 const formOption = reactive([
     {
@@ -61,7 +74,7 @@ const clickSearch = () => {
 }
 const updateSearchData = async (val) => {
     formData.value = {
-        inboundId: props.inboundId
+        containerId: props.containerId
     }
     await Object.assign(formData.value, val)
 }
@@ -74,55 +87,55 @@ const refresh = () => {
 
 // ref弹窗
 const refDialog = ref()
-// 确认异常登记
-const errorRecord = () => {
+
+// 确认整批入库
+const partInbound = () => {
     if (inboundIdsBox.value.length > 0) {
-        refDialog.value.open('异常登记', '异常类型确认', '箱')
+        refDialog.value.open('托部分入库', '消息', '您确定要入库？')
     } else {
-        ElMessage.error('请选择所需要入库的箱！')
+        ElMessage.error('请选择所需要入库的托！')
     }
 }
 
-
-// 选托
-const emits = defineEmits(['backWaybill', 'showTrayList'])
-const clickTray = (row) => {
-    emits('showTrayList', row.id)
+// 确认异常登记
+const errorRecord = () => {
+    if (inboundIdsBox.value.length > 0) {
+        refDialog.value.open('异常登记', '异常类型确认', '托')
+    } else {
+        ElMessage.error('请选择所需要异常登记的托！')
+    }
 }
 
-// 返回运单信息
-const back = () => {
-    emits('backWaybill')
+// 返回部分入库箱维度详情页面
+const emits = defineEmits(['update:changeCloseTray'])
+const backPartInbound = () => {
+    const params = !props.iscloseTray
+    emits('update:changeCloseTray', params)
 }
-
 // table表格列数据
 const tableOption = reactive([
     {
-        prop: 'cabinetTypeId',
-        label: '箱号',
+        prop: 'palletNo',
+        label: '托盘号',
     },
     {
-        prop: 'bl',
-        label: '提单号',
+        prop: 'quantity',
+        label: '数量',
     },
     {
-        prop: 'cabinetTypeName',
-        label: '箱型',
+        prop: 'boxType',
+        label: '规格',
     },
     {
         prop: 'lockNo',
-        label: '锁号',
+        label: '材料',
     },
     {
-        prop: 'totalQuantity',
-        label: '件数',
-    },
-    {
-        prop: 'totalWeight',
+        prop: 'weight',
         label: '重量',
     },
     {
-        prop: 'totalVolumn',
+        prop: 'volume',
         label: '体积',
     },
     {
@@ -150,7 +163,6 @@ const tableOption = reactive([
     justify-content: center;
     height: 3.125rem;
     width: 100%;
-    // background-color: aqua;
     margin: 1.25rem 0;
 
     .button {
@@ -159,7 +171,7 @@ const tableOption = reactive([
 }
 
 .edit-btn {
-    font-weight: 700;
+    background-color: #67C23A;
     border: none;
 }
 </style>

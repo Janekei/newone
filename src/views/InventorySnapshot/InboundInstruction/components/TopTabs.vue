@@ -1,17 +1,19 @@
 <template>
     <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
-        <el-tab-pane v-for="item in tabList" :label="item.lable" :key="item.title" :name="item.name">
-
-            <slot :name="item.name" v-if="(item.name !== 'waybill' || item.name !== 'boxInfo')">
+        <el-tab-pane v-for="(item, index) in tabList" :label="item.lable" :key="item.title" :name="item.name"
+            v-loading="loading">
+            <slot :name="item.name" v-if="activeName === item.name">
                 <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
-                    <SearchContent :formOption="formOptionHome" />
-                    <TableContent />
+                    <TableContent ref="tableRef" :transportStatus="index" />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
-                    <WayBillDatailInfo />
+                    <WayBillDatailInfo :boxDetailInfo="props.boxDetailInfo" @clickPart="swicthPartInboud"
+                        @clickError="swicthErrorOrder" />
                 </div>
                 <div v-else>
-                    <BoxDetailInfo />
+                    <BoxDetailInfo ref="trayRef" :boxDetailInfo="props.boxDetailInfo" :showPartInboud="showPartInboud"
+                        :showErrorInboud="showErrorInboud" :isClickPartInboundBtn="isClickPartInboundBtn"
+                        :isClickErrorBtn="isClickErrorBtn" :errorInboundID="errorInboundID" @backWay="backWay" />
                 </div>
             </slot>
         </el-tab-pane>
@@ -21,15 +23,28 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { ElTabPane, ElTabs } from 'element-plus'
-import SearchContent from '../components/SearchContent.vue'
 import TableContent from '../components/TableContent.vue'
 import WayBillDatailInfo from '../DetailInboundInstruction/WayBillDetailInfo/index.vue'
 import BoxDetailInfo from '../DetailInboundInstruction/BoxDetailInfo/index.vue'
+
 const props = defineProps({
     tabList: {
         type: Array as any,
         default: () => []
+    },
+    boxDetailInfo: {
+        type: Array as any,
+        default: () => []
     }
+})
+
+const loading = ref(false)
+let activeName = ref(props.tabList[0].name)
+onMounted(() => {
+    loading.value = true
+    setTimeout(() => {
+        loading.value = false
+    }, 800);
 })
 
 // 过滤tabList数据
@@ -56,38 +71,72 @@ const tabList = computed(() => {
     return data;
 })
 
-// 入库指令首页搜索框数据
-const formOptionHome = reactive([
-    {
-        type: 'input',
-        field: 'code',
-        placeholder: '请输入SAP任务号',
-        label: 'SAP任务号',
-        rules: [
-            { required: true, message: '请输入SAP任务号', trigger: 'change' }
-        ]
-    },
-    {
-        type: 'input',
-        field: 'code',
-        placeholder: '请输入预计入库时间',
-        label: '预计入库时间',
-        rules: [
-            { required: true, message: '请输入预计入库时间', trigger: 'change' }
-        ]
-    }
-])
+
+const trayRef = ref()
 
 
 
-
-const emit = defineEmits(['getTabState'])
-const activeName = ref(props.tabList[0].name)
-const handleClick = (tab) => {
-    emit('getTabState', tab.props.name)
-    console.log(tab.props.name, 'tab');
-
+// 接收点击部分入库按钮状态
+let isClickPartInboundBtn = ref(false)
+let isClickErrorBtn = ref(false)
+let showPartInboud = ref(false)
+let showErrorInboud = ref(false)
+const swicthPartInboud = (val) => {
+    console.log(val, 'clickswicthPartInboud')
+    activeName.value = 'boxInfo'
+    showPartInboud.value = true
+    isClickPartInboundBtn.value = true
 }
+
+// 接收点击异常订单按钮状态
+let errorInboundID = ref(0)
+const swicthErrorOrder = (val) => {
+    console.log(val, 'clickswicthErrorOrder')
+    errorInboundID.value = val
+    activeName.value = 'boxInfo'
+    showErrorInboud.value = true
+    isClickErrorBtn.value = true
+}
+
+// 搜索
+// const tableRef = ref()
+// let searchData = reactive({})
+// const clickSearch = () => {
+//     tableRef.value[0].refresh()
+// }
+// const updateFormState = (val) => {
+//     console.log(1, val)
+//     searchData = val
+// }
+// const resetForm = () => {
+//     searchData = {}
+//     clickSearch()
+// }
+
+
+// 选中的tab触发
+const handleClick = (tab) => {
+    trayRef.value[0].switchChooseTray()
+    activeName.value = tab.props.name
+    if (tab.props.name === 'waybill') {
+        showPartInboud.value = false
+        showErrorInboud.value = false
+        isClickPartInboundBtn.value = false
+        isClickErrorBtn.value = false
+    }
+}
+
+// 触发异常订单、部分入库的返回按钮，返回到运单信息页面
+const backWay = () => {
+    activeName.value = 'waybill'
+    showPartInboud.value = false
+    showErrorInboud.value = false
+    isClickPartInboundBtn.value = false
+    isClickErrorBtn.value = false
+}
+
+
+
 </script>
 <style lang="scss" scoped>
 .demo-tabs>.el-tabs__content {
