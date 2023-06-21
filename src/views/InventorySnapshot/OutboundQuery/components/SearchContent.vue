@@ -1,7 +1,6 @@
 <template>
  <div class="header">
   <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" />
-
  </div>
  <div class="btn-box">
   <ElButton type="primary">新增查询条件</ElButton>
