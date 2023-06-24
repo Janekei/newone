@@ -33,17 +33,18 @@
 
 <script lang="ts" setup>
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
+
 const props = defineProps({
     descList: {
         type: Array as any,
         default: () => []
     }
 })
+
 onBeforeMount(() => {
     console.log(props.descList, 'desc')
 })
-
-</script >
+</script>
 <style lang="scss" scoped>
 ::v-deep .is-bordered-label {
     background-color: #f9f9f9 !important;
