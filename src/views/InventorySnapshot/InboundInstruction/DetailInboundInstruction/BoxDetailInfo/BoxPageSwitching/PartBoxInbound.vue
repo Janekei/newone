@@ -38,7 +38,7 @@ const props = defineProps({
 })
 // table表格列数据
 const formData = ref({
-    inboundId: props.inboundId
+    id: props.inboundId
 })
 const tableOption = reactive([
     {
@@ -108,7 +108,7 @@ const clickSearch = () => {
 }
 const updateSearchData = async (val) => {
     formData.value = {
-        inboundId: props.inboundId
+        id: props.inboundId
     }
     await Object.assign(formData.value, val)
 }

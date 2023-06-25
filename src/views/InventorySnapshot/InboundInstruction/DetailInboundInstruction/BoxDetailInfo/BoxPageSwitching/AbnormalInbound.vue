@@ -35,7 +35,7 @@ const props = defineProps({
     }
 })
 let formData = ref({
-    inboundId: props.inboundId
+    id: props.inboundId
 })
 
 // 保存当前行的id
@@ -68,7 +68,7 @@ const clickSearch = () => {
 }
 const updateSearchData = async (val) => {
     formData.value = {
-        inboundId: props.inboundId
+        id: props.inboundId
     }
     await Object.assign(formData.value, val)
 }

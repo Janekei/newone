@@ -28,7 +28,7 @@ export const getPartInboundBox = async (params) => {
 // 部分入库功能----箱纬度
 export const postPartInboundBox = async (params) => {
     console.log(params.ids, 'box')
-    return await request.post({ url: '/jinko/gsc-wh-stock-pallets/warehousingWithBox', data: params })
+    return await request.post({ url: '/jinko/gscwhstockpallets/warehousingWithBox', data: params })
 }
 
 // 获取托列表信息
@@ -38,15 +38,15 @@ export const getPartInboundTray = async (params) => {
 
 // 部分入库功能----托纬度
 export const postPartInboundTray = async (params) => {
-    return await request.post({ url: '/jinko/gsc-wh-stock-pallets/warehousingWithTray', data: params })
+    return await request.post({ url: '/jinko/gscwhstockpallets/warehousingWithTray', data: params })
 }
 
 // 异常登记----箱纬度
 export const recordErrorBox = async (params) => {
-    return await request.post({ url: '/jinko/gsc-wh-stock-pallets/boxAndException', data: params })
+    return await request.post({ url: '/jinko/gscwhstockpallets/boxAndException', data: params })
 }
 
 // 异常登记----托纬度
 export const recordErrorTray = async (params) => {
-    return await request.post({ url: '/jinko/gsc-wh-stock-pallets/trayAndException', data: params })
+    return await request.post({ url: '/jinko/gscwhstockpallets/trayAndException', data: params })
 }
