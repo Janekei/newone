@@ -46,7 +46,7 @@ onBeforeMount(() => {
     margin: 1.25rem 0;
 
     .button {
-        margin-right: 1.25rem;
+        margin-right: 6.25rem;
     }
 }
 </style>
