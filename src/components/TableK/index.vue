@@ -39,7 +39,7 @@
         </ElTableColumn>
       </ElTable>
       <div class="pagination">
-        <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"
+        <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange" :layout="layout"
           :disabled="disabledPage" :firstPages="firstPages" :total="total" ref="pagination" :small="pageSmall" />
       </div>
     </RightClickCard>
@@ -103,6 +103,10 @@ const props = defineProps({
   pageSmall: {
     type: Boolean,
     default: false
+  },
+  layout: {
+    type: String,
+    default: () => "total, sizes, prev, pager, next, jumper"
   }
 })
 
