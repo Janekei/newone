@@ -1,6 +1,6 @@
 <template>
  <div class="header">
-  <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" />
+  <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false" />
   <div class="btn-box">
    <el-button type="primary">新增查询条件</el-button>
    <el-button type="primary" :icon="Search">查询</el-button>
@@ -51,6 +51,7 @@ onBeforeMount(() => {
  border: 1px solid #dadcdf;
  border-radius: 10px;
  background-color: #f5f8ff;
+ padding: 16px;
 
  .btn-box {
   display: inline-flex;
