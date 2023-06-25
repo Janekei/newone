@@ -1,5 +1,5 @@
 <template>
-    <TableK url="/jinko/inbound-container/page" method="get" :params="formData" :firstPages="20" ref="tableRef"
+    <TableK url="/jinko/gscwhinboundcontainer/page" method="get" :params="formData" :firstPages="20" ref="tableRef"
         :showFixedOperation="true" :showIndex="true" :tableOption="tableOption" @selectThisColumn="selectThisColumn">
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />

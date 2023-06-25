@@ -1,5 +1,5 @@
 <template>
-    <TableK url="/jinko/inbound-container/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
+    <TableK url="/jinko/gscwhinboundcontainer/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
         :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
         <template #createTime="{ row }">
             <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>

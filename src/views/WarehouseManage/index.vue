@@ -1,34 +1,39 @@
 <template>
-    <TableK class="table" url="/jinkotms/baseWarehouse/page" method="get" :params="formData" ref="myTable"
-        :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false">
-        <template #buttons>
-            <TopSearchForm :formOption="formOption" @clickSearch="clickSearch" @update:form-state="updateSearchData" />
-            <div class="btn-box">
-                <ElButton class="btn" @click="openForm(`${t('warehousemanage.addButton')}`)" type="primary" :icon="Plus">{{
-                    t('warehousemanage.addButton') }}</ElButton>
-                <ElButton class="btn" type="primary" :icon="Upload">{{ t('warehousemanage.importButton') }}</ElButton>
-                <ElButton class="btn" type="primary" :icon="Download" @click="exportData">{{
-                    t('warehousemanage.exportButton') }}</ElButton>
-                <ElButton class="btn" @click="refresh" :icon="Refresh">{{ t('warehousemanage.refreshButton') }}</ElButton>
-                <ElButton class="btn" :icon="ZoomIn">{{ t('warehousemanage.searchAll') }}</ElButton>
-            </div>
-        </template>
-        <template #country="{ row }">
-            <span>{{ row.row.countryId }}</span>
-        </template>
-        <template #province="{ row }">
-            <span>{{ row.row.provinceId }}</span>
-        </template>
-        <template #city="{ row }">
-            <span>{{ row.row.cityId }}</span>
-        </template>
-        <template #operation="{ operateRow }">
-            <ElButton class="edit-btn" type="warning"
-                @click="openForm(`${t('warehousemanage.editButton')}`, operateRow.id, operateRow.countryId)" :icon="Edit" />
-            <ElButton class="delete-btn" type="danger" @click="deleteItem(operateRow)" :icon="Delete" />
-        </template>
-    </TableK>
-    <WarehouseManageDialog ref="formRef" @success="refresh" />
+    <div class="main">
+        <TableK url="/jinko/baseWarehouse/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption"
+            :showFixedOperation="true" :showCheckBox="false">
+            <template #buttons>
+                <TopSearchForm :formOption="formOption" @clickSearch="clickSearch" @update:form-state="updateSearchData" />
+                <div class="btn-box">
+                    <ElButton class="btn" @click="openForm(`${t('warehousemanage.addButton')}`)" type="primary"
+                        :icon="Plus">{{
+                            t('warehousemanage.addButton') }}</ElButton>
+                    <ElButton class="btn" type="primary" :icon="Upload">{{ t('warehousemanage.importButton') }}</ElButton>
+                    <ElButton class="btn" type="primary" :icon="Download" @click="exportData">{{
+                        t('warehousemanage.exportButton') }}</ElButton>
+                    <ElButton class="btn" @click="refresh" :icon="Refresh">{{ t('warehousemanage.refreshButton') }}
+                    </ElButton>
+                    <ElButton class="btn" :icon="ZoomIn">{{ t('warehousemanage.searchAll') }}</ElButton>
+                </div>
+            </template>
+            <template #country="{ row }">
+                <span>{{ row.row.countryId }}</span>
+            </template>
+            <template #province="{ row }">
+                <span>{{ row.row.provinceId }}</span>
+            </template>
+            <template #city="{ row }">
+                <span>{{ row.row.cityId }}</span>
+            </template>
+            <template #operation="{ operateRow }">
+                <ElButton class="edit-btn" type="warning"
+                    @click="openForm(`${t('warehousemanage.editButton')}`, operateRow.id, operateRow.countryId)"
+                    :icon="Edit" />
+                <ElButton class="delete-btn" type="danger" @click="deleteItem(operateRow)" :icon="Delete" />
+            </template>
+        </TableK>
+        <WarehouseManageDialog ref="formRef" @success="refresh" />
+    </div>
 </template>
 
 <script lang="ts" setup>
@@ -96,25 +101,25 @@ const tableOption = reactive([
     {
         prop: 'id',
         label: `ID`,
-        width: '180'
+        width: '200'
     },
     {
         prop: 'countryCode',
         label: `${t('warehousemanage.countryId')}`,
-        width: '180',
-        slotName: 'country'
+        slotName: 'country',
+        width: '180'
     },
     {
         prop: 'provinceCode',
         label: `${t('warehousemanage.provinceId')}`,
-        width: '180',
-        slotName: 'province'
+        slotName: 'province',
+        width: '180'
     },
     {
         prop: 'cityCode',
         label: `${t('warehousemanage.cityId')}`,
-        width: '180',
-        slotName: 'city'
+        slotName: 'city',
+        width: '180'
     },
     {
         prop: 'address',
@@ -181,6 +186,10 @@ const exportData = async () => {
 }
 </script>
 <style lang="scss" scoped>
+.main {
+    width: 100%;
+}
+
 ::v-deep .table {
     padding: 0 !important;
 }
