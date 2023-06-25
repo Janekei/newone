@@ -9,3 +9,8 @@ export const getOutboundDetail = async (params) => {
 export const trayPickGoods = async (data) => {
     return await request.post({ url: '/jinko/outbound-goods/pickingQuery', data })
 }
+
+// 出库指令列表tab标题的条数
+export const getOutboundListTotal = async (params) => {
+    return await request.get({ url: '/jinko/gscwhoutbound/getOutboundNumber',params })
+}

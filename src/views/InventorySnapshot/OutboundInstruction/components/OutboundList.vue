@@ -27,13 +27,14 @@ import TableK from '@/components/TableK/index.vue'
 import SearchOutbound from './SearchOutbound.vue'
 import OutboundDescriptionItem from './OutboundDescriptionItem.vue'
 const props = defineProps({
-    transportStatus: {
+    status: {
         type: Number,
         default: 0
     }
 })
+let status = props.status === 0 ? undefined : props.status
 let formData = ref({
-    transportStatus: props.transportStatus
+    status: status
 })
 
 // const { t } = useI18n()
