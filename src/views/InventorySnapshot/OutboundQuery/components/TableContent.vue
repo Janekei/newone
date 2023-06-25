@@ -1,6 +1,6 @@
 <template>
  <div>
-  <TableK ref="myTable" url="/jinkotms/baseWarehouse" method="get" :params="formData" :firstPages="10"
+  <TableK ref="myTable" url="/jinko/gscwhstockpallets/page" method="get" :params="formData" :firstPages="10"
    :tableOption="tableOption" :showCheckBox="false" />
  </div>
 </template>

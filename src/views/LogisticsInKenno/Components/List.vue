@@ -3,10 +3,9 @@
   <div class="title">
    <div>
     <span>{{ title }}&nbsp;&nbsp;</span>
-    <span style="font-size: 20px;">10</span>
    </div>
    <div style="font-size: .75rem; cursor: pointer;">
-    更多>>
+    <slot name="seeMore"></slot>
    </div>
   </div>
   <div class="list-detail">
@@ -42,7 +41,7 @@ defineProps({
   font-size: 1.125rem;
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: center;
  }
 
  .list-detail {

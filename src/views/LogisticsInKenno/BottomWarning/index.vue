@@ -1,11 +1,16 @@
 <template>
  <div class="center-echarts">
-  <div class="title">
-   系统监控
-  </div>
   <div class="list-s">
    <div class="list-i">
-    <List>
+    <List title="超期运单">
+     <template #seeMore>
+      <div class="flex" @click="goNewPage">
+       <span> {{ list1.length }}票</span>
+       <ElIcon>
+        <DArrowRight />
+       </ElIcon>
+      </div>
+     </template>
      <div class="row-item" v-for="item in  list1 " :key="item.name">
       <div class="row-item-left">
        <span class="icon" :style="{ 'background-color': getRandomColor() }"></span>
@@ -16,7 +21,15 @@
     </List>
    </div>
    <div class="list-i">
-    <List title="ETD更新">
+    <List title="船期变动">
+     <template #seeMore>
+      <div class="flex">
+       <span> {{ list2.length }}票</span>
+       <ElIcon>
+        <DArrowRight />
+       </ElIcon>
+      </div>
+     </template>
      <div class="row-item-1" v-for="(item, index) in  list2" :key="index + 'a'">
       <div class="row-item-left" :style="{ background: item.name === 'ETD' ? '#96d5e8' : '#a5a4e6' }">
        <span>{{ item.name }}</span>
@@ -26,14 +39,8 @@
     </List>
    </div>
    <div class="list-i">
-    <List title="邮件预警" borderColor="#f24077">
-     <div class="row-item-1" v-for="(item, index) in  list3" :key="index + 'b'">
-      <div class="row-item-left" :style="{ background: '#96d5e8' }">
-       <span>{{ item.name }}</span>
-      </div>
-      <div class="row-item-right">{{ item.count }}</div>
-     </div>
-    </List>
+    <!-- 晶科咨询 -->
+    <SeekAdviceFrom />
    </div>
   </div>
  </div>
@@ -41,8 +48,13 @@
  
 <script lang="ts" setup>
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { ElIcon } from 'element-plus'
 import List from '../Components/List.vue'
 import { getRandomColor } from '@/utils/color'
+import SeekAdviceFrom from './seekAdviceFrom.vue'
+
+const router = useRouter()
 
 const list1 = reactive([
  {
@@ -96,35 +108,23 @@ const list2 = reactive([
   count: 'vue3项目打包附带混淆js'
  },
 ])
-const list3 = reactive([
- {
-  name: '晚开',
-  count: 'vue3项目打包附带混淆js'
- },
- {
-  name: '晚开',
-  count: 'vue3项目打包附带混淆js'
- },
- {
-  name: '超期',
-  count: 'vue3项目打包附带混淆js'
- },
- {
-  name: '派车计划',
-  count: 'vue3项目打包附带混淆js'
- },
- {
-  name: '派车计划',
-  count: 'vue3项目打包附带混淆js'
- },
- {
-  name: '派车计划',
-  count: 'vue3项目打包附带混淆js'
- },
-])
+
+const goNewPage = () => {
+ const url = router.resolve({
+  path: '/transportbi-!3'
+ })
+ window.open(url.href, '_blank');
+}
 </script>
 
 <style scoped lang="scss">
+.flex {
+ display: flex;
+ align-items: center;
+ color: #f5a300;
+ font-size: 1.5rem;
+}
+
 .title {
  border-radius: .5rem;
  background-color: #eec3c3;

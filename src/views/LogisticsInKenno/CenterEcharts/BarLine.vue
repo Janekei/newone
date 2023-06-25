@@ -7,6 +7,14 @@
 import { ref, markRaw, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts';
 import { debounce } from 'lodash-es'
+
+const props = defineProps({
+ data: {
+  type: Object as any,
+  defaul: () => ({})
+ }
+})
+
 let myChart = ref()
 const setOption = function () {
  const option = {
@@ -36,7 +44,7 @@ const setOption = function () {
   xAxis: [
    {
     type: 'category',
-    data: ['1月', '2月', '3月', '4月', '5月', '6月']
+    data: props.data.date
    }
   ],
   yAxis: [
@@ -58,7 +66,7 @@ const setOption = function () {
     name: '平均运输周期',
     type: 'bar',
     yAxisIndex: 1,
-    data: [0.3, 0.6, 0.35, 0.4, 0.7, 0.88],
+    data: props.data.list,
     itemStyle: {
      color: '#3fb1e3',
      borderRadius: [10, 10, 10, 10]

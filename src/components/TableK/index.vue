@@ -1,6 +1,5 @@
 <template>
  <div class="table-box">
-  {{ staticData }}
   <RightClickCard style="background-color: #fff;">
    <slot name="buttons" :selectRow="selectAll"></slot>
    <!-- tableData.slice((page - 1) * limit, page * limit) -->
@@ -213,7 +212,6 @@ defineExpose({
 
 .pagination {
  display: flex;
- justify-content: end;
  margin-top: 1rem;
  background-color: #fff;
  padding-bottom: 1rem;
