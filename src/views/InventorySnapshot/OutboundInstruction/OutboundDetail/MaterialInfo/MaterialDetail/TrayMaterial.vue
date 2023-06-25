@@ -5,7 +5,7 @@
             :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false" :showIndex="true"
             @click-this-column="clickThisColumn" @selectThisColumn="selectThisColumn">
             <template #buttons>
-                <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
+                <SearchOutbound :formOption="formOption" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
             <template #updateTime="{ row }">
@@ -102,21 +102,20 @@ const tableOption = reactive([
 ])
 // 入库指令首页搜索框数据
 const tableRef = ref()
-const formOptionHome = reactive([
-    {
+const formOption = reactive([
+   {
         type: 'input',
-        field: 'containerId',
-        placeholder: '请输入箱号',
-        label: '箱号：'
+        field: 'goodCode',
+        placeholder: '请输入货品编号',
+        label: '货品编号：'
     },
     {
         type: 'input',
-        field: 'lockNo',
-        placeholder: '请输入锁号',
-        label: '锁号：'
+        field: 'goodsName',
+        placeholder: '请输入货品名称',
+        label: '货品名称：'
     }
 ])
-
 // 搜索
 const clickSearch = () => {
     refresh()
