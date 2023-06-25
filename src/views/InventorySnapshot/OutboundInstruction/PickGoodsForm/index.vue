@@ -1,5 +1,5 @@
 <template>
-    <TableK url="/jinko/outbound-goods/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
+    <TableK url="/jinko/driver/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
         :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
         <template #buttons>
             <SearchOutbound :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData"

@@ -18,23 +18,22 @@
 <script lang="ts" setup>
 import { ElButton } from 'element-plus'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-// import * as OutboundInstruction from '@/api/inventorysnapshot/outboundinstruction'
+import * as OutboundInstruction from '@/api/inventorysnapshot/outboundinstruction'
 
-// const route = useRoute()
+const route = useRoute()
 const router = useRouter()
-// let outboundId: number = parseInt(JSON.parse(route.query.id as any));
+let outboundId: number = parseInt(JSON.parse(route.query.id as any));
 
-// const props = defineProps({
-//     ids: {
-//         type: Array as any,
-//         default: () => []
-//     },
-//     goodsId: {
-//         type: Number,
-//         default: 0
-//     }
-// })
+const props = defineProps({
+    ids: {
+        type: Array as any,
+        default: () => []
+    },
+    goodsId: {
+        type: Number,
+        default: 0
+    }
+})
 
 const recordData = ref({
     ids: undefined,
@@ -64,7 +63,6 @@ const formOption = reactive([
     },
 ])
 
-// watch(() => props.inboundIdsBox, (val, preVal) => { console.log("message", val, preVal) }, { immediate: true })
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
@@ -87,9 +85,11 @@ const emit = defineEmits(['success'])
 
 const submitForm = async () => {
     if (formType.value === '托拣货') {
-        // const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
-        // console.log('托维度物料信息拣货',res)
-        router.push({ path: '/InventorySnapshot/pickgoods' })
+        const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
+        if (res) {
+            console.log('托维度物料信息拣货', res)
+            router.push({ path: '/InventorySnapshot/pickgoods' })
+        }
     }
     dialogVisible.value = false
     // 发送操作成功的事件

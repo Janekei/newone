@@ -1,12 +1,12 @@
 <template>
     托
     <div>
-        <TableK url="/jinko/outbound-goods/list" method="get" :params="formData" ref="tableRef" :firstPages="10"
-            :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false" :showIndex="true"
-            @click-this-column="clickThisColumn" @selectThisColumn="selectThisColumn">
+        <TableK url="/jinko/outbound-goods/list" method="get" :params="formData" ref="tableRef" :layout="paginationLayout"
+            :tableOption="tableOption" :showFixedOperation="true" :showIndex="true" @click-this-column="clickThisColumn"
+            @selectThisColumn="selectThisColumn">
             <template #buttons>
-                <SearchOutbound :formOption="formOption" @click-search="clickSearch"
-                    @update:form-state="updateSearchData" @reset-form="resetForm" />
+                <SearchOutbound :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData"
+                    @reset-form="resetForm" />
             </template>
             <template #updateTime="{ row }">
                 <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>
@@ -36,14 +36,13 @@ const props = defineProps({
         default: false
     }
 })
-
-const route = useRoute()
-let id: number = parseInt(JSON.parse(route.query.id as any));
 let formData = ref({
-    goodsId: props.goodsId,
-    id
+    goodsId: props.goodsId
 })
 
+
+// 分页样式
+const paginationLayout = ""
 
 // 返回部分入库箱维度详情页面
 const emits = defineEmits(['update:changeCloseTray', 'backWaybill', 'showTrayList'])
@@ -103,7 +102,7 @@ const tableOption = reactive([
 // 入库指令首页搜索框数据
 const tableRef = ref()
 const formOption = reactive([
-   {
+    {
         type: 'input',
         field: 'goodCode',
         placeholder: '请输入货品编号',
@@ -122,8 +121,7 @@ const clickSearch = () => {
 }
 const updateSearchData = (val) => {
     formData.value = {
-        goodsId: props.goodsId,
-        id
+        goodsId: props.goodsId
     }
     Object.assign(formData.value, val)
 }
