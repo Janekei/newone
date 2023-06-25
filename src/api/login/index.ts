@@ -67,7 +67,6 @@ export const getCode = (data) => {
 export const reqCheck = (data) => {
  return request.postOriginal({ url: 'system/captcha/check', data })
 }
-
 export const getUserListApi = (data) => {
  return request.postOriginal({ url: 'system/captcha/check', data })
 }

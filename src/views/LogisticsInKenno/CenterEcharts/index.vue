@@ -11,17 +11,17 @@
    </ElCol>
    <ElCol :xl="6" :lg="6" :md="12" :sm="24" :xs="24">
     <div class="echart">
-     <BarBar />
+     <BarBar :data="transitNotPODData" v-if="showBarBar" />
     </div>
    </ElCol>
    <ElCol :xl="6" :lg="6" :md="12" :sm="24" :xs="24">
     <div class="echart">
-     <PodLine />
+     <PodLine :data="podAchievementRateData" v-if="showPodLine" />
     </div>
    </ElCol>
    <ElCol :xl="6" :lg="6" :md="12" :sm="24" :xs="24">
     <div class="echart">
-     <BarLine />
+     <BarLine :data="timelyBookingRateData" v-if="showBarLine" />
     </div>
    </ElCol>
   </ElRow>
@@ -34,7 +34,7 @@ import PieEchart from './PieEchart.vue'
 import BarBar from './BarBar.vue'
 import PodLine from './PodLine.vue'
 import BarLine from './BarLine.vue'
-import { deliveringAmount } from '@/api/logisticsInKenno/index'
+import { deliveringAmount, transitNotPOD, podAchievementRate, timelyBookingRate } from '@/api/logisticsInKenno/index'
 
 const showPieEchart = ref(false)
 const deliveringAmountData = ref()
@@ -45,8 +45,38 @@ const getDeliveringAmount = () => {
  })
 }
 
+const showBarBar = ref(false)
+const transitNotPODData = ref()
+const getTransitNotPODData = () => {
+ transitNotPOD({}).then(res => {
+  transitNotPODData.value = res
+  showBarBar.value = true
+ })
+}
+
+const showPodLine = ref(false)
+const podAchievementRateData = ref()
+const getPodAchievementRateData = () => {
+ podAchievementRate({}).then(res => {
+  podAchievementRateData.value = res
+  showPodLine.value = true
+ })
+}
+
+const showBarLine = ref(false)
+const timelyBookingRateData = ref()
+const getTimelyBookingRateData = () => {
+ timelyBookingRate({}).then(res => {
+  timelyBookingRateData.value = res
+  showBarLine.value = true
+ })
+}
+
 onMounted(() => {
  getDeliveringAmount()
+ getTransitNotPODData()
+ getPodAchievementRateData()
+ getTimelyBookingRateData()
 })
 </script>
 

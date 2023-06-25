@@ -7109,6 +7109,11 @@ text-table@^0.2.0:
   resolved "https://registry.npmmirror.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
 
+throttle-debounce@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npmmirror.com/throttle-debounce/-/throttle-debounce-5.0.0.tgz#a17a4039e82a2ed38a5e7268e4132d6960d41933"
+  integrity sha512-2iQTSgkkc1Zyk0MeVrt/3BvuOXYPl/R8Z0U2xxo9rjwNciaHDG3R+Lm6dh4EeUci49DanvBnuqI6jshoQQRGEg==
+
 through2@^4.0.0:
   version "4.0.2"
   resolved "https://registry.npmmirror.com/through2/-/through2-4.0.2.tgz#a7ce3ac2a7a8b0b966c80e7c49f0484c3b239764"
@@ -7665,6 +7670,13 @@ vue-types@^5.0.3:
   integrity sha512-7+yOUXlRrpkJ4mtgmB6nIfDYLdLmxHQ/IMZR3hsEziYnHK4Y/Rf+rlCIg1rwNnlbyTiDf4v/vz1LEumo3RgwrQ==
   dependencies:
     is-plain-object "5.0.0"
+
+vue3-seamless-scroll@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmmirror.com/vue3-seamless-scroll/-/vue3-seamless-scroll-2.0.1.tgz#7b2d44afe94d545a2fe4affe8f81b884fc713268"
+  integrity sha512-mI3BaDU3pjcPUhVSw3/xNKdfPBDABTi/OdZaZqKysx4cSdNfGRbVvGNDzzptBbJ5S7imv5T55l6x/SqgnxKreg==
+  dependencies:
+    throttle-debounce "5.0.0"
 
 vue@3.3.4:
   version "3.3.4"
