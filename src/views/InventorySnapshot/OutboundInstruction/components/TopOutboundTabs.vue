@@ -24,10 +24,10 @@ import WayBillInfo from '../OutboundDetail/WayBillInfo/index.vue'
 import MaterialInfo from '../OutboundDetail/MaterialInfo/index.vue'
 
 const props = defineProps({
-    tabList: {
-        type: Array as any,
-        default: () => []
-    }
+ tabList: {
+  type: Array as any,
+  default: () => []
+ }
 })
 
 const loading = ref(false)
@@ -36,26 +36,26 @@ let activeName = ref(props.tabList[0].name)
 
 // 过滤tabList数据
 const tabList = computed(() => {
-    let data: any = []
-    if (props.tabList[0].hasOwnProperty('number')) {
-        props.tabList.forEach(item => {
-            data.push({
-                title: item.title,
-                lable: item.title + '（' + item.number + '）',
-                name: item.name,
-                number: item.number
-            })
-        });
-        return data;
-    }
-    props.tabList.forEach(item => {
-        data.push({
-            title: item.title,
-            lable: item.title,
-            name: item.name
-        })
-    });
-    return data;
+ let data: any = []
+ if (props.tabList[0].hasOwnProperty('number')) {
+  props.tabList.forEach(item => {
+   data.push({
+    title: item.title,
+    lable: item.title + '（' + item.number + '）',
+    name: item.name,
+    number: item.number
+   })
+  });
+  return data;
+ }
+ props.tabList.forEach(item => {
+  data.push({
+   title: item.title,
+   lable: item.title,
+   name: item.name
+  })
+ });
+ return data;
 })
 
 //拣货事件---隐藏全部物料信息、显示操作版物料信息
@@ -86,4 +86,9 @@ const handleClick = (tab) => {
 }
 
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.demo-tabs>.el-tabs__content {
+ padding: 32px;
+ color: #6b778c;
+}
+</style>

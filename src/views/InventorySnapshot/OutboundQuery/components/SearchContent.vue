@@ -1,11 +1,11 @@
 <template>
  <div class="header">
   <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" />
- </div>
- <div class="btn-box">
-  <ElButton type="primary">新增查询条件</ElButton>
-  <ElButton type="primary" :icon="Search">查询</ElButton>
-  <ElButton type="default">重置</ElButton>
+  <div class="btn-box">
+   <el-button type="primary">新增查询条件</el-button>
+   <el-button type="primary" :icon="Search">查询</el-button>
+   <el-button type="default">重置</el-button>
+  </div>
  </div>
 </template>
 
