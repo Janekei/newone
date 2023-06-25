@@ -3,7 +3,7 @@
     <div>
         <TableK url="/jinko/outbound-goods/list" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false" :showIndex="true"
-            @click-this-column="clickThisColumn">
+            @click-this-column="clickThisColumn" @selectThisColumn="selectThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -15,8 +15,9 @@
     </div>
     <div class="box-btn">
         <el-button class="button" type="primary" @click="backOperate">返回</el-button>
-        <!-- <el-button v-else-if="props.isClickErrorBtn" class="button" type="primary" @click="errorRecord">异常登记</el-button> -->
+        <el-button class="button" type="primary" @click="open">确认拣货</el-button>
     </div>
+    <DialogOutbound ref="refDialog" :ids="ids" :goodsId="props.goodsId" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -24,6 +25,7 @@ import { reactive } from 'vue'
 import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchOutbound from '../../../components/SearchOutbound.vue'
+import DialogOutbound from '../../../components/DialogOutbound.vue'
 const props = defineProps({
     goodsId: {
         type: Number,
@@ -116,19 +118,17 @@ const formOptionHome = reactive([
 ])
 
 // 搜索
-let searchData = ref({})
 const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    formData.value = ref({
+    formData.value = {
         goodsId: props.goodsId,
         id
-    })
+    }
     Object.assign(formData.value, val)
 }
 const resetForm = () => {
-    searchData.value = {}
     refresh()
 }
 
@@ -136,6 +136,21 @@ const resetForm = () => {
 // 刷新列表
 const refresh = () => {
     tableRef.value.refresh()
+}
+
+// 多选行
+let ids: any = ref([]);
+const selectThisColumn = (rows) => {
+    ids.value = []
+    console.log(rows, 'rows')
+    rows.forEach((item) => {
+        ids.value.push(item.palletId)
+    })
+}
+
+const refDialog = ref()
+const open = () => {
+    refDialog.value.open('托拣货', '确认拣货', '您确定要拣货吗？')
 }
 
 
