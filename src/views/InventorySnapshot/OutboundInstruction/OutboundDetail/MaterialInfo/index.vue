@@ -8,7 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-import _ from 'lodash'
 import AllMaterial from './MaterialDetail/AllMaterial.vue'
 import OperateMaterial from './MaterialDetail/OperateMaterial.vue'
 import TrayMaterial from './MaterialDetail/TrayMaterial.vue'
@@ -21,7 +20,7 @@ const props = defineProps({
 const emits = defineEmits(['back', 'changeShowPickPart'])
 
 // 深拷贝showPickPart
-let showPickPart = ref(_.cloneDeep(props.showPickPart))
+let showPickPart = ref(props.showPickPart)
 
 // 获取到所点击选托按钮行的物料id
 // 显示托纬度物料，隐藏其余两个信息
