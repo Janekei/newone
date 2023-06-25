@@ -1,29 +1,39 @@
 <template>
-    <TableK url="/jinko/driver/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
-        :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
-        <template #buttons>
-            <SearchOutbound :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData"
-                @reset-form="resetForm" />
-        </template>
-        <template #updateTime="{ row }">
-            <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>
-        </template>
-    </TableK>
+    操作
+    <div>
+        <TableK url="/jinko/gscwhoutboundpallets/getPalletsList" method="get" :params="formData" ref="tableRef"
+            :firstPages="10" :tableOption="tableOption" :showIndex="true" @selectThisColumn="selectThisColumn">
+            <template #buttons>
+                <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
+                    @update:form-state="updateSearchData" @reset-form="resetForm" />
+            </template>
+            <template #updateTime="{ row }">
+                <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>
+            </template>
+        </TableK>
+    </div>
     <div class="box-btn">
-        <el-button class="button" type="primary">返回</el-button>
-        <el-button class="button" type="primary" @click="open('绑定车辆', '绑定车辆')">绑定车辆</el-button>
-        <el-button class="button" type="primary" @click="open('出库', '确认出库', '您确认要出库吗？')">出库</el-button>
+        <el-button class="button" type="primary" @click="backWaybill">返回</el-button>
+        <el-button class="button" type="primary" @click="open('绑定车辆')">绑定车辆</el-button>
+        <el-button class="button" type="primary" @click="open('出库')">出库</el-button>
     </div>
     <DialogOutbound ref="refDialog" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { formatTime } from '@/utils'
-import SearchOutbound from '../components/SearchOutbound.vue';
 import TableK from '@/components/TableK/index.vue'
+import SearchOutbound from '../components/SearchOutbound.vue'
 import DialogOutbound from '../components/DialogOutbound.vue'
-let formData = ref({})
+const route = useRoute()
+let id = route.query.outboundid;
+let formData = ref({
+    outboundId: id
+    // id
+})
+
+// const { t } = useI18n()
 const tableOption = reactive([
     {
         prop: 'goodCode',
@@ -71,34 +81,31 @@ const tableOption = reactive([
         slotName: 'updateTime'
     }
 ])
-
-// 打开弹窗
-const refDialog = ref()
-const open = (type: string, title: string, content?: string) => {
-    refDialog.value.open(type, title, content)
-}
-
-const formOption = reactive([
+// 入库指令首页搜索框数据
+const tableRef = ref()
+const formOptionHome = reactive([
     {
         type: 'input',
-        field: 'containerId',
-        placeholder: '请输入货品编码',
-        label: '货品编码：'
+        field: 'goodCode',
+        placeholder: '请输入货品编号',
+        label: '货品编号：'
     },
     {
         type: 'input',
-        field: 'lockNo',
+        field: 'goodsName',
         placeholder: '请输入货品名称',
         label: '货品名称：'
     }
 ])
 
 // 搜索
-const tableRef = ref()
 const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
+    formData.value = {
+        outboundId: id
+    }
     Object.assign(formData.value, val)
 }
 const resetForm = () => {
@@ -110,6 +117,39 @@ const resetForm = () => {
 const refresh = () => {
     tableRef.value.refresh()
 }
+
+
+//跳转对应行的详情页信息
+const emits = defineEmits(['backWaybill', 'showTrayList'])
+
+const backWaybill = () => {
+    emits('backWaybill')
+}
+
+// 多选行
+let ids: any = ref([]);
+const selectThisColumn = (rows) => {
+    ids.value = []
+    rows.forEach((item) => {
+        ids.value.push(item.goodsId)
+    })
+}
+
+// 确认拣货
+const refDialog = ref()
+let isShow = ref(false)
+const open = (type) => {
+    if (type === '出库') {
+        isShow.value = true
+        console.log(refDialog)
+        refDialog.value.open('出库', '确认出库', '您确认要出库吗')
+    }
+
+}
+
+defineExpose({
+    refresh
+})
 </script>
 <style lang="scss" scoped>
 .table {
@@ -130,7 +170,7 @@ const refresh = () => {
 }
 
 .edit-btn {
-    background-color: #67C23A;
+    font-weight: 700;
     border: none;
 }
 </style>

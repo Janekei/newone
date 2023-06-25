@@ -40,10 +40,6 @@ const props = defineProps({
         default: () => []
     }
 })
-
-onBeforeMount(() => {
-    console.log(props.descList, 'desc')
-})
 </script>
 <style lang="scss" scoped>
 ::v-deep .is-bordered-label {

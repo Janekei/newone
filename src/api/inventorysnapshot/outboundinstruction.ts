@@ -10,6 +10,11 @@ export const trayPickGoods = async (data) => {
     return await request.post({ url: '/jinko/outbound-goods/pickingQuery', data })
 }
 
+// 物料信息箱维度拣货功能
+export const boxPickGoods = async (data) => {
+    return await request.post({ url: '/jinko/outbound-goods/pickingQueryWithBox', data })
+}
+
 // 出库指令列表tab标题的条数
 export const getOutboundListTotal = async (params) => {
     return await request.get({ url: '/jinko/gscwhoutbound/getOutboundNumber',params })

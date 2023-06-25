@@ -3,7 +3,7 @@
         <div ref="refDialog">
             <div>
                 <div v-if="formType === '绑定车辆'">
-                    <FormK :formOption="formOption" v-model:formState="recordData" labelWidth="6em" ref="formRef" />
+
                 </div>
                 <div v-else class="formContent">{{ formData }}</div>
             </div>
@@ -32,36 +32,16 @@ const props = defineProps({
     goodsId: {
         type: Number,
         default: 0
+    },
+    boxGoodsId: {
+        type: Array as any,
+        default: () => []
+    },
+    id: {
+        type: Number,
+        default: 0
     }
 })
-
-const recordData = ref({
-    ids: undefined,
-    exception: undefined,
-    exceptionStatus: undefined
-})
-const formOption = reactive([
-    {
-        type: 'select',
-        field: 'exception',
-        placeholder: '请选择异常类型',
-        label: '异常类型',
-        options: [
-            { label: '货量破损', value: 0 },
-            { label: '数量短缺', value: 1 },
-            { label: '型号不符', value: 2 }
-        ],
-        rules: [
-            { required: true, message: '请选择异常类型', trigger: 'blur' }
-        ]
-    },
-    {
-        type: 'input',
-        field: 'exceptionStatus',
-        placeholder: '请输入内容',
-        label: '其他类型'
-    },
-])
 
 
 // 表单内容区域
@@ -85,10 +65,16 @@ const emit = defineEmits(['success'])
 
 const submitForm = async () => {
     if (formType.value === '托拣货') {
-        const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
+        // const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
+        // if (res) {
+        //     console.log('托维度物料信息拣货', res)
+        router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
+        // }
+    } else if (formType.value === '箱拣货') {
+        const res = await OutboundInstruction.boxPickGoods({ goodsId: props.ids, outboundId })
         if (res) {
             console.log('托维度物料信息拣货', res)
-            router.push({ path: '/InventorySnapshot/pickgoods' })
+            router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
         }
     }
     dialogVisible.value = false
@@ -101,11 +87,7 @@ defineExpose({
 })
 
 const reset = () => {
-    recordData.value = {
-        ids: undefined,
-        exception: undefined,
-        exceptionStatus: undefined
-    }
+
 }
 
 </script>
