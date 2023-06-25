@@ -35,7 +35,8 @@
         <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">-</el-descriptions-item>
         <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.requiredArrivalTime, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ formatTime(props.descList.requiredArrivalTime, 'yyyy-MM-dd')
+            }}</el-descriptions-item>
         <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ formatTime(props.descList.estInTime, 'yyyy-MM-dd') }}</el-descriptions-item>
         <el-descriptions-item label="派送地址" label-align="left" align="center" label-class-name="my-label"
