@@ -6,10 +6,10 @@
                     <OutboundList />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
-                    <WayBillInfo/>
+                    <WayBillInfo @pickGoods="pickGoods" />
                 </div>
                 <div v-else>
-                    <MaterialInfo/>
+                    <MaterialInfo :showPickPart="showPickPart" @back="back" @changeShowPickPart="changeShowPickPart" />
                 </div>
             </slot>
         </el-tab-pane>
@@ -22,7 +22,6 @@ import { ElTabPane, ElTabs } from 'element-plus'
 import OutboundList from './OutboundList.vue';
 import WayBillInfo from '../OutboundDetail/WayBillInfo/index.vue'
 import MaterialInfo from '../OutboundDetail/MaterialInfo/index.vue'
-
 
 const props = defineProps({
     tabList: {
@@ -59,9 +58,31 @@ const tabList = computed(() => {
     return data;
 })
 
+//拣货事件---隐藏全部物料信息、显示操作版物料信息
+// showPickPart:是否点击拣货
+const showPickPart = ref(false)
+const pickGoods = () => {
+    activeName.value = 'materialInfo'
+    showPickPart.value = true
+}
+
+// 物料信息（选托操作页）返回功能
+const back = () => {
+    activeName.value = 'waybill'
+    showPickPart.value = false
+}
+
+const changeShowPickPart = () => {
+    console.log( 3344)
+    showPickPart.value = false
+}
+
 // 选中的tab触发
-const handleClick = () => {
-    // console.log(tab)
+const handleClick = (tab) => {
+    activeName.value = tab.props.name
+    if (tab.props.name === 'waybill') {
+        showPickPart.value = false
+    }
 }
 
 </script>
