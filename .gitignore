@@ -10,3 +10,4 @@ auto-*.d.ts
 .idea
 .history
 .env.jenkins
+.env.jenkins

@@ -1,9 +1,10 @@
 <template>
     <div>
-        <TableK url="/jinko/gsc-wh-inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
+        <TableK url="/jinko/gscwhinbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
             @click-this-column="clickThisColumn">
             <template #buttons>
+                {{ formData }}
                 <SearchContent :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
@@ -20,10 +21,12 @@
                 <span>{{ formatTime(row.row.etd, 'yyyy-MM-dd') }}</span>
             </template>
             <template #transportStatus="{ row }">
-                <span v-if="row.row.transportStatus === 1">未到港</span>
-                <span v-if="row.row.transportStatus === 2">未清关</span>
-                <span v-if="row.row.transportStatus === 3">清关中</span>
-                <span v-if="row.row.transportStatus === 4">清关完成</span>
+                <!-- {{ row.row.transportStatus }} -->
+                <!-- <span v-if="row.row.transportStatus == 1">{{ row.row.transportStatus }}2</span> -->
+                <span v-if="row.row.transportStatus == 1">未到港</span>
+                <span v-else-if="row.row.transportStatus == 2">未清关</span>
+                <span v-else-if="row.row.transportStatus == 3">清关中</span>
+                <span v-else-if="row.row.transportStatus == 4">清关完成</span>
             </template>
         </TableK>
     </div>
@@ -85,7 +88,7 @@ const tableOption = reactive([
     {
         prop: 'transportStatus',
         label: '状态',
-        soltName: 'transportStatus'
+        slotName: 'transportStatus'
     }
 ])
 // 入库指令首页搜索框数据
@@ -106,15 +109,16 @@ const formOptionHome = reactive([
 ])
 
 // 搜索
-let searchData = ref({})
 const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    searchData.value = val
+    formData.value = {
+        transportStatus: transportStatus
+    }
+    Object.assign(formData.value, val)
 }
 const resetForm = () => {
-    searchData.value = {}
     refresh()
 }
 
