@@ -17,7 +17,7 @@ export const getListItemDetail = async (params) => {
 
 // 整批入库功能
 export const postAllInbound = async (params) => {
-    return await request.get({ url: '/jinko/gsc-wh-stock-pallets/warehousingOperation', params })
+    return await request.get({ url: '/jinko/gscwhstockpallets/warehousingOperation', params })
 }
 
 // 获取箱列表信息

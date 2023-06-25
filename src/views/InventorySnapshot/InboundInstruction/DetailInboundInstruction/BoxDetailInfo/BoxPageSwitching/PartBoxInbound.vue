@@ -1,8 +1,8 @@
 <template>
-    <div class="table">
-        <TableK class="pagination" url="/jinko/gscwhinboundcontainer/page" method="get" :params="formData" ref="tableRef"
-            :showIndex="true" :showFixedOperation="true" :firstPages="10" :tableOption="tableOption"
-            @selectThisColumn="selectThisColumn" @clickThisColumn="clickThisColumn">
+    <div>
+        <TableK url="/jinko/gscwhinboundcontainer/page" method="get" :params="formData" ref="tableRef" :showIndex="true"
+            :showFixedOperation="true" :firstPages="10" :tableOption="tableOption" @selectThisColumn="selectThisColumn"
+            @clickThisColumn="clickThisColumn">
             <template #createTime="{ row }">
                 <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
             </template>
