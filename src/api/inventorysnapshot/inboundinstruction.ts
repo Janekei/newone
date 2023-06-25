@@ -2,17 +2,17 @@ import request from '@/config/axios'
 
 // 获取入库指令分页信息
 export const getInboundListTotal = async (params) => {
-    return await request.get({ url: '/jinko/gsc-wh-inbound/getInboundNumber', params })
+    return await request.get({ url: '/jinko/gscwhinbound/getInboundNumber', params })
 }
 
 // 获取入库指令信息 ----传入参数id
 export const getInboundList = async (params) => {
-    return await request.get({ url: '/jinkotms-moduule-core-biz/gsc-wh-inbound/page', params })
+    return await request.get({ url: '/jinko/gscwhinbound/page', params })
 }
 
-// 获取运单信息、柜信息 ----传入参数id
+// 获取运单信息 ----传入参数id
 export const getListItemDetail = async (params) => {
-    return await request.get({ url: '/jinko/gsc-wh-inbound/getInformation', params })
+    return await request.get({ url: '/jinko/gscwhinbound/getInformation', params })
 }
 
 // 整批入库功能
@@ -22,7 +22,7 @@ export const postAllInbound = async (params) => {
 
 // 获取箱列表信息
 export const getPartInboundBox = async (params) => {
-    return await request.get({ url: '/jinkotms-moduule-core-biz/gsc-wh-inbound-container/page', params })
+    return await request.get({ url: '/jinko/gscwhinboundcontainer/page', params })
 }
 
 // 部分入库功能----箱纬度
@@ -33,7 +33,7 @@ export const postPartInboundBox = async (params) => {
 
 // 获取托列表信息
 export const getPartInboundTray = async (params) => {
-    return await request.get({ url: '/jinkotms-moduule-core-biz/gsc-wh-inbound-pallets/page', params })
+    return await request.get({ url: '/jinko/gscwhinboundpallets/page', params })
 }
 
 // 部分入库功能----托纬度

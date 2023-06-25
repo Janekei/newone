@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/gsc-wh-inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
+        <TableK url="/jinko/gscwhinbound/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
             @click-this-column="clickThisColumn">
             <template #buttons>
