@@ -110,7 +110,6 @@ const updateSearchData = (val) => {
     Object.assign(formData.value, val)
 }
 const resetForm = () => {
-    searchData.value = {}
     refresh()
 }
 

@@ -2,8 +2,7 @@
     操作
     <div>
         <TableK url="/jinko/outbound-goods/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
-            :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false" :showIndex="true"
-            @click-this-column="clickThisColumn">
+            :tableOption="tableOption" :showFixedOperation="true" :showIndex="true" @selectThisColumn="selectThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -18,7 +17,7 @@
     </div>
     <div class="box-btn">
         <el-button class="button" type="primary" @click="backWaybill">返回</el-button>
-        <el-button class="button" type="primary">确认拣货</el-button>
+        <el-button class="button" type="primary" @click="confirmPickGoods">确认拣货</el-button>
     </div>
 </template>
 
@@ -101,18 +100,16 @@ const formOptionHome = reactive([
 ])
 
 // 搜索
-let searchData = ref({})
 const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    formData.value = ref({
+    formData.value = {
         id
-    })
+    }
     Object.assign(formData.value, val)
 }
 const resetForm = () => {
-    searchData.value = {}
     refresh()
 }
 
@@ -130,6 +127,20 @@ const clickTray = (row) => {
 }
 const backWaybill = () => {
     emits('backWaybill')
+}
+
+// 多选行
+let ids: any = ref([]);
+const selectThisColumn = (rows) => {
+    ids.value = []
+    rows.forEach((item) => {
+        ids.value.push(item.goodsId)
+    })
+}
+
+// 确认拣货
+const confirmPickGoods = () => {
+
 }
 
 defineExpose({

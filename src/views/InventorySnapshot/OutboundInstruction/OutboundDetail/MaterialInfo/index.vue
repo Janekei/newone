@@ -30,13 +30,10 @@ let isShowTray = ref(false)
 let iscloseTray = ref(true)  // 是否隐藏选托页面
 const showTrayList = (val) => {
     goodsId.value = val
-    console.log(showPickPart.value, 999)
     emits('changeShowPickPart')
     showPickPart.value = false
     isShowTray.value = false
     iscloseTray.value = false
-    console.log(showPickPart.value, isShowTray.value, iscloseTray.value, 1010)
-
 }
 
 const changeCloseTray = () => {
