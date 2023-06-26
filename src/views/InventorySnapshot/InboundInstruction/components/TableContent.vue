@@ -62,7 +62,7 @@ const tableOption = reactive([
         label: '提单号',
     },
     {
-        prop: 'containerNumber',
+        prop: 'totalBox',
         label: '柜量',
     },
     {

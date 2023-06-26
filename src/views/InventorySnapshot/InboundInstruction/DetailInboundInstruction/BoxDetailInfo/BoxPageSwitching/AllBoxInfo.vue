@@ -5,7 +5,7 @@
             <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
         </template>
         <template #updateTime="{ row }">
-            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>
         </template>
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
@@ -29,7 +29,7 @@ let formData = ref({
 })
 const tableOption = reactive([
     {
-        prop: 'cabinetTypeId',
+        prop: 'containerNo',
         label: '箱号',
     },
     {

@@ -80,7 +80,8 @@ const tableOption = reactive([
     {
         prop: 'updateTime',
         label: '更新时间',
-        slotName: 'updateTime'
+        slotName: 'updateTime',
+        width: '180'
     }
 ])
 // 入库指令首页搜索框数据

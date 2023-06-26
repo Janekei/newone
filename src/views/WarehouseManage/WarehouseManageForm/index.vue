@@ -34,6 +34,7 @@ const formLoading = ref(false) // 表单的加载中：1）修改时的数据加
 let provinceId = ref()
 let cityId = ref()
 
+var disabled = ref(true)
 const formOption = reactive([
     {
         type: 'inputTable',
@@ -47,7 +48,17 @@ const formOption = reactive([
         valueKey: 'name',
         tableConfig: {
             params: { id: 0 },
-            url: '/bidding/area/location/findCountry'
+            url: '/bidding/area/location/findCountry',
+            tableOption: [
+                {
+                    prop: 'name',
+                    label: '国家'
+                },
+                {
+                    props: 'id',
+                    label: 'Code'
+                }
+            ]
         }
     },
     {
@@ -62,7 +73,10 @@ const formOption = reactive([
         tableConfig: {
             params: { id: 1 },
             url: '/bidding/area/location/findCountry'
-        }
+        },
+        disabled: computed(() => {
+            return disabled.value
+        })
     },
     {
         type: 'inputTable',
@@ -77,7 +91,9 @@ const formOption = reactive([
             params: { id: 3 },
             url: '/bidding/area/location/findCountry'
         },
-
+        disabled: computed(() => {
+            return disabled.value
+        })
     },
     {
         type: 'input',

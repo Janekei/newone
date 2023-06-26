@@ -73,7 +73,9 @@ const getCartPage = async (id) => {
 }
 watch(() => recordData.value.carNumBefore, async (newV) => {
     console.log(newV, 57);
-    getCartPage(newV)
+    if (newV !== undefined) {
+        getCartPage(newV)
+    }
 })
 
 
@@ -219,7 +221,7 @@ const submitForm = async () => {
             router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
         }
     } else if (formType.value === '箱拣货') {
-        const res = await OutboundInstruction.boxPickGoods({ goodsId: props.ids, outboundId })
+        const res = await OutboundInstruction.boxPickGoods({ ids: props.ids, outboundId })
         if (res) {
             ElMessage.success('拣货成功')
             router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
@@ -232,11 +234,15 @@ const submitForm = async () => {
             ElMessage.success('出库失败')
         }
     } else if (formType.value === '绑定车辆') {
-        const res = await OutboundInstruction.bindCart({ ids: props.outIds, numberPlate: recordData.value.carNumBefore, dirverId: recordData.value.id })
-        if (res) {
-            ElMessage.success('绑定车辆成功')
+        if (recordData.value.carNumBefore !== undefined) {
+            const res = await OutboundInstruction.bindCart({ ids: props.outIds, numberPlate: recordData.value.carNumBefore, dirverId: recordData.value.id })
+            if (res) {
+                ElMessage.success('绑定车辆成功')
+            } else {
+                ElMessage.success('绑定车辆失败')
+            }
         } else {
-            ElMessage.success('绑定车辆失败')
+            ElMessage.error('请输入车辆信息')
         }
     }
     reset()
@@ -258,7 +264,6 @@ const reset = async () => {
         carLong: undefined
     }
     await nextTick()
-    formRef.value.resetFields()
 }
 
 </script>

@@ -169,6 +169,9 @@ const props = defineProps({
     default: () => { }
   }
 })
+onMounted(() => {
+    console.log(props.waybillInfo, 'waybill')
+})
 let waybillInfo: any = props.waybillInfo === null ? null : props.waybillInfo
 // const taskDetail = reactive([
 //     { title: '任务单号', name: 'departureLocationId' },

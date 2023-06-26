@@ -1,11 +1,13 @@
 <template>
-    <TableWayBill :waybillInfo="waybillInfo" />
-    <div class="box-btn">
-        <el-button class="button" type="primary" @click="errorOrder">异常订单</el-button>
-        <el-button class="button" type="primary" @click="allInbound">整批入库</el-button>
-        <el-button class="button" type="primary" @click="partInbound">部分入库</el-button>
+    <div v-if="show">
+        <TableWayBill :waybillInfo="waybillInfo" />
+        <div class="box-btn">
+            <el-button class="button" type="primary" @click="errorOrder">异常订单</el-button>
+            <el-button class="button" type="primary" @click="allInbound">整批入库</el-button>
+            <el-button class="button" type="primary" @click="partInbound">部分入库</el-button>
+        </div>
+        <DialogInbound :inboundID="inboundID" ref="refDialog" />
     </div>
-    <DialogInbound :inboundID="inboundID" ref="refDialog" />
 </template>
 
 <script lang="ts" setup>
@@ -15,12 +17,14 @@ import DialogInbound from '../../components/DialogInbound.vue';
 import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 // 入库指令id
 const route = useRoute()
-let inboundID = route.query.id;
+let inboundID: any = route.query.id;
 let waybillInfo = ref({})
+let show = ref(false)
 const getMainData = async () => {
     const res = await InboundInstruction.getListItemDetail({ id: inboundID })
     waybillInfo.value = res
-    console.log(waybillInfo.value)
+    show.value = true
+    console.log(waybillInfo.value, 88)
 }
 onBeforeMount(() => {
     getMainData()
