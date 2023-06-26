@@ -5,7 +5,8 @@
  <ElButton @click="submit">提交</ElButton>
  <ElButton @click="reset">重置</ElButton>
  <hr />
- <TableK url="/table/list" method="get" :params="formData" ref="myTable" :firstPages="20" :tableOption="tableOption">
+ <TableK url="/table/list" method="get" :params="formData" ref="myTable" :tableOption="tableOption"
+  :staticData="staticData">
   <template #buttons="{ selectRow }">
    <span>{{ selectRow.length }}</span>
   </template>
@@ -145,6 +146,24 @@ const myTable = ref()
 const refresh = () => {
  myTable.value.refresh()
 }
+
+const staticData = ref([
+ {
+  date: 2022,
+  name: '李武钢',
+  address: '山西'
+ },
+ {
+  date: 2022,
+  name: '李武钢',
+  address: '河南'
+ },
+ {
+  date: 2022,
+  name: '李武钢',
+  address: '河北'
+ }
+])
 
 const tableOption = reactive([
  {

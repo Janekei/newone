@@ -1,9 +1,9 @@
 <template>
-    全部
     <div>
         <TableK url="/jinko/outbound-goods/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" @click-this-column="clickThisColumn">
             <template #buttons>
+                {{ formData }}
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
@@ -49,7 +49,7 @@ const tableOption = reactive([
         label: '提单号',
     },
     {
-        prop: 'bsWhId',
+        prop: 'bsWhName',
         label: '仓库名称',
     },
     {
@@ -105,6 +105,7 @@ const clickSearch = () => {
 }
 const updateSearchData = (val) => {
     formData.value = {
+        // outboundId: id
         id
     }
     Object.assign(formData.value, val)

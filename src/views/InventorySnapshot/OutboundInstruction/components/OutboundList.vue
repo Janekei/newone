@@ -11,10 +11,8 @@
                 <OutboundDescriptionItem :descList="expandRow" />
             </template>
             <template #transportStatus="{ row }">
-                <span v-if="row.row.transportStatus === 1">未到港</span>
-                <span v-if="row.row.transportStatus === 2">未清关</span>
-                <span v-if="row.row.transportStatus === 3">清关中</span>
-                <span v-if="row.row.transportStatus === 4">清关完成</span>
+                <span v-if="row.row.status == 1">待签收</span>
+                <span v-else-if="row.row.status == 2">待出库</span>
             </template>
         </TableK>
     </div>
@@ -80,26 +78,27 @@ const formOptionHome = reactive([
         type: 'input',
         field: 'sapDn',
         placeholder: '请输入SAP任务号',
-        label: 'SAP任务号'
+        label: 'SAP任务号：'
     },
     {
         type: 'input',
         field: 'bl',
-        placeholder: '交货单号',
-        label: '请输入交货单号'
+        placeholder: '请输入交货单号',
+        label: '交货单号：'
     }
 ])
 
 // 搜索
-let searchData = ref({})
 const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    searchData.value = val
+    formData.value = {
+        status: status
+    }
+    Object.assign(formData.value, val)
 }
 const resetForm = () => {
-    searchData.value = {}
     refresh()
 }
 
