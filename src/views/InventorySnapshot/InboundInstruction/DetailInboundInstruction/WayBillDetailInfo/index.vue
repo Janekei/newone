@@ -1,11 +1,13 @@
 <template>
-    <TableWayBill v-if="show" :waybillInfo="waybillInfo" />
-    <div class="box-btn">
-        <el-button class="button" type="primary" @click="errorOrder">异常订单</el-button>
-        <el-button class="button" type="primary" @click="allInbound">整批入库</el-button>
-        <el-button class="button" type="primary" @click="partInbound">部分入库</el-button>
+    <div v-if="show">
+        <TableWayBill :waybillInfo="waybillInfo" />
+        <div class="box-btn">
+            <el-button class="button" type="primary" @click="errorOrder">异常订单</el-button>
+            <el-button class="button" type="primary" @click="allInbound">整批入库</el-button>
+            <el-button class="button" type="primary" @click="partInbound">部分入库</el-button>
+        </div>
+        <DialogInbound :inboundID="inboundID" ref="refDialog" />
     </div>
-    <DialogInbound :inboundID="inboundID" ref="refDialog" />
 </template>
 
 <script lang="ts" setup>

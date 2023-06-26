@@ -264,7 +264,6 @@ const reset = async () => {
         carLong: undefined
     }
     await nextTick()
-    formRef.value.resetFields()
 }
 
 </script>

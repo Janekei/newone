@@ -87,7 +87,7 @@
         <div v-else class="content">
             <el-descriptions class="elDescriptions" title="任务明细" label-width="100" align="center" :column="2" border>
                 <el-descriptions-item label="任务单号" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.orderCode }}</el-descriptions-item>
+                    class-name="my-content">{{ waybillInfo.sapDn }}</el-descriptions-item>
                 <el-descriptions-item label="发货方" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.departureLocationName }}</el-descriptions-item>
                 <el-descriptions-item label="SAP ID" label-align="left" align="center" label-class-name="my-label"
@@ -130,11 +130,11 @@
                 <el-descriptions-item label="瓦数" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.carrierName }}</el-descriptions-item>
                 <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.goodsId }}</el-descriptions-item>
+                    class-name="my-content">{{ waybillInfo.power }}</el-descriptions-item>
                 <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.palletQty }}</el-descriptions-item>
                 <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.totalWatt }}</el-descriptions-item>
+                    class-name="my-content">{{ waybillInfo.totalQty }}</el-descriptions-item>
                 <!-- <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item> -->
