@@ -17,5 +17,10 @@ export const boxPickGoods = async (data) => {
 
 // 出库指令列表tab标题的条数
 export const getOutboundListTotal = async (params) => {
-    return await request.get({ url: '/jinko/gscwhoutbound/getOutboundNumber',params })
+    return await request.get({ url: '/jinko/gscwhoutbound/getOutboundNumber', params })
 }
+
+// 出库指令拣货单出库功能
+// export const getOutboundListTotal = async (params) => {
+//     return await request.get({ url: '/jinko/gscwhoutbound/getOutboundNumber', params })
+// }

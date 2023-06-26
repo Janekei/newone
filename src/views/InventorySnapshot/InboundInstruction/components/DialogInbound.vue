@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElButton,ElMessage } from 'element-plus'
+import { ElButton, ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { getIntDictOptions } from '@/utils/dict'
 import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
@@ -32,7 +32,7 @@ const props = defineProps({
   }
 })
 
-const recordData = ref({
+let recordData = ref({
   ids: undefined,
   exception: undefined,
   exceptionStatus: undefined
