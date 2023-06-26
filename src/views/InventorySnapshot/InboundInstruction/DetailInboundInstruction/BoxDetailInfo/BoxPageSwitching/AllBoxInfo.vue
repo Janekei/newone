@@ -22,7 +22,7 @@ import SearchContent from '../../../components/SearchContent.vue';
 
 // listItemId：入库指令列表传过来的参数
 const route = useRoute()
-let listItemId: number = parseInt(JSON.parse(route.query.id as any));
+let listItemId = route.query.id;
 // table表格列数据
 let formData = ref({
     id: listItemId

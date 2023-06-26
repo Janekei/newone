@@ -14,7 +14,7 @@ import { getOutboundDetail } from '@/api/inventorysnapshot/outboundinstruction'
 
 // 根据路由query获取出库指令id
 const route = useRoute()
-let outboundID = parseInt(JSON.parse(route.query.id as any))
+let outboundID = route.query.id
 
 //  获取到运单详情信息
 const waybillInfo = ref({})

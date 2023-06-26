@@ -10,7 +10,8 @@
       <MyAutodcomplete v-else-if="item.type === 'autocomplete'" :placeholder="item.placeholder"
         :requestOptions="item.requestOptions" v-model="formData[item.field]" @onChange="onChange" />
       <MyInputTable v-else-if="item.type === 'inputTable'" :placeholder="item.placeholder" v-model="formData[item.field]"
-        :valueKey="item.valueKey" :tableData="item.tableData" :tableConfig="item.tableConfig" @onChange="onChange" />
+        :valueKey="item.valueKey" :tableData="item.tableData" :disabled="item.disabled" :tableOption="item.tableOption"
+        :tableConfig="item.tableConfig" @onChange="onChange" />
     </ElFormItem>
   </ElForm>
 </template>
@@ -42,6 +43,16 @@ const props = defineProps({
   marginBottom: {
     type: Boolean,
     default: true
+  },
+  tableOption: {
+    type: Array as any,
+    default: () => ([{
+      prop: 'name',
+      label: '名称'
+    }, {
+      prop: 'code',
+      label: '代码'
+    }])
   }
 })
 

@@ -17,5 +17,20 @@ export const boxPickGoods = async (data) => {
 
 // 出库指令列表tab标题的条数
 export const getOutboundListTotal = async (params) => {
-    return await request.get({ url: '/jinko/gscwhoutbound/getOutboundNumber',params })
+    return await request.get({ url: '/jinko/gscwhoutbound/getOutboundNumber', params })
+}
+
+// 出库指令拣货单出库功能
+export const postOutboundList = async (data) => {
+    return await request.post({ url: '/jinko/outbound-goods/confirmPicking', data })
+}
+
+// 绑定车辆功能
+export const bindCart = async (data) => {
+    return await request.post({ url: '/jinko/gscwhoutboundpallets/licensePlateNumberBinding', data })
+}
+
+// 获取车辆信息
+export const getCartPage = async (params) => {
+    return await request.get({ url: '/jinko/vehicleEntity/page', params })
 }

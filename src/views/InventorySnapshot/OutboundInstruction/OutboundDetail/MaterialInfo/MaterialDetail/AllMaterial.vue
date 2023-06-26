@@ -28,7 +28,7 @@ import SearchOutbound from '../../../components/SearchOutbound.vue'
 
 
 const route = useRoute()
-let id: number = parseInt(JSON.parse(route.query.id as any));
+let id = route.query.id;
 let formData = ref({
     // outboundId: id
     id

@@ -19,7 +19,7 @@
         <el-button class="button" type="primary" @click="backWaybill">返回</el-button>
         <el-button class="button" type="primary" @click="open">确认拣货</el-button>
     </div>
-    <DialogOutbound ref="refDialog"  :ids="ids"  @success="refresh" />
+    <DialogOutbound ref="refDialog" :ids="ids" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -29,7 +29,7 @@ import TableK from '@/components/TableK/index.vue'
 import SearchOutbound from '../../../components/SearchOutbound.vue'
 import DialogOutbound from '../../../components/DialogOutbound.vue'
 const route = useRoute()
-let id: number = parseInt(JSON.parse(route.query.id as any));
+let id = route.query.id;
 let formData = ref({
     // outboundId: id
     id

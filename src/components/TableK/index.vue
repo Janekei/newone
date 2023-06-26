@@ -68,6 +68,10 @@ const props = defineProps({
     type: Object as any,
     default: () => ({})
   },
+  data: {
+    type: Object as any,
+    default: () => ({})
+  },
   firstPages: {
     type: Number,
     default: 10
@@ -133,13 +137,14 @@ const getData = () => {
   }
 
 
-  const { method, url, params } = props
+  const { method, url, params, data } = props
   const parameter = Object.assign({}, pageParams, params)
+  const datater = Object.assign({}, pageParams, data)
 
   loading.value = true
   loaded.value = false
   disabledPage.value = true
-  request[method]({ url, params: parameter }).then((res: any) => {
+  request[method]({ url, params: parameter, data: datater }).then((res: any) => {
     // console.log(res, 111)
     tableData.value = res.list || res
     total.value = res.total

@@ -15,7 +15,7 @@ import DialogInbound from '../../components/DialogInbound.vue';
 import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 // 入库指令id
 const route = useRoute()
-let inboundID: number = parseInt(JSON.parse(route.query.id as any));
+let inboundID = route.query.id;
 let waybillInfo = ref({})
 const getMainData = async () => {
     const res = await InboundInstruction.getListItemDetail({ id: inboundID })
