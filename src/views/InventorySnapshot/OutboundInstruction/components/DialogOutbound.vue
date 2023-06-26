@@ -3,7 +3,7 @@
         <div ref="refDialog">
             <div>
                 <div v-if="formType === '绑定车辆'">
-
+                    绑定车辆
                 </div>
                 <div v-else class="formContent">{{ formData }}</div>
             </div>
@@ -16,13 +16,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ElButton } from 'element-plus'
+import { ElButton, ElDialog } from 'element-plus'
 import { ref } from 'vue'
+
 import * as OutboundInstruction from '@/api/inventorysnapshot/outboundinstruction'
 
 const route = useRoute()
 const router = useRouter()
-let outboundId: number = parseInt(JSON.parse(route.query.id as any));
+let outboundId = route.query.outboundid || route.query.id;
 
 const props = defineProps({
     ids: {
@@ -45,11 +46,11 @@ const props = defineProps({
 
 
 // 表单内容区域
-const dialogVisible = ref(false) // 弹窗的是否展示
-const dialogTitle = ref('') // 弹窗的标题
-const formType = ref()
-const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
-const formData = ref()    // 表单内容
+let dialogVisible = ref(false) // 弹窗的是否展示
+let dialogTitle = ref('') // 弹窗的标题
+let formType = ref()
+let formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
+let formData = ref()    // 表单内容
 
 
 // 打开弹窗方法

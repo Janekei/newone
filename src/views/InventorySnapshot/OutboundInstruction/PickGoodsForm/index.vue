@@ -1,5 +1,4 @@
 <template>
-    操作
     <div>
         <TableK url="/jinko/gscwhoutboundpallets/getPalletsList" method="get" :params="formData" ref="tableRef"
             :firstPages="10" :tableOption="tableOption" :showIndex="true" @selectThisColumn="selectThisColumn">
@@ -141,8 +140,10 @@ let isShow = ref(false)
 const open = (type) => {
     if (type === '出库') {
         isShow.value = true
-        console.log(refDialog)
         refDialog.value.open('出库', '确认出库', '您确认要出库吗')
+    } else (type === '绑定车辆'){
+        isShow.value = true
+        refDialog.value.open('绑定车辆', '绑定车辆', '您确认要绑定车辆吗')
     }
 
 }
