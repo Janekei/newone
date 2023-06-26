@@ -4,7 +4,6 @@
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
             @click-this-column="clickThisColumn">
             <template #buttons>
-                {{ formData }}
                 <SearchContent :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>

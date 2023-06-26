@@ -29,7 +29,7 @@ import TableK from '@/components/TableK/index.vue'
 import SearchOutbound from '../../../components/SearchOutbound.vue'
 import DialogOutbound from '../../../components/DialogOutbound.vue'
 const route = useRoute()
-let id: number = parseInt(JSON.parse(route.query.id as any));
+let id = route.query;
 let formData = ref({
     // outboundId: id
     id
