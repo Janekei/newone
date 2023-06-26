@@ -23,8 +23,8 @@ import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 
 const props = defineProps({
   inboundID: {
-    type: Number,
-    default: 0
+    type: String,
+    default: ''
   },
   inboundIdsBox: {
     type: Array as any,
