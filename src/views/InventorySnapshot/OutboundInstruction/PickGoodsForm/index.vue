@@ -141,7 +141,7 @@ const open = (type) => {
     if (type === '出库') {
         isShow.value = true
         refDialog.value.open('出库', '确认出库', '您确认要出库吗')
-    } else (type === '绑定车辆'){
+    } else if (type === '绑定车辆') {
         isShow.value = true
         refDialog.value.open('绑定车辆', '绑定车辆', '您确认要绑定车辆吗')
     }
