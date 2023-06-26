@@ -122,9 +122,9 @@ const submitForm = async () => {
     }
     const res = await InboundInstruction.recordErrorTray(params)
     if (res) {
-      ElMessage.success('入库成功')
+      ElMessage.success('异常登记成功')
     } else {
-      ElMessage.error('入库失败')
+      ElMessage.error('异常登记失败')
     }
   } else if (formType.value === '异常登记' && formData.value === '托') {
     let params = {

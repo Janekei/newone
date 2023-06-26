@@ -105,7 +105,7 @@ const back = () => {
 // table表格列数据
 const tableOption = reactive([
     {
-        prop: 'cabinetTypeId',
+        prop: 'containerNo',
         label: '箱号',
     },
     {
