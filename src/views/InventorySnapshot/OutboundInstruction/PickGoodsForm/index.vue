@@ -1,7 +1,8 @@
 <template>
     <div>
-        <TableK url="/jinko/gscwhoutboundpallets/getPalletsList" method="get" :params="formData" ref="tableRef"
-            :firstPages="10" :tableOption="tableOption" :showIndex="true" @selectThisColumn="selectThisColumn">
+        <TableK url="/jinko/gscwhoutboundpallets/getPalletsList" method="post" :layout="layout" :data="formData"
+            ref="tableRef" :firstPages="10" :tableOption="tableOption" :showIndex="true"
+            @selectThisColumn="selectThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -16,7 +17,7 @@
         <el-button class="button" type="primary" @click="open('绑定车辆')">绑定车辆</el-button>
         <el-button class="button" type="primary" @click="open('出库')">出库</el-button>
     </div>
-    <DialogOutbound ref="refDialog" @success="refresh" />
+    <DialogOutbound ref="refDialog" :outIds="outIds" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -33,6 +34,7 @@ let formData = ref({
 })
 
 // const { t } = useI18n()
+const layout = ""
 const tableOption = reactive([
     {
         prop: 'goodCode',
@@ -126,11 +128,11 @@ const backWaybill = () => {
 }
 
 // 多选行
-let ids: any = ref([]);
+let outIds: any = ref([]);
 const selectThisColumn = (rows) => {
-    ids.value = []
+    outIds.value = []
     rows.forEach((item) => {
-        ids.value.push(item.goodsId)
+        outIds.value.push(item.id)
     })
 }
 

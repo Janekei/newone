@@ -3,6 +3,7 @@
         <div ref="refDialog">
             <div>
                 <div v-if="formType === '绑定车辆'">
+                    {{ recordData }}
                     <FormK :formOption="formOption" v-model:formState="recordData" labelWidth="6em" ref="formRef" />
                 </div>
                 <div v-else class="formContent">{{ formData }}</div>
@@ -16,8 +17,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ElButton, ElDialog } from 'element-plus'
-import { ref } from 'vue'
+import { ElButton, ElDialog, ElMessage } from 'element-plus'
+import { ref, watch } from 'vue'
 import * as OutboundInstruction from '@/api/inventorysnapshot/outboundinstruction'
 
 const route = useRoute()
@@ -40,14 +41,30 @@ const props = defineProps({
     id: {
         type: Number,
         default: 0
+    },
+    outIds: {
+        type: Array as any,
+        default: () => []
     }
 })
 
 
 let recordData = ref({
-    ids: undefined,
-    exception: undefined,
-    exceptionStatus: undefined
+    carNumBefore: '',
+    carOwnerName: '',
+    carType: '',
+    ownerCompany: '',
+    carLong: ''
+})
+
+watch(() => recordData.value.carNumBefore, async (newV) => {
+    console.log(newV, 57);
+    const res = await OutboundInstruction.getCartPage({ carNumBefore: newV })
+    let data = res.list[0]
+    recordData.value.carOwnerName = data.carOwnerName
+    recordData.value.carType = data.carType
+    recordData.value.ownerCompany = data.ownerCompany
+    recordData.value.carLong = data.carLong
 })
 
 // 绑定车辆表单
@@ -73,7 +90,10 @@ const formOption = reactive([
                 prop: 'carOwnerName',
                 label: '车主'
             }]
-        }
+        },
+        disabled: computed(() => {
+            return disabled.value
+        })
     },
     {
         type: 'inputTable',
@@ -185,16 +205,32 @@ const emit = defineEmits(['success'])
 
 const submitForm = async () => {
     if (formType.value === '托拣货') {
-        // const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
-        // if (res) {
-        //     console.log('托维度物料信息拣货', res)
-        router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
-        // }
+        const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
+        if (res) {
+            console.log('托维度物料信息拣货', res)
+            ElMessage.success('拣货成功')
+            router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
+        }
     } else if (formType.value === '箱拣货') {
         const res = await OutboundInstruction.boxPickGoods({ goodsId: props.ids, outboundId })
         if (res) {
             console.log('托维度物料信息拣货', res)
+            ElMessage.success('拣货成功')
             router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
+        }
+    } else if (formType.value === '出库') {
+        const res = await OutboundInstruction.postOutboundList({ ids: props.outIds })
+        if (res) {
+            ElMessage.success('出库成功')
+        } else {
+            ElMessage.success('出库失败')
+        }
+    } else if (formType.value === '绑定车辆') {
+        const res = await OutboundInstruction.bindCart({ ids: props.outIds })
+        if (res) {
+            ElMessage.success('出库成功')
+        } else {
+            ElMessage.success('出库失败')
         }
     }
     dialogVisible.value = false
@@ -208,7 +244,13 @@ defineExpose({
 })
 
 const reset = () => {
-    // formRef.value.resetFields()
+    recordData.value = {
+        carNumBefore: '',
+        carOwnerName: '',
+        carType: '',
+        ownerCompany: '',
+        carLong: ''
+    }
     disabled.value = false
 }
 

@@ -1,6 +1,6 @@
 <template>
-  <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :clearable="true" @keyup.enter="enterFn"
-    style="width: 100%">
+  <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :disabled="disabled" :clearable="true"
+    @keyup.enter="enterFn" style="width: 100%">
     <template #append>
       <ElButton :icon="Search" style="margin: 0 -23px" ref="buttonRef" v-click-outside="onClickOutside" />
     </template>
@@ -40,6 +40,10 @@ const props = defineProps({
   tableConfig: {
     type: Object as any,
     default: () => ({})
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 })
 
