@@ -10,12 +10,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ElTabPane, ElTabs } from 'element-plus'
 import SearchContent from '../components/SearchContent.vue'
 import TableContent from '../components/TableContent.vue'
+import { getTabNumber } from '@/api/inventorysnapshot/outboundQuery'
 
-const tabList = reactive([
+const tabList = ref([
  { title: '全部', name: 'all', number: 30 },
  { title: '7日内库存', name: 'wdg', number: 12 },
  { title: '7到30日内库存', name: 'wqg', number: 6 },
@@ -25,13 +26,28 @@ const tabList = reactive([
 
 const emit = defineEmits(['getTabState'])
 
-const activeName = ref(tabList[0].name)
-// console.log(tabList)
+const activeName = ref(tabList.value[0].name)
 
+onMounted(() => {
+ getTabCount()
+})
 
 const handleClick = (tab) => {
- // console.log(tab.props.name, event)
+ // console.log(tab.props.name, event)s
  emit('getTabState', tab.props.name)
+}
+
+const getTabCount = () => {
+ getTabNumber({}).then(res => {
+  let allCount = 0
+  res.map(item => {
+   allCount += item.number
+  })
+  res.unshift({ number: allCount })
+  tabList.value.map((item, index) => {
+   item.number = res[index].number
+  })
+ })
 }
 </script>
 <style lang="scss" scoped>

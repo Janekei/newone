@@ -43,8 +43,6 @@ import Logger from '@/utils/Logger'
 
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-import vue3SeamlessScroll from 'vue3-seamless-scroll';
-
 // 创建实例
 const setupAll = async () => {
  const app = createApp(App)
@@ -70,8 +68,6 @@ const setupAll = async () => {
  }
 
  app.mount('#app')
-
- app.use(vue3SeamlessScroll)
 }
 
 setupAll()

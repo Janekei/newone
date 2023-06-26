@@ -12,15 +12,15 @@ import TableK from '@/components/TableK/index.vue'
 const formData = ref({})
 const tableOption = reactive([
  {
-  prop: 'No',
+  prop: 'goodsId',
   label: '序号',
  },
  {
-  prop: 'goodName',
+  prop: 'goodsName',
   label: '货物名称',
  },
  {
-  prop: 'goodType',
+  prop: 'goodsCode',
   label: '规格型号',
  },
  {
@@ -44,11 +44,11 @@ const tableOption = reactive([
   label: '平均在库时间',
  },
  {
-  prop: 'megawatt',
+  prop: 'totalCount',
   label: '兆瓦数',
  },
  {
-  prop: 'allMegawatt',
+  prop: 'totalMegawatt',
   label: '总兆瓦数'
  }
 ])
