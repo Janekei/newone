@@ -1,6 +1,4 @@
 <template>
-    托
-    {{ formData }}
     <div>
         <TableK url="/jinko/outbound-goods/list" method="get" :params="formData" ref="tableRef" :layout="paginationLayout"
             :tableOption="tableOption" :showIndex="true" @click-this-column="clickThisColumn"
@@ -22,6 +20,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
 import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
@@ -148,7 +147,11 @@ const selectThisColumn = (rows) => {
 
 const refDialog = ref()
 const open = () => {
-    refDialog.value.open('托拣货', '确认拣货', '您确定要拣货吗？')
+    if (ids.value.length === 0) {
+        ElMessage.error('请选择行！')
+    } else {
+        refDialog.value.open('托拣货', '确认拣货', '您确定要拣货吗？')
+    }
 }
 
 

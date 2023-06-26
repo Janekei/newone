@@ -1,158 +1,158 @@
 <template>
-  <div class="box">
-    <div class="content" v-if="waybillInfo === null">
-      <el-descriptions class="elDescriptions" title="任务明细" label-width="100" align="center" :column="2" border>
-        <el-descriptions-item label="任务单号" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="发货方" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="SAP ID" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="收货方" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="业务类型" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="贸易方式" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">}</el-descriptions-item>
-        <el-descriptions-item label="起运港" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="提货时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="需求方" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-      </el-descriptions>
-      <el-descriptions class="elDescriptions" title="货品明细" label-width="100" :column="2" border>
-        <el-descriptions-item label="提单号" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="发票号" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="合同号" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="集装箱数" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="货值" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="瓦数" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <!-- <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
+    <div class="box">
+        <div class="content" v-if="waybillInfo === null">
+            <el-descriptions class="elDescriptions" title="任务明细" label-width="100" align="center" :column="2" border>
+                <el-descriptions-item label="任务单号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="发货方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="SAP ID" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="收货方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="业务类型" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="贸易方式" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="起运港" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="提货时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="需求方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+            </el-descriptions>
+            <el-descriptions class="elDescriptions" title="货品明细" label-width="100" :column="2" border>
+                <el-descriptions-item label="提单号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="发票号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="合同号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="集装箱数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="货值" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="瓦数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <!-- <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item> -->
-      </el-descriptions>
-      <el-descriptions class="elDescriptions" title="时间明细" label-width="100" :column="2" border>
-        <el-descriptions-item label="生成入库指令时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="ETA New 日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="ATA日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content"></el-descriptions-item>
-        <!-- <el-descriptions-item v-for="(item, index) in timeDetail" :key="index + 'k'" :label="item.title"
+            </el-descriptions>
+            <el-descriptions class="elDescriptions" title="时间明细" label-width="100" :column="2" border>
+                <el-descriptions-item label="生成入库指令时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="ETA New 日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="ATA日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
+                <!-- <el-descriptions-item v-for="(item, index) in timeDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item> -->
-      </el-descriptions>
-    </div>
-    <div class="content" v-else>
-      <el-descriptions class="elDescriptions" title="任务明细" label-width="100" align="center" :column="2" border>
-        <el-descriptions-item label="任务单号" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.sapDn }}</el-descriptions-item>
-        <el-descriptions-item label="发货方" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.departureLocationName }}</el-descriptions-item>
-        <el-descriptions-item label="SAP ID" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.sapDn }}</el-descriptions-item>
-        <el-descriptions-item label="收货方" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.arrivalocationName }}</el-descriptions-item>
-        <el-descriptions-item label="业务类型" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.type }}</el-descriptions-item>
-        <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.carrierName }}</el-descriptions-item>
-        <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.transportMode }}</el-descriptions-item>
-        <el-descriptions-item label="贸易方式" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.tradeWayConfigMode }}</el-descriptions-item>
-        <el-descriptions-item label="起运港" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.departurePortName }}</el-descriptions-item>
-        <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.arrivalPortName }}</el-descriptions-item>
-        <el-descriptions-item label="提货时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.realDepartureTime, 'yyyy-MM-dd')
-          }}</el-descriptions-item>
-        <el-descriptions-item label="需求方" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.salesman }}</el-descriptions-item>
-      </el-descriptions>
-      <el-descriptions class="elDescriptions" title="货品明细" label-width="100" :column="2" border>
-        <el-descriptions-item label="提单号" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.bl }}</el-descriptions-item>
-        <el-descriptions-item label="发票号" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.invoice_no }}</el-descriptions-item>
-        <el-descriptions-item label="合同号" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.contractNo }}</el-descriptions-item>
-        <el-descriptions-item label="集装箱数" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.totalBox }}</el-descriptions-item>
-        <el-descriptions-item label="货值" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.unitPrice }}</el-descriptions-item>
-        <el-descriptions-item label="瓦数" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.carrierName }}</el-descriptions-item>
-        <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.goodsId }}</el-descriptions-item>
-        <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.palletQty }}</el-descriptions-item>
-        <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ waybillInfo.totalWatt }}</el-descriptions-item>
-        <!-- <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
+            </el-descriptions>
+        </div>
+        <div class="content" v-else>
+            <el-descriptions class="elDescriptions" title="任务明细" label-width="100" align="center" :column="2" border>
+                <el-descriptions-item label="任务单号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.sapDn }}</el-descriptions-item>
+                <el-descriptions-item label="发货方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.departureLocationName }}</el-descriptions-item>
+                <el-descriptions-item label="SAP ID" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.sapDn }}</el-descriptions-item>
+                <el-descriptions-item label="收货方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.arrivalocationName }}</el-descriptions-item>
+                <el-descriptions-item label="业务类型" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.type }}</el-descriptions-item>
+                <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.carrierName }}</el-descriptions-item>
+                <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.transportMode }}</el-descriptions-item>
+                <el-descriptions-item label="贸易方式" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.tradeWayConfigMode }}</el-descriptions-item>
+                <el-descriptions-item label="起运港" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.departurePortName }}</el-descriptions-item>
+                <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.arrivalPortName }}</el-descriptions-item>
+                <el-descriptions-item label="提货时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.realDepartureTime, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
+                <el-descriptions-item label="需求方" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.salesman }}</el-descriptions-item>
+            </el-descriptions>
+            <el-descriptions class="elDescriptions" title="货品明细" label-width="100" :column="2" border>
+                <el-descriptions-item label="提单号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.bl }}</el-descriptions-item>
+                <el-descriptions-item label="发票号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.invoice_no }}</el-descriptions-item>
+                <el-descriptions-item label="合同号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.contractNo }}</el-descriptions-item>
+                <el-descriptions-item label="集装箱数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.totalBox }}</el-descriptions-item>
+                <el-descriptions-item label="货值" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.unitPrice }}</el-descriptions-item>
+                <el-descriptions-item label="瓦数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.carrierName }}</el-descriptions-item>
+                <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.goodsId }}</el-descriptions-item>
+                <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.palletQty }}</el-descriptions-item>
+                <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.totalWatt }}</el-descriptions-item>
+                <!-- <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item> -->
-      </el-descriptions>
-      <el-descriptions class="elDescriptions" title="时间明细" label-width="100" :column="2" border>
-        <el-descriptions-item label="生成入库指令时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.createTime,
-            'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.etd, 'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.newEtd, 'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.atd, 'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.eta, 'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="ETA New 日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.newAta, 'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="ATA日期" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.ata, 'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.estInTime, 'yyyy-MM-dd')
-          }}</el-descriptions-item>
-        <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.requiredArrivalTime, 'yyyy-MM-dd')
-          }}</el-descriptions-item>
-        <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
-          class-name="my-content">{{ formatTime(waybillInfo.requiredArrivalTime, 'yyyy-MM-dd')
-          }}</el-descriptions-item>
-        <!-- <el-descriptions-item v-for="(item, index) in timeDetail" :key="index + 'k'" :label="item.title"
+            </el-descriptions>
+            <el-descriptions class="elDescriptions" title="时间明细" label-width="100" :column="2" border>
+                <el-descriptions-item label="生成入库指令时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.createTime,
+                        'yyyy-MM-dd') }}</el-descriptions-item>
+                <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.etd, 'yyyy-MM-dd') }}</el-descriptions-item>
+                <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.newEtd, 'yyyy-MM-dd') }}</el-descriptions-item>
+                <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.atd, 'yyyy-MM-dd') }}</el-descriptions-item>
+                <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.eta, 'yyyy-MM-dd') }}</el-descriptions-item>
+                <el-descriptions-item label="ETA New 日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.newAta, 'yyyy-MM-dd') }}</el-descriptions-item>
+                <el-descriptions-item label="ATA日期" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.ata, 'yyyy-MM-dd') }}</el-descriptions-item>
+                <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.estInTime, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
+                <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.requiredArrivalTime, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
+                <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ formatTime(waybillInfo.requiredArrivalTime, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
+                <!-- <el-descriptions-item v-for="(item, index) in timeDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item> -->
       </el-descriptions>
@@ -169,7 +169,7 @@ const props = defineProps({
     default: () => { }
   }
 })
-let waybillInfo = props.waybillInfo === null ? null : props.waybillInfo
+let waybillInfo: any = props.waybillInfo === null ? null : props.waybillInfo
 // const taskDetail = reactive([
 //     { title: '任务单号', name: 'departureLocationId' },
 //     { title: '发货方', name: 'carrierName' },

@@ -1,5 +1,4 @@
 <template>
-    操作
     <div>
         <TableK url="/jinko/outbound-goods/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showFixedOperation="true" :showIndex="true" @selectThisColumn="selectThisColumn">
@@ -23,6 +22,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
 import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
@@ -142,7 +142,12 @@ const selectThisColumn = (rows) => {
 // 确认拣货
 const refDialog = ref()
 const open = () => {
-    refDialog.value.open('箱拣货', '确认拣货', '您确定要拣货吗？')
+    if (ids.value.length === 0) {
+        ElMessage.error('请选择行！')
+    } else {
+        refDialog.value.open('箱拣货', '确认拣货', '您确定要拣货吗？')
+    }
+
 }
 
 defineExpose({
