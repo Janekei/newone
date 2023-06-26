@@ -141,7 +141,7 @@ const selectThisColumn = (rows) => {
     ids.value = []
     console.log(rows, 'rows')
     rows.forEach((item) => {
-        ids.value.push(item.palletId)
+        ids.value.push(item.id)
     })
 }
 
