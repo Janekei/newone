@@ -53,8 +53,8 @@ const tableOption = reactive([
         label: '仓库名称',
     },
     {
-        prop: 'bsWhAddress',
-        label: '仓库地址',
+        prop: 'numberPlate',
+        label: '车牌号',
     },
     {
         prop: 'goodsNumber',

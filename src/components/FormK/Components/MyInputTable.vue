@@ -57,7 +57,7 @@ const buttonRef = ref()
 const popoverRef = ref()
 // 按钮点击事件
 const onClickOutside = () => {
-  console.log(props.tableConfig.params, 'tableconfig')
+  // console.log(props.tableConfig.params, 'tableconfig')
   unref(popoverRef).popperRef?.delayHide?.()
 }
 

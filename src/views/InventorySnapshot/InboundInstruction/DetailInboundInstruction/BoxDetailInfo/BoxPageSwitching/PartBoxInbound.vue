@@ -13,7 +13,7 @@
                 <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
             </template>
             <template #operation>
-                <ElButton class="edit-btn" type="warning" @click="clickTray">托</ElButton>
+                <ElButton class="edit-btn" type="warning" @click="clickTray">选托</ElButton>
             </template>
         </TableK>
     </div>
