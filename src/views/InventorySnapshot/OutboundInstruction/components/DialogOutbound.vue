@@ -3,7 +3,6 @@
         <div ref="refDialog">
             <div>
                 <div v-if="formType === '绑定车辆'">
-                    {{ recordData }}
                     <FormK :formOption="formOption" v-model:formState="recordData" labelWidth="6em" ref="formRef" />
                 </div>
                 <div v-else class="formContent">{{ formData }}</div>

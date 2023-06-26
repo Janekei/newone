@@ -21,6 +21,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
 import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
@@ -140,15 +141,20 @@ const selectThisColumn = (rows) => {
 const refDialog = ref()
 let isShow = ref(false)
 const open = (type) => {
-    if (type === '出库') {
-        isShow.value = true
-        refDialog.value.open('出库', '确认出库', '您确认要出库吗')
-    } else if (type === '绑定车辆') {
-        isShow.value = true
-        refDialog.value.open('绑定车辆', '绑定车辆', '您确认要绑定车辆吗')
+    if (outIds.value.length === 0) {
+        ElMessage.error('请选择行！')
+        return;
+    } else {
+        if (type === '出库') {
+            isShow.value = true
+            refDialog.value.open('出库', '确认出库', '您确认要出库吗')
+        } else if (type === '绑定车辆') {
+            isShow.value = true
+            refDialog.value.open('绑定车辆', '绑定车辆', '您确认要绑定车辆吗')
+        }
     }
-
 }
+
 
 defineExpose({
     refresh
