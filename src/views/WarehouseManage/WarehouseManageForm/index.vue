@@ -232,14 +232,7 @@ const updateFormData = (val) => {
 // }
 
 // 获取国家区域
-// let country: any = reactive([])
-// const getAreaData = async (id?: number) => {
-//     console.log(id, 222)
-//     if (typeof id === 'number') {
-//         const res = await WarehouseManageApi.getAreaData({ id })
-//         console.log(res, 111)
-//     }
-// }
+
 
 // const getCountry = (params) => {
 //     getCountry(params)
@@ -252,19 +245,32 @@ const updateFormData = (val) => {
 const formRef = ref()
 
 // 打开弹窗方法
-const open = async (type: string, id?: number, countryId?: number) => {
+const open = async (type: string, id?: number) => {
     resetForm()
     dialogVisible.value = true
     formType.value = type
     dialogTitle.value = type + '仓库信息'
-    console.log(countryId, 'countryId')
-    // getZoneList()
-    // 获取国家列表
-    // getAreaData(countryId)
     if (id) {
         formLoading.value = true
         try {
-            formData.value = await WarehouseManageApi.getWarehouseList({ id })
+            const res = await WarehouseManageApi.getWarehouseList({ id })
+            const country = await WarehouseManageApi.getAreaData({ id: 0 })
+            if (res.countryId !== null) {
+                let targetCountry = country.filter(item => item.id === res.countryId)
+                // 国家名字
+                let countryName = targetCountry[0].name
+                console.log(countryName)
+            }
+            if (res.cityId !== null) {
+                // 获取该国家下的所有城市
+                const city = await WarehouseManageApi.getAreaData({ id: res.countryId })
+                let targetCity = city.filter(item => item.id === res.cityId)
+                // 国家名字
+                // let cityName = targetCity[0].name
+                console.log(targetCity, 'city')
+            }
+            formData.value = res
+            console.log(formData.value, 'res')
             provinceId.value = formData.value.countryId
             cityId.value = formData.value.provinceId
             console.log(provinceId.value, cityId.value, 888)

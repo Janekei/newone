@@ -1,5 +1,5 @@
 <template>
-    <TableK url="/jinko/inbound-container/page" method="get" :params="formData" :firstPages="20" ref="tableRef"
+    <TableK url="/jinko/gscwhinboundcontainer/page" method="get" :params="formData" :firstPages="20" ref="tableRef"
         :showFixedOperation="true" :showIndex="true" :tableOption="tableOption" @selectThisColumn="selectThisColumn">
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
@@ -35,7 +35,7 @@ const props = defineProps({
     }
 })
 let formData = ref({
-    inboundId: props.inboundId
+    id: props.inboundId
 })
 
 // 保存当前行的id
@@ -68,7 +68,7 @@ const clickSearch = () => {
 }
 const updateSearchData = async (val) => {
     formData.value = {
-        inboundId: props.inboundId
+        id: props.inboundId
     }
     await Object.assign(formData.value, val)
 }

@@ -12,8 +12,8 @@
         <ElButton :icon="Search" style="margin: 0 -23px" @click="searchTable" />
       </template>
     </ElInput>
-    <TableK :tableOption="tableOption" size="small" :firstPages="5" :showCheckBox="false" pageSmall ref="TableKRef"
-      @clickThisColumn="clickThisColumn" :url="tableConfig.url" :params="params" />
+    <TableK :tableOption="tableConfig.tableOption" size="small" :firstPages="5" :showCheckBox="false" pageSmall
+      ref="TableKRef" @clickThisColumn="clickThisColumn" :url="tableConfig.url" :params="params" />
   </ElPopover>
 </template>
 
@@ -43,6 +43,8 @@ const props = defineProps({
   }
 })
 
+console.log(props.tableConfig, 46);
+
 
 const curValue = ref()
 // 按钮
@@ -54,109 +56,6 @@ const onClickOutside = () => {
   console.log(props.tableConfig.params, 'tableconfig')
   unref(popoverRef).popperRef?.delayHide?.()
 }
-// 模拟表格数据
-// const tableData = ref([
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: 'qw'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: 'dfdf'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '3433'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: 'jmk'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: 'tyr'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: 'ert'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '123'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '54'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: '78'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: 'd8'
-//   },
-//   {
-//     name: 'hahaha',
-//     code: 'sdf'
-//   },
-// ])
-
-// const tableOption = [{
-//   prop: 'name',
-//   label: '名称'
-// }, {
-//   prop: 'code',
-//   label: '代码'
-// }]
-
-const tableOption = [{
-  prop: 'name',
-  label: '名称'
-}, {
-  prop: 'code',
-  label: '代码'
-}]
 
 // 表格请求参数
 const searchKey = ref()

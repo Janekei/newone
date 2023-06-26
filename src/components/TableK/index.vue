@@ -103,6 +103,10 @@ const props = defineProps({
  pageSmall: {
   type: Boolean,
   default: false
+ },
+ layout: {
+  type: String,
+  default: () => "total, sizes, prev, pager, next, jumper"
  }
 })
 

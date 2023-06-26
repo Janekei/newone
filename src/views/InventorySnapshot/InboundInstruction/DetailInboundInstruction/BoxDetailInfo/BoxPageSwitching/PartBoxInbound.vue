@@ -1,8 +1,8 @@
 <template>
-    <div class="table">
-        <TableK class="pagination" url="/jinko/inbound-container/page" method="get" :params="formData" ref="tableRef"
-            :showIndex="true" :showFixedOperation="true" :firstPages="10" :tableOption="tableOption"
-            @selectThisColumn="selectThisColumn" @clickThisColumn="clickThisColumn">
+    <div>
+        <TableK url="/jinko/gscwhinboundcontainer/page" method="get" :params="formData" ref="tableRef" :showIndex="true"
+            :showFixedOperation="true" :firstPages="10" :tableOption="tableOption" @selectThisColumn="selectThisColumn"
+            @clickThisColumn="clickThisColumn">
             <template #createTime="{ row }">
                 <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
             </template>
@@ -38,7 +38,7 @@ const props = defineProps({
 })
 // table表格列数据
 const formData = ref({
-    inboundId: props.inboundId
+    id: props.inboundId
 })
 const tableOption = reactive([
     {
@@ -108,7 +108,7 @@ const clickSearch = () => {
 }
 const updateSearchData = async (val) => {
     formData.value = {
-        inboundId: props.inboundId
+        id: props.inboundId
     }
     await Object.assign(formData.value, val)
 }
