@@ -1,7 +1,7 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle" width="1200">
         <div class="form-box">
-            <!-- {{ formData }} -->
+            {{ formData }}
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="9rem" ref="formRef"
                 @update:formState="updateFormData" />
         </div>
@@ -38,14 +38,15 @@ var disabled = ref(true)
 const formOption = reactive([
     {
         type: 'inputTable',
-        field: 'tableCountry',
+        field: 'country',
         placeholder: '请输入国家',
         label: '国家',
-        modelValue: '中国',
+        modelValue: 'id',
         rules: [
             { required: true, message: '请输入国家', trigger: 'change' }
         ],
         valueKey: 'name',
+        formKey: 'id',
         tableConfig: {
             params: { id: 0 },
             url: '/bidding/area/location/findCountry',
@@ -191,70 +192,13 @@ const formOption = reactive([
         placeholder: `${t('warehousemanage.inputContactEmail')}`,
         label: `${t('warehousemanage.contactEmail')}`,
     },
-    // {
-    //     type: 'select',
-    //     field: 'bsWhareaId',
-    //     placeholder: '请选择仓库区域',
-    //     requestOptions: {
-    //         url: '/jinkotms/baseWharea/page',
-    //         method: 'get',
-    //         params: {
-    //             pageInfo: {
-    //                 pageSize: 100,
-    //                 pageNo: 1
-    //             }
-    //         },
-    //         handleOptions: (res: any) => {
-    //             return res.list.map((item: any) => {
-    //                 return {
-    //                     label: item.name,
-    //                     value: item.id
-    //                 }
-    //             })
-    //         }
-    //     },
-    //     label: '仓库区域',
-    //     rules: [
-    //         { required: true, message: '请选择区域', trigger: 'blur' }
-    //     ]
-    // }
 ])
 
 const updateFormData = (val) => {
-    console.log(val, 9999)
     formData.value = val
     provinceId.value = val.countryId
     cityId.value = val.provinceId
-    // 过滤区域选择器的数据
-    // zoneList.forEach(item => {
-    //     if (item.id == formData.value.bsWhareaId) {
-    //         formData.value.bsWhareaCode = item.code
-    //         formData.value.bsWhareaName = item.name
-    //     }
-    // })
 }
-
-//获取下拉框数据
-// let zoneList: any = reactive([])
-// const getZoneList = async () => {
-//     // 获取区域数据
-//     const pageInfo = {
-//         pageNo: 1,
-//         pageSize: 100
-//     }
-//     const res = await ZoneManageApi.getZoneList(pageInfo)
-//     zoneList = res.list
-//     console.log(zoneList, 'zoneList')
-// }
-
-// 获取国家区域
-
-
-// const getCountry = (params) => {
-//     getCountry(params)
-// }
-
-
 
 
 // 表单Ref
@@ -283,20 +227,14 @@ const open = async (type: string, id?: number) => {
                 let targetCity = city.filter(item => item.id === res.cityId)
                 // 国家名字
                 // let cityName = targetCity[0].name
-                console.log(targetCity, 'city')
+                console.log(city, targetCity, 'city')
             }
             formData.value = res
             console.log(formData.value, 'res')
             provinceId.value = formData.value.countryId
             cityId.value = formData.value.provinceId
             console.log(provinceId.value, cityId.value, 888)
-            // 过滤区域选择器的数据
-            // zoneList.forEach(item => {
-            //     if (item.id == formData.value.bsWhareaId) {
-            //         formData.value.bsWhareaCode = item.code
-            //         formData.value.bsWhareaName = item.name
-            //     }
-            // })
+
         } finally {
             formLoading.value = false
         }
@@ -310,13 +248,6 @@ defineExpose({
 // 定义 success 事件，用于操作成功后的回调
 const emit = defineEmits(['success'])
 const submitForm = async () => {
-    // 处理下拉框数据
-    // zoneList.forEach(item => {
-    //     if (item.id == formData.value.bsWhareaId) {
-    //         formData.value.bsWhareaCode = item.code
-    //         formData.value.bsWhareaName = item.name
-    //     }
-    // })
     if (formType.value === '增加') {
         await WarehouseManageApi.addWarehouseItem(formData.value)
         ElMessage.success('新增仓库信息成功')
@@ -333,6 +264,7 @@ const submitForm = async () => {
 }
 
 let formData = ref({
+    country: undefined,
     countryId: undefined,
     provinceId: undefined,
     cityId: undefined,
