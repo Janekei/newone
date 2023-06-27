@@ -56,58 +56,62 @@ import RightClickCard from '@/components/TableK/Components/RightClickCard.vue'
 import request from '@/config/axios'
 
 const props = defineProps({
- method: {
-  type: String,
-  default: 'get'
- },
- url: {
-  type: String,
-  default: ''
- },
- params: {
-  type: Object as any,
-  default: () => ({})
- },
- firstPages: {
-  type: Number,
-  default: 10
- },
- size: {
-  type: String as any,
-  default: 'default'
- },
- tableOption: {
-  type: Array as any,
-  default: () => []
- },
- showCheckBox: {
-  type: Boolean,
-  default: true
- },
- showIndex: {
-  type: Boolean,
-  default: false
- },
- showExpand: {
-  type: Boolean,
-  default: false
- },
- showFixedOperation: {
-  type: Boolean,
-  default: false
- },
- staticData: {
-  type: [Array, Object] as any,
-  default: null
- },
- pageSmall: {
-  type: Boolean,
-  default: false
- },
- layout: {
-  type: String,
-  default: () => "total, sizes, prev, pager, next, jumper"
- }
+  method: {
+    type: String,
+    default: 'get'
+  },
+  url: {
+    type: String,
+    default: ''
+  },
+  params: {
+    type: Object as any,
+    default: () => ({})
+  },
+  data: {
+    type: Object as any,
+    default: () => ({})
+  },
+  firstPages: {
+    type: Number,
+    default: 10
+  },
+  size: {
+    type: String as any,
+    default: 'default'
+  },
+  tableOption: {
+    type: Array as any,
+    default: () => []
+  },
+  showCheckBox: {
+    type: Boolean,
+    default: true
+  },
+  showIndex: {
+    type: Boolean,
+    default: false
+  },
+  showExpand: {
+    type: Boolean,
+    default: false
+  },
+  showFixedOperation: {
+    type: Boolean,
+    default: false
+  },
+  staticData: {
+    type: [Array, Object] as any,
+    default: null
+  },
+  pageSmall: {
+    type: Boolean,
+    default: false
+  },
+  layout: {
+    type: String,
+    default: () => "total, sizes, prev, pager, next, jumper"
+  }
 })
 
 const tableData = ref([])
@@ -122,36 +126,37 @@ const disabledPage = ref(false)
 
 // 发送请求获取数据
 const getData = () => {
- console.log(props.staticData, 122);
+  console.log(props.staticData, 122);
 
- if (props.staticData) {
-  console.log(props.staticData, '125');
-  const cloneTableData = cloneDeep(props.staticData)
-  total.value = cloneTableData.length
-  tableData.value = cloneTableData.slice((pageParams.pageNo - 1) * pageParams.pageSize, pageParams.pageNo * pageParams.pageSize)
-  return
- }
+  if (props.staticData) {
+    console.log(props.staticData, '125');
+    const cloneTableData = cloneDeep(props.staticData)
+    total.value = cloneTableData.length
+    tableData.value = cloneTableData.slice((pageParams.pageNo - 1) * pageParams.pageSize, pageParams.pageNo * pageParams.pageSize)
+    return
+  }
 
 
- const { method, url, params } = props
- const parameter = Object.assign({}, pageParams, params)
+  const { method, url, params, data } = props
+  const parameter = Object.assign({}, pageParams, params)
+  const datater = Object.assign({}, pageParams, data)
 
- loading.value = true
- loaded.value = false
- disabledPage.value = true
- request[method]({ url, params: parameter }).then((res: any) => {
-  // console.log(res, 111)
-  tableData.value = res.list || res
-  total.value = res.total
-  loading.value = false
- }).catch(() => {
-  loaded.value = true
-  loading.value = false
- }).finally(() => {
-  loaded.value = true
-  loading.value = false
-  disabledPage.value = false
- })
+  loading.value = true
+  loaded.value = false
+  disabledPage.value = true
+  request[method]({ url, params: parameter, data: datater }).then((res: any) => {
+    // console.log(res, 111)
+    tableData.value = res.list || res
+    total.value = res.total
+    loading.value = false
+  }).catch(() => {
+    loaded.value = true
+    loading.value = false
+  }).finally(() => {
+    loaded.value = true
+    loading.value = false
+    disabledPage.value = false
+  })
 }
 
 onMounted(() => {

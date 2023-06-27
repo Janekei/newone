@@ -11,7 +11,7 @@
             <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
         </template>
         <template #operation="{ operateRow }">
-            <ElButton class="edit-btn" type="warning" @click="clickTray(operateRow)">托</ElButton>
+            <ElButton class="edit-btn" type="warning" @click="clickTray(operateRow)">选托</ElButton>
         </template>
     </TableK>
     <div class="box-btn">
@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElButton } from 'element-plus'
+import { ElButton, ElMessage } from 'element-plus'
 import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import DialogInbound from '../../../components/DialogInbound.vue';
@@ -105,7 +105,7 @@ const back = () => {
 // table表格列数据
 const tableOption = reactive([
     {
-        prop: 'cabinetTypeId',
+        prop: 'containerNo',
         label: '箱号',
     },
     {

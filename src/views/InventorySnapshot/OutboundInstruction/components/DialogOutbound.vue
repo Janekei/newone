@@ -16,8 +16,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ElButton, ElDialog } from 'element-plus'
-import { ref } from 'vue'
+import { ElButton, ElDialog, ElMessage } from 'element-plus'
+import { ref, watch, nextTick } from 'vue'
 import * as OutboundInstruction from '@/api/inventorysnapshot/outboundinstruction'
 
 const route = useRoute()
@@ -40,15 +40,44 @@ const props = defineProps({
     id: {
         type: Number,
         default: 0
+    },
+    outIds: {
+        type: Array as any,
+        default: () => []
     }
 })
 
 
 let recordData = ref({
-    ids: undefined,
-    exception: undefined,
-    exceptionStatus: undefined
+    id: undefined,
+    carNumBefore: undefined,
+    carOwnerName: undefined,
+    carType: undefined,
+    ownerCompany: undefined,
+    carLong: undefined
 })
+
+// 车辆信息回显
+let carData = ref({
+    id: undefined,
+    carNumBefore: undefined,
+    carOwnerName: undefined,
+    carType: undefined,
+    ownerCompany: undefined,
+    carLong: undefined
+})
+const getCartPage = async (id) => {
+    const res = await OutboundInstruction.getCartPage({ carNumBefore: id })
+    carData.value = res.list[0]
+    recordData.value = carData.value
+}
+watch(() => recordData.value.carNumBefore, async (newV) => {
+    console.log(newV, 57);
+    if (newV !== undefined) {
+        getCartPage(newV)
+    }
+})
+
 
 // 绑定车辆表单
 const formRef = ref()
@@ -73,7 +102,10 @@ const formOption = reactive([
                 prop: 'carOwnerName',
                 label: '车主'
             }]
-        }
+        },
+        disabled: computed(() => {
+            return disabled.value
+        })
     },
     {
         type: 'inputTable',
@@ -122,9 +154,6 @@ const formOption = reactive([
         field: 'carType',
         placeholder: '请输入车辆类型',
         label: '车辆类型',
-        rules: [
-            { required: true, message: '请输入车辆类型', trigger: 'change' }
-        ],
         valueKey: 'code',
         tableConfig: {
             params: {},
@@ -179,26 +208,45 @@ const open = (type: string, title: string, content?: string) => {
     formType.value = type
     formData.value = content
     dialogTitle.value = title
+    reset()
 }
 
 const emit = defineEmits(['success'])
 
 const submitForm = async () => {
     if (formType.value === '托拣货') {
-        // const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
-        // if (res) {
-        //     console.log('托维度物料信息拣货', res)
-        router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
-        // }
-    } else if (formType.value === '箱拣货') {
-        const res = await OutboundInstruction.boxPickGoods({ goodsId: props.ids, outboundId })
+        const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
         if (res) {
-            console.log('托维度物料信息拣货', res)
+            ElMessage.success('拣货成功')
             router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
         }
+    } else if (formType.value === '箱拣货') {
+        const res = await OutboundInstruction.boxPickGoods({ ids: props.ids, outboundId })
+        if (res) {
+            ElMessage.success('拣货成功')
+            router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
+        }
+    } else if (formType.value === '出库') {
+        const res = await OutboundInstruction.postOutboundList({ ids: props.outIds })
+        if (res) {
+            ElMessage.success('出库成功')
+        } else {
+            ElMessage.success('出库失败')
+        }
+    } else if (formType.value === '绑定车辆') {
+        if (recordData.value.carNumBefore !== undefined) {
+            const res = await OutboundInstruction.bindCart({ ids: props.outIds, numberPlate: recordData.value.carNumBefore, dirverId: recordData.value.id })
+            if (res) {
+                ElMessage.success('绑定车辆成功')
+            } else {
+                ElMessage.success('绑定车辆失败')
+            }
+        } else {
+            ElMessage.error('请输入车辆信息')
+        }
     }
-    dialogVisible.value = false
     reset()
+    dialogVisible.value = false
     // 发送操作成功的事件
     emit('success')
 }
@@ -206,10 +254,16 @@ const submitForm = async () => {
 defineExpose({
     open
 })
-
-const reset = () => {
-    // formRef.value.resetFields()
-    disabled.value = false
+const reset = async () => {
+    recordData.value = {
+        id: undefined,
+        carNumBefore: undefined,
+        carOwnerName: undefined,
+        carType: undefined,
+        ownerCompany: undefined,
+        carLong: undefined
+    }
+    await nextTick()
 }
 
 </script>

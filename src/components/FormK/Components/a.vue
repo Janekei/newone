@@ -1,7 +1,7 @@
 <template>
     <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :clearable="true" :disabled="disabled"
         @keyup.enter="enterFn" @mousedown="onClickOutside" style="width: 100%">
-        <template #append>
+        <template #append> 
             <ElButton :icon="Search" style="margin: 0 -23px" ref="buttonRef" v-click-outside="onClickOutside" />
         </template>
     </ElInput>

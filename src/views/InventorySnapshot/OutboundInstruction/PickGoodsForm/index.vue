@@ -1,7 +1,8 @@
 <template>
     <div>
-        <TableK url="/jinko/gscwhoutboundpallets/getPalletsList" method="get" :params="formData" ref="tableRef"
-            :firstPages="10" :tableOption="tableOption" :showIndex="true" @selectThisColumn="selectThisColumn">
+        <TableK url="/jinko/gscwhoutboundpallets/getPalletsList" method="post" :layout="layout" :data="formData"
+            ref="tableRef" :firstPages="10" :tableOption="tableOption" :showIndex="true"
+            @selectThisColumn="selectThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -16,10 +17,11 @@
         <el-button class="button" type="primary" @click="open('绑定车辆')">绑定车辆</el-button>
         <el-button class="button" type="primary" @click="open('出库')">出库</el-button>
     </div>
-    <DialogOutbound ref="refDialog" @success="refresh" />
+    <DialogOutbound ref="refDialog" :outIds="outIds" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
 import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
@@ -29,10 +31,10 @@ const route = useRoute()
 let id = route.query.outboundid;
 let formData = ref({
     outboundId: id
-    // id
 })
 
 // const { t } = useI18n()
+const layout = ""
 const tableOption = reactive([
     {
         prop: 'goodCode',
@@ -51,8 +53,8 @@ const tableOption = reactive([
         label: '仓库名称',
     },
     {
-        prop: 'bsWhAddress',
-        label: '仓库地址',
+        prop: 'numberPlate',
+        label: '车牌号',
     },
     {
         prop: 'goodsNumber',
@@ -126,27 +128,47 @@ const backWaybill = () => {
 }
 
 // 多选行
-let ids: any = ref([]);
+let outIds: any = ref([]);
 const selectThisColumn = (rows) => {
-    ids.value = []
+    outIds.value = []
     rows.forEach((item) => {
-        ids.value.push(item.goodsId)
+        outIds.value.push(item.id)
+    })
+    isBindCar(rows)
+}
+
+// 判断所选中的行是否均绑定车辆
+let isNotAllBind = ref(true)
+const isBindCar = (rows) => {
+    rows.forEach((item) => {
+        if (item.numberPlate === null) {
+            isNotAllBind.value = false
+        }
     })
 }
 
-// 确认拣货
+// 确认出库
 const refDialog = ref()
 let isShow = ref(false)
 const open = (type) => {
-    if (type === '出库') {
-        isShow.value = true
-        refDialog.value.open('出库', '确认出库', '您确认要出库吗')
-    } else if (type === '绑定车辆') {
-        isShow.value = true
-        refDialog.value.open('绑定车辆', '绑定车辆', '您确认要绑定车辆吗')
+    if (outIds.value.length === 0) {
+        ElMessage.error('请选择行！')
+        return;
+    } else {
+        if (type === '出库') {
+            if (isNotAllBind.value === false) {
+                ElMessage.error('所选中的行存为未绑定车辆,请先绑定车辆再出库!')
+                return;
+            }
+            isShow.value = true
+            refDialog.value.open('出库', '确认出库', '您确认要出库吗')
+        } else if (type === '绑定车辆') {
+            isShow.value = true
+            refDialog.value.open('绑定车辆', '绑定车辆', '您确认要绑定车辆吗')
+        }
     }
-
 }
+
 
 defineExpose({
     refresh
