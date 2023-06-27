@@ -1,25 +1,25 @@
 <template>
- <div>
-  库存查询
- </div>
+    <div>
+        出库查询
+    </div>
 </template>
 
 <script>
 export default {
- data() {
-  return {
+    data() {
+        return {
 
-  };
- },
- created() {
+        };
+    },
+    created() {
 
- },
- mounted() {
+    },
+    mounted() {
 
- },
- methods: {
+    },
+    methods: {
 
- }
+    }
 };
 </script>
 
