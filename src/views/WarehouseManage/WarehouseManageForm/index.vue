@@ -38,15 +38,16 @@ var disabled = ref(true)
 const formOption = reactive([
     {
         type: 'inputTable',
-        field: 'country',
+        field: 'countryId',
         placeholder: '请输入国家',
         label: '国家',
-        modelValue: 'id',
+        modelValue: 'name',
         rules: [
             { required: true, message: '请输入国家', trigger: 'change' }
         ],
         valueKey: 'name',
         formKey: 'id',
+        replaceKey: 'countryId',
         tableConfig: {
             params: { id: 0 },
             url: '/bidding/area/location/findCountry',
@@ -288,6 +289,7 @@ let formData = ref({
 /** 重置表单 */
 const resetForm = () => {
     formData.value = {
+        country: undefined,
         countryId: undefined,
         provinceId: undefined,
         cityId: undefined,
