@@ -37,10 +37,6 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  formKey: {
-    type: String,
-    default: ''
-  },
   tableConfig: {
     type: Object as any,
     default: () => ({})
@@ -80,14 +76,14 @@ watch(() => props.modelValue, () => {
   curValue.value = props.modelValue
 }, { immediate: true })
 
-const change = (value: any, formValue?: any) => {
+const change = (value: any) => {
   emits('update:modelValue', value)
-  emits('onChange', formValue)
+  emits('onChange', value)
 }
 
 // table行点击事件
 const clickThisColumn = (row: any) => {
-  change(row[props.valueKey], row[props.formKey])
+  change(row[props.valueKey])
 }
 
 // 搜索可选项
