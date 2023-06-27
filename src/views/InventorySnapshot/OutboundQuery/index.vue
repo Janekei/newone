@@ -1,10 +1,26 @@
 <template>
-    <TopTabs/>
+ <div>
+  库存查询
+ </div>
 </template>
 
-<script lang="ts" setup>
-import TopTabs from './components/TopTabs.vue'
+<script>
+export default {
+ data() {
+  return {
 
+  };
+ },
+ created() {
+
+ },
+ mounted() {
+
+ },
+ methods: {
+
+ }
+};
 </script>
 
 <style scoped ></style>
