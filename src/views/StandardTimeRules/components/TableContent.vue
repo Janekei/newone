@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/standardTIme/page" method="get" :params="formData" ref="tableRef" :tableOption="tableOption"
+        <TableK url="/jinko/standardTime/page" method="get" :params="formData" ref="tableRef" :tableOption="tableOption"
             :showFixedOperation="true" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <FormSearch @AddTimeRules="AddTimeRules" @click-search="clickSearch" @update:form-state="updateSearchData"
@@ -19,7 +19,7 @@
 import { ref } from 'vue'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import FormSearch from './FormSearch.vue';
-import DialogEditForm from './DialogEditForm.vue';
+import DialogEditForm from './DialogEdit.vue';
 import TableK from '@/components/TableK/index.vue'
 
 let formData = ref({})

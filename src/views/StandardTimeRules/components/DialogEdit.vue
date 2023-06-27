@@ -17,7 +17,7 @@ import { Dialog } from '@/components/Dialog'
 import { ElButton, ElMessage } from 'element-plus'
 import { ref, reactive } from 'vue'
 import FormK from '@/components/FormK/index.vue'
-// import * as ZoneManageApi from '@/api/zonemanage'
+import * as standardTimeRulesApi from '@/api/standardtimerules/standardtimerules'
 
 
 // 表单内容区域
@@ -26,9 +26,6 @@ const dialogTitle = ref('') // 弹窗的标题
 const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 
-// 省份、城市下拉框的id获取
-let provinceId = ref()
-let cityId = ref()
 
 // var disabled = ref(true)
 const formOption = reactive([
@@ -43,7 +40,7 @@ const formOption = reactive([
         valueKey: 'name',
         tableConfig: {
             params: { id: 0 },
-            url: '/bidding/area/location/findCountry',
+            url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
@@ -67,7 +64,7 @@ const formOption = reactive([
         valueKey: 'name',
         tableConfig: {
             params: { id: 0 },
-            url: '/bidding/area/location/findCountry',
+            url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
@@ -91,7 +88,7 @@ const formOption = reactive([
         valueKey: 'name',
         tableConfig: {
             params: { id: 0 },
-            url: '/bidding/area/location/findCountry',
+            url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
@@ -115,7 +112,7 @@ const formOption = reactive([
         valueKey: 'name',
         tableConfig: {
             params: { id: 0 },
-            url: '/bidding/area/location/findCountry',
+            url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
@@ -221,17 +218,14 @@ const formOption = reactive([
     },
     {
         type: 'input',
-        field: 'arrivalPod',
+        field: 'cycle',
         placeholder: '请输入标准运输周期',
         label: '标准运输周期',
     }
 ])
 
 const updateFormData = (val) => {
-    console.log(val, 9999)
     formData.value = val
-    provinceId.value = val.countryId
-    cityId.value = val.provinceId
 }
 
 
@@ -259,8 +253,13 @@ defineExpose({
 const emit = defineEmits(['success'])
 const submitForm = async () => {
     if (formType.value === '增加') {
-
-        ElMessage.success('新增仓库信息成功')
+        const res = await standardTimeRulesApi.addTimeRules(formData.value)
+        if (res) {
+            ElMessage.success('新增标准时间规则成功')
+            resetForm()
+        } else {
+            ElMessage.error('新增标准时间规则失败')
+        }
         resetForm()
     } else {
 
