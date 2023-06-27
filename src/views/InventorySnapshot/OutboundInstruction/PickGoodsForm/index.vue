@@ -31,7 +31,6 @@ const route = useRoute()
 let id = route.query.outboundid;
 let formData = ref({
     outboundId: id
-    // id
 })
 
 // const { t } = useI18n()
@@ -135,9 +134,20 @@ const selectThisColumn = (rows) => {
     rows.forEach((item) => {
         outIds.value.push(item.id)
     })
+    isBindCar(rows)
 }
 
-// 确认拣货
+// 判断所选中的行是否均绑定车辆
+let isNotAllBind = ref(true)
+const isBindCar = (rows) => {
+    rows.forEach((item) => {
+        if (item.numberPlate === null) {
+            isNotAllBind.value = false
+        }
+    })
+}
+
+// 确认出库
 const refDialog = ref()
 let isShow = ref(false)
 const open = (type) => {
@@ -146,6 +156,10 @@ const open = (type) => {
         return;
     } else {
         if (type === '出库') {
+            if (isNotAllBind.value === false) {
+                ElMessage.error('所选中的行存为未绑定车辆,请先绑定车辆再出库!')
+                return;
+            }
             isShow.value = true
             refDialog.value.open('出库', '确认出库', '您确认要出库吗')
         } else if (type === '绑定车辆') {
