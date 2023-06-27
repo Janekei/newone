@@ -1,6 +1,5 @@
 <template>
     <div class="form-box">
-        {{ formData }}
         <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formK" />
     </div>
     <ElButton @click="submit">提交</ElButton>
@@ -114,23 +113,14 @@ const formOption = reactive([
         rules: [
             { required: true, message: '请输入代码', trigger: 'change' }
         ],
-        valueKey: 'name',
-        formKey: 'id',
-        formKeyName: 'codeId',
+        valueKey: 'code',
         tableConfig: {
-            params: { id: 0 },
-            url: '/bidding/area/location/findCountry',
-            tableOption: [
-                {
-                    prop: 'name',
-                    label: '国家'
-                },
-                {
-                    props: 'id',
-                    label: 'Code'
-                }
-            ]
-        }
+            params: {
+                a: 1,
+                b: 2
+            },
+            url: ''
+        },
     },
 ])
 
@@ -138,8 +128,7 @@ const formData = ref({
     code: 123,
     region: 1,
     time: '2023-05-25',
-    entName: 'vue',
-    remake1: ''
+    entName: 'vue'
 })
 
 const formK = ref()
