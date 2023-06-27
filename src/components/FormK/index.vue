@@ -11,7 +11,7 @@
         :requestOptions="item.requestOptions" v-model="formData[item.field]" @onChange="onChange" />
       <MyInputTable v-else-if="item.type === 'inputTable'" :placeholder="item.placeholder" v-model="formData[item.field]"
         :valueKey="item.valueKey" :tableData="item.tableData" :disabled="item.disabled" :tableOption="item.tableOption"
-        :tableConfig="item.tableConfig" @onChange="onChange" />
+        :tableConfig="item.tableConfig" :formKey="item.formKey" @onChange="onChange($event, item.formKeyName)" />
     </ElFormItem>
   </ElForm>
 </template>
@@ -66,7 +66,8 @@ watch(() => props.formState, (newV: Object) => {
   formData.value = cloneDeep(newV)
 }, { immediate: true })
 
-const onChange = () => {
+const onChange = (formValue, formKey) => {
+  formData.value[formKey] = formValue
   emits('update:formState', formData.value)
 }
 
