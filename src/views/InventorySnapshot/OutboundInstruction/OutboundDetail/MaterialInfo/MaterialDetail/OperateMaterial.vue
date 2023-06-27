@@ -136,7 +136,7 @@ let ids: any = ref([]);
 const selectThisColumn = (rows) => {
     ids.value = []
     rows.forEach((item) => {
-        ids.value.push(item.goodsId)
+        ids.value.push(item.id)
     })
 }
 
