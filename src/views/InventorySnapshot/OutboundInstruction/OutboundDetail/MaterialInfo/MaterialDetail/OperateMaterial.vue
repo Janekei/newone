@@ -1,5 +1,4 @@
 <template>
-    操作
     <div>
         <TableK url="/jinko/outbound-goods/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showFixedOperation="true" :showIndex="true" @selectThisColumn="selectThisColumn">
@@ -19,17 +18,18 @@
         <el-button class="button" type="primary" @click="backWaybill">返回</el-button>
         <el-button class="button" type="primary" @click="open">确认拣货</el-button>
     </div>
-    <DialogOutbound ref="refDialog"  :ids="ids"  @success="refresh" />
+    <DialogOutbound ref="refDialog" :ids="ids" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
+import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
 import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchOutbound from '../../../components/SearchOutbound.vue'
 import DialogOutbound from '../../../components/DialogOutbound.vue'
 const route = useRoute()
-let id: number = parseInt(JSON.parse(route.query.id as any));
+let id = route.query.id;
 let formData = ref({
     // outboundId: id
     id
@@ -80,7 +80,8 @@ const tableOption = reactive([
     {
         prop: 'updateTime',
         label: '更新时间',
-        slotName: 'updateTime'
+        slotName: 'updateTime',
+        width: '180'
     }
 ])
 // 入库指令首页搜索框数据
@@ -135,14 +136,19 @@ let ids: any = ref([]);
 const selectThisColumn = (rows) => {
     ids.value = []
     rows.forEach((item) => {
-        ids.value.push(item.goodsId)
+        ids.value.push(item.id)
     })
 }
 
 // 确认拣货
 const refDialog = ref()
 const open = () => {
-    refDialog.value.open('箱拣货', '确认拣货', '您确定要拣货吗？')
+    if (ids.value.length === 0) {
+        ElMessage.error('请选择行！')
+    } else {
+        refDialog.value.open('箱拣货', '确认拣货', '您确定要拣货吗？')
+    }
+
 }
 
 defineExpose({

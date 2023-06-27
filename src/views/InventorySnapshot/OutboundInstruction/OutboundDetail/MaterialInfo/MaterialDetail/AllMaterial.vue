@@ -3,7 +3,6 @@
         <TableK url="/jinko/outbound-goods/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" @click-this-column="clickThisColumn">
             <template #buttons>
-                {{ formData }}
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
@@ -28,7 +27,7 @@ import SearchOutbound from '../../../components/SearchOutbound.vue'
 
 
 const route = useRoute()
-let id: number = parseInt(JSON.parse(route.query.id as any));
+let id = route.query.id;
 let formData = ref({
     // outboundId: id
     id

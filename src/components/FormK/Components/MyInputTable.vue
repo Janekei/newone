@@ -85,7 +85,8 @@ const change = (value: any, formValue?: any) => {
   emits('onChange', formValue)
 }
 
-// table行点击事件
+
+
 const clickThisColumn = (row: any) => {
   change(row[props.valueKey], row[props.formKey])
 }

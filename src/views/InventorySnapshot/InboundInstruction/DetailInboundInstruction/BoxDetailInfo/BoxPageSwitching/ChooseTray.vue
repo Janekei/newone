@@ -2,10 +2,10 @@
     <TableK url="/jinko/gscwhinboundpallets/page" method="get" :params="formData" ref="tableRef" :firstPages="20"
         :tableOption="tableOption" :showCheckBox="true" @selectThisColumn="selectThisColumn">
         <template #createTime="{ row }">
-            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            <span>{{ formatTime(row.row.createTime, 'yyyy-MM-dd') }}</span>
         </template>
         <template #updateTime="{ row }">
-            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>
         </template>
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
@@ -130,11 +130,11 @@ const tableOption = reactive([
         label: '数量',
     },
     {
-        prop: 'boxType',
+        prop: 'specifications',
         label: '规格',
     },
     {
-        prop: 'lockNo',
+        prop: 'material',
         label: '材料',
     },
     {
@@ -152,14 +152,16 @@ const tableOption = reactive([
     {
         prop: 'createTime',
         label: '创建时间',
+        slotName: 'createTime'
     },
     {
         prop: 'updater',
-        label: '更新人',
+        label: '更新人'
     },
     {
         prop: 'updateTime',
         label: '更新时间',
+        slotName: 'updateTime'
     }
 ])
 </script>

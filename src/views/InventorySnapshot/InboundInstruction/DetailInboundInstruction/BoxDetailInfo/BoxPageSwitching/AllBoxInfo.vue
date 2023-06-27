@@ -5,7 +5,7 @@
             <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
         </template>
         <template #updateTime="{ row }">
-            <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+            <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>
         </template>
         <template #buttons>
             <SearchContent :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData" />
@@ -22,14 +22,14 @@ import SearchContent from '../../../components/SearchContent.vue';
 
 // listItemId：入库指令列表传过来的参数
 const route = useRoute()
-let listItemId: number = parseInt(JSON.parse(route.query.id as any));
+let listItemId = route.query.id;
 // table表格列数据
 let formData = ref({
     id: listItemId
 })
 const tableOption = reactive([
     {
-        prop: 'cabinetTypeId',
+        prop: 'containerNo',
         label: '箱号',
     },
     {
