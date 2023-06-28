@@ -1,28 +1,24 @@
 <template>
     <el-descriptions :column="5" border>
         <el-descriptions-item label="客户" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.departureLocationName }}</el-descriptions-item>
+            class-name="my-content">{{ props.descList.customer }}</el-descriptions-item>
         <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.arrivalLocationName }}</el-descriptions-item>
+            class-name="my-content">{{ props.descList.totalCount }}</el-descriptions-item>
         <el-descriptions-item label="面板数量" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.type }}</el-descriptions-item>
+            class-name="my-content">{{ props.descList.panelNumber }}</el-descriptions-item>
         <el-descriptions-item label="进口发票" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.tradeWayConfigMode }}</el-descriptions-item>
+            class-name="my-content">{{ props.descList.invoiceNo }}</el-descriptions-item>
         <el-descriptions-item label="提货单号" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.transportMode }}</el-descriptions-item>
-        <el-descriptions-item label="录取日期" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.carrierName }}</el-descriptions-item>
-        <el-descriptions-item label="JKS Order" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.realDepartureTime, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ props.descList.bl }}</el-descriptions-item>
         <el-descriptions-item label="货值" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.departurePortName }}</el-descriptions-item>
+            class-name="my-content">{{ props.descList.val }}</el-descriptions-item>
         <el-descriptions-item label="集货箱号" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.arrivalPortName }}</el-descriptions-item>
+            class-name="my-content">{{ props.descList.containerNo }}</el-descriptions-item>
     </el-descriptions>
 </template>
 
 <script lang="ts" setup>
-import { formatTime } from '@/utils'
+// import { formatTime } from '@/utils'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 const props = defineProps({
     descList: {
