@@ -23,6 +23,7 @@ import { ref, reactive, computed } from 'vue'
 import { ElButton } from 'element-plus'
 import FormK from '@/components/FormK/index.vue'
 import TableK from '@/components/TableK/index.vue'
+
 var disabled = ref(true)
 const formOption = reactive([
     {
@@ -115,10 +116,12 @@ const formOption = reactive([
             { required: true, message: '请输入代码', trigger: 'change' }
         ],
         valueKey: 'name',
-        formKey: 'id',
-        formKeyName: 'codeId',
         tableConfig: {
-            params: { id: 0 },
+            params: {
+                id: computed(() => {
+                    return formData.value.code
+                })
+            },
             url: '/bidding/area/location/findCountry',
             tableOption: [
                 {
@@ -138,8 +141,7 @@ const formData = ref({
     code: 123,
     region: 1,
     time: '2023-05-25',
-    entName: 'vue',
-    remake1: ''
+    entName: 'vue'
 })
 
 const formK = ref()

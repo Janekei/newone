@@ -1,6 +1,6 @@
 <template>
-  <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :disabled="disabled" :clearable="true"
-    @keyup.enter="enterFn" style="width: 100%" @blur="onBlur">
+  <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :clearable="true" @keyup.enter="enterFn"
+    style="width: 100%" @blur="onBlur">
     <template #append>
       <ElButton :icon="Search" style="margin: 0 -23px" ref="buttonRef" v-click-outside="onClickOutside" />
     </template>
@@ -23,7 +23,7 @@ import { ElInput, ElButton, ElPopover, ClickOutside as vClickOutside } from 'ele
 import { Search } from '@element-plus/icons-vue'
 import TableK from '@/components/TableK/index.vue'
 
-const emits: any = defineEmits(['onChange', 'inputOnChange', 'update:modelValue'])
+const emits: any = defineEmits(['onChange'])
 const props = defineProps({
   placeholder: {
     type: String,
@@ -40,22 +40,8 @@ const props = defineProps({
   tableConfig: {
     type: Object as any,
     default: () => ({})
-  },
-  formKey: {
-    type: String,
-    default: ''
-  },
-  replaceKey: {
-    type: String,
-    default: ''
-  },
-  disabled: {
-    type: Boolean,
-    default: false
   }
 })
-
-console.log(props.tableConfig, 46);
 
 
 const curValue = ref()
@@ -88,24 +74,19 @@ watch(() => props.modelValue, () => {
   curValue.value = props.modelValue
 }, { immediate: true })
 
+watch(showPopoverRef, (newV) => {
+  if (newV) {
+    TableKRef.value.refresh()
+  }
+})
+
 const change = (value: any) => {
   emits('update:modelValue', value)
   emits('onChange', value)
 }
 
-const inputChange = (key, value) => {
-  emits('inputOnChange', key, value)
-}
-
-
-
 const clickThisColumn = (row: any) => {
-  console.log(row[props.valueKey], props.modelValue, 'row')
   change(row[props.valueKey])
-  // 传递所选择中的值
-  if (props.replaceKey && props.formKey) {
-    inputChange(props.replaceKey, row[props.formKey])
-  }
 }
 
 // 搜索可选项

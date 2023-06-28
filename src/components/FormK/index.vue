@@ -10,9 +10,8 @@
       <MyAutodcomplete v-else-if="item.type === 'autocomplete'" :placeholder="item.placeholder"
         :requestOptions="item.requestOptions" v-model="formData[item.field]" @onChange="onChange" />
       <MyInputTable v-else-if="item.type === 'inputTable'" :placeholder="item.placeholder" v-model="formData[item.field]"
-        :valueKey="item.valueKey" :tableData="item.tableData" :formKey="item.formKey" :replaceKey="item.replaceKey"
-        :disabled="item.disabled" :tableOption="item.tableOption" :tableConfig="item.tableConfig" @onChange="onChange"
-        @inputOnChange="inputOnChange" />
+        :valueKey="item.valueKey" :tableData="item.tableData" :disabled="item.disabled" :tableOption="item.tableOption"
+        :tableConfig="item.tableConfig" @onChange="onChange" />
     </ElFormItem>
   </ElForm>
 </template>
@@ -68,11 +67,6 @@ watch(() => props.formState, (newV: Object) => {
 }, { immediate: true })
 
 const onChange = () => {
-  emits('update:formState', formData.value)
-}
-
-const inputOnChange = (replaceKey, replaceValue) => {
-  formData.value[replaceKey] = replaceValue
   emits('update:formState', formData.value)
 }
 
