@@ -1,11 +1,14 @@
 <template>
     <div class="header">
-        <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false" ref="formRef"
-            @update:form-state="UpdateFormState" />
-        <div class="btn-box">
-            <el-button type="primary">新增查询条件</el-button>
-            <el-button type="primary" :icon="Search" @click="postSearchData">查询</el-button>
-            <el-button type="default" @click="resetform">重置</el-button>
+        <div class="form-box">
+            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false"
+                ref="formRef" @update:form-state="UpdateFormState" :showButton="true">
+                <template #buttons>
+                    <el-button class="btn" type="primary">新增查询条件</el-button>
+                    <el-button class="btn" type="primary" :icon="Search" @click="postSearchData">查询</el-button>
+                    <el-button class="btn" type="default" @click="resetform">重置</el-button>
+                </template>
+            </FormK>
         </div>
     </div>
 </template>
@@ -20,15 +23,46 @@ const formOption = reactive(
         {
             type: 'input',
             field: 'goodsCode',
-            placeholder: '请输入货品编码',
-            label: '货品编码：'
+            placeholder: '请输入提单号',
+            label: '提单号：'
         },
         {
             type: 'input',
             field: 'goodsName',
-            placeholder: '请输入货品名称',
-            label: '货品名称：'
-        }
+            placeholder: '请输入仓库名称',
+            label: '仓库名称：'
+        },
+        {
+            type: 'date',
+            field: 'goodsName',
+            placeholder: '请输入仓库名称',
+            label: '入仓时间：'
+        },
+        {
+            type: 'input',
+            field: 'goodsName',
+            placeholder: '请输入异常登记类型',
+            label: '异常登记类型：'
+        },
+        {
+            type: 'input',
+            field: 'goodsName',
+            placeholder: '请输入库存状态',
+            label: '库存状态：'
+        },
+        {
+            type: 'input',
+            field: 'goodsName',
+            placeholder: '请输入业务操作人',
+            label: '业务操作人：'
+        },
+        {
+            type: 'daterange',
+            field: 'time',
+            placeholder: '请输入时间',
+            label: '异常登记时间：'
+        },
+
     ]
 )
 let formData = reactive({})
@@ -52,24 +86,28 @@ const resetform = () => {
 <style lang="scss" scoped>
 .header {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    padding: 20px;
     border: 1px solid #dadcdf;
-    border-radius: 10px;
     background-color: #f5f8ff;
-    padding: 16px;
+    border-radius: 10px;
 
-    .btn-box {
-        display: inline-flex;
-        margin-left: 7.125rem;
+    .form-box {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .btn {
+        display: inline-block;
     }
 }
 
-.form-box>.el-form-item {
+
+:deep(.el-form-item) {
     display: inline-flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 1.25rem;
+    padding: .625rem;
     margin-bottom: 0;
 }
 

@@ -33,6 +33,11 @@ const formData = ref({
 const tableOption = reactive([
     {
         prop: 'goodsCode',
+        label: '提单号',
+        width: '180'
+    },
+    {
+        prop: 'goodsCode',
         label: '货品编码',
         width: '180'
     },
@@ -76,6 +81,16 @@ const tableOption = reactive([
     {
         prop: 'totalMegawatt',
         label: '瓦数',
+        width: '180'
+    },
+    {
+        prop: 'totalMegawatt',
+        label: '异常类型',
+        width: '180'
+    },
+    {
+        prop: 'totalMegawatt',
+        label: '库存状态',
         width: '180'
     },
     {
