@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/gscwhstockpallets/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
+        <TableK url="/jinko/gscwhstockpalletslog/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -32,7 +32,7 @@ const formData = ref({
 })
 const tableOption = reactive([
     {
-        prop: 'goodsCode',
+        prop: 'bl',
         label: '提单号',
         width: '180'
     },
@@ -52,12 +52,12 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'goodsCode',
+        prop: 'palletNo',
         label: '托盘号',
         width: '180'
     },
     {
-        prop: 'goodsCode',
+        prop: 'goodsType',
         label: '规格型号',
         width: '180'
     },
@@ -67,27 +67,27 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'Whaddress',
+        prop: 'bsWhAddress',
         label: '仓库地址',
         width: '180'
     },
     {
-        prop: 'goodsCode',
+        prop: 'oldPalletsNumber',
         label: '期初数量',
         width: '180'
     },
     {
-        prop: 'goodsCode',
+        prop: 'palletsNumber',
         label: '当前数量',
         width: '180'
     },
     {
-        prop: 'goodsCode',
+        prop: 'newPalletsNumber',
         label: '期末数量',
         width: '180'
     },
     {
-        prop: 'goodsCode',
+        prop: 'boundType',
         label: '出入库类型',
         width: '180'
     },
