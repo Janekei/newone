@@ -6,8 +6,8 @@
                 <FormSearch @AddTimeRules="AddTimeRules" @click-search="clickSearch" @update:form-state="updateSearchData"
                     @reset-form="resetForm" />
             </template>
-            <template #operation>
-                <ElButton class="edit-btn" type="warning" :icon="Edit" />
+            <template #operation="{ operateRow }">
+                <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
                 <ElButton class="delete-btn" type="danger" :icon="Delete" />
             </template>
         </TableK>
@@ -108,6 +108,7 @@ const open = (type: string, id?: number) => {
 const AddTimeRules = () => {
     open('增加')
 }
+
 
 </script>
 <style lang="scss" scoped>

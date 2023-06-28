@@ -1,12 +1,11 @@
 <template>
-    <Dialog v-model="dialogVisible" :title="dialogTitle" width="1300">
+    <Dialog v-model="dialogVisible" :title="dialogTitle" width="1400">
         <div class="form-box">
-            <!-- {{ formData }} -->
-            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="10rem" ref="formRef"
+            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="13rem" ref="formRef"
                 @update:formState="updateFormData" />
         </div>
         <template #footer>
-            <el-button @click="submitForm" type="primary" :disabled="formLoading">确认</el-button>
+            <el-button @click="submitForm" type="primary">确认</el-button>
             <el-button @click="dialogVisible = false">取消</el-button>
         </template>
     </Dialog>
@@ -39,7 +38,7 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: { id: 0 },
+            params: {},
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -47,7 +46,7 @@ const formOption = reactive([
                     label: '国家'
                 },
                 {
-                    props: 'id',
+                    prop: 'id',
                     label: 'Code'
                 }
             ]
@@ -63,7 +62,7 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: { id: 0 },
+            params: {},
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -87,7 +86,7 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: { id: 0 },
+            params: {},
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -111,7 +110,7 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: { id: 0 },
+            params: {},
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -165,61 +164,61 @@ const formOption = reactive([
     {
         type: 'input',
         field: 'factoryDeapport',
-        placeholder: '请输入工厂PGI未进港',
-        label: '工厂PGI未进港',
+        placeholder: '请输入天数',
+        label: '工厂PGI未进港（天）',
     },
     {
         type: 'input',
         field: 'deapportDeaprture',
-        placeholder: '请输入请输入进港未离港',
-        label: '进港未离港',
+        placeholder: '请输入天数',
+        label: '进港未离港（天）',
     },
     {
         type: 'input',
         field: 'departureArrport',
-        placeholder: '请输入离港未到港',
-        label: '离港未到港',
+        placeholder: '请输入天数',
+        label: '离港未到港（天）',
     },
     {
         type: 'input',
         field: 'departureTransport',
-        placeholder: '请输入离港未到中转港',
-        label: '离港未到中转港',
+        placeholder: '请输入天数',
+        label: '离港未到中转港（天）',
     },
     {
         type: 'input',
         field: 'transportDeapport',
-        placeholder: '请输入中转港未离港',
-        label: '中转港未离港',
+        placeholder: '请输入天数',
+        label: '中转港未离港（天）',
     },
     {
         type: 'input',
         field: 'deapportArrport',
-        placeholder: '中转港离港未到目的地',
-        label: '中转港离港未到目的地',
+        placeholder: '请输入天数',
+        label: '中转港离港未到目的地（天）',
     },
     {
         type: 'input',
         field: 'arrportBl',
-        placeholder: '请输入到港未提货',
-        label: '到港未提货',
+        placeholder: '请输入天数',
+        label: '到港未提货（天）',
     },
     {
         type: 'input',
         field: 'blArrival',
-        placeholder: '请输入提货未送达',
-        label: '提货未送达',
+        placeholder: '请输入天数',
+        label: '提货未送达（天）',
     },
     {
         type: 'input',
         field: 'arrivalPod',
-        placeholder: '请输入送达未POD',
-        label: '送达未POD',
+        placeholder: '请输入天数',
+        label: '送达未POD（天）',
     },
     {
         type: 'input',
         field: 'cycle',
-        placeholder: '请输入标准运输周期',
+        placeholder: '请输入天数',
         label: '标准运输周期',
     }
 ])
@@ -239,9 +238,12 @@ const open = async (type: string, id?: number) => {
     resetForm()
     dialogVisible.value = true
     formType.value = type
-    dialogTitle.value = type + '仓库信息'
+    dialogTitle.value = type + '标准时间规则'
+    formLoading.value = true
     if (id) {
-        formLoading.value = true
+        const res = await standardTimeRulesApi.searchTimeRules({ id })
+        formData.value = res
+        console.log(formData.value, 'res')
     }
 }
 defineExpose({
@@ -262,8 +264,13 @@ const submitForm = async () => {
         }
         resetForm()
     } else {
-
-        ElMessage.success('修改仓库信息成功')
+        const res = await standardTimeRulesApi.updateTimeRules(formData.value)
+        if (res) {
+            ElMessage.success('修改标准时间规则成功')
+            resetForm()
+        } else {
+            ElMessage.error('修改标准时间规则失败')
+        }
         resetForm()
 
     }
@@ -272,48 +279,12 @@ const submitForm = async () => {
     emit('success')
 }
 
-let formData = ref({
-    countryId: undefined,
-    provinceId: undefined,
-    cityId: undefined,
-    address: undefined,
-    latitude: undefined,
-    longitude: undefined,
-    zipCode: undefined,
-    name: undefined,
-    storageCapacity: undefined,
-    area: undefined,
-    supplierName: undefined,
-    loadingCapacity: undefined,
-    shippingCapacity: undefined,
-    unloadingCapacity: undefined,
-    contactName: undefined,
-    contactPhone: undefined,
-    contactEmail: undefined
-})
+let formData = ref({})
 
 // 重置表单数据
 /** 重置表单 */
 const resetForm = () => {
-    formData.value = {
-        countryId: undefined,
-        provinceId: undefined,
-        cityId: undefined,
-        address: undefined,
-        latitude: undefined,
-        longitude: undefined,
-        zipCode: undefined,
-        name: undefined,
-        storageCapacity: undefined,
-        area: undefined,
-        supplierName: undefined,
-        loadingCapacity: undefined,
-        shippingCapacity: undefined,
-        unloadingCapacity: undefined,
-        contactName: undefined,
-        contactPhone: undefined,
-        contactEmail: undefined
-    }
+    formData.value = {}
 }
 
 
