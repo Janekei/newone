@@ -40,42 +40,52 @@ const tableOption = reactive([
     {
         prop: 'goodCode',
         label: '货品编码',
+        width: '180'
     },
     {
         prop: 'goodsName',
         label: '货品名称',
+        width: '180'
     },
     {
         prop: 'bl',
         label: '提单号',
+        width: '180'
     },
     {
         prop: 'bsWhId',
         label: '仓库名称',
+        width: '180'
     },
     {
         prop: 'bsWhAddress',
         label: '仓库地址',
+        width: '180'
     },
     {
         prop: 'goodsNumber',
         label: '数量',
+        width: '180'
     },
     {
         prop: 'palletQuantity',
         label: '托盘数量',
+        width: '180'
     },
     {
         prop: 'totalWeight',
         label: '重量',
+        width: '180'
     },
     {
         prop: 'totalVolume',
         label: '体积',
+        width: '180'
     },
     {
         prop: 'updater',
         label: '更新人',
+        width: '180'
     },
     {
         prop: 'updateTime',

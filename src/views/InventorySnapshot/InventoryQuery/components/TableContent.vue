@@ -38,48 +38,59 @@ const tableOption = reactive([
   {
     prop: 'goodsCode',
     label: '货品编码',
+    width: '180'
   },
   {
     prop: 'goodsName',
     label: '货物名称',
+    width: '180'
   },
   {
     prop: 'goodsCode',
     label: '规格型号',
+    width: '180'
   },
   {
     prop: 'bsWhareaName',
     label: '区域',
+    width: '180'
   },
   {
     prop: 'Whaddress',
     label: '仓库地址',
+    width: '180'
   },
   {
     prop: 'actInTime',
     label: '入库时间',
-    slotName: 'actInTime'
+    slotName: 'actInTime',
+    width: '180'
   },
   {
     prop: 'liveTime',
     label: '在库时间',
-    slotName: 'liveTime'
+    slotName: 'liveTime',
+    width: '180'
   },
   {
     prop: 'totalCount',
     label: '托盘数量',
+    width: '180'
   },
   {
     prop: 'totalMegawatt',
     label: '瓦数',
+    width: '180'
   },
   {
     prop: 'updater',
-    label: '更新人'
+    label: '更新人',
+    width: '180'
   },
   {
     prop: 'updateTime',
-    label: '更新时间'
+    label: '更新时间',
+    width: '180'
   }
 ])
 

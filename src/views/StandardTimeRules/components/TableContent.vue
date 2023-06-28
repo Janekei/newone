@@ -12,7 +12,7 @@
             </template>
         </TableK>
     </div>
-    <DialogEditForm ref="formRef" />
+    <DialogEditForm ref="formRef" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -27,19 +27,23 @@ let formData = ref({})
 const tableOption = [
     {
         prop: 'departureCountryName',
-        label: '起运国'
+        label: '起运国',
+        width: '180'
     },
     {
         prop: 'departurePortName',
-        label: '起运港'
+        label: '起运港',
+        width: '180'
     },
     {
         prop: 'arrivalCountryName',
-        label: '目的国'
+        label: '目的国',
+        width: '180'
     },
     {
         prop: 'arrivalPortName',
-        label: '目的港'
+        label: '目的港',
+        width: '180'
     },
     {
         prop: 'transportMode',

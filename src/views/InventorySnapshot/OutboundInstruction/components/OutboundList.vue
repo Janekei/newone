@@ -41,34 +41,42 @@ const tableOption = reactive([
     {
         prop: 'sapDn',
         label: 'SAP任务号',
+        width: '180'
     },
     {
         prop: 'bl',
         label: '提单号',
+        width: '180'
     },
     {
         prop: 'soNo',
         label: 'SO No',
+        width: '180'
     },
     {
         prop: 'estInTime',
         label: '交货单号',
+        width: '180'
     },
     {
         prop: 'eta',
         label: '发货方',
+        width: '180'
     },
     {
         prop: 'etd',
         label: '收货方',
+        width: '180'
     },
     {
         prop: 'tardeWayConfigWay',
         label: '贸易条款',
+        width: '180'
     },
     {
         prop: 'tardeWayConfigWay',
         label: '状态',
+        width: '180'
     }
 ])
 // 入库指令首页搜索框数据

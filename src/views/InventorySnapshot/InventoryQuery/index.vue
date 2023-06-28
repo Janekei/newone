@@ -18,7 +18,6 @@ const getListTotal = async () => {
             code: item.code
         })
     })
-    console.log(res, 111)
     show.value = true
 }
 

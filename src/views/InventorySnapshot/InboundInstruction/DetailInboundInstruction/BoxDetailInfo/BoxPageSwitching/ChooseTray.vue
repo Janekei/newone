@@ -124,44 +124,54 @@ const tableOption = reactive([
     {
         prop: 'palletNo',
         label: '托盘号',
+        width: '180'
     },
     {
         prop: 'quantity',
         label: '数量',
+        width: '180'
     },
     {
         prop: 'specifications',
         label: '规格',
+        width: '180'
     },
     {
         prop: 'material',
         label: '材料',
+        width: '180'
     },
     {
         prop: 'weight',
         label: '重量',
+        width: '180'
     },
     {
         prop: 'volume',
         label: '体积',
+        width: '180'
     },
     {
         prop: 'creator',
         label: '创建人',
+        width: '180'
     },
     {
         prop: 'createTime',
         label: '创建时间',
-        slotName: 'createTime'
+        slotName: 'createTime',
+        width: '180'
     },
     {
         prop: 'updater',
-        label: '更新人'
+        label: '更新人',
+        width: '180'
     },
     {
         prop: 'updateTime',
         label: '更新时间',
-        slotName: 'updateTime'
+        slotName: 'updateTime',
+        width: '180'
     }
 ])
 </script>

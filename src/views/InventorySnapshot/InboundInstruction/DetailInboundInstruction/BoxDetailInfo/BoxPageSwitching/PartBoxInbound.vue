@@ -44,48 +44,59 @@ const tableOption = reactive([
     {
         prop: 'containerNo',
         label: '箱号',
+        width: '180'
     },
     {
         prop: 'bl',
         label: '提单号',
+        width: '180'
     },
     {
         prop: 'cabinetTypeName',
         label: '箱型',
+        width: '180'
     },
     {
         prop: 'lockNo',
         label: '锁号',
+        width: '180'
     },
     {
         prop: 'totalQuantity',
         label: '件数',
+        width: '180'
     },
     {
         prop: 'totalWeight',
         label: '重量',
+        width: '180'
     },
     {
         prop: 'totalVolumn',
         label: '体积',
+        width: '180'
     },
     {
         prop: 'ceator',
         label: '创建人',
+        width: '180'
     },
     {
         prop: 'createTime',
         label: '创建时间',
-        slotName: 'createTime'
+        slotName: 'createTime',
+        width: '180'
     },
     {
         prop: 'updater',
         label: '更新人',
+        width: '180'
     },
     {
         prop: 'updateTime',
         label: '更新时间',
-        slotName: 'updateTime'
+        slotName: 'updateTime',
+        width: '180'
     }
 ])
 
