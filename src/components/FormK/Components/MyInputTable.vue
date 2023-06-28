@@ -43,8 +43,6 @@ const props = defineProps({
   }
 })
 
-console.log(props.tableConfig, 46);
-
 
 const curValue = ref()
 // 按钮
@@ -76,12 +74,17 @@ watch(() => props.modelValue, () => {
   curValue.value = props.modelValue
 }, { immediate: true })
 
+watch(showPopoverRef, (newV) => {
+  if (newV) {
+    TableKRef.value.refresh()
+  }
+})
+
 const change = (value: any) => {
   emits('update:modelValue', value)
   emits('onChange', value)
 }
 
-// table行点击事件
 const clickThisColumn = (row: any) => {
   change(row[props.valueKey])
 }
