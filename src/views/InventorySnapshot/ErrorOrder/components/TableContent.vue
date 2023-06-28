@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/gscwhstockpallets/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
+        <TableK url="/jinko/gscwhstockpallets/escPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -20,19 +20,12 @@ import { ref, reactive } from 'vue'
 import { formatTime } from '@/utils'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
-const props = defineProps({
-    code: {
-        type: String,
-        default: ''
-    }
-})
 
-const formData = ref({
-    code: props.code
-})
+
+const formData = ref({})
 const tableOption = reactive([
     {
-        prop: 'goodsCode',
+        prop: 'bl',
         label: '提单号',
         width: '180'
     },
@@ -103,6 +96,8 @@ const tableOption = reactive([
         label: '更新时间',
         width: '180'
     }
+
+
 ])
 
 // 搜索
@@ -111,9 +106,7 @@ const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    formData.value = {
-        code: props.code
-    }
+    formData.value = {}
     Object.assign(formData.value, val)
 }
 const resetForm = () => {
