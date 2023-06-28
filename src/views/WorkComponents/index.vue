@@ -1,5 +1,6 @@
 <template>
     <div class="form-box">
+        {{ formData }}
         <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formK" />
     </div>
     <ElButton @click="submit">提交</ElButton>
@@ -22,6 +23,7 @@ import { ref, reactive, computed } from 'vue'
 import { ElButton } from 'element-plus'
 import FormK from '@/components/FormK/index.vue'
 import TableK from '@/components/TableK/index.vue'
+
 var disabled = ref(true)
 const formOption = reactive([
     {
@@ -113,14 +115,25 @@ const formOption = reactive([
         rules: [
             { required: true, message: '请输入代码', trigger: 'change' }
         ],
-        valueKey: 'code',
+        valueKey: 'name',
         tableConfig: {
             params: {
-                a: 1,
-                b: 2
+                id: computed(() => {
+                    return formData.value.code
+                })
             },
-            url: ''
-        },
+            url: '/bidding/area/location/findCountry',
+            tableOption: [
+                {
+                    prop: 'name',
+                    label: '国家'
+                },
+                {
+                    props: 'id',
+                    label: 'Code'
+                }
+            ]
+        }
     },
 ])
 
