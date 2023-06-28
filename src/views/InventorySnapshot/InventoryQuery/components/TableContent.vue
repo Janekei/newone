@@ -24,8 +24,16 @@ import { formatTime } from '@/utils'
 import ExpandDescription from './ExpandDescription.vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
+const props = defineProps({
+  code: {
+    type: String,
+    default: ''
+  }
+})
 
-const formData = ref({})
+const formData = ref({
+  code: props.code
+})
 const tableOption = reactive([
   {
     prop: 'goodsCode',
@@ -81,7 +89,9 @@ const clickSearch = () => {
   refresh()
 }
 const updateSearchData = (val) => {
-  formData.value = {}
+  formData.value = {
+    code: props.code
+  }
   Object.assign(formData.value, val)
 }
 const resetForm = () => {
