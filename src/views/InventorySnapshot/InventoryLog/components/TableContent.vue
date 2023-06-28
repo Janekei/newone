@@ -33,12 +33,27 @@ const formData = ref({
 const tableOption = reactive([
     {
         prop: 'goodsCode',
+        label: '提单号',
+        width: '180'
+    },
+    {
+        prop: 'goodsCode',
         label: '货品编码',
         width: '180'
     },
     {
         prop: 'goodsName',
         label: '货物名称',
+        width: '180'
+    },
+    {
+        prop: 'goodsCode',
+        label: '柜号',
+        width: '180'
+    },
+    {
+        prop: 'goodsCode',
+        label: '托盘号',
         width: '180'
     },
     {
@@ -57,35 +72,28 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'actInTime',
-        label: '入库时间',
-        slotName: 'actInTime',
+        prop: 'goodsCode',
+        label: '期初数量',
         width: '180'
     },
     {
-        prop: 'liveTime',
-        label: '在库时间',
-        slotName: 'liveTime',
+        prop: 'goodsCode',
+        label: '当前数量',
         width: '180'
     },
     {
-        prop: 'totalCount',
-        label: '托盘数量',
+        prop: 'goodsCode',
+        label: '期末数量',
         width: '180'
     },
     {
-        prop: 'totalMegawatt',
-        label: '瓦数',
+        prop: 'goodsCode',
+        label: '出入库类型',
         width: '180'
     },
     {
-        prop: 'updater',
-        label: '更新人',
-        width: '180'
-    },
-    {
-        prop: 'updateTime',
-        label: '更新时间',
+        prop: 'goodsCode',
+        label: '是否异常',
         width: '180'
     }
 ])

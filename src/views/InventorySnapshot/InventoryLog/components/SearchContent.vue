@@ -1,11 +1,14 @@
 <template>
     <div class="header">
-        <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false" ref="formRef"
-            @update:form-state="UpdateFormState" />
-        <div class="btn-box">
-            <el-button type="primary">新增查询条件</el-button>
-            <el-button type="primary" :icon="Search" @click="postSearchData">查询</el-button>
-            <el-button type="default" @click="resetform">重置</el-button>
+        <div class="form-box">
+            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false"
+                ref="formRef" @update:form-state="UpdateFormState" :showButton="true">
+                <template #buttons>
+                    <el-button class="btn" type="primary">新增查询条件</el-button>
+                    <el-button class="btn" type="primary" :icon="Search" @click="postSearchData">查询</el-button>
+                    <el-button class="btn" type="default" @click="resetform">重置</el-button>
+                </template>
+            </FormK>
         </div>
     </div>
 </template>
@@ -52,16 +55,19 @@ const resetform = () => {
 <style lang="scss" scoped>
 .header {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    padding: 20px;
     border: 1px solid #dadcdf;
-    border-radius: 10px;
     background-color: #f5f8ff;
-    padding: 16px;
+    border-radius: 10px;
 
-    .btn-box {
-        display: inline-flex;
-        margin-left: 7.125rem;
+    .form-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btn {
+        display: inline-block;
     }
 }
 
