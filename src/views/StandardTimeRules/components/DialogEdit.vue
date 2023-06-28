@@ -18,6 +18,18 @@ import { ref, reactive, watch } from 'vue'
 import FormK from '@/components/FormK/index.vue'
 import * as standardTimeRulesApi from '@/api/standardtimerules/standardtimerules'
 
+let formData = ref({
+    departureCountryName: undefined,
+    departureCountryId: undefined,
+    departurePortName: undefined,
+    departurePortId: undefined,
+    arrivalCountryName: undefined,
+    arrivalCountryId: undefined,
+    arrivalPortName: undefined,
+    arrivalPortId: undefined,
+})
+
+
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
@@ -26,12 +38,44 @@ const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 
 
-// 监听国家/港口的变化
+// 1.监听起运国的变化
 watch(() => [
     formData.value.departureCountryName,
     formData.value.departurePortName,
-    formData.value.arrivalCountryName],
-    () => { })
+    formData.value.arrivalCountryName,
+    formData.value.arrivalPortName
+],
+    (newVal) => {
+        findDepartureCountry(newVal[0], 'dc')
+        findDepartureCountry(newVal[1], 'dp')
+        findDepartureCountry(newVal[2], 'ac')
+        findDepartureCountry(newVal[3], 'ap')
+    })
+// 获取起运国id
+const findDepartureCountry = async (name, type) => {
+    let data = {
+        name,
+        pageNo: 1,
+        pageSize: 5
+    }
+    const res = await standardTimeRulesApi.findCountry(data)
+    let id = res.list[0].id
+    switch (type) {
+        case 'dc':
+            formData.value.departureCountryId = id;
+            break;
+        case 'dp':
+            formData.value.departurePortId = id;
+            break;
+        case 'ac':
+            formData.value.arrivalCountryId = id;
+            break;
+        case 'ap':
+            formData.value.arrivalPortId = id;
+            break;
+    }
+}
+
 
 // var disabled = ref(true)
 const formOption = reactive([
@@ -45,7 +89,8 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: {
+            method: 'post',
+            data: {
                 pageNo: 1,
                 pageSize: 5
             },
@@ -72,6 +117,7 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
+            method: 'post',
             params: {
                 pageNo: 1,
                 pageSize: 5
@@ -99,6 +145,7 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
+            method: 'post',
             params: {
                 pageNo: 1,
                 pageSize: 5
@@ -126,6 +173,7 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
+            method: 'post',
             params: {
                 pageNo: 1,
                 pageSize: 5
@@ -144,31 +192,17 @@ const formOption = reactive([
         }
     },
     {
-        type: 'inputTable',
+        type: 'select',
         field: 'transportMode',
-        placeholder: '请输入运输方式',
+        placeholder: '请选择',
         label: '运输方式',
-        rules: [
-            { required: true, message: '请输入运输方式', trigger: 'change' }
+        options: [
+            { label: '直达', value: 0 },
+            { label: '中转', value: 1 }
         ],
-        valueKey: 'name',
-        tableConfig: {
-            params: {
-                pageNo: 1,
-                pageSize: 5
-            },
-            url: '/bidding/area/location/findCountry',
-            tableOption: [
-                {
-                    prop: 'name',
-                    label: '国家'
-                },
-                {
-                    props: 'id',
-                    label: 'Code'
-                }
-            ]
-        }
+        rules: [
+            { required: true, message: '请选择区域', trigger: 'blur' }
+        ]
     },
     {
         type: 'select',
@@ -241,7 +275,7 @@ const formOption = reactive([
         type: 'input',
         field: 'cycle',
         placeholder: '请输入天数',
-        label: '标准运输周期',
+        label: '标准运输周期（天）',
     }
 ])
 
@@ -277,6 +311,12 @@ defineExpose({
 const emit = defineEmits(['success'])
 const submitForm = async () => {
     if (formType.value === '增加') {
+        if (formData.value.departureCountryName == formData.value.departurePortName
+            && formData.value.arrivalCountryName == formData.value.arrivalPortName
+            && formData.value.departurePortName == formData.value.arrivalCountryName) {
+            ElMessage.error('国家/港口不能全部选择相同！')
+            return;
+        }
         const res = await standardTimeRulesApi.addTimeRules(formData.value)
         if (res) {
             ElMessage.success('新增标准时间规则成功')
@@ -301,19 +341,11 @@ const submitForm = async () => {
     emit('success')
 }
 
-let formData = ref({
-    departureCountryName: undefined,
-    departureCountryId: undefined,
-    departurePortName: undefined,
-    departurePortId: undefined,
-    arrivalCountryName: undefined,
-    arrivalCountryId: undefined,
-})
 
 // 重置表单数据
 /** 重置表单 */
 const resetForm = () => {
-    formRef.value.resetFiled()
+
 }
 
 

@@ -1,8 +1,8 @@
 import request from '@/config/axios'
 
 // 获取国家/港口信息
-export const findCountry = async (params) => {
-    return await request.get({ url: '/jinko/standardTime/findCountry', params })
+export const findCountry = async (data) => {
+    return await request.post({ url: '/jinko/standardTime/findCountry', data })
 }
 
 // 新增标准时间规则

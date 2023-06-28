@@ -13,7 +13,8 @@
       </template>
     </ElInput>
     <TableK :tableOption="tableConfig.tableOption" size="small" :firstPages="5" :showCheckBox="false" pageSmall
-      ref="TableKRef" @clickThisColumn="clickThisColumn" :url="tableConfig.url" :params="params" />
+      ref="TableKRef" @clickThisColumn="clickThisColumn" :url="tableConfig.url" :params="params"
+      :method="tableConfig.method" :data="tableConfig.data" />
   </ElPopover>
 </template>
 
@@ -62,6 +63,7 @@ const params = computed(() => {
     searchKey: searchKey.value
   }
 })
+
 
 // 回车事件
 const showPopoverRef = ref(false)
