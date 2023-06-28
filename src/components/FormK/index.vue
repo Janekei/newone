@@ -5,13 +5,18 @@
         @onChange="onChange" />
       <MySelect v-else-if="item.type === 'select'" :placeholder="item.placeholder" v-model="formData[item.field]"
         :options="item.options" :requestOptions="item.requestOptions" :disabled="item.disabled" @onChange="onChange" />
-      <MyDatePicker v-else-if="item.type === 'date'" :placeholder="item.placeholder" v-model="formData[item.field]"
-        @onChange="onChange" />
+      <MyDatePicker v-else-if="item.type === 'date' || item.type === 'daterange'" :type="item.type"
+        :placeholder="item.placeholder" v-model="formData[item.field]" @onChange="onChange" />
       <MyAutodcomplete v-else-if="item.type === 'autocomplete'" :placeholder="item.placeholder"
         :requestOptions="item.requestOptions" v-model="formData[item.field]" @onChange="onChange" />
       <MyInputTable v-else-if="item.type === 'inputTable'" :placeholder="item.placeholder" v-model="formData[item.field]"
         :valueKey="item.valueKey" :tableData="item.tableData" :disabled="item.disabled" :tableOption="item.tableOption"
         :tableConfig="item.tableConfig" @onChange="onChange" />
+    </ElFormItem>
+    <ElFormItem v-if="showButton">
+      <template #default>
+        <slot name="buttons"></slot>
+      </template>
     </ElFormItem>
   </ElForm>
 </template>
@@ -53,6 +58,10 @@ const props = defineProps({
       prop: 'code',
       label: '代码'
     }])
+  },
+  showButton: {
+    type: Boolean,
+    default: false
   }
 })
 
