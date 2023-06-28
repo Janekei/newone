@@ -136,11 +136,17 @@ const goNewPage = () => {
 .list-s {
  margin-top: 1rem;
  display: flex;
+ height: 280px;
 
  .list-i {
   flex: 1;
   margin: 0 .5rem;
   background-color: #fff;
+  height: 100%;
+
+  .list-it {
+   height: 100%;
+  }
  }
 
  .list-i:first-child {

@@ -1,6 +1,6 @@
 <template>
   <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :disabled="disabled" :clearable="true"
-    @keyup.enter="enterFn" style="width: 100%">
+    @keyup.enter="enterFn" style="width: 100%" @blur="onBlur">
     <template #append>
       <ElButton :icon="Search" style="margin: 0 -23px" ref="buttonRef" v-click-outside="onClickOutside" />
     </template>
@@ -23,7 +23,7 @@ import { ElInput, ElButton, ElPopover, ClickOutside as vClickOutside } from 'ele
 import { Search } from '@element-plus/icons-vue'
 import TableK from '@/components/TableK/index.vue'
 
-const emits: any = defineEmits(['onChange'])
+const emits: any = defineEmits(['onChange', 'inputOnChange', 'update:modelValue'])
 const props = defineProps({
   placeholder: {
     type: String,
@@ -41,6 +41,14 @@ const props = defineProps({
     type: Object as any,
     default: () => ({})
   },
+  formKey: {
+    type: String,
+    default: ''
+  },
+  replaceKey: {
+    type: String,
+    default: ''
+  },
   disabled: {
     type: Boolean,
     default: false
@@ -57,7 +65,6 @@ const buttonRef = ref()
 const popoverRef = ref()
 // 按钮点击事件
 const onClickOutside = () => {
-  // console.log(props.tableConfig.params, 'tableconfig')
   unref(popoverRef).popperRef?.delayHide?.()
 }
 
@@ -86,16 +93,30 @@ const change = (value: any) => {
   emits('onChange', value)
 }
 
-// table行点击事件
+const inputChange = (key, value) => {
+  emits('inputOnChange', key, value)
+}
+
+
+
 const clickThisColumn = (row: any) => {
-  console.log(row, props.valueKey, 'row')
+  console.log(row[props.valueKey], props.modelValue, 'row')
   change(row[props.valueKey])
+  // 传递所选择中的值
+  if (props.replaceKey && props.formKey) {
+    inputChange(props.replaceKey, row[props.formKey])
+  }
 }
 
 // 搜索可选项
 const TableKRef = ref()
 const searchTable = () => {
   TableKRef.value.refresh()
+}
+
+// 外层input失去焦点
+const onBlur = () => {
+  change('')
 }
 </script>
 

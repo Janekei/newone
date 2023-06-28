@@ -31,26 +31,26 @@ const getWaybillInfo = async () => {
 // 点击拣货按钮
 const emits = defineEmits(['pickGoods'])
 const pickGoods = () => {
-    emits('pickGoods')
+ emits('pickGoods')
 }
 
 
 onBeforeMount(() => {
-    getWaybillInfo()
+ getWaybillInfo()
 })
 </script>
 <style lang="scss" scoped>
 .box-btn {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 3.125rem;
-    width: 100%;
-    // background-color: aqua;
-    margin: 1.25rem 0;
+ display: flex;
+ align-items: center;
+ justify-content: flex-end;
+ height: 3.125rem;
+ width: 100%;
+ // background-color: aqua;
+ margin: 1.25rem 0;
 
-    .button {
-        margin-right: 6.25rem;
-    }
+ .button {
+  margin-right: 6.25rem;
+ }
 }
 </style>

@@ -5,13 +5,96 @@
    <img src="../../../assets/imgs/jinko-logo.png" alt="" />
   </div>
   <div class="body">
-   1
+   <vue3-seamless-scroll class="table tableH" :list="data_1" :hover="true" :step="0.5">
+    <table class="w-full" cellpadding="5px">
+     <tbody>
+      <tr v-for="(item, index) in data_1" :key="index">
+       <th>{{ item.v0 }}</th>
+       <th>{{ item.v1 }}</th>
+       <th>{{ item.v2 }}</th>
+       <th>{{ item.v3 }}</th>
+      </tr>
+     </tbody>
+    </table>
+   </vue3-seamless-scroll>
   </div>
  </div>
 </template>
  
 <script lang="ts" setup>
+import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
 
+let data_1 = [{
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}, {
+ v0: 1,
+ v1: '湘C7Z9G0',
+ v2: '16:12',
+ v3: '30分钟'
+}]
 </script>
 
 <style scoped lang="scss">
@@ -37,6 +120,7 @@
   padding: .5rem 1rem 0 1rem;
   color: #1da63b;
   font-weight: 700;
+  height: 67px;
 
   img {
    transform: scale(0.8);
@@ -46,7 +130,7 @@
  }
 
  .body {
-  flex: 1;
+  height: calc(100% - 67px);
   overflow: hidden;
  }
 }
