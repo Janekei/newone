@@ -27,11 +27,7 @@ import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchOutbound from '../components/SearchOutbound.vue'
 import DialogOutbound from '../components/DialogOutbound.vue'
-const route = useRoute()
-let id = route.query.outboundid;
-let formData = ref({
-    outboundId: id
-})
+let formData = ref({})
 
 // const { t } = useI18n()
 const layout = ""
@@ -115,9 +111,7 @@ const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    formData.value = {
-        outboundId: id
-    }
+    formData.value = {}
     Object.assign(formData.value, val)
 }
 const resetForm = () => {

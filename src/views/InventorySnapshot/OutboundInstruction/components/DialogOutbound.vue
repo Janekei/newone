@@ -218,13 +218,13 @@ const submitForm = async () => {
         const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
         if (res) {
             ElMessage.success('拣货成功')
-            router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
+            router.push({ path: '/InventorySnapshot/pickgoods' })
         }
     } else if (formType.value === '箱拣货') {
         const res = await OutboundInstruction.boxPickGoods({ ids: props.ids, outboundId })
         if (res) {
             ElMessage.success('拣货成功')
-            router.push({ path: '/InventorySnapshot/pickgoods', query: { outboundid: outboundId } })
+            router.push({ path: '/InventorySnapshot/pickgoods' })
         }
     } else if (formType.value === '出库') {
         const res = await OutboundInstruction.postOutboundList({ ids: props.outIds })
