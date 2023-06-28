@@ -19,3 +19,8 @@ export const searchTimeRules = async (params) => {
 export const updateTimeRules = async (data) => {
     return await request.put({ url: '/jinko/standardTime/update', data })
 }
+
+// 删除时间规则
+export const deleteTimeRules = async (params) => {
+    return await request.delete({ url: '/jinko/standardTime/delete', params })
+}

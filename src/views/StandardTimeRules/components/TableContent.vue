@@ -8,7 +8,7 @@
             </template>
             <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
-                <ElButton class="delete-btn" type="danger" :icon="Delete" />
+                <ElButton class="delete-btn" type="danger" :icon="Delete" @click="deleteTimeRules(operateRow.id)" />
             </template>
         </TableK>
     </div>
@@ -111,6 +111,11 @@ const open = (type: string, id?: number) => {
 // 打开增加功能弹窗
 const AddTimeRules = () => {
     open('增加')
+}
+
+// 删除时间规则
+const deleteTimeRules = async (id) => {
+    open('删除', id)
 }
 
 

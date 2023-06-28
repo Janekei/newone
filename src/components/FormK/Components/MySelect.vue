@@ -1,7 +1,7 @@
 <template>
     <ElSelect v-model="curValue" :placeholder="placeholder" @change="change" @visible-change="visibleChange"
         :disabled="disabled" :loading="loading" clearable style="width: 100%;">
-        <ElOption v-for="item in listOption" :key="item.value" :label="item.label" :value="item.label" />
+        <ElOption v-for="item in listOption" :key="item.value" :label="item.label" :value="item.value" />
     </ElSelect>
 </template>
 

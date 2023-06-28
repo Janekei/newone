@@ -1,8 +1,9 @@
 <template>
-    <Dialog v-model="dialogVisible" :title="dialogTitle" width="1400">
+    <Dialog v-model="dialogVisible" :title="dialogTitle" :width="formType == '删除' ? 400 : 1400">
         <div class="form-box">
-            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="13rem" ref="formRef"
-                @update:formState="updateFormData" />
+            <FormK v-if="formType != '删除'" :formOption="formOption" v-model:formState="formData" labelWidth="13rem"
+                ref="formRef" @update:formState="updateFormData" />
+            <div style="text-align: center;" v-else>你确定要删除吗？</div>
         </div>
         <template #footer>
             <el-button @click="submitForm" type="primary">确认</el-button>
@@ -65,7 +66,6 @@ watch(() => [
             findDepartureCountry(newVal[0], 'dc')
         }
         if (newVal[1] !== undefined) {
-
             findDepartureCountry(newVal[1], 'dp')
         }
         if (newVal[2] !== undefined) {
@@ -232,7 +232,7 @@ const formOption = reactive([
         label: '直达/中转',
         options: directTransfer,
         rules: [
-            { required: true, message: '请选择区域', trigger: 'blur' }
+            { required: true, message: '请选择', trigger: 'blur' }
         ]
     },
     {
@@ -308,16 +308,18 @@ const updateFormData = (val) => {
 const formRef = ref()
 
 // 打开弹窗方法
+const deleteId = ref()
 const open = async (type: string, id?: number) => {
     resetForm()
     dialogVisible.value = true
     formType.value = type
     dialogTitle.value = type + '标准时间规则'
     formLoading.value = true
-    if (id) {
+    if (id && formType.value === '编辑') {
         const res = await standardTimeRulesApi.searchTimeRules({ id })
         formData.value = res
-        console.log(formData.value, 'res')
+    } else {
+        deleteId.value = id
     }
 }
 defineExpose({
@@ -343,7 +345,7 @@ const submitForm = async () => {
             ElMessage.error('新增标准时间规则失败')
         }
         resetForm()
-    } else {
+    } else if (formType.value === '编辑') {
         const res = await standardTimeRulesApi.updateTimeRules(formData.value)
         if (res) {
             ElMessage.success('修改标准时间规则成功')
@@ -352,7 +354,14 @@ const submitForm = async () => {
             ElMessage.error('修改标准时间规则失败')
         }
         resetForm()
-
+    } else {
+        console.log(deleteId)
+        const res = await standardTimeRulesApi.deleteTimeRules({ id: deleteId.value })
+        if (res) {
+            ElMessage.success('删除成功')
+        } else {
+            ElMessage.success('删除失败')
+        }
     }
     dialogVisible.value = false
     // 发送操作成功的事件
@@ -363,7 +372,16 @@ const submitForm = async () => {
 // 重置表单数据
 /** 重置表单 */
 const resetForm = () => {
-
+    formData.value = {
+        departureCountryName: undefined,
+        departureCountryId: undefined,
+        departurePortName: undefined,
+        departurePortId: undefined,
+        arrivalCountryName: undefined,
+        arrivalCountryId: undefined,
+        arrivalPortName: undefined,
+        arrivalPortId: undefined,
+    }
 }
 
 
