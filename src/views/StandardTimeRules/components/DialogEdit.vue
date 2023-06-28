@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { Dialog } from '@/components/Dialog'
 import { ElButton, ElMessage } from 'element-plus'
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import FormK from '@/components/FormK/index.vue'
 import * as standardTimeRulesApi from '@/api/standardtimerules/standardtimerules'
 
@@ -25,6 +25,13 @@ const dialogTitle = ref('') // 弹窗的标题
 const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 
+
+// 监听国家/港口的变化
+watch(() => [
+    formData.value.departureCountryName,
+    formData.value.departurePortName,
+    formData.value.arrivalCountryName],
+    () => { })
 
 // var disabled = ref(true)
 const formOption = reactive([
@@ -38,7 +45,10 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: {},
+            params: {
+                pageNo: 1,
+                pageSize: 5
+            },
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -62,12 +72,15 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: {},
+            params: {
+                pageNo: 1,
+                pageSize: 5
+            },
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
-                    label: '国家'
+                    label: '港口名'
                 },
                 {
                     props: 'id',
@@ -86,7 +99,10 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: {},
+            params: {
+                pageNo: 1,
+                pageSize: 5
+            },
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -110,12 +126,15 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: {},
+            params: {
+                pageNo: 1,
+                pageSize: 5
+            },
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
-                    label: '国家'
+                    label: '港口名'
                 },
                 {
                     props: 'id',
@@ -134,7 +153,10 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         tableConfig: {
-            params: { id: 0 },
+            params: {
+                pageNo: 1,
+                pageSize: 5
+            },
             url: '/bidding/area/location/findCountry',
             tableOption: [
                 {
@@ -279,12 +301,19 @@ const submitForm = async () => {
     emit('success')
 }
 
-let formData = ref({})
+let formData = ref({
+    departureCountryName: undefined,
+    departureCountryId: undefined,
+    departurePortName: undefined,
+    departurePortId: undefined,
+    arrivalCountryName: undefined,
+    arrivalCountryId: undefined,
+})
 
 // 重置表单数据
 /** 重置表单 */
 const resetForm = () => {
-    formData.value = {}
+    formRef.value.resetFiled()
 }
 
 
