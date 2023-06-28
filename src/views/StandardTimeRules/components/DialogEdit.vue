@@ -15,6 +15,7 @@
 import { Dialog } from '@/components/Dialog'
 import { ElButton, ElMessage } from 'element-plus'
 import { ref, reactive, watch } from 'vue'
+import { getIntDictOptions } from '@/utils/dict'
 import FormK from '@/components/FormK/index.vue'
 import * as standardTimeRulesApi from '@/api/standardtimerules/standardtimerules'
 
@@ -29,6 +30,20 @@ let formData = ref({
     arrivalPortId: undefined,
 })
 
+// 数据字典获取运输方式,直达/中转
+const transferPort = ref()
+const directTransfer = ref()
+const getExceptionType = () => {
+    const res = getIntDictOptions('standard_time_rules')
+    transferPort.value = res
+    const data = getIntDictOptions('direct_transfer')
+    directTransfer.value = data
+
+}
+onMounted(() => {
+    getExceptionType()
+})
+
 
 
 // 表单内容区域
@@ -38,7 +53,7 @@ const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 
 
-// 1.监听起运国的变化
+// 监听国家/港口的变化
 watch(() => [
     formData.value.departureCountryName,
     formData.value.departurePortName,
@@ -46,10 +61,19 @@ watch(() => [
     formData.value.arrivalPortName
 ],
     (newVal) => {
-        findDepartureCountry(newVal[0], 'dc')
-        findDepartureCountry(newVal[1], 'dp')
-        findDepartureCountry(newVal[2], 'ac')
-        findDepartureCountry(newVal[3], 'ap')
+        if (newVal[0] !== undefined) {
+            findDepartureCountry(newVal[0], 'dc')
+        }
+        if (newVal[1] !== undefined) {
+
+            findDepartureCountry(newVal[1], 'dp')
+        }
+        if (newVal[2] !== undefined) {
+            findDepartureCountry(newVal[2], 'ac')
+        }
+        if (newVal[3] !== undefined) {
+            findDepartureCountry(newVal[3], 'ap')
+        }
     })
 // 获取起运国id
 const findDepartureCountry = async (name, type) => {
@@ -196,12 +220,9 @@ const formOption = reactive([
         field: 'transportMode',
         placeholder: '请选择',
         label: '运输方式',
-        options: [
-            { label: '直达', value: 0 },
-            { label: '中转', value: 1 }
-        ],
+        options: transferPort,
         rules: [
-            { required: true, message: '请选择区域', trigger: 'blur' }
+            { required: true, message: '请选择运输方式', trigger: 'blur' }
         ]
     },
     {
@@ -209,10 +230,7 @@ const formOption = reactive([
         field: 'transferPort',
         placeholder: '请选择',
         label: '直达/中转',
-        options: [
-            { label: '直达', value: 0 },
-            { label: '中转', value: 1 }
-        ],
+        options: directTransfer,
         rules: [
             { required: true, message: '请选择区域', trigger: 'blur' }
         ]
