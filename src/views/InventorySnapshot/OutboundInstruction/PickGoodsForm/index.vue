@@ -13,7 +13,6 @@
         </TableK>
     </div>
     <div class="box-btn">
-        <el-button class="button" type="primary" @click="backWaybill">返回</el-button>
         <el-button class="button" type="primary" @click="open('绑定车辆')">绑定车辆</el-button>
         <el-button class="button" type="primary" @click="open('出库')">出库</el-button>
     </div>
@@ -125,12 +124,7 @@ const refresh = () => {
 }
 
 
-//跳转对应行的详情页信息
-const emits = defineEmits(['backWaybill', 'showTrayList'])
 
-const backWaybill = () => {
-    emits('backWaybill')
-}
 
 // 多选行
 let outIds: any = ref([]);
