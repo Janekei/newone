@@ -29,8 +29,8 @@ let formData = ref({
     arrivalCountryId: undefined,
     arrivalPortName: undefined,
     arrivalPortId: undefined,
-    transferPort: undefined,
-    transportMode: undefined
+    transferPort: 0,
+    transportMode: 0
 })
 
 // 数据字典获取运输方式,直达/中转
@@ -41,7 +41,6 @@ const getListType = () => {
     transferPort.value = res
     const data = getIntDictOptions('direct_transfer')
     directTransfer.value = data
-
 }
 onMounted(() => {
     getListType()
@@ -56,12 +55,18 @@ const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 
 
-// 监听国家/港口的变化
+let departureCountryName = formData.value.departureCountryName
+let departurePortName = formData.value.departurePortName
+let arrivalCountryName = formData.value.arrivalCountryName
+let arrivalPortName = formData.value.arrivalPortName
+
+
+
 watch(() => [
-    formData.value.departureCountryName,
-    formData.value.departurePortName,
-    formData.value.arrivalCountryName,
-    formData.value.arrivalPortName
+    departureCountryName,
+    departurePortName,
+    arrivalCountryName,
+    arrivalPortName
 ],
     (newVal) => {
         if (newVal[0] !== undefined) {
@@ -322,18 +327,8 @@ const open = async (type: string, id?: number) => {
         formData.value = res
         console.log(formData.value)
         // 获取运输方式，直达/中转的label
-        transferPort.value.forEach(item => {
-            console.log(item, typeof formData.value.transportMode)
-            if (item.value == formData.value.transportMode) {
-                formData.value.transportMode = item.label
-            }
-
-        })
-        directTransfer.value.forEach(item => {
-            if (item.value == formData.value.transferPort) {
-                formData.value.transferPort = item.label
-            }
-        })
+        formData.value.transportMode = Number(formData.value.transportMode)
+        formData.value.transferPort = Number(formData.value.transferPort)
     } else {
         deleteId.value = id
     }
@@ -397,8 +392,8 @@ const resetForm = () => {
         arrivalCountryId: undefined,
         arrivalPortName: undefined,
         arrivalPortId: undefined,
-        transferPort: undefined,
-        transportMode: undefined
+        transferPort: 0,
+        transportMode: 0
     }
 }
 

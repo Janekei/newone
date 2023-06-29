@@ -11,7 +11,7 @@
                 <ElButton class="delete-btn" type="danger" :icon="Delete" @click="deleteTimeRules(operateRow.id)" />
             </template>
             <template #transportMode="{ row }">
-                <DictTag :type="transferModeDictType" :value="row.row.transportMode" />
+                <DictTag  :type="transferModeDictType" :value="row.row.transportMode" />
             </template>
             <template #transferPort="{ row }">
                 <DictTag :type="transferPortType" :value="row.row.transferPort" />

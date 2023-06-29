@@ -21,8 +21,12 @@
         :header-cell-style="{ 'text-align': 'center' }">
         <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
         <ElTableColumn label="序号" type="index" width="100" align="center" v-if="showIndex" />
-        <ElTableColumn :show-overflow-tooltip="true"  :prop="item.prop" :label="item.label" :width="item.width"
+        <ElTableColumn :show-overflow-tooltip="true" :prop="item.prop" :label="item.label" :width="item.width"
           v-for="(item, index) in tableOption" :key="index + 'a'">
+          <div v-if="item.multiColoumn">
+            <ElTableColumn v-for="(ele, idx) in item.multiColoumn" :prop="ele.prop" :label="ele.label" :width="ele.width"
+              :key="idx + 'b'" />
+          </div>
           <template #default="{ row }" v-if="item.slotName">
             <slot :name="item.slotName" :row="{ row }">{{ index }}</slot>
           </template>

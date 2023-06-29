@@ -17,6 +17,7 @@ const props = defineProps({
 
 
 let dictData = ref()
+watch(() => props.value, (newVal) => dictData.value = getDictLabel(props.type, newVal))
 
 onMounted(() => {
     dictData.value = getDictLabel(props.type, props.value)
