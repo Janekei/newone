@@ -3,8 +3,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { getDictLabel } from '@/utils/dict'
+import { ref, onMounted } from 'vue'
+import { getDictLabel } from "@/utils/dict"
 const props = defineProps({
     type: {
         type: String,

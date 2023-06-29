@@ -23,7 +23,7 @@ import { ref, reactive } from 'vue'
 import { formatTime } from '@/utils'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
-import DictTagK from '@/components/DictTagk/index.vue'
+import DictTagK from '@/components/DictTagK/index.vue'
 
 const dictType = ref('wh_inbound_exception')
 
