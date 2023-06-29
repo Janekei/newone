@@ -153,7 +153,7 @@ const formOption = reactive([
                     label: '港口名'
                 },
                 {
-                    props: 'id',
+                    prop: 'id',
                     label: 'Code'
                 }
             ]
@@ -181,7 +181,7 @@ const formOption = reactive([
                     label: '国家'
                 },
                 {
-                    props: 'id',
+                    prop: 'id',
                     label: 'Code'
                 }
             ]
@@ -209,7 +209,7 @@ const formOption = reactive([
                     label: '港口名'
                 },
                 {
-                    props: 'id',
+                    prop: 'id',
                     label: 'Code'
                 }
             ]
