@@ -34,67 +34,67 @@ const tableOption = reactive([
     {
         prop: 'bl',
         label: '提单号',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'goodsCode',
         label: '货品编码',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'goodsName',
         label: '货物名称',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'goodsCode',
         label: '柜号',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'palletNo',
         label: '托盘号',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'goodsType',
         label: '规格型号',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'bsWhareaName',
         label: '区域',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'bsWhAddress',
         label: '仓库地址',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'oldPalletsNumber',
         label: '期初数量',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'palletsNumber',
         label: '当前数量',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'newPalletsNumber',
         label: '期末数量',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'boundType',
         label: '出入库类型',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'goodsCode',
         label: '是否异常',
-        width: '180'
+        width: '100'
     }
 ])
 

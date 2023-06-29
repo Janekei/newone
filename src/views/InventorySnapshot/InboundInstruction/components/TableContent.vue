@@ -66,36 +66,36 @@ const tableOption = reactive([
     {
         prop: 'totalBox',
         label: '柜量',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'estInTime',
         label: '预计入库时间',
         slotName: 'estInTime',
-        width: '180'
+        width: '140'
     },
     {
         prop: 'eta',
         label: '预计到港时间',
         slotName: 'eta',
-        width: '180'
+        width: '140'
     },
     {
         prop: 'etd',
         label: '实际离港时间',
         slotName: 'etd',
-        width: '180'
+        width: '140'
     },
     {
         prop: 'tardeWayConfigWay',
         label: '贸易条款',
-        width: '180'
+        width: '160'
     },
     {
         prop: 'transportStatus',
         label: '状态',
         slotName: 'transportStatus',
-        width: '180'
+        width: '100'
     }
 ])
 // 入库指令首页搜索框数据
