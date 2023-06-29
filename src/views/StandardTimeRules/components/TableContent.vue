@@ -10,6 +10,12 @@
                 <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
                 <ElButton class="delete-btn" type="danger" :icon="Delete" @click="deleteTimeRules(operateRow.id)" />
             </template>
+            <template #transportMode="{ row }">
+                <DictTag :type="transferModeDictType" :value="row.row.transportMode" />
+            </template>
+            <template #transferPort="{ row }">
+                <DictTag :type="transferPortType" :value="row.row.transferPort" />
+            </template>
         </TableK>
     </div>
     <DialogEditForm ref="formRef" @success="refresh" />
@@ -21,8 +27,29 @@ import { Delete, Edit } from '@element-plus/icons-vue'
 import FormSearch from './FormSearch.vue';
 import DialogEditForm from './DialogEdit.vue';
 import TableK from '@/components/TableK/index.vue'
+// import DictTag from './DictTag.vue'
+import { getIntDictOptions } from '@/utils/dict'
 
+// 运输方式数据字典类型
+const transferModeDictType = ref('standard_time_rules')
+const transferPortType = ref('direct_transfer')
+let modeType = ref()
+let portType = ref()
 let formData = ref({})
+const getList = (type) => {
+    const res = getIntDictOptions(type)
+    if (type === transferModeDictType.value) {
+        modeType.value = res
+    }
+    if (type === transferPortType.value) {
+        portType.value = res
+    }
+}
+
+onMounted(() => {
+    getList(transferModeDictType.value)
+    getList(transferPortType.value)
+})
 
 const tableOption = [
     {
@@ -48,12 +75,14 @@ const tableOption = [
     {
         prop: 'transportMode',
         label: '运输方式',
-        width: '120'
+        width: '120',
+        slotName: 'transportMode'
     },
     {
         prop: 'transferPort',
         label: '直达/中转',
-        width: '120'
+        width: '120',
+        slotName: 'transferPort'
     },
     {
         prop: 'deapportDeaprture',
@@ -81,6 +110,7 @@ const tableOption = [
         width: '180'
     }
 ]
+
 
 // 搜索
 const tableRef = ref()

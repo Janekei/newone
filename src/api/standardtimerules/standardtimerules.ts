@@ -24,3 +24,5 @@ export const updateTimeRules = async (data) => {
 export const deleteTimeRules = async (params) => {
     return await request.delete({ url: '/jinko/standardTime/delete', params })
 }
+
+// 获取运输方式数据字典
