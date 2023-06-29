@@ -1,96 +1,87 @@
 <template>
     <div>
-        <TableK url="/jinko/standardTime/page" method="get" :params="formData" ref="tableRef" :tableOption="tableOption"
-            :showFixedOperation="true" :showCheckBox="false" :showIndex="true" />
+        <TableK v-if="show" url="/jinko/standardTime/standardPlanPage" method="get" :params="formData" ref="tableRef"
+            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
+            <template #buttons>
+                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+            </template>
+        </TableK>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { getIntDictOptions } from '@/utils/dict'
 import TableK from '@/components/TableK/index.vue'
+import SearchContent from './SearchContent.vue'
+
+
+let tableOption: any = ref([
+    {
+        prop: 'orderNo',
+        label: '订单号',
+        width: '160'
+    }
+])
+
+
+// 获取数据字典的表头
+// let tableHeader: any = ref([])
+let show = ref(false)
+const getDictList = () => {
+    const res = getIntDictOptions('standard_time_compare_real_time')
+    res.forEach((item, index) => {
+        tableOption.value.push({
+            type: item.value,
+            label: item.label,
+            multiColoumn: [
+                {
+                    prop: 'orderNo',
+                    label: '标准时间',
+                    width: '160'
+                },
+                {
+                    prop: 'orderNo',
+                    label: '实际时间',
+                    width: '160'
+                },
+            ]
+        })
+        if (index === res.length - 1) {
+            show.value = true
+            console.log(tableOption.value, 9999)
+        }
+    }
+    )
+
+}
+onBeforeMount(() => {
+    getDictList()
+})
+
 
 
 let formData = ref()
 
-const tableOption = [
-    {
-        prop: 'departureCountryName',
-        label: '起运国',
-        width: '180'
-    },
-    {
-        prop: 'departurePortName',
-        label: '起运港',
-        width: '180'
-    },
-    {
-        prop: 'arrivalCountryName',
-        label: '目的国',
-        width: '180'
-    },
-    {
-        prop: 'arrivalPortName',
-        label: '目的港',
-        width: '180'
-    },
-    {
-        prop: 'transportMode',
-        label: '运输方式',
-        width: '120',
-        slotName: 'transportMode'
-    },
-    {
-        prop: 'transferPort',
-        label: '直达/中转',
-        width: '120',
-        slotName: 'transferPort'
-    },
-    {
-        prop: 'deapportDeaprture',
-        label: '进港未离港',
-        width: '180'
-    },
-    {
-        prop: 'departureArrport',
-        label: '离港未到港',
-        width: '180'
-    },
-    {
-        prop: 'transportDeapport',
-        label: '中转港未离港',
-        width: '180'
-    },
-    {
-        prop: 'departureTransport',
-        label: '离港未到中转港',
-        width: '180'
-    },
-    {
-        prop: 'arrportBl',
-        label: '到港未提货',
-        width: '180'
-    }
-]
-
 
 // 搜索
-// const tableRef = ref()
-// const clickSearch = () => {
-//     refresh()
-// }
-// const updateSearchData = (val) => {
-//     formData.value = {}
-//     Object.assign(formData.value, val)
-// }
-// const resetForm = () => {
-//     refresh()
-// }
+const tableRef = ref()
+const clickSearch = () => {
+    refresh()
+}
+const updateSearchData = (val) => {
+    formData.value = {}
+    Object.assign(formData.value, val)
+}
+const resetForm = () => {
+    refresh()
+}
 
 
 // 刷新列表
-// const refresh = () => {
-//     tableRef.value.refresh()
-// }
+const refresh = () => {
+    tableRef.value.refresh()
+}
 
 
 

@@ -14,7 +14,7 @@
     </ElInput>
     <TableK :tableOption="tableConfig.tableOption" size="small" :firstPages="5" :showCheckBox="false" pageSmall
       ref="TableKRef" @clickThisColumn="clickThisColumn" :url="tableConfig.url" :params="params"
-      :method="tableConfig.method" :data="tableConfig.data" />
+      :method="tableConfig.method" :data="tableConfig.data" @getTableData="getTableData" />
   </ElPopover>
 </template>
 
@@ -24,7 +24,7 @@ import { ElInput, ElButton, ElPopover, ClickOutside as vClickOutside } from 'ele
 import { Search } from '@element-plus/icons-vue'
 import TableK from '@/components/TableK/index.vue'
 
-const emits: any = defineEmits(['onChange'])
+const emits: any = defineEmits(['onChange', 'getMyInputTableData'])
 const props = defineProps({
   placeholder: {
     type: String,
@@ -63,6 +63,9 @@ const params = computed(() => {
     searchKey: searchKey.value
   }
 })
+const getTableData = (tableData) => {
+  emits('getMyInputTableData', tableData)
+}
 
 
 // 回车事件
