@@ -27,29 +27,14 @@ import { Delete, Edit } from '@element-plus/icons-vue'
 import FormSearch from './FormSearch.vue';
 import DialogEditForm from './DialogEdit.vue';
 import TableK from '@/components/TableK/index.vue'
-// import DictTag from './DictTag.vue'
-import { getIntDictOptions } from '@/utils/dict'
+import DictTag from './DictTag.vue'
+
 
 // 运输方式数据字典类型
 const transferModeDictType = ref('standard_time_rules')
 const transferPortType = ref('direct_transfer')
-let modeType = ref()
-let portType = ref()
-let formData = ref({})
-const getList = (type) => {
-    const res = getIntDictOptions(type)
-    if (type === transferModeDictType.value) {
-        modeType.value = res
-    }
-    if (type === transferPortType.value) {
-        portType.value = res
-    }
-}
 
-onMounted(() => {
-    getList(transferModeDictType.value)
-    getList(transferPortType.value)
-})
+let formData = ref()
 
 const tableOption = [
     {

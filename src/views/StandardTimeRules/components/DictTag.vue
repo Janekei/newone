@@ -12,11 +12,7 @@ const props = defineProps({
     value: {
         type: Number,
         default: 0
-    },
-    dictData: {
-        type: String,
-        default: ''
-    },
+    }
 })
 
 
@@ -26,8 +22,4 @@ onMounted(() => {
     dictData.value = getDictLabel(props.type, props.value)
 })
 </script>
-<style lang="scss"scoped>
-.text {
-    background-color: none;
-}
-</style>
+<style scoped></style>
