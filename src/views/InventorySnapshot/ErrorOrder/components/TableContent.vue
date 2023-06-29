@@ -11,6 +11,9 @@
             <template #liveTime="{ row }">
                 <span>{{ formatTime(row.row.liveTime, 'yyyy-MM-dd') }}</span>
             </template>
+            <template #exceptionType="{ row }">
+                <DictTagK :type="dictType" :value="row.row.exceptionType" />
+            </template>
         </TableK>
     </div>
 </template>
@@ -20,6 +23,9 @@ import { ref, reactive } from 'vue'
 import { formatTime } from '@/utils'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
+import DictTagK from '@/components/DictTagk/index.vue'
+
+const dictType = ref('wh_inbound_exception')
 
 
 const formData = ref({})
@@ -50,7 +56,7 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'Whaddress',
+        prop: 'bsWhAddress',
         label: '仓库地址',
         width: '180'
     },
@@ -77,12 +83,13 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'totalMegawatt',
+        prop: 'exceptionType',
         label: '异常类型',
-        width: '180'
+        width: '180',
+        slotName: 'exceptionType'
     },
     {
-        prop: 'totalMegawatt',
+        prop: 'inventoryType',
         label: '库存状态',
         width: '180'
     },
