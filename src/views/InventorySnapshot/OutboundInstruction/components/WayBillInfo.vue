@@ -2,9 +2,9 @@
     <div class="box">
         <div v-if="waybillInfo === null">
             <el-descriptions class="elDescriptions" title="任务明细" label-width="100" align="center" :column="2" border>
-                <el-descriptions-item label="任务单号" label-align="left" align="center" label-class-name="my-label"
+                <el-descriptions-item label="任务单号" width="300" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
-                <el-descriptions-item label="发货方" label-align="left" align="center" label-class-name="my-label"
+                <el-descriptions-item label="发货方" width="300" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
                 <el-descriptions-item label="SAP ID" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
@@ -32,9 +32,9 @@
                     }}</el-descriptions-item> -->
             </el-descriptions>
             <el-descriptions class="elDescriptions" title="货品明细" label-width="100" :column="2" border>
-                <el-descriptions-item label="提单号" label-align="left" align="center" label-class-name="my-label"
+                <el-descriptions-item label="提单号" width="300" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
-                <el-descriptions-item label="发票号" label-align="left" align="center" label-class-name="my-label"
+                <el-descriptions-item label="发票号" width="300" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
                 <el-descriptions-item label="合同号" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
@@ -55,10 +55,10 @@
                     }}</el-descriptions-item> -->
             </el-descriptions>
             <el-descriptions class="elDescriptions" title="时间明细" label-width="100" :column="2" border>
-                <el-descriptions-item label="生成入库指令时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content" />
-                <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content" />
+                <el-descriptions-item label="生成入库指令时间" width="300" label-align="left" align="center"
+                    label-class-name="my-label" class-name="my-content" />
+                <el-descriptions-item label="ETD日期" width="300" label-align="left" align="center"
+                    label-class-name="my-label" class-name="my-content" />
                 <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
                 <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
@@ -82,9 +82,9 @@
         </div>
         <div v-else class="content">
             <el-descriptions class="elDescriptions" title="任务明细" label-width="100" align="center" :column="2" border>
-                <el-descriptions-item label="任务单号" label-align="left" align="center" label-class-name="my-label"
+                <el-descriptions-item label="任务单号" width="300" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.sapDn }}</el-descriptions-item>
-                <el-descriptions-item label="发货方" label-align="left" align="center" label-class-name="my-label"
+                <el-descriptions-item label="发货方" width="300" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.departureLocationName }}</el-descriptions-item>
                 <el-descriptions-item label="SAP ID" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.sapId }}</el-descriptions-item>
@@ -113,9 +113,9 @@
                     }}</el-descriptions-item> -->
             </el-descriptions>
             <el-descriptions class="elDescriptions" title="货品明细" label-width="100" :column="2" border>
-                <el-descriptions-item label="提单号" label-align="left" align="center" label-class-name="my-label"
+                <el-descriptions-item label="提单号" width="300" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.bl }}</el-descriptions-item>
-                <el-descriptions-item label="发票号" label-align="left" align="center" label-class-name="my-label"
+                <el-descriptions-item label="发票号" width="300" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.invoice_no }}</el-descriptions-item>
                 <el-descriptions-item label="合同号" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.contractNo }}</el-descriptions-item>
@@ -136,11 +136,12 @@
                     }}</el-descriptions-item> -->
             </el-descriptions>
             <el-descriptions class="elDescriptions" title="时间明细" label-width="100" :column="2" border>
-                <el-descriptions-item label="生成入库指令时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatTime(waybillInfo.createTime,
+                <el-descriptions-item label="生成入库指令时间" width="300" label-align="left" align="center"
+                    label-class-name="my-label" class-name="my-content">{{ formatTime(waybillInfo.createTime,
                         'yyyy-MM-dd') }}</el-descriptions-item>
-                <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatTime(waybillInfo.etd, 'yyyy-MM-dd') }}</el-descriptions-item>
+                <el-descriptions-item label="ETD日期" width="300" label-align="left" align="center"
+                    label-class-name="my-label" class-name="my-content">{{ formatTime(waybillInfo.etd, 'yyyy-MM-dd')
+                    }}</el-descriptions-item>
                 <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ formatTime(waybillInfo.newEtd, 'yyyy-MM-dd') }}</el-descriptions-item>
                 <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"

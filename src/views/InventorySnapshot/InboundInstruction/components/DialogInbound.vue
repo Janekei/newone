@@ -21,6 +21,16 @@ import { ref } from 'vue'
 import { getIntDictOptions } from '@/utils/dict'
 import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 
+// 数据字典获取异常类型
+const dictList = ref()
+const getExceptionType = () => {
+  dictList.value = getIntDictOptions('wh_inbound_exception')
+}
+
+onMounted(() => {
+  getExceptionType()
+})
+
 const props = defineProps({
   inboundID: {
     type: String,
@@ -43,11 +53,7 @@ const formOption = reactive([
     field: 'exception',
     placeholder: '请选择异常类型',
     label: '异常类型',
-    options: [
-      { label: '货量破损', value: 0 },
-      { label: '数量短缺', value: 1 },
-      { label: '型号不符', value: 2 }
-    ],
+    options: dictList,
     rules: [
       { required: true, message: '请选择异常类型', trigger: 'blur' }
     ]
@@ -69,14 +75,7 @@ const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 const formData = ref()    // 表单内容
 
-// 数据字典获取异常类型
-const getExceptionType = () => {
-  const res = getIntDictOptions('wh_inbound_exception')
-  console.log('shujuzidian', res)
-}
-onMounted(() => {
-  getExceptionType()
-})
+
 
 // 打开弹窗方法
 const open = (type: string, title: string, content: string) => {
@@ -85,7 +84,6 @@ const open = (type: string, title: string, content: string) => {
   formType.value = type
   formData.value = content
   dialogTitle.value = title
-  // console.log(props.inboundIdsBox, 'props')
 }
 
 const emit = defineEmits(['success'])

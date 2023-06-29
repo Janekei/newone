@@ -29,12 +29,14 @@ let formData = ref({
     arrivalCountryId: undefined,
     arrivalPortName: undefined,
     arrivalPortId: undefined,
+    transferPort: undefined,
+    transportMode: undefined
 })
 
 // 数据字典获取运输方式,直达/中转
 const transferPort = ref()
 const directTransfer = ref()
-const getExceptionType = () => {
+const getListType = () => {
     const res = getIntDictOptions('standard_time_rules')
     transferPort.value = res
     const data = getIntDictOptions('direct_transfer')
@@ -42,7 +44,7 @@ const getExceptionType = () => {
 
 }
 onMounted(() => {
-    getExceptionType()
+    getListType()
 })
 
 
@@ -318,6 +320,20 @@ const open = async (type: string, id?: number) => {
     if (id && formType.value === '编辑') {
         const res = await standardTimeRulesApi.searchTimeRules({ id })
         formData.value = res
+        console.log(formData.value)
+        // 获取运输方式，直达/中转的label
+        transferPort.value.forEach(item => {
+            console.log(item, typeof formData.value.transportMode)
+            if (item.value == formData.value.transportMode) {
+                formData.value.transportMode = item.label
+            }
+
+        })
+        directTransfer.value.forEach(item => {
+            if (item.value == formData.value.transferPort) {
+                formData.value.transferPort = item.label
+            }
+        })
     } else {
         deleteId.value = id
     }
@@ -381,6 +397,8 @@ const resetForm = () => {
         arrivalCountryId: undefined,
         arrivalPortName: undefined,
         arrivalPortId: undefined,
+        transferPort: undefined,
+        transportMode: undefined
     }
 }
 

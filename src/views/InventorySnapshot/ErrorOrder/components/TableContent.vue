@@ -11,6 +11,9 @@
             <template #liveTime="{ row }">
                 <span>{{ formatTime(row.row.liveTime, 'yyyy-MM-dd') }}</span>
             </template>
+            <template #exceptionType="{ row }">
+                <DictTagK :type="dictType" :value="row.row.exceptionType" />
+            </template>
         </TableK>
     </div>
 </template>
@@ -20,6 +23,9 @@ import { ref, reactive } from 'vue'
 import { formatTime } from '@/utils'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
+import DictTagK from '@/components/DictTagk/index.vue'
+
+const dictType = ref('wh_inbound_exception')
 
 
 const formData = ref({})
@@ -27,74 +33,75 @@ const tableOption = reactive([
     {
         prop: 'bl',
         label: '提单号',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'goodsCode',
         label: '货品编码',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'goodsName',
         label: '货物名称',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'goodsCode',
         label: '规格型号',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'bsWhareaName',
         label: '区域',
-        width: '180'
+        width: '100'
     },
     {
-        prop: 'Whaddress',
+        prop: 'bsWhAddress',
         label: '仓库地址',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'actInTime',
         label: '入库时间',
         slotName: 'actInTime',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'liveTime',
         label: '在库时间',
         slotName: 'liveTime',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'totalCount',
         label: '托盘数量',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'totalMegawatt',
         label: '瓦数',
-        width: '180'
+        width: '100'
     },
     {
-        prop: 'totalMegawatt',
+        prop: 'exceptionType',
         label: '异常类型',
-        width: '180'
+        width: '100',
+        slotName: 'exceptionType'
     },
     {
-        prop: 'totalMegawatt',
+        prop: 'inventoryType',
         label: '库存状态',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'updater',
         label: '更新人',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'updateTime',
         label: '更新时间',
-        width: '180'
+        width: '100'
     }
 
 

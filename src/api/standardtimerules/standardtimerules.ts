@@ -1,4 +1,5 @@
 import request from '@/config/axios'
+import { getIntDictOptions } from '@/utils/dict'
 
 // 获取国家/港口信息
 export const findCountry = async (data) => {
@@ -23,4 +24,19 @@ export const updateTimeRules = async (data) => {
 // 删除时间规则
 export const deleteTimeRules = async (params) => {
     return await request.delete({ url: '/jinko/standardTime/delete', params })
+}
+
+// 获取运输方式数据字典
+export const getDictOptions = (dictType:string) => {
+    return getIntDictOptions(dictType)
+}
+export const getDictLabel = (dictType: string, value: any) => {
+    const dictOptions = getDictOptions(dictType)
+    const dictLabel = ref('')
+    dictOptions.forEach((dict) => {
+        if (dict.value === value) {
+            dictLabel.value = dict.label
+        }
+    })
+    return dictLabel.value
 }
