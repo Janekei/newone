@@ -22,7 +22,7 @@ const formOption = reactive(
     [
         {
             type: 'input',
-            field: 'goodsCode',
+            field: 'bl',
             placeholder: '请输入提单号',
             label: '提单号：'
         },
@@ -34,25 +34,25 @@ const formOption = reactive(
         },
         {
             type: 'date',
-            field: 'goodsName',
-            placeholder: '请输入仓库名称',
-            label: '入仓时间：'
+            field: 'errorTime',
+            placeholder: '请输入异常登记时间',
+            label: '异常登记时间：'
         },
         {
             type: 'input',
-            field: 'goodsName',
+            field: 'exceptionType',
             placeholder: '请输入异常登记类型',
             label: '异常登记类型：'
         },
         {
             type: 'input',
-            field: 'goodsName',
+            field: 'inventoryType',
             placeholder: '请输入库存状态',
             label: '库存状态：'
         },
         {
             type: 'input',
-            field: 'goodsName',
+            field: 'operater',
             placeholder: '请输入业务操作人',
             label: '业务操作人：'
         },
@@ -60,7 +60,7 @@ const formOption = reactive(
             type: 'daterange',
             field: 'time',
             placeholder: '请输入时间',
-            label: '异常登记时间：'
+            label: '入仓时间：'
         },
 
     ]
