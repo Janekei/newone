@@ -55,3 +55,7 @@ export const recordErrorTray = async (params) => {
 export const allotWhareahouse = async (data) => {
     return await request.post({ url: '/jinko/inbound/allocateWarehouse', data })
 }
+// 获取仓库信息
+export const getWhareaInfo = async (params) => {
+    return await request.get({ url: '/jinko/baseWarehouse/page', params })
+}

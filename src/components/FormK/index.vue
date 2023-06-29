@@ -1,8 +1,8 @@
 <template>
   <ElForm :model="formData" :label-width="labelWidth" :inline="true" :rules="rules" ref="myForm">
     <ElFormItem v-for="item in formOption" :key="item.field" :label="item.label" :prop="item.field">
-      <MyInput v-if="item.type === 'input'" :placeholder="item.placeholder" v-model="formData[item.field]"
-        @onChange="onChange" />
+      <MyInput v-if="item.type === 'input'" :disabled="item.disabled" :placeholder="item.placeholder"
+        v-model="formData[item.field]" @onChange="onChange" />
       <MySelect v-else-if="item.type === 'select'" :placeholder="item.placeholder" v-model="formData[item.field]"
         :options="item.options" :requestOptions="item.requestOptions" :disabled="item.disabled" @onChange="onChange" />
       <MyDatePicker v-else-if="item.type === 'date' || item.type === 'daterange'" :type="item.type"
@@ -11,7 +11,7 @@
         :requestOptions="item.requestOptions" v-model="formData[item.field]" @onChange="onChange" />
       <MyInputTable v-else-if="item.type === 'inputTable'" :placeholder="item.placeholder" v-model="formData[item.field]"
         :valueKey="item.valueKey" :tableData="item.tableData" :disabled="item.disabled" :tableOption="item.tableOption"
-        :tableConfig="item.tableConfig" @onChange="onChange" />
+        :tableConfig="item.tableConfig" @onChange="onChange" @getMyInputTableData="getMyInputTableData" />
     </ElFormItem>
     <ElFormItem v-if="showButton">
       <template #default>
@@ -77,6 +77,15 @@ watch(() => props.formState, (newV: Object) => {
 
 const onChange = () => {
   emits('update:formState', formData.value)
+}
+
+const getMyInputTableData = () => {
+  // Object.assign(formData.value, val)
+  // onChange()
+  // watch(() => val, (newVal) => {
+  //   Object.assign(formData.value, newVal)
+  //   onChange()
+  // })
 }
 
 // 校验

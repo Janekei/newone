@@ -235,7 +235,7 @@ const submitForm = async () => {
         }
     } else if (formType.value === '绑定车辆') {
         if (recordData.value.carNumBefore !== undefined) {
-            const res = await OutboundInstruction.bindCart({ ids: props.outIds, numberPlate: recordData.value.carNumBefore, dirverId: recordData.value.id })
+            const res = await OutboundInstruction.bindCart({ ids: props.outIds, numberPlate: recordData.value.carNumBefore, driverId: recordData.value.id })
             if (res) {
                 ElMessage.success('绑定车辆成功')
             } else {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <TableK url="/jinko/inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
-            :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
+            :tableOption="tableOption" :showIndex="true" :showExpand="true" @select-this-column="selectRow"
             @click-this-column="clickThisColumn">
             <template #buttons>
                 <SearchContent :formOption="formOptionHome" @click-search="clickSearch"
@@ -29,7 +29,7 @@
             </template>
         </TableK>
     </div>
-    <DialogAllotWharehouse ref="refDialog" @success="refresh" />
+    <DialogAllotWharehouse ref="refDialog" :ids="ids" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -131,10 +131,24 @@ const resetForm = () => {
     refresh()
 }
 
+// 获得选中行id
+let ids: any = ref([])
+const selectRow = (rows) => {
+    ids.value = []
+    rows.forEach(item => {
+        ids.value.push(item.id)
+    })
+}
+
 // 分配仓库
 const refDialog = ref()
 const allotWshouse = () => {
-    refDialog.value.open('分配仓库')
+    if (ids.value.length > 0) {
+        refDialog.value.open('分配仓库')
+    } else {
+        ElMessage.error('请选择行！')
+    }
+
 }
 
 // 刷新列表

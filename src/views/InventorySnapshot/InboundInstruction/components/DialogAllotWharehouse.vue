@@ -1,6 +1,7 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle" width="700" center>
         <div ref="refDialog">
+            <!-- {{ formData }} -->
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="6em" ref="formRef" />
         </div>
         <template #footer>
@@ -14,14 +15,32 @@
 import { ElButton } from 'element-plus'
 import { Dialog } from '@/components/Dialog'
 import { ref } from 'vue'
-// import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
+import * as InboundInstruction from '@/api/inventorysnapshot/inboundinstruction'
 
+// const props = defineProps({
+//     ids: {
+//         type: Array as any,
+//         default: () => { }
+//     }
+// })
+let formData = ref({
+    bsWhareaName: undefined
+})
+// let bsWhareaName = formData.value.bsWhareaName
 
-defineProps({
-
+watch(() => formData.value.bsWhareaName, (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+        console.log(1)
+        // getWhareHouseInfo(newVal)
+    }
 })
 
-let formData = ref({})
+// 根据仓库名称获取信息
+// const getWhareHouseInfo = async (name) => {
+//     const res = await InboundInstruction.getWhareaInfo({ name })
+//     Object.assign(formData.value, res.list[0])
+// }
+
 const formOption = reactive([
     {
         type: 'inputTable',
@@ -31,12 +50,12 @@ const formOption = reactive([
         rules: [
             { required: true, message: '请输入起运国', trigger: 'change' }
         ],
-        valueKey: 'name',
+        valueKey: 'bsWhareaName',
         tableConfig: {
             url: '/jinko/baseWarehouse/page',
             tableOption: [
                 {
-                    prop: 'name',
+                    prop: 'bsWhareaName',
                     label: '仓库名'
                 },
                 {
@@ -58,18 +77,21 @@ const formOption = reactive([
         field: 'provinceName',
         placeholder: '',
         label: '省份',
+        disabled: true
     },
     {
         type: 'input',
         field: 'cityName',
         placeholder: '',
         label: '城市',
+        disabled: true
     },
     {
         type: 'input',
         field: 'address',
         placeholder: '',
         label: '具体地址',
+        disabled: true
     },
     {
         type: 'input',
@@ -88,7 +110,7 @@ const formLoading = ref(false) // 表单的加载中：1）修改时的数据加
 
 
 // 打开弹窗方法
-const open = (title: string) => {
+const open = async (title: string) => {
     reset()
     dialogVisible.value = true
     dialogTitle.value = title
@@ -97,7 +119,8 @@ const open = (title: string) => {
 const emit = defineEmits(['success'])
 
 const submitForm = async () => {
-
+    const res = await InboundInstruction.allotWhareahouse(formData.value)
+    console.log(res)
     dialogVisible.value = false
     // 发送操作成功的事件
     emit('success')
