@@ -48,8 +48,8 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'bl',
-        label: '提单号',
+        prop: 'containerNumber',
+        label: '集装箱号',
         width: '180'
     },
     {
