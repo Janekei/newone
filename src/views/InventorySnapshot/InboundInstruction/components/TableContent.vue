@@ -1,11 +1,11 @@
 <template>
     <div>
-        <TableK url="/jinko/gscwhinbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
+        <TableK url="/jinko/inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
             @click-this-column="clickThisColumn">
             <template #buttons>
                 <SearchContent :formOption="formOptionHome" @click-search="clickSearch"
-                    @update:form-state="updateSearchData" @reset-form="resetForm" />
+                    @update:form-state="updateSearchData" @reset-form="resetForm" @allotWshouse="allotWshouse" />
             </template>
             <template #expand="{ expandRow }">
                 <DescriptionInboundList :descList="expandRow" />
@@ -29,6 +29,7 @@
             </template>
         </TableK>
     </div>
+    <DialogAllotWharehouse ref="refDialog" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -38,6 +39,7 @@ import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from '../components/SearchContent.vue'
 import DescriptionInboundList from './DescriptionInboundList.vue';
+import DialogAllotWharehouse from './DialogAllotWharehouse.vue'
 
 const props = defineProps({
     transportStatus: {
@@ -129,6 +131,11 @@ const resetForm = () => {
     refresh()
 }
 
+// 分配仓库
+const refDialog = ref()
+const allotWshouse = () => {
+    refDialog.value.open('分配仓库')
+}
 
 // 刷新列表
 const refresh = () => {
