@@ -30,20 +30,21 @@ let formData = ref({
     arrivalCountryId: undefined,
     arrivalPortName: undefined,
     arrivalPortId: undefined,
+    transferPort: 0,
+    transportMode: 0
 })
 
 // 数据字典获取运输方式,直达/中转
 const transferPort = ref()
 const directTransfer = ref()
-const getExceptionType = () => {
+const getListType = () => {
     const res = getIntDictOptions('standard_time_rules')
     transferPort.value = res
     const data = getIntDictOptions('direct_transfer')
     directTransfer.value = data
-
 }
 onMounted(() => {
-    getExceptionType()
+    getListType()
 })
 
 
@@ -107,7 +108,7 @@ const formOption = reactive([
                     label: '港口名'
                 },
                 {
-                    props: 'id',
+                    prop: 'id',
                     label: 'Code'
                 }
             ]
@@ -135,7 +136,7 @@ const formOption = reactive([
                     label: '国家'
                 },
                 {
-                    props: 'id',
+                    prop: 'id',
                     label: 'Code'
                 }
             ]
@@ -163,7 +164,7 @@ const formOption = reactive([
                     label: '港口名'
                 },
                 {
-                    props: 'id',
+                    prop: 'id',
                     label: 'Code'
                 }
             ]
@@ -274,6 +275,10 @@ const open = async (type: string, id?: number) => {
     if (id && formType.value === '编辑') {
         const res = await standardTimeRulesApi.searchTimeRules({ id })
         formData.value = res
+        console.log(formData.value)
+        // 获取运输方式，直达/中转的label
+        formData.value.transportMode = Number(formData.value.transportMode)
+        formData.value.transferPort = Number(formData.value.transferPort)
     } else {
         deleteId.value = id
     }
@@ -337,6 +342,8 @@ const resetForm = () => {
         arrivalCountryId: undefined,
         arrivalPortName: undefined,
         arrivalPortId: undefined,
+        transferPort: 0,
+        transportMode: 0
     }
 }
 

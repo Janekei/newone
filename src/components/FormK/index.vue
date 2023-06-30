@@ -1,8 +1,8 @@
 <template>
   <ElForm :model="formData" :label-width="labelWidth" :inline="true" :rules="rules" ref="myForm">
     <ElFormItem v-for="item in formOption" :key="item.field" :label="item.label" :prop="item.field">
-      <MyInput v-if="item.type === 'input'" :placeholder="item.placeholder" v-model="formData[item.field]"
-        @onChange="onChange" />
+      <MyInput v-if="item.type === 'input'" :disabled="item.disabled" :placeholder="item.placeholder"
+        v-model="formData[item.field]" @onChange="onChange" />
       <MySelect v-else-if="item.type === 'select'" :placeholder="item.placeholder" v-model="formData[item.field]"
         :options="item.options" :requestOptions="item.requestOptions" :disabled="item.disabled" @onChange="onChange" />
       <MyDatePicker v-else-if="item.type === 'date' || item.type === 'daterange'" :type="item.type"
@@ -82,6 +82,15 @@ watch(() => props.formState, (newV: Object) => {
 const onChange = (row?) => {
   props.setFormData && props.setFormData(formData, row)
   emits('update:formState', formData.value)
+}
+
+const getMyInputTableData = () => {
+  // Object.assign(formData.value, val)
+  // onChange()
+  // watch(() => val, (newVal) => {
+  //   Object.assign(formData.value, newVal)
+  //   onChange()
+  // })
 }
 
 // 校验

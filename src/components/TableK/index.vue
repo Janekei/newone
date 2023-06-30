@@ -21,8 +21,16 @@
         :header-cell-style="{ 'text-align': 'center' }">
         <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
         <ElTableColumn label="序号" type="index" width="100" align="center" v-if="showIndex" />
-        <ElTableColumn :show-overflow-tooltip="true"  :prop="item.prop" :label="item.label" :width="item.width"
+        <ElTableColumn :show-overflow-tooltip="true" :prop="item.prop" :label="item.label" :width="item.width"
           v-for="(item, index) in tableOption" :key="index + 'a'">
+          <template v-if="item.childrenColumn">
+            <ElTableColumn v-for="(ele, idx) in item.childrenColumn" :type="ele.type" :prop="ele.prop" :label="ele.label"
+              :width="ele.width" :key="idx + 'b'">
+              <template #default="{ row }" v-if="ele.slotName">
+                <slot :name="ele.slotName" :row="{ row }"></slot>
+              </template>
+            </ElTableColumn>
+          </template>
           <template #default="{ row }" v-if="item.slotName">
             <slot :name="item.slotName" :row="{ row }">{{ index }}</slot>
           </template>
@@ -111,6 +119,10 @@ const props = defineProps({
   layout: {
     type: String,
     default: () => "total, sizes, prev, pager, next, jumper"
+  },
+  editData: {
+    type: Function,
+    default: null
   }
 })
 
@@ -147,6 +159,7 @@ const getData = () => {
   request[method]({ url, params: parameter, data: datater }).then((res: any) => {
     // console.log(res, 111)
     tableData.value = res.list || res
+    props.editData && (tableData.value = props.editData(tableData.value))
     total.value = res.total
     loading.value = false
   }).catch(() => {
@@ -189,7 +202,7 @@ const refresh = () => {
 // 选中项
 const elTable = ref()
 const selectAll = ref([])
-const emits = defineEmits(['clickThisColumn', 'selectThisColumn'])
+const emits = defineEmits(['clickThisColumn', 'selectThisColumn', 'sendTableData'])
 const handleSelectionChange = (rows) => {
   selectAll.value = rows
   emits('selectThisColumn', rows)

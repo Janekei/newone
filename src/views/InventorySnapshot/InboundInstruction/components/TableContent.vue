@@ -1,11 +1,11 @@
 <template>
     <div>
-        <TableK url="/jinko/gscwhinbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
-            :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
+        <TableK url="/jinko/inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
+            :tableOption="tableOption" :showIndex="true" :showExpand="true" @select-this-column="selectRow"
             @click-this-column="clickThisColumn">
             <template #buttons>
                 <SearchContent :formOption="formOptionHome" @click-search="clickSearch"
-                    @update:form-state="updateSearchData" @reset-form="resetForm" />
+                    @update:form-state="updateSearchData" @reset-form="resetForm" @allotWshouse="allotWshouse" />
             </template>
             <template #expand="{ expandRow }">
                 <DescriptionInboundList :descList="expandRow" />
@@ -29,6 +29,7 @@
             </template>
         </TableK>
     </div>
+    <DialogAllotWharehouse ref="refDialog" :ids="ids" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -38,6 +39,7 @@ import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from '../components/SearchContent.vue'
 import DescriptionInboundList from './DescriptionInboundList.vue';
+import DialogAllotWharehouse from './DialogAllotWharehouse.vue'
 
 const props = defineProps({
     transportStatus: {
@@ -66,36 +68,36 @@ const tableOption = reactive([
     {
         prop: 'totalBox',
         label: '柜量',
-        width: '180'
+        width: '100'
     },
     {
         prop: 'estInTime',
         label: '预计入库时间',
         slotName: 'estInTime',
-        width: '180'
+        width: '140'
     },
     {
         prop: 'eta',
         label: '预计到港时间',
         slotName: 'eta',
-        width: '180'
+        width: '140'
     },
     {
         prop: 'etd',
         label: '实际离港时间',
         slotName: 'etd',
-        width: '180'
+        width: '140'
     },
     {
         prop: 'tardeWayConfigWay',
         label: '贸易条款',
-        width: '180'
+        width: '160'
     },
     {
         prop: 'transportStatus',
         label: '状态',
         slotName: 'transportStatus',
-        width: '180'
+        width: '100'
     }
 ])
 // 入库指令首页搜索框数据
@@ -129,6 +131,25 @@ const resetForm = () => {
     refresh()
 }
 
+// 获得选中行id
+let ids: any = ref([])
+const selectRow = (rows) => {
+    ids.value = []
+    rows.forEach(item => {
+        ids.value.push(item.id)
+    })
+}
+
+// 分配仓库
+const refDialog = ref()
+const allotWshouse = () => {
+    if (ids.value.length > 0) {
+        refDialog.value.open('分配仓库')
+    } else {
+        ElMessage.error('请选择行！')
+    }
+
+}
 
 // 刷新列表
 const refresh = () => {

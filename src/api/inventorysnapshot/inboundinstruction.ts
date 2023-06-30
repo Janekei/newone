@@ -2,7 +2,7 @@ import request from '@/config/axios'
 
 // 获取入库指令分页信息
 export const getInboundListTotal = async (params) => {
-    return await request.get({ url: '/jinko/gscwhinbound/getInboundNumber', params })
+    return await request.get({ url: '/jinko/inbound/getInboundNumber', params })
 }
 
 // 获取入库指令信息 ----传入参数id
@@ -12,7 +12,7 @@ export const getInboundList = async (params) => {
 
 // 获取运单信息 ----传入参数id
 export const getListItemDetail = async (params) => {
-    return await request.get({ url: '/jinko/gscwhinbound/getInformation', params })
+    return await request.get({ url: '/jinko/inbound/getInformation', params })
 }
 
 // 整批入库功能
@@ -49,4 +49,13 @@ export const recordErrorBox = async (params) => {
 // 异常登记----托纬度
 export const recordErrorTray = async (params) => {
     return await request.post({ url: '/jinko/gscwhstockpallets/trayAndException', data: params })
+}
+
+// 分配仓库
+export const allotWhareahouse = async (data) => {
+    return await request.post({ url: '/jinko/inbound/allocateWarehouse', data })
+}
+// 获取仓库信息
+export const getWhareaInfo = async (params) => {
+    return await request.get({ url: '/jinko/baseWarehouse/page', params })
 }
