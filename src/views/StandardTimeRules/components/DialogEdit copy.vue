@@ -1,9 +1,8 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle" :width="formType == '删除' ? 400 : 1400">
-        {{ formData }}
         <div class="form-box">
             <FormK v-if="formType != '删除'" :formOption="formOption" v-model:formState="formData" labelWidth="13rem"
-                :setFormData="setFormData" ref="formRef" />
+                ref="formRef" @update:formState="updateFormData" />
             <div style="text-align: center;" v-else>你确定要删除吗？</div>
         </div>
         <template #footer>
@@ -16,7 +15,7 @@
 <script lang="ts" setup>
 import { Dialog } from '@/components/Dialog'
 import { ElButton, ElMessage } from 'element-plus'
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { getIntDictOptions } from '@/utils/dict'
 import FormK from '@/components/FormK/index.vue'
 import * as standardTimeRulesApi from '@/api/standardtimerules/standardtimerules'
@@ -53,6 +52,53 @@ const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
 const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
+
+
+// 监听国家/港口的变化
+watch(() => [
+    formData.value.departureCountryName,
+    formData.value.departurePortName,
+    formData.value.arrivalCountryName,
+    formData.value.arrivalPortName
+],
+    (newVal) => {
+        if (newVal[0] !== undefined) {
+            findDepartureCountry(newVal[0], 'dc')
+        }
+        if (newVal[1] !== undefined) {
+            findDepartureCountry(newVal[1], 'dp')
+        }
+        if (newVal[2] !== undefined) {
+            findDepartureCountry(newVal[2], 'ac')
+        }
+        if (newVal[3] !== undefined) {
+            findDepartureCountry(newVal[3], 'ap')
+        }
+    })
+// 获取起运国id
+const findDepartureCountry = async (name, type) => {
+    let data = {
+        name,
+        pageNo: 1,
+        pageSize: 5
+    }
+    const res = await standardTimeRulesApi.findCountry(data)
+    let id = res.list[0].id
+    switch (type) {
+        case 'dc':
+            formData.value.departureCountryId = id;
+            break;
+        case 'dp':
+            formData.value.departurePortId = id;
+            break;
+        case 'ac':
+            formData.value.arrivalCountryId = id;
+            break;
+        case 'ap':
+            formData.value.arrivalPortId = id;
+            break;
+    }
+}
 
 
 // var disabled = ref(true)
@@ -251,14 +297,14 @@ const formOption = reactive([
     }
 ])
 
-// const updateFormData = (val) => {
-//     formData.value = val
-// }
-
-
-const setFormData = (formData, row) => {
-    formData.value['departureCountryId'] = row.id
+const updateFormData = (val) => {
+    formData.value = val
 }
+
+
+
+
+
 
 // 表单Ref
 const formRef = ref()

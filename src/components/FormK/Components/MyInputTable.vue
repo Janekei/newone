@@ -82,13 +82,13 @@ watch(showPopoverRef, (newV) => {
   }
 })
 
-const change = (value: any) => {
+const change = (value: any, row?) => {
   emits('update:modelValue', value)
-  emits('onChange', value)
+  emits('onChange', row)
 }
 
 const clickThisColumn = (row: any) => {
-  change(row[props.valueKey])
+  change(row[props.valueKey], row)
 }
 
 // 搜索可选项
