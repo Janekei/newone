@@ -1,9 +1,12 @@
 <template>
     <div>
         <TableK v-if="show" url="/jinko/standardTime/standardPlanPage" method="get" :params="formData" ref="tableRef"
-            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
+            :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :editData="editData">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+            </template>
+            <template #planTime="{ row }">
+                <span>{{ row.row }}</span>
             </template>
         </TableK>
     </div>
@@ -18,7 +21,7 @@ import SearchContent from './SearchContent.vue'
 
 let tableOption: any = ref([
     {
-        prop: 'orderNo',
+        prop: 'disCode',
         label: '订单号',
         width: '160'
     }
@@ -32,18 +35,21 @@ const getDictList = () => {
     const res = getIntDictOptions('standard_time_compare_real_time')
     res.forEach((item, index) => {
         tableOption.value.push({
-            type: item.value,
             label: item.label,
-            multiColoumn: [
+            childrenColumn: [
                 {
-                    prop: 'orderNo',
+                    type: item.value,
+                    prop: 'planTime',
                     label: '标准时间',
-                    width: '160'
+                    width: '160',
+                    slotName: 'planTime'
                 },
                 {
-                    prop: 'orderNo',
+                    type: item.value,
+                    prop: 'actualTime',
                     label: '实际时间',
-                    width: '160'
+                    width: '160',
+                    slotName: 'actualTime'
                 },
             ]
         })
@@ -58,6 +64,11 @@ const getDictList = () => {
 onBeforeMount(() => {
     getDictList()
 })
+
+// 处理表格数据
+const editData = (list) => {
+    console.log(list, 66);
+}
 
 
 
