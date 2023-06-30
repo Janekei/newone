@@ -103,7 +103,6 @@ const initChart = async function (name: string) {
         chart.setOption(setOption(name), true)
         chart.on('click', function (params: any) {
             console.log(params, 88);
-
             initChart(params.name)
             emits('toggleMapFlagFn')
         })

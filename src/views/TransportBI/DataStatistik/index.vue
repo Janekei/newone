@@ -1,27 +1,27 @@
 <template>
- <div class="flex-div">
-  <div class="flex-div-item">
-   <Card title="正常订单分布">
-    <NormaleAuftrage :data="normaleAuftrageData" v-if="showNormaleAuftrage" />
-   </Card>
+  <div class="flex-div">
+    <div class="flex-div-item">
+      <Card title="正常订单分布">
+        <NormaleAuftrage :data="normaleAuftrageData" v-if="showNormaleAuftrage" />
+      </Card>
+    </div>
+    <div class="flex-div-item">
+      <Card title="正常供应商分布">
+        <Normalversorgung id="normalversorgung" :data="normalversorgungData" v-if="showNormalversorgung" />
+      </Card>
+    </div>
+    <div class="flex-div-item" style="margin-top: 2rem">
+      <Card title="超期订单分布">
+        <UberfalligeAuftrage id="uberfallige-auftrage" :data="uberfalligeAuftrageData" v-if="showUberfalligeAuftrage" />
+      </Card>
+    </div>
+    <div class="flex-div-item" style="margin-top: 2rem">
+      <Card title="超期订单-供应商">
+        <UberfalligeAuftrageG id="uberfallige-auftrage-g" :data="supplierForOverdueOrdersData"
+          v-if="showSupplierForOverdueOrders" />
+      </Card>
+    </div>
   </div>
-  <div class="flex-div-item">
-   <Card title="正常供应商分布">
-    <Normalversorgung id="normalversorgung" :data="normalversorgungData" v-if="showNormalversorgung" />
-   </Card>
-  </div>
-  <div class="flex-div-item" style="margin-top: 2rem">
-   <Card title="超期订单分布">
-    <UberfalligeAuftrage id="uberfallige-auftrage" :data="uberfalligeAuftrageData" v-if="showUberfalligeAuftrage" />
-   </Card>
-  </div>
-  <div class="flex-div-item" style="margin-top: 2rem">
-   <Card title="超期订单-供应商">
-    <UberfalligeAuftrageG id="uberfallige-auftrage-g" :data="supplierForOverdueOrdersData"
-     v-if="showSupplierForOverdueOrders" />
-   </Card>
-  </div>
- </div>
 </template>
 
 <script setup lang="ts">
@@ -36,60 +36,64 @@ import { normaleAuftrage, normalversorgung, uberfalligeAuftrage, supplierForOver
 const normaleAuftrageData = ref()
 const showNormaleAuftrage = ref(false)
 const getNormaleAuftrageData = () => {
- normaleAuftrage({}).then(res => {
-  showNormaleAuftrage.value = true
-  normaleAuftrageData.value = res
- })
+  normaleAuftrage({}).then(res => {
+    showNormaleAuftrage.value = true
+    normaleAuftrageData.value = res
+    console.log(normaleAuftrageData.value, 42);
+
+  })
 }
 
 const normalversorgungData = ref()
 const showNormalversorgung = ref(false)
 const getNormalversorgungData = () => {
- normalversorgung({}).then(res => {
-  showNormalversorgung.value = true
-  normalversorgungData.value = res
- })
+  normalversorgung({}).then(res => {
+    showNormalversorgung.value = true
+    normalversorgungData.value = res
+    console.log(normalversorgungData.value, 53);
+
+  })
 }
 
 const uberfalligeAuftrageData = ref()
 const showUberfalligeAuftrage = ref(false)
 const getUberfalligeAuftrageData = () => {
- uberfalligeAuftrage({}).then(res => {
-  showUberfalligeAuftrage.value = true
-  uberfalligeAuftrageData.value = res
- })
+  uberfalligeAuftrage({}).then(res => {
+    showUberfalligeAuftrage.value = true
+    uberfalligeAuftrageData.value = res
+  })
 }
 
 const supplierForOverdueOrdersData = ref()
 const showSupplierForOverdueOrders = ref(false)
 const getSupplierForOverdueOrdersData = () => {
- supplierForOverdueOrders({}).then(res => {
-  showSupplierForOverdueOrders.value = true
-  supplierForOverdueOrdersData.value = res
- })
+  supplierForOverdueOrders({}).then(res => {
+    showSupplierForOverdueOrders.value = true
+    supplierForOverdueOrdersData.value = res
+  })
 }
 
 onMounted(() => {
- getNormaleAuftrageData()
- getNormalversorgungData()
- getUberfalligeAuftrageData()
- getSupplierForOverdueOrdersData()
+  getNormaleAuftrageData()
+  getNormalversorgungData()
+  getUberfalligeAuftrageData()
+  getSupplierForOverdueOrdersData()
 })
 
 </script>
 
 <style lang="scss">
 #app {
- overflow: auto;
+  overflow: auto;
 }
 
 .flex-div {
- display: flex;
- flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 
- &-item {
-  width: 50%;
-  height: 270px;
- }
+  &-item {
+    width: 50%;
+    height: 270px;
+  }
 }
 </style>
