@@ -3,7 +3,7 @@
         {{ formData }}
         <div class="form-box">
             <FormK v-if="formType != '删除'" :formOption="formOption" v-model:formState="formData" labelWidth="13rem"
-                :setFormData="setFormData" ref="formRef" />
+                ref="formRef" />
             <div style="text-align: center;" v-else>你确定要删除吗？</div>
         </div>
         <template #footer>
@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { Dialog } from '@/components/Dialog'
 import { ElButton, ElMessage } from 'element-plus'
-import { ref, reactive } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { getIntDictOptions } from '@/utils/dict'
 import FormK from '@/components/FormK/index.vue'
 import * as standardTimeRulesApi from '@/api/standardtimerules/standardtimerules'
@@ -67,6 +67,9 @@ const formOption = reactive([
             { required: true, message: '请输入起运国', trigger: 'change' }
         ],
         valueKey: 'name',
+        setFormData: (row) => {
+            formData.value['departureCountryId'] = row.id
+        },
         tableConfig: {
             method: 'post',
             data: {
@@ -257,9 +260,9 @@ const formOption = reactive([
 // }
 
 
-const setFormData = (formData, row) => {
-    formData.value['departureCountryId'] = row.id
-}
+// const setFormData = (formData, row) => {
+//     formData.value['departureCountryId'] = row.id
+// }
 
 // 表单Ref
 const formRef = ref()
@@ -267,7 +270,6 @@ const formRef = ref()
 // 打开弹窗方法
 const deleteId = ref()
 const open = async (type: string, id?: number) => {
-    resetForm()
     dialogVisible.value = true
     formType.value = type
     dialogTitle.value = type + '标准时间规则'
@@ -283,6 +285,12 @@ const open = async (type: string, id?: number) => {
         deleteId.value = id
     }
 }
+
+watch(dialogVisible, (newV) => {
+    if (newV === false) {
+        formRef.value.resetFields()
+    }
+})
 defineExpose({
     open
 })
@@ -290,61 +298,54 @@ defineExpose({
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emit = defineEmits(['success'])
-const submitForm = async () => {
-    if (formType.value === '增加') {
-        if (formData.value.departureCountryName == formData.value.departurePortName
-            && formData.value.arrivalCountryName == formData.value.arrivalPortName
-            && formData.value.departurePortName == formData.value.arrivalCountryName) {
-            ElMessage.error('国家/港口不能全部选择相同！')
-            return;
+const submitForm = () => {
+    formRef.value.validate(async (valid, fields) => {
+        console.log(valid, fields);
+        if (valid) {
+            if (formType.value === '增加') {
+                if (formData.value.departureCountryName == formData.value.departurePortName
+                    && formData.value.arrivalCountryName == formData.value.arrivalPortName
+                    && formData.value.departurePortName == formData.value.arrivalCountryName) {
+                    ElMessage.error('国家/港口不能全部选择相同！')
+                    return;
+                }
+                const res = await standardTimeRulesApi.addTimeRules(formData.value)
+                if (res) {
+                    ElMessage.success('新增标准时间规则成功')
+                    resetForm()
+                } else {
+                    ElMessage.error('新增标准时间规则失败')
+                }
+            } else if (formType.value === '编辑') {
+                const res = await standardTimeRulesApi.updateTimeRules(formData.value)
+                if (res) {
+                    ElMessage.success('修改标准时间规则成功')
+                    resetForm()
+                } else {
+                    ElMessage.error('修改标准时间规则失败')
+                }
+            } else {
+                console.log(deleteId)
+                const res = await standardTimeRulesApi.deleteTimeRules({ id: deleteId.value })
+                if (res) {
+                    ElMessage.success('删除成功')
+                } else {
+                    ElMessage.success('删除失败')
+                }
+            }
+            dialogVisible.value = false
+            // 发送操作成功的事件
+            emit('success')
         }
-        const res = await standardTimeRulesApi.addTimeRules(formData.value)
-        if (res) {
-            ElMessage.success('新增标准时间规则成功')
-            resetForm()
-        } else {
-            ElMessage.error('新增标准时间规则失败')
-        }
-        resetForm()
-    } else if (formType.value === '编辑') {
-        const res = await standardTimeRulesApi.updateTimeRules(formData.value)
-        if (res) {
-            ElMessage.success('修改标准时间规则成功')
-            resetForm()
-        } else {
-            ElMessage.error('修改标准时间规则失败')
-        }
-        resetForm()
-    } else {
-        console.log(deleteId)
-        const res = await standardTimeRulesApi.deleteTimeRules({ id: deleteId.value })
-        if (res) {
-            ElMessage.success('删除成功')
-        } else {
-            ElMessage.success('删除失败')
-        }
-    }
-    dialogVisible.value = false
-    // 发送操作成功的事件
-    emit('success')
+    })
+
 }
 
 
 // 重置表单数据
 /** 重置表单 */
 const resetForm = () => {
-    formData.value = {
-        departureCountryName: undefined,
-        departureCountryId: undefined,
-        departurePortName: undefined,
-        departurePortId: undefined,
-        arrivalCountryName: undefined,
-        arrivalCountryId: undefined,
-        arrivalPortName: undefined,
-        arrivalPortId: undefined,
-        transferPort: 0,
-        transportMode: 0
-    }
+    formRef.value.resetFields()
 }
 
 

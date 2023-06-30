@@ -79,19 +79,18 @@ watch(() => props.formState, (newV: Object) => {
   formData.value = cloneDeep(newV)
 }, { immediate: true })
 
-const onChange = (row?) => {
-  props.setFormData && props.setFormData(formData, row)
+const onChange = () => {
   emits('update:formState', formData.value)
 }
 
-const getMyInputTableData = () => {
-  // Object.assign(formData.value, val)
-  // onChange()
-  // watch(() => val, (newVal) => {
-  //   Object.assign(formData.value, newVal)
-  //   onChange()
-  // })
-}
+// const getMyInputTableData = () => {
+//   // Object.assign(formData.value, val)
+//   // onChange()
+//   // watch(() => val, (newVal) => {
+//   //   Object.assign(formData.value, newVal)
+//   //   onChange()
+//   // })
+// }
 
 // 校验
 const rules = reactive({})

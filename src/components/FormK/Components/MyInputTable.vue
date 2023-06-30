@@ -14,7 +14,7 @@
     </ElInput>
     <TableK :tableOption="tableConfig.tableOption" size="small" :firstPages="5" :showCheckBox="false" pageSmall
       ref="TableKRef" @clickThisColumn="clickThisColumn" :url="tableConfig.url" :params="params"
-      :method="tableConfig.method" :data="tableConfig.data" @getTableData="getTableData" />
+      :method="tableConfig.method" :data="tableConfig.data" />
   </ElPopover>
 </template>
 
@@ -41,7 +41,11 @@ const props = defineProps({
   tableConfig: {
     type: Object as any,
     default: () => ({})
-  }
+  },
+  setFormData: {
+    type: Function,
+    default: null
+  },
 })
 
 
@@ -63,9 +67,9 @@ const params = computed(() => {
     searchKey: searchKey.value
   }
 })
-const getTableData = (tableData) => {
-  emits('getMyInputTableData', tableData)
-}
+// const getTableData = (tableData) => {
+//   emits('getMyInputTableData', tableData)
+// }
 
 
 // 回车事件
@@ -87,7 +91,8 @@ watch(showPopoverRef, (newV) => {
 
 const change = (value: any, row?) => {
   emits('update:modelValue', value)
-  emits('onChange', row)
+  emits('onChange')
+  props.setFormData && props.setFormData(row)
 }
 
 const clickThisColumn = (row: any) => {
