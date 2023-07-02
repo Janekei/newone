@@ -1,9 +1,8 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle" :width="formType == '删除' ? 400 : 1400">
-        {{ formData }}
         <div class="form-box">
             <FormK v-if="formType != '删除'" :formOption="formOption" v-model:formState="formData" labelWidth="13rem"
-                ref="formRef" />
+                ref="formRef" @update:formState="updateFormData" />
             <div style="text-align: center;" v-else>你确定要删除吗？</div>
         </div>
         <template #footer>
@@ -30,21 +29,20 @@ let formData = ref({
     arrivalCountryId: undefined,
     arrivalPortName: undefined,
     arrivalPortId: undefined,
-    transferPort: 0,
-    transportMode: 0
 })
 
 // 数据字典获取运输方式,直达/中转
 const transferPort = ref()
 const directTransfer = ref()
-const getListType = () => {
+const getExceptionType = () => {
     const res = getIntDictOptions('standard_time_rules')
     transferPort.value = res
     const data = getIntDictOptions('direct_transfer')
     directTransfer.value = data
+
 }
 onMounted(() => {
-    getListType()
+    getExceptionType()
 })
 
 
@@ -54,6 +52,53 @@ const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
 const formType = ref()
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
+
+
+// 监听国家/港口的变化
+watch(() => [
+    formData.value.departureCountryName,
+    formData.value.departurePortName,
+    formData.value.arrivalCountryName,
+    formData.value.arrivalPortName
+],
+    (newVal) => {
+        if (newVal[0] !== undefined) {
+            findDepartureCountry(newVal[0], 'dc')
+        }
+        if (newVal[1] !== undefined) {
+            findDepartureCountry(newVal[1], 'dp')
+        }
+        if (newVal[2] !== undefined) {
+            findDepartureCountry(newVal[2], 'ac')
+        }
+        if (newVal[3] !== undefined) {
+            findDepartureCountry(newVal[3], 'ap')
+        }
+    })
+// 获取起运国id
+const findDepartureCountry = async (name, type) => {
+    let data = {
+        name,
+        pageNo: 1,
+        pageSize: 5
+    }
+    const res = await standardTimeRulesApi.findCountry(data)
+    let id = res.list[0].id
+    switch (type) {
+        case 'dc':
+            formData.value.departureCountryId = id;
+            break;
+        case 'dp':
+            formData.value.departurePortId = id;
+            break;
+        case 'ac':
+            formData.value.arrivalCountryId = id;
+            break;
+        case 'ap':
+            formData.value.arrivalPortId = id;
+            break;
+    }
+}
 
 
 // var disabled = ref(true)
@@ -67,9 +112,6 @@ const formOption = reactive([
             { required: true, message: '请输入起运国', trigger: 'change' }
         ],
         valueKey: 'name',
-        setFormData: (row) => {
-            formData.value['departureCountryId'] = row.id
-        },
         tableConfig: {
             method: 'post',
             data: {
@@ -111,7 +153,7 @@ const formOption = reactive([
                     label: '港口名'
                 },
                 {
-                    prop: 'id',
+                    props: 'id',
                     label: 'Code'
                 }
             ]
@@ -139,7 +181,7 @@ const formOption = reactive([
                     label: '国家'
                 },
                 {
-                    prop: 'id',
+                    props: 'id',
                     label: 'Code'
                 }
             ]
@@ -167,7 +209,7 @@ const formOption = reactive([
                     label: '港口名'
                 },
                 {
-                    prop: 'id',
+                    props: 'id',
                     label: 'Code'
                 }
             ]
@@ -255,14 +297,14 @@ const formOption = reactive([
     }
 ])
 
-// const updateFormData = (val) => {
-//     formData.value = val
-// }
+const updateFormData = (val) => {
+    formData.value = val
+}
 
 
-// const setFormData = (formData, row) => {
-//     formData.value['departureCountryId'] = row.id
-// }
+
+
+
 
 // 表单Ref
 const formRef = ref()
@@ -270,6 +312,7 @@ const formRef = ref()
 // 打开弹窗方法
 const deleteId = ref()
 const open = async (type: string, id?: number) => {
+    resetForm()
     dialogVisible.value = true
     formType.value = type
     dialogTitle.value = type + '标准时间规则'
@@ -277,20 +320,10 @@ const open = async (type: string, id?: number) => {
     if (id && formType.value === '编辑') {
         const res = await standardTimeRulesApi.searchTimeRules({ id })
         formData.value = res
-        console.log(formData.value)
-        // 获取运输方式，直达/中转的label
-        formData.value.transportMode = Number(formData.value.transportMode)
-        formData.value.transferPort = Number(formData.value.transferPort)
     } else {
         deleteId.value = id
     }
 }
-
-watch(dialogVisible, (newV) => {
-    if (newV === false) {
-        formRef.value.resetFields()
-    }
-})
 defineExpose({
     open
 })
@@ -298,54 +331,59 @@ defineExpose({
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emit = defineEmits(['success'])
-const submitForm = () => {
-    formRef.value.validate(async (valid, fields) => {
-        console.log(valid, fields);
-        if (valid) {
-            if (formType.value === '增加') {
-                if (formData.value.departureCountryName == formData.value.departurePortName
-                    && formData.value.arrivalCountryName == formData.value.arrivalPortName
-                    && formData.value.departurePortName == formData.value.arrivalCountryName) {
-                    ElMessage.error('国家/港口不能全部选择相同！')
-                    return;
-                }
-                const res = await standardTimeRulesApi.addTimeRules(formData.value)
-                if (res) {
-                    ElMessage.success('新增标准时间规则成功')
-                    resetForm()
-                } else {
-                    ElMessage.error('新增标准时间规则失败')
-                }
-            } else if (formType.value === '编辑') {
-                const res = await standardTimeRulesApi.updateTimeRules(formData.value)
-                if (res) {
-                    ElMessage.success('修改标准时间规则成功')
-                    resetForm()
-                } else {
-                    ElMessage.error('修改标准时间规则失败')
-                }
-            } else {
-                console.log(deleteId)
-                const res = await standardTimeRulesApi.deleteTimeRules({ id: deleteId.value })
-                if (res) {
-                    ElMessage.success('删除成功')
-                } else {
-                    ElMessage.success('删除失败')
-                }
-            }
-            dialogVisible.value = false
-            // 发送操作成功的事件
-            emit('success')
+const submitForm = async () => {
+    if (formType.value === '增加') {
+        if (formData.value.departureCountryName == formData.value.departurePortName
+            && formData.value.arrivalCountryName == formData.value.arrivalPortName
+            && formData.value.departurePortName == formData.value.arrivalCountryName) {
+            ElMessage.error('国家/港口不能全部选择相同！')
+            return;
         }
-    })
-
+        const res = await standardTimeRulesApi.addTimeRules(formData.value)
+        if (res) {
+            ElMessage.success('新增标准时间规则成功')
+            resetForm()
+        } else {
+            ElMessage.error('新增标准时间规则失败')
+        }
+        resetForm()
+    } else if (formType.value === '编辑') {
+        const res = await standardTimeRulesApi.updateTimeRules(formData.value)
+        if (res) {
+            ElMessage.success('修改标准时间规则成功')
+            resetForm()
+        } else {
+            ElMessage.error('修改标准时间规则失败')
+        }
+        resetForm()
+    } else {
+        console.log(deleteId)
+        const res = await standardTimeRulesApi.deleteTimeRules({ id: deleteId.value })
+        if (res) {
+            ElMessage.success('删除成功')
+        } else {
+            ElMessage.success('删除失败')
+        }
+    }
+    dialogVisible.value = false
+    // 发送操作成功的事件
+    emit('success')
 }
 
 
 // 重置表单数据
 /** 重置表单 */
 const resetForm = () => {
-    formRef.value.resetFields()
+    formData.value = {
+        departureCountryName: undefined,
+        departureCountryId: undefined,
+        departurePortName: undefined,
+        departurePortId: undefined,
+        arrivalCountryName: undefined,
+        arrivalCountryId: undefined,
+        arrivalPortName: undefined,
+        arrivalPortId: undefined,
+    }
 }
 
 

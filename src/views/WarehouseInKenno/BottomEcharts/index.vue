@@ -17,7 +17,7 @@
         <div class="flex-item">
             <Card title="库存状态">
                 <template #card-body>
-                    <PieMap id="饼图" />
+                    <PieMap id="饼图" :data="whstatusData" v-if="showWhstatus" />
                 </template>
             </Card>
         </div>
@@ -29,7 +29,7 @@ import Card from '@/components/Card/index.vue'
 import BarMap from '../Components/BarMap.vue'
 import BarMap1 from '../Components/BarMap1.vue'
 import PieMap from '../Components/PieMap.vue'
-import { day7in, day7out } from '@/api/warehouseInKenno/index'
+import { day7in, day7out, whstatus } from '@/api/warehouseInKenno/index'
 
 const dayIn = ref({
 
@@ -66,6 +66,22 @@ const getDay7outData = () => {
     })
 }
 getDay7outData()
+
+const showWhstatus = ref(false)
+const whstatusData = ref()
+const getWhstatus = () => {
+    whstatus({}).then((res: any) => {
+        console.log(res.source, 74);
+        whstatusData.value = res.source.map(item => {
+            return {
+                name: item.product,
+                value: item.data1
+            }
+        })
+        showWhstatus.value = true
+    })
+}
+getWhstatus()
 </script>
 
 <style scoped lang="scss">

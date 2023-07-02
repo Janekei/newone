@@ -16,3 +16,7 @@ export const day7in = (params: any): Promise<IResponse> => {
 export const day7out = (params: any): Promise<IResponse> => {
     return request.get({ url: '/lcdp/homeWarehouse/day7out', params })
 }
+
+export const whstatus = (params: any): Promise<IResponse> => {
+    return request.get({ url: '/lcdp/homeWarehouse/whstatus', params })
+}

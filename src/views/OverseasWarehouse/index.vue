@@ -1,5 +1,6 @@
 
 <template>
+  <!-- <div @click="fn">返回</div> -->
   <div class="global-background box">
     <ElDrawer title="我是标题" v-model="showDrawer" :with-header="false" direction="ltr" size="20%">
       <!-- <div class="form" draggable="true" @dragstart="dragstart" @dragend="dragend">拖动我</div> -->
@@ -51,6 +52,13 @@ import EchartTemp from './Components/EchartTemp.vue'
 import Overview from '@/views/OverseasWarehouse/Components/Overview/index.vue'
 import BodyLeft from '@/views/OverseasWarehouse/BodyLeft/index.vue'
 import { getEarthData } from '@/api/overseasWarehouse/index'
+
+// const fn = () => {
+//   showMap.value = false
+//   setTimeout(() => {
+//     showMap.value = true
+//   });
+// }
 
 // 拖动实现
 const toggleMapFlag = ref(true)
