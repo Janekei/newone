@@ -1,12 +1,13 @@
 <template>
     <div>
         <TableK v-if="show" url="/jinko/standardTime/standardPlanPage" method="get" :params="formData" ref="tableRef"
-            :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :editData="editData">
+            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
             <template #planTime="{ row }">
-                <span>{{ row.row }}</span>
+                <!-- <span>{{ row.row.standardPlanNodeList }}</span> -->
+                <span>{{ row }}</span>
             </template>
         </TableK>
     </div>
@@ -66,9 +67,9 @@ onBeforeMount(() => {
 })
 
 // 处理表格数据
-const editData = (list) => {
-    console.log(list, 66);
-}
+// const editData = (list) => {
+//     console.log(list, 66);
+// }
 
 
 
