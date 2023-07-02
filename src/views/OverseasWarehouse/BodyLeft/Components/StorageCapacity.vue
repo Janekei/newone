@@ -17,7 +17,6 @@ const inventoryData = ref()
 const showEcahrt = ref(false)
 const getInventory = () => {
     getInventoryData({}).then(res => {
-        console.log(res);
         inventoryData.value = res
         showEcahrt.value = true
     })

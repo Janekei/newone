@@ -1,6 +1,5 @@
 
 <template>
-  <!-- <div @click="fn">返回</div> -->
   <div class="global-background box">
     <ElDrawer title="我是标题" v-model="showDrawer" :with-header="false" direction="ltr" size="20%">
       <!-- <div class="form" draggable="true" @dragstart="dragstart" @dragend="dragend">拖动我</div> -->
@@ -19,6 +18,7 @@
       </div>
       <div class="main-body-center">
         <div class="main-body-center-top">
+          <el-button class="back-btn" @click="back" v-if="showBackbtn" plain :icon="DArrowLeft" circle />
           <Map @toggleMapFlagFn="toggleMapFlagFn" v-if="showMap" :data="earthData" />
         </div>
         <div class="main-body-center-bottom" @dragover="dragover($event, 2)" @drop="drop(2)">
@@ -44,6 +44,7 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { ElDrawer, ElIcon } from 'element-plus'
+import { DArrowLeft } from '@element-plus/icons-vue'
 import Header from './Components/Header.vue'
 import Map from './Components/Map.vue'
 import Card from './Components/EchartCard.vue'
@@ -53,12 +54,13 @@ import Overview from '@/views/OverseasWarehouse/Components/Overview/index.vue'
 import BodyLeft from '@/views/OverseasWarehouse/BodyLeft/index.vue'
 import { getEarthData } from '@/api/overseasWarehouse/index'
 
-// const fn = () => {
-//   showMap.value = false
-//   setTimeout(() => {
-//     showMap.value = true
-//   });
-// }
+const back = () => {
+  showMap.value = false
+  showBackbtn.value = false
+  setTimeout(() => {
+    showMap.value = true
+  });
+}
 
 // 拖动实现
 const toggleMapFlag = ref(true)
@@ -101,7 +103,9 @@ const toggleDrawe = () => {
 }
 
 const inventoryRef = ref()
+const showBackbtn = ref(false)
 const toggleMapFlagFn = () => {
+  showBackbtn.value = true
   toggleMapFlag.value = false
   inventoryRef.value.getOutBound()
 }
@@ -153,6 +157,16 @@ getEarth()
       }
     }
   }
+}
+
+.back-btn {
+  background-color: #caefe8;
+}
+
+.back-btn:hover {
+  border-color: #8ee7d7;
+  color: #505153;
+  font-weight: 700;
 }
 
 .toggle {

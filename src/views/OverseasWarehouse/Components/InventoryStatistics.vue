@@ -19,14 +19,14 @@
                 <div class="top-icon icon"></div>
                 <div class="top-count detail">
                     <span>出库数量</span>
-                    <span>5367</span>
+                    <span>{{ allOutBoundData }}</span>
                 </div>
             </div>
             <div class="count">
                 <div class="bottom-icon icon"></div>
                 <div class="bottom-count detail">
                     <span>入库数量</span>
-                    <span>7289</span>
+                    <span>{{ allInBoundData }}</span>
                 </div>
             </div>
         </div>
@@ -63,10 +63,18 @@ const close = () => {
 const outBoundData = ref()
 const showEcharts = ref(false)
 const echartRef = ref()
+const allInBoundData = ref(0)
+const allOutBoundData = ref(0)
 const getOutBound = () => {
     showEcharts.value = false
     getOutBoundData({}).then(res => {
         outBoundData.value = res
+        allInBoundData.value = 0
+        allOutBoundData.value = 0
+        res.source.forEach(item => {
+            allInBoundData.value += item.data1
+            allOutBoundData.value += item.data2
+        });
         showEcharts.value = true
         echartRef.value && echartRef.value.initChart()
     })

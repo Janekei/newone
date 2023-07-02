@@ -19,3 +19,7 @@ export const getTurnoverData = (params) => {
 export const getStockAgeData = (params) => {
     return request.get({ url: '/lcdp/biwarehoue/stockAge', params })
 }
+
+export const getSituationData = (params) => {
+    return request.get({ url: '/lcdp/biwarehoue/situation', params })
+}
