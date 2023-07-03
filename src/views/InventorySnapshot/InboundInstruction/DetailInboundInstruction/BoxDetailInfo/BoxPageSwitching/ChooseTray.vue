@@ -59,7 +59,7 @@ const selectThisColumn = (rows) => {
 
 // 搜索
 const formData = ref({
-    id: props.containerId
+    containerId: props.containerId
 })
 const tableRef = ref()
 const formOption = reactive([
@@ -81,7 +81,7 @@ const clickSearch = () => {
 }
 const updateSearchData = async (val) => {
     formData.value = {
-        id: props.containerId
+        containerId: props.containerId
     }
     await Object.assign(formData.value, val)
 }
