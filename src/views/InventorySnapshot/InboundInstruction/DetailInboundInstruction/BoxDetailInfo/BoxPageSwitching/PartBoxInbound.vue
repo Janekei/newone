@@ -72,7 +72,7 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'totalVolumn',
+        prop: 'totalVolume',
         label: '体积',
         width: '180'
     },

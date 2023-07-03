@@ -20,7 +20,7 @@ import ChooseTray from './BoxPageSwitching/ChooseTray.vue'
 
 // listItemId：入库指令列表传过来的参数
 const route = useRoute()
-let inboundId: number = parseInt(JSON.parse(route.query.id as any));
+let inboundId = route.query.id;
 // table表格列数据
 // 柜信息搜索框数据
 const props = defineProps({
