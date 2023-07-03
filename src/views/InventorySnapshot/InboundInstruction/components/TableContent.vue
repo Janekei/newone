@@ -89,7 +89,7 @@ const tableOption = reactive([
         width: '140'
     },
     {
-        prop: 'tardeWayConfigWay',
+        prop: 'tradeWayConfigWay',
         label: '贸易条款',
         width: '160'
     },
