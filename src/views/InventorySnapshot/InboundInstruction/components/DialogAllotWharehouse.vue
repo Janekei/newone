@@ -1,18 +1,10 @@
 <template>
   <Dialog v-model="dialogVisible" :title="dialogTitle" width="700" center>
     <div ref="refDialog">
-      {{ formData }}
-      <FormK
-        :formOption="formOption"
-        v-model:formState="formData"
-        labelWidth="6em"
-        ref="myForm"
-      />
+      <FormK :formOption="formOption" v-model:formState="formData" labelWidth="6em" ref="myForm" />
     </div>
     <template #footer>
-      <el-button type="primary" :disabled="formLoading" @click="submitForm"
-        >确认</el-button
-      >
+      <el-button type="primary" :disabled="formLoading" @click="submitForm">确认</el-button>
       <el-button @click="dialogVisible = false">取消</el-button>
     </template>
   </Dialog>
@@ -27,7 +19,7 @@ import * as InboundInstruction from "@/api/inventorysnapshot/inboundinstruction"
 const props = defineProps({
   ids: {
     type: Array as any,
-    default: () => {},
+    default: () => { },
   },
 });
 
@@ -41,6 +33,7 @@ let formData = ref({
   address: undefined,
 });
 
+
 const formOption = reactive([
   {
     type: "inputTable",
@@ -49,6 +42,10 @@ const formOption = reactive([
     label: "仓库名称",
     rules: [{ required: true, message: "请输入仓库名称", trigger: "change" }],
     valueKey: "name",
+    clearData: () => {
+      console.log(222)
+      myForm.value.resetFields()
+    },
     setFormData: (row) => {
       formData.value["id"] = row.id;
       formData.value["name"] = row.name;

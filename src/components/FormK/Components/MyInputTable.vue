@@ -88,7 +88,7 @@ const enterFn = () => {
 
 // 点击×清空按钮清空输入框
 const clearFn = () => {
-  console.log(111);
+  props.clearData && props.clearData()
 };
 
 watch(

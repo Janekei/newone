@@ -11,7 +11,8 @@
         :requestOptions="item.requestOptions" v-model="formData[item.field]" @onChange="onChange" />
       <MyInputTable v-else-if="item.type === 'inputTable'" :placeholder="item.placeholder" v-model="formData[item.field]"
         :valueKey="item.valueKey" :tableData="item.tableData" :disabled="item.disabled" :tableOption="item.tableOption"
-        :tableConfig="item.tableConfig" :setFormData="item.setFormData" @onChange="onChange" />
+        :tableConfig="item.tableConfig" :setFormData="item.setFormData" :clearData="item.clearData"
+        @onChange="onChange" />
     </ElFormItem>
     <ElFormItem v-if="showButton">
       <template #default>
@@ -64,6 +65,10 @@ const props = defineProps({
     default: false
   },
   setFormData: {
+    type: Function,
+    default: null
+  },
+  clearData: {
     type: Function,
     default: null
   }
