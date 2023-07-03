@@ -10,7 +10,7 @@
       <el-button type="default" @click="resetform">重置</el-button>
     </div>
   </div>
-  <div class="center-btn-box">
+  <div class="center-btn-box" v-if="props.isShowAllot">
     <ElButton class="btn" type="primary" @click="allotWshouse">分配仓库</ElButton>
   </div>
 </template>
@@ -23,6 +23,10 @@ const props = defineProps({
   formOption: {
     type: Object as any,
     default: () => { }
+  },
+  isShowAllot: {
+    type: Boolean,
+    default: false
   }
 })
 let formData = reactive({})

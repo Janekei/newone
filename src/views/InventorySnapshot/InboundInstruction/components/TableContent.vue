@@ -4,7 +4,7 @@
             :tableOption="tableOption" :showIndex="true" :showExpand="true" @select-this-column="selectRow"
             @click-this-column="clickThisColumn">
             <template #buttons>
-                <SearchContent :formOption="formOptionHome" @click-search="clickSearch"
+                <SearchContent :isShowAllot="true" :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" @allotWshouse="allotWshouse" />
             </template>
             <template #expand="{ expandRow }">
@@ -16,8 +16,8 @@
             <template #eta="{ row }">
                 <span>{{ formatTime(row.row.eta, 'yyyy-MM-dd') }}</span>
             </template>
-            <template #etd="{ row }">
-                <span>{{ formatTime(row.row.etd, 'yyyy-MM-dd') }}</span>
+            <template #atd="{ row }">
+                <span>{{ formatTime(row.row.atd, 'yyyy-MM-dd') }}</span>
             </template>
             <template #transportStatus="{ row }">
                 <!-- {{ row.row.transportStatus }} -->
@@ -57,7 +57,12 @@ const router = useRouter()
 const tableOption = reactive([
     {
         prop: 'sapDn',
-        label: 'SAP任务号',
+        label: '交货单号',
+        width: '180'
+    },
+    {
+        prop: 'sapDn',
+        label: '入库指令单号',
         width: '180'
     },
     {
@@ -83,9 +88,9 @@ const tableOption = reactive([
         width: '140'
     },
     {
-        prop: 'etd',
+        prop: 'atd',
         label: '实际离港时间',
-        slotName: 'etd',
+        slotName: 'atd',
         width: '140'
     },
     {
