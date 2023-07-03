@@ -6,8 +6,6 @@
             class-name="my-content">{{ props.descList.arrivalLocationName }}</el-descriptions-item>
         <el-descriptions-item label="业务类型" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.type }}</el-descriptions-item>
-        <el-descriptions-item label="贸易方式" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.tradeWayConfigMode }}</el-descriptions-item>
         <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.transportMode }}</el-descriptions-item>
         <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
