@@ -1,13 +1,13 @@
 <template>
- <div style="height: 100%; overflow: auto;">
-  <div class="global-background big-box">
-   <FilterHeader />
-   <List :list="list" />
-   <div class="statistik">
-    <DataStatistik />
-   </div>
-  </div>
- </div>
+    <div style="height: 100%; overflow: auto;">
+        <div class="global-background big-box">
+            <FilterHeader />
+            <List :list="list" />
+            <div class="statistik">
+                <DataStatistik />
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -20,25 +20,26 @@ import { stageOrderDetails } from '@/api/transportBI/index'
 const list = ref()
 
 const getStageOrderDetails = () => {
- stageOrderDetails({}).then(res => {
-  list.value = res
- })
+    stageOrderDetails({}).then(res => {
+        console.log(res, '9898')
+        list.value = res
+    })
 }
 
 onMounted(() => {
- getStageOrderDetails()
+    getStageOrderDetails()
 })
 
 </script>
 
 <style scoped lang="scss">
 .big-box {
- display: flex;
- flex-direction: column;
- padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
 }
 
 .statistik {
- margin-top: 1rem;
+    margin-top: 1rem;
 }
 </style>

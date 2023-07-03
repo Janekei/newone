@@ -5,7 +5,7 @@ export const phaseTime = (data: any): Promise<IResponse> => {
 }
 
 export const deliveringAmount = (data: any): Promise<IResponse> => {
- return request.post({ url: '/lcdp/standardTime/deliveringAmount', data })
+    return request.post({ url: '/lcdp/standardTime/deliveringAmount', data })
 }
 
 export const timelinessRate = (data: any): Promise<IResponse> => {
