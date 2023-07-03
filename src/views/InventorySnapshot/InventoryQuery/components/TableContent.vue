@@ -46,6 +46,11 @@ const tableOption = reactive([
     width: '150'
   },
   {
+    prop: 'bl',
+    label: '提单号',
+    width: '150'
+  },
+  {
     prop: 'type',
     label: '规格型号',
     width: '100'
