@@ -1,6 +1,5 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle" :width="formType == '删除' ? 400 : 1400">
-        {{ formData }}
         <div class="form-box">
             <FormK v-if="formType != '删除'" :formOption="formOption" v-model:formState="formData" labelWidth="13rem"
                 ref="formRef" />
@@ -67,15 +66,14 @@ const formOption = reactive([
             { required: true, message: '请输入起运国', trigger: 'change' }
         ],
         valueKey: 'name',
+        clearData: () => {
+            formData.value['departureCountryId'] = undefined
+        },
         setFormData: (row) => {
             formData.value['departureCountryId'] = row.id
         },
         tableConfig: {
             method: 'post',
-            data: {
-                pageNo: 1,
-                pageSize: 5
-            },
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -98,12 +96,14 @@ const formOption = reactive([
             { required: true, message: '请输入起运港', trigger: 'change' }
         ],
         valueKey: 'name',
+        clearData: () => {
+            formData.value['departurePortId'] = undefined
+        },
+        setFormData: (row) => {
+            formData.value['departurePortId'] = row.id
+        },
         tableConfig: {
             method: 'post',
-            params: {
-                pageNo: 1,
-                pageSize: 5
-            },
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -126,12 +126,14 @@ const formOption = reactive([
             { required: true, message: '请输入目的国', trigger: 'change' }
         ],
         valueKey: 'name',
+        clearData: () => {
+            formData.value['arrivalCountryId'] = undefined
+        },
+        setFormData: (row) => {
+            formData.value['arrivalCountryId'] = row.id
+        },
         tableConfig: {
             method: 'post',
-            params: {
-                pageNo: 1,
-                pageSize: 5
-            },
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -154,12 +156,14 @@ const formOption = reactive([
             { required: true, message: '请输入目的港', trigger: 'change' }
         ],
         valueKey: 'name',
+        clearData: () => {
+            formData.value['arrivalPortId'] = undefined
+        },
+        setFormData: (row) => {
+            formData.value['arrivalPortId'] = row.id
+        },
         tableConfig: {
             method: 'post',
-            params: {
-                pageNo: 1,
-                pageSize: 5
-            },
             url: '/jinko/standardTime/findCountry',
             tableOption: [
                 {
@@ -255,14 +259,6 @@ const formOption = reactive([
     }
 ])
 
-// const updateFormData = (val) => {
-//     formData.value = val
-// }
-
-
-// const setFormData = (formData, row) => {
-//     formData.value['departureCountryId'] = row.id
-// }
 
 // 表单Ref
 const formRef = ref()
@@ -299,8 +295,7 @@ defineExpose({
 // 定义 success 事件，用于操作成功后的回调
 const emit = defineEmits(['success'])
 const submitForm = () => {
-    formRef.value.validate(async (valid, fields) => {
-        console.log(valid, fields);
+    formRef.value.validate(async (valid) => {
         if (valid) {
             if (formType.value === '增加') {
                 if (formData.value.departureCountryName == formData.value.departurePortName
