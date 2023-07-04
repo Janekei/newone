@@ -57,6 +57,7 @@ import { getEarthData } from '@/api/overseasWarehouse/index'
 const back = () => {
   showMap.value = false
   showBackbtn.value = false
+  toggleMapFlag.value = true
   setTimeout(() => {
     showMap.value = true
   });

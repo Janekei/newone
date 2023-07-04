@@ -23,3 +23,11 @@ export const getStockAgeData = (params) => {
 export const getSituationData = (params) => {
     return request.get({ url: '/lcdp/biwarehoue/situation', params })
 }
+
+export const getPortSituationData = (params) => {
+    return request.get({ url: '/lcdp/areaWarehouse/situation', params })
+}
+
+export const getSupplierSituationData = (params) => {
+    return request.get({ url: '/lcdp/areaWarehouse/areaSituation', params })
+}
