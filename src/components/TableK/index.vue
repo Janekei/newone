@@ -26,8 +26,8 @@
           <template v-if="item.childrenColumn">
             <ElTableColumn v-for="(ele, idx) in item.childrenColumn" :type="ele.type" :prop="ele.prop" :label="ele.label"
               :width="ele.width" :key="idx + 'b'">
-              <template #default="{ ele }" v-if="ele.slotName">
-                <slot :name="ele.slotName" :row="{ ele }"></slot>
+              <template #default="{ row }" v-if="ele.slotName">
+                <slot :name="ele.slotName" :data="Object.assign(row, { type: ele.type })"></slot>
               </template>
             </ElTableColumn>
           </template>

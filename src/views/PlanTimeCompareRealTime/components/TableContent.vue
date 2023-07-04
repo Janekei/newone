@@ -5,9 +5,15 @@
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
-            <template #planTime="{ row }">
-                <!-- <span>{{ row.row.standardPlanNodeList }}</span> -->
-                <span>{{ row }}</span>
+            <template #planTime="data">
+                <span v-for="(item, index) in data.data.standardPlanNodeList" v-show="item.type === data.data.type"
+                    :key="index + 't'">{{ formatTime(item.planTime, 'yyyy-MM-dd')
+                    }}</span>
+            </template>
+            <template #actualTime="data">
+                <span v-for="(item, index) in data.data.standardPlanNodeList" v-show="item.type === data.data.type"
+                    :key="index + 't'">{{ formatTime(item.actualTime, 'yyyy-MM-dd')
+                    }}</span>
             </template>
         </TableK>
     </div>
@@ -16,6 +22,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { getIntDictOptions } from '@/utils/dict'
+import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from './SearchContent.vue'
 
