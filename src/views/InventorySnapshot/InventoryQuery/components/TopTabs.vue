@@ -1,9 +1,9 @@
 <template>
     <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane v-for="item in props.tabList" :label="item.title + '(' + item.number + ')'" :key="item.title"
-            :name="item.name">
-            <slot :name="item.name">
-                <TableContent :code="item.code" />
+        <el-tab-pane v-for="(item, index) in props.tabList" :label="item.title + '(' + item.number + ')'" :key="item.title"
+            :name="item.title">
+            <slot :name="item.title" v-if="activeName === item.title">
+                <TableContent :stockStatus="index" />
             </slot>
         </el-tab-pane>
     </el-tabs>
@@ -24,14 +24,10 @@ onMounted(() => {
     console.log(props.tabList, 9090)
 })
 
-
-const emit = defineEmits(['getTabState'])
-
-const activeName = ref(props.tabList[0].name)
+let activeName = ref(props.tabList[0].title)
 
 const handleClick = (tab) => {
-    // console.log(tab.props.name, event)s
-    emit('getTabState', tab.props.name)
+    activeName.value = tab.props.name
 }
 
 

@@ -15,7 +15,6 @@ const getListTotal = async (transportStatus, name) => {
         name,
         total: res
     })
-    console.log(total.value, 'total')
 }
 
 onBeforeMount(() => {

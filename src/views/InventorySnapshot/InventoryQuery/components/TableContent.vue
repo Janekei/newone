@@ -25,14 +25,14 @@ import ExpandDescription from './ExpandDescription.vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 const props = defineProps({
-  code: {
-    type: String,
-    default: ''
+  stockStatus: {
+    type: Number,
+    default: 0
   }
 })
 
-const formData = ref({
-  code: props.code
+let formData = ref({
+  stockStatus: props.stockStatus
 })
 const tableOption = reactive([
   {
@@ -106,7 +106,7 @@ const clickSearch = () => {
 }
 const updateSearchData = (val) => {
   formData.value = {
-    code: props.code
+    stockStatus: props.stockStatus
   }
   Object.assign(formData.value, val)
 }
