@@ -11,20 +11,27 @@
             </FormK>
         </div>
     </div>
+    <div class="center-btn-box">
+        <ElButton class="btn" type="primary" :icon="Plus">增加</ElButton>
+        <ElButton class="btn" type="primary" :icon="Upload">上传</ElButton>
+        <ElButton class="btn" type="primary" :icon="Download">下载</ElButton>
+        <ElButton class="btn" :icon="Refresh" @click="postSearchData">刷新</ElButton>
+        <ElButton class="btn" :icon="ZoomIn">全部查找</ElButton>
+    </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { Search } from '@element-plus/icons-vue'
+import { Plus, Upload, Download, Refresh, ZoomIn, Search } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 const formOption = reactive(
     [
         {
             type: 'input',
-            field: 'bl',
-            placeholder: '请输入提单号',
-            label: '提单号：'
+            field: 'disCode',
+            placeholder: '请输入订单号',
+            label: '订单号：'
         }
     ]
 )
@@ -62,6 +69,25 @@ const resetform = () => {
 
     .btn {
         display: inline-block;
+    }
+}
+
+.center-btn-box {
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 3.25rem;
+    margin: .625rem 0;
+    width: 100%;
+    border: 1px solid #dadcdf;
+    // background-color: #f5f8ff;
+    padding: 0.625rem 1.25rem;
+    border-radius: 10px;
+
+    .btn {
+        color: #409EFF;
+        background-color: #fff;
+        border: .0625rem solid #d5d5d5;
     }
 }
 
