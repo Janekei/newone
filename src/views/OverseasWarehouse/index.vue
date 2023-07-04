@@ -116,6 +116,8 @@ const showMap = ref(false)
 // getEarthData
 const getEarth = () => {
   getEarthData({}).then(res => {
+    console.log(res, 119);
+    res.data[0].test = 100
     earthData.value = res
     showMap.value = true
   })
