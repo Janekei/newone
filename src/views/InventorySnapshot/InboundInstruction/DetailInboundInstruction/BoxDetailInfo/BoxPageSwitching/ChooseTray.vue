@@ -127,7 +127,7 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'quantity',
+        prop: 'qty',
         label: '数量',
         width: '180'
     },
