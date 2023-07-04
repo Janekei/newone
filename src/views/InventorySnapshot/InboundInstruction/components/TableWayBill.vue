@@ -120,9 +120,9 @@
                 <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.goodsId }}</el-descriptions-item>
                 <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.palletQuantity }}</el-descriptions-item>
+                    class-name="my-content">{{ waybillInfo.totalPallet }}</el-descriptions-item>
                 <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.totalWatt }}</el-descriptions-item>
+                    class-name="my-content">{{ waybillInfo.totalQty }}</el-descriptions-item>
                 <!-- <el-descriptions-item v-for="(item, index) in productDetail" :key="index + 'k'" :label="item.title"
                     label-align="left" align="center" label-class-name="my-label" class-name="my-content">{{ item.name
                     }}</el-descriptions-item> -->

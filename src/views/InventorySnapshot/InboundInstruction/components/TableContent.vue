@@ -57,17 +57,17 @@ const router = useRouter()
 const tableOption = reactive([
     {
         prop: 'sapDn',
-        label: '交货单号',
-        width: '180'
-    },
-    {
-        prop: 'sapDn',
         label: '入库指令单号',
         width: '180'
     },
     {
         prop: 'bl',
         label: '提单号',
+        width: '180'
+    },
+    {
+        prop: 'deliveryNo',
+        label: '交货单号',
         width: '180'
     },
     {
