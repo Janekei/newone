@@ -44,7 +44,7 @@ const setOption = function (name: string) {
                 name: '数据',
                 type: 'map',
                 map: name,
-                zoom: 1.9,
+                zoom: name === 'world' ? 1.9 : 1,
                 // aspectScale: 0.9,
                 roam: true,
                 layoutCenter: ['50%', '50%'], //地图位置
@@ -93,6 +93,7 @@ const setOption = function (name: string) {
     }
     return option
 }
+const arr = ['world', 'Australia', 'Belgium', 'China', 'empty', 'France', 'Germany', 'India', 'Italy', 'Japan', 'Mexico', 'Netherlands', 'Spain', 'USA', 'Vietnam']
 const initChart = async function (name: string) {
     let world = await import(`../../../assets/js/mapData/${name}.json`)
     var chartDom = document.getElementById('map')
@@ -102,7 +103,7 @@ const initChart = async function (name: string) {
         // 绘制图表
         chart.setOption(setOption(name), true)
         chart.on('click', function (params: any) {
-            console.log(params, 88);
+            if (arr.indexOf(params.name) === -1) return
             initChart(params.name)
             emits('toggleMapFlagFn')
         })
