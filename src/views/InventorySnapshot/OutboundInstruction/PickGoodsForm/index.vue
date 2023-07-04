@@ -29,7 +29,7 @@ import DialogOutbound from '../components/DialogOutbound.vue'
 let formData = ref({})
 
 // const { t } = useI18n()
-const layout = ""
+const layout = ref("")
 const tableOption = reactive([
     {
         prop: 'goodCode',
@@ -128,23 +128,20 @@ const refresh = () => {
 
 // 多选行
 let outIds: any = ref([]);
-const selectThisColumn = (rows) => {
-    outIds.value = []
-    rows.forEach((item) => {
-        outIds.value.push(item.id)
-    })
-    isBindCar(rows)
-}
-
 // 判断所选中的行是否均绑定车辆
 let isNotAllBind = ref(true)
-const isBindCar = (rows) => {
+const selectThisColumn = (rows) => {
+    outIds.value = []
+    isNotAllBind.value = true
     rows.forEach((item) => {
         if (item.numberPlate === null) {
             isNotAllBind.value = false
         }
+        outIds.value.push(item.id)
     })
 }
+
+
 
 // 确认出库
 const refDialog = ref()
