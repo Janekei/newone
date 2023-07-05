@@ -40,7 +40,7 @@
             <slot name="expand" :expandRow="row"></slot>
           </template>
         </ElTableColumn>
-        <ElTableColumn fixed="right" label="操作" width="150" v-if="showFixedOperation">
+        <ElTableColumn fixed="right" label="操作" width="180" v-if="showFixedOperation">
           <template #default="{ row }">
             <slot name="operation" :operateRow="row"></slot>
           </template>
