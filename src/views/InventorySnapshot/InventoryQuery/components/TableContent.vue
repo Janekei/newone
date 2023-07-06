@@ -8,8 +8,8 @@
       <template #expand="{ expandRow }">
         <ExpandDescription :descList="expandRow" />
       </template>
-      <template #actTime="{ row }">
-        <span>{{ formatTime(row.row.actTime, 'yyyy-MM-dd') }}</span>
+      <template #actInTime="{ row }">
+        <span>{{ formatTime(row.row.actInTime, 'yyyy-MM-dd') }}</span>
       </template>
       <template #liveTime="{ row }">
         <span>{{ formatTime(row.row.liveTime, 'yyyy-MM-dd') }}</span>
