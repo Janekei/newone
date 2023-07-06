@@ -35,7 +35,7 @@
             <slot :name="item.slotName" :row="{ row }">{{ index }}</slot>
           </template>
         </ElTableColumn>
-        <ElTableColumn type="expand" v-if="showExpand">
+        <ElTableColumn type="expand" fixed="right" v-if="showExpand">
           <template #default="{ row }">
             <slot name="expand" :expandRow="row"></slot>
           </template>
@@ -45,6 +45,9 @@
             <slot name="operation" :operateRow="row"></slot>
           </template>
         </ElTableColumn>
+        <template #append>
+            <slot name="append"></slot>
+        </template>
       </ElTable>
       <div class="pagination">
         <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"

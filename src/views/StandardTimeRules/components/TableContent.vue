@@ -1,7 +1,7 @@
 <template>
     <div>
         <TableK url="/jinko/standardTime/page" method="get" :params="formData" ref="tableRef" :tableOption="tableOption"
-            :showFixedOperation="true" :showCheckBox="false" :showIndex="true">
+            :showFixedOperation="true" :editData="editData" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <FormSearch @AddTimeRules="AddTimeRules" @click-search="clickSearch" @update:form-state="updateSearchData"
                     @reset-form="resetForm" />
@@ -11,13 +11,14 @@
                 <ElButton class="delete-btn" type="danger" :icon="Delete" @click="deleteTimeRules(operateRow.id)" />
             </template>
             <template #transportMode="{ row }">
-                <DictTag  :type="transferModeDictType" :value="row.row.transportMode" />
+                <DictTag :type="transferModeDictType" :value="row.row.transportMode" />
             </template>
             <template #transferPort="{ row }">
                 <DictTag :type="transferPortType" :value="row.row.transferPort" />
             </template>
         </TableK>
     </div>
+    <!-- <ElButton @click="addRow">增加行</ElButton> -->
     <DialogEditForm ref="formRef" @success="refresh" />
 </template>
 
@@ -35,6 +36,20 @@ const transferModeDictType = ref('standard_time_rules')
 const transferPortType = ref('direct_transfer')
 
 let formData = ref()
+
+
+// const addRow = () => {
+//     data.value.push({
+//         arrivalCountryName: 'lili'
+//     })
+// }
+
+let data: any = ref([])
+const editData = (list) => {
+    data.value = list
+    console.log(list)
+    return data.value
+}
 
 const tableOption = [
     {
