@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="form-box">
-            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false"
+            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="10em" :marginBottom="false"
                 ref="formRef" @update:form-state="UpdateFormState" :showButton="true">
                 <template #buttons>
                     <el-button class="btn" type="primary">新增查询条件</el-button>

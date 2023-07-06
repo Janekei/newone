@@ -61,6 +61,11 @@ const tableOption = reactive([
         width: '180'
     },
     {
+        prop: 'sapId',
+        label: 'SAP运输计划ID',
+        width: '180'
+    },
+    {
         prop: 'bl',
         label: '提单号',
         width: '180'
@@ -72,7 +77,7 @@ const tableOption = reactive([
     },
     {
         prop: 'totalBox',
-        label: '柜量',
+        label: '柜数',
         width: '100'
     },
     {
@@ -94,7 +99,7 @@ const tableOption = reactive([
         width: '140'
     },
     {
-        prop: 'tradeWayConfigWay',
+        prop: 'tradeWay',
         label: '贸易条款',
         width: '160'
     },

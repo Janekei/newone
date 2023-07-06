@@ -10,9 +10,10 @@
             <template #expand="{ expandRow }">
                 <OutboundDescriptionItem :descList="expandRow" />
             </template>
-            <template #transportStatus="{ row }">
-                <span v-if="row.row.status == 1">待签收</span>
-                <span v-else-if="row.row.status == 2">待出库</span>
+            <template #status="{ row }">
+                <span v-if="row.row.status == 0">待签收</span>
+                <span v-else-if="row.row.status == 1">待出库</span>
+                <span v-else-if="row.row.status == 2">签收完成</span>
             </template>
         </TableK>
     </div>
@@ -39,13 +40,23 @@ let formData = ref({
 const router = useRouter()
 const tableOption = reactive([
     {
-        prop: 'sapDn',
-        label: 'SAP任务号',
+        prop: 'sapNo',
+        label: '出库指令单号',
+        width: '150'
+    },
+    {
+        prop: 'sapId',
+        label: 'SAP运输计划ID',
         width: '150'
     },
     {
         prop: 'bl',
         label: '提单号',
+        width: '150'
+    },
+    {
+        prop: 'estInTime',
+        label: '交货单号',
         width: '150'
     },
     {
@@ -59,24 +70,24 @@ const tableOption = reactive([
         width: '150'
     },
     {
-        prop: 'eta',
+        prop: 'departureLocationName',
         label: '发货方',
         width: '140'
     },
     {
-        prop: 'etd',
+        prop: 'arrivalLocationName',
         label: '收货方',
         width: '140'
     },
     {
-        prop: 'tardeWayConfigWay',
+        prop: 'tradeWay',
         label: '贸易条款',
         width: '140'
     },
     {
-        prop: 'tardeWayConfigWay',
+        prop: 'status',
         label: '状态',
-        width: '120'
+        slotName:'status'
     }
 ])
 // 入库指令首页搜索框数据

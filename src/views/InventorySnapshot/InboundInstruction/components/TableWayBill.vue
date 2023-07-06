@@ -93,7 +93,7 @@
                 <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.transportMode }}</el-descriptions-item>
                 <el-descriptions-item label="贸易条款" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.tradeWayConfigWay }}</el-descriptions-item>
+                    class-name="my-content">{{ waybillInfo.tradeWay }}</el-descriptions-item>
                 <el-descriptions-item label="起运港" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.departurePortName }}</el-descriptions-item>
                 <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"

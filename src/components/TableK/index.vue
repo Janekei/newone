@@ -35,7 +35,7 @@
             <slot :name="item.slotName" :row="{ row }">{{ index }}</slot>
           </template>
         </ElTableColumn>
-        <ElTableColumn type="expand" fixed="right" v-if="showExpand">
+        <ElTableColumn type="expand"  fixed="right" v-if="showExpand">
           <template #default="{ row }">
             <slot name="expand" :expandRow="row"></slot>
           </template>
