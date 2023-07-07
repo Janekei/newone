@@ -13,10 +13,18 @@ import Card from '@/views/OverseasWarehouse/Components/EchartCard.vue'
 import StockAgEchart from './StockAgEchart.vue'
 import { getStockAgeData } from '@/api/overseasWarehouse/index'
 
+const props = defineProps({
+    id: {
+        type: Number
+    }
+})
+
+
 const stockAgeData = ref()
 const show = ref(false)
 const getStockAge = () => {
-    getStockAgeData({}).then(res => {
+    show.value = false
+    getStockAgeData({ id: props.id }).then(res => {
         stockAgeData.value = res
         show.value = true
     })

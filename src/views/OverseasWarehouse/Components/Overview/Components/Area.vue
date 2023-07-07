@@ -32,10 +32,17 @@
 import Header from '../../Header.vue'
 import { getPortSituationData, getSupplierSituationData } from '@/api/overseasWarehouse/index'
 
+const props = defineProps({
+    id: {
+        type: Number
+    }
+})
+
 let portSituation: any = ref([])
 let supplierSituation: any = ref([])
 const getSituation = () => {
-    getPortSituationData({}).then(res => {
+    getPortSituationData({ id: props.id }).then(res => {
+        console.log('各港', props.id)
         res.forEach((element, index) => {
             if (index <= 2) {
                 portSituation.value.push(element)
@@ -45,7 +52,8 @@ const getSituation = () => {
         })
         // portSituation.value = res
     })
-    getSupplierSituationData({}).then(res => {
+    getSupplierSituationData({ id: props.id }).then(res => {
+        console.log('供应商', props.id)
         res.forEach((element, index) => {
             if (index <= 2) {
                 supplierSituation.value.push(element)

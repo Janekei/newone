@@ -13,10 +13,16 @@ import Card from '@/views/OverseasWarehouse/Components/EchartCard.vue'
 import TurnoverEchart from './TurnoverEchart.vue'
 import { getTurnoverData } from '@/api/overseasWarehouse/index'
 
+const props = defineProps({
+    id: {
+        type: Number
+    }
+})
+
 const turnoverData = ref()
 const show = ref(false)
 const getTurnover = () => {
-    getTurnoverData({}).then(res => {
+    getTurnoverData({ id: props.id }).then(res => {
         turnoverData.value = res
         show.value = true
     })

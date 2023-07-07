@@ -13,10 +13,16 @@ import Card from '@/views/OverseasWarehouse/Components/EchartCard.vue'
 import StorageCapacityEchart from './StorageCapacityEchart.vue'
 import { getInventoryData } from '@/api/overseasWarehouse/index'
 
+const props = defineProps({
+    id: {
+        type: Number
+    }
+})
+
 const inventoryData = ref()
 const showEcahrt = ref(false)
 const getInventory = () => {
-    getInventoryData({}).then(res => {
+    getInventoryData({ id: props.id }).then(res => {
         inventoryData.value = res
         showEcahrt.value = true
     })

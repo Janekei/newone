@@ -22,13 +22,13 @@
           <Map @toggleMapFlagFn="toggleMapFlagFn" v-if="showMap" :data="earthData" />
         </div>
         <div class="main-body-center-bottom" @dragover="dragover($event, 2)" @drop="drop(2)">
-          <Overview :echartIdList="echartIdList" :showBorder="showBorder" @close="closeCur"
+          <Overview :echartIdList="echartIdList" ref="overviewRef"  :showBorder="showBorder" @close="closeCur"
             :toggleMapFlag="toggleMapFlag" />
         </div>
       </div>
       <div class="main-body-right">
         <BodyLeft @dragover="dragover" @drop="drop" @close="closeCur" :echartIdList="echartIdList"
-          :showBorder="showBorder" />
+          :showBorder="showBorder" ref="bodyLeftRef" />
       </div>
     </div>
     <div class="toggle" @click="toggleDrawe" :style="{ left: showDrawer ? '20%' : '0%' }">
@@ -58,6 +58,7 @@ const back = () => {
   showMap.value = false
   showBackbtn.value = false
   toggleMapFlag.value = true
+  bodyLeftRef.value.mapId = undefined
   setTimeout(() => {
     showMap.value = true
   });
@@ -104,12 +105,16 @@ const toggleDrawe = () => {
 }
 
 const inventoryRef = ref()
+const bodyLeftRef = ref()
+const overviewRef = ref()
 const showBackbtn = ref(false)
 const toggleMapFlagFn = (id) => {
   showBackbtn.value = true
   toggleMapFlag.value = false
   // 传递所点击的地图id
   inventoryRef.value.getOutBound(id)
+  bodyLeftRef.value.mapId = id
+  overviewRef.value.mapId = id
 }
 
 const earthData = ref()

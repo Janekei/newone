@@ -1,6 +1,6 @@
 
 <template>
-    <div class="overview">
+    <div class="overview" ref="overviewRef">
         <template v-if="showEchart">
             <span style="font-size: 1rem" class="close" @click="close">
                 <el-icon>
@@ -10,7 +10,6 @@
             <template v-if="toggleMapFlag">
                 <div class="top">
                     <Header fontSize="1.2rem" title="各区库存情况" />
-
                 </div>
                 <div class="bottom">
                     <div class="bottom-item" v-for="item in areaSituation" :key="item">
@@ -29,7 +28,7 @@
                 </div>
             </template>
             <template v-else>
-                <Area />
+                <Area :id="mapId"/>
             </template>
 
         </template>
@@ -76,6 +75,12 @@ const showEchart = computed(() => {
 const close = () => {
     emit('close', 2)
 }
+
+const mapId = ref()
+
+defineExpose({
+    mapId
+})
 </script>
 
 <style lang="scss" scoped>
