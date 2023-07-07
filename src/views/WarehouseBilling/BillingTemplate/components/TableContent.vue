@@ -5,9 +5,9 @@
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
-            <template #operation>
-                <el-link class="link" type="primary" :icon="View">查看</el-link>
-                <el-link class="link" type="primary" :icon="Edit">修改</el-link>
+            <template #operation="{ operateRow }">
+                <el-link class="link" type="primary" :icon="View" @click="checkTemplate(operateRow.id)">查看</el-link>
+                <el-link class="link" type="primary" :icon="Edit" @click="updateTemplate(operateRow.id)">修改</el-link>
                 <el-link type="primary" :icon="DArrowRight">更多</el-link>
             </template>
         </TableK>
@@ -17,6 +17,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 // import { formatTime } from '@/utils'
+import { useRouter } from 'vue-router'
 import { View, Edit, DArrowRight } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
@@ -33,28 +34,15 @@ const formData = ref({
 const tableOption = reactive([
     {
         prop: 'name',
-        label: '计费规则模板',
-        width: '240'
+        label: '计费规则模板'
     },
     {
         prop: 'bsWhareaName',
-        label: '区域',
-        width: '200'
-    },
-    {
-        prop: 'supplierName',
-        label: '供应商',
-        width: '200'
-    },
-    {
-        prop: 'bsWhName',
-        label: '仓库',
-        width: '200'
+        label: '区域'
     },
     {
         prop: 'bsWhType',
-        label: '仓库种类',
-        width: '170'
+        label: '仓库种类'
     }
 ])
 
@@ -79,6 +67,15 @@ const refresh = () => {
     tableRef.value.refresh()
 }
 
+// 查看模板
+const router = useRouter()
+const checkTemplate = (id) => {
+    router.push({ path: '/warehousebilling/billingtemplate/operatetemplate', query: { id, type: 0 } })
+}
+
+const updateTemplate = (id) => {
+    router.push({ path: '/warehousebilling/billingtemplate/operatetemplate', query: { id, type: 1 } })
+}
 
 
 </script>

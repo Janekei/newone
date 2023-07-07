@@ -51,7 +51,7 @@
     <div class="bottom">
         <div class="title">备注（非必填）</div>
         <div class="content">
-            <el-input v-model="text" :rows="5" type="textarea" placeholder="其他备注信息，200字以内" />
+            <el-input v-model="notes" :rows="5" type="textarea" placeholder="其他备注信息，200字以内" />
         </div>
     </div>
     <div class="bottom-btn">
@@ -62,6 +62,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { useRoute } from 'vue-router'
 import { ElButton, ElMessage } from 'element-plus';
 import Formk from '@/components/FormK/index.vue'
 import TableEdit from './TableEdit.vue';
@@ -70,8 +71,30 @@ import { getIntDictOptions } from '@/utils/dict'
 import { Delete } from '@element-plus/icons-vue';
 import * as TemplateRulesApi from '@/api/billingtemplate/templaterule'
 
+const route = useRoute()
+const getId = route.query.id ? route.query.id : undefined
+const getType = route.query.type ? Number(route.query.type) : undefined
+
+// 获取模板信息
+const getTemplate = async () => {
+    const res = await TemplateRulesApi.getTemplate({ id: getId })
+    formData.value = { ...res }
+    tableRef.value.tableData = res.detailsDTOList
+    notes.value = res.notes
+    console.log(res, 9898)
+}
+
+let isDisabled = ref(false)
+onBeforeMount(() => {
+    if (getId) {
+        getTemplate()
+        isDisabled.value = getType === 0 ? true : false
+    }
+})
+
+
 const formData = ref({})
-let text = ref()
+let notes = ref()
 
 const formOption = reactive([
     {
@@ -80,6 +103,7 @@ const formOption = reactive([
         placeholder: '请输入计费规则名称',
         label: '计费规则名称：',
         width: '500px',
+        disabled: isDisabled.value,
         rules: [
             { required: true, message: '请输入仓库', trigger: 'change' }
         ],
@@ -136,10 +160,9 @@ const formOption = reactive([
         clearData: () => {
         },
         setFormData: (row) => {
-            formData.value['bsName'] = row.name
-            formData.value['bsWhId'] = row.id
+            formData.value['bsWhareaId'] = row.id
             formData.value['bsWhareaName'] = row.bsWhareaName
-            formData.value['type'] = row.type
+            formData.value['bsWhType'] = row.type
         },
         tableConfig: {
             url: '/jinko/baseWarehouse/getWarehousePage',
@@ -157,7 +180,7 @@ const formOption = reactive([
     },
     {
         type: 'select',
-        field: 'type',
+        field: 'bsWhType',
         placeholder: '',
         label: '仓库种类',
         disabled: true,
@@ -194,10 +217,10 @@ const tableOption = reactive([
         slotName: 'feePrice'
     },
     {
-        prop: 'feeCyId',
+        prop: 'feeCycle',
         label: '币种',
         width: '260',
-        slotName: 'feeCyId'
+        slotName: 'feeCycle'
     },
     {
         prop: 'feeBegin',
@@ -239,13 +262,22 @@ const saveTemplate = async () => {
         detailsCreateReqVOList: {
             ...tableRef.value.tableData
         },
-        notes: text.value
+        notes: notes.value
     })
-    const res = await TemplateRulesApi.createTemplate(addData)
-    if (res) {
-        ElMessage.success('添加成功！')
+    if (getId) {
+        const res = await TemplateRulesApi.updateTemplate(addData)
+        if (res) {
+            ElMessage.success('修改成功！')
+        } else {
+            ElMessage.error('修改失败！')
+        }
     } else {
-        ElMessage.error('添加失败！')
+        const res = await TemplateRulesApi.createTemplate(addData)
+        if (res) {
+            ElMessage.success('添加成功！')
+        } else {
+            ElMessage.error('添加失败！')
+        }
     }
 }
 
