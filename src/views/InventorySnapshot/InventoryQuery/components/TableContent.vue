@@ -61,7 +61,7 @@ const tableOption = reactive([
     width: '100'
   },
   {
-    prop: 'Whaddress',
+    prop: 'bsWhAddress',
     label: '仓库地址',
     width: '100'
   },

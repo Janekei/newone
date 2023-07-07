@@ -20,13 +20,13 @@
             class-name="my-content">{{ formatTime(props.descList.createTime, 'yyyy-MM-dd') }}</el-descriptions-item>
         <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ formatTime(props.descList.etd, 'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="UPDATE ETD日期" label-align="left" align="center" label-class-name="my-label"
+        <el-descriptions-item label="ETD NEW日期" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ formatTime(props.descList.newEtd, 'yyyy-MM-dd') }}</el-descriptions-item>
         <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ formatTime(props.descList.atd, 'yyyy-MM-dd') }}</el-descriptions-item>
         <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ formatTime(props.descList.eta, 'yyyy-MM-dd') }}</el-descriptions-item>
-        <el-descriptions-item label="UPDATE ETA日期" label-align="left" align="center" label-class-name="my-label"
+        <el-descriptions-item label="ETA NEW日期" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ formatTime(props.descList.newEta, 'yyyy-MM-dd') }}</el-descriptions-item>
         <el-descriptions-item label="ATA 日期" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ formatTime(props.descList.ata, 'yyyy-MM-dd') }}</el-descriptions-item>

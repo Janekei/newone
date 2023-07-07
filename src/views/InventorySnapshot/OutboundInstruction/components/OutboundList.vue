@@ -55,18 +55,13 @@ const tableOption = reactive([
         width: '150'
     },
     {
-        prop: 'estInTime',
+        prop: 'deliveryNo',
         label: '交货单号',
         width: '150'
     },
     {
         prop: 'soNo',
-        label: 'SO No',
-        width: '150'
-    },
-    {
-        prop: 'estInTime',
-        label: '交货单号',
+        label: '销售订单号',
         width: '150'
     },
     {
@@ -87,7 +82,7 @@ const tableOption = reactive([
     {
         prop: 'status',
         label: '状态',
-        slotName:'status'
+        slotName: 'status'
     }
 ])
 // 入库指令首页搜索框数据
