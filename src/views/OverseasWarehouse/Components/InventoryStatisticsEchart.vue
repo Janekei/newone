@@ -27,8 +27,8 @@ const setOption = () => {
         type: 'shadow'
       },
       formatter(value: any) {
-        console.log(value, 30);
-
+        // console.log(value, 30);
+        
         return `
              <div style="font-weight: 700">${value.name}</div>
              <div>${value.seriesName}    ${value.seriesName === '入库数量' ? value.data.data1 : value.data.data2 * -1}</div>
@@ -130,7 +130,7 @@ const setOption = () => {
   };
 }
 const initChart = () => {
-  console.log('initinitinitinitinitinitinitinitinitinitinitinitinit');
+  // console.log('initinitinitinitinitinitinitinitinitinitinitinitinit');
   const chartDom = document.getElementById('inventory-statistics');
   if (chartDom) {
     const myChart = echarts.init(chartDom);

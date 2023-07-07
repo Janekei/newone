@@ -104,8 +104,9 @@ const initChart = async function (name: string) {
         chart.setOption(setOption(name), true)
         chart.on('click', function (params: any) {
             if (arr.indexOf(params.name) === -1) return
+            const mapId = params.data ? params.data.id : undefined
             initChart(params.name)
-            emits('toggleMapFlagFn')
+            emits('toggleMapFlagFn', mapId)
         })
         myChart.value = markRaw(chart)
     }

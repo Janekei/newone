@@ -105,19 +105,21 @@ const toggleDrawe = () => {
 
 const inventoryRef = ref()
 const showBackbtn = ref(false)
-const toggleMapFlagFn = () => {
+const toggleMapFlagFn = (id) => {
   showBackbtn.value = true
   toggleMapFlag.value = false
-  inventoryRef.value.getOutBound()
+  // 传递所点击的地图id
+  inventoryRef.value.getOutBound(id)
 }
 
 const earthData = ref()
 const showMap = ref(false)
-// getEarthData
 const getEarth = () => {
   getEarthData({}).then(res => {
-    console.log(res, 119);
-    res.data[0].test = 100
+    res.data.forEach((item, index) => {
+      item.id = index
+    })
+    console.log(res, 9999)
     earthData.value = res
     showMap.value = true
   })

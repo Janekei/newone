@@ -63,11 +63,13 @@ const close = () => {
 const outBoundData = ref()
 const showEcharts = ref(false)
 const echartRef = ref()
-const allInBoundData = ref(0)
-const allOutBoundData = ref(0)
-const getOutBound = () => {
+const allInBoundData = ref()
+const allOutBoundData = ref()
+const getOutBound = (id?: any) => {
     showEcharts.value = false
-    getOutBoundData({}).then(res => {
+    console.log(id, 'id')
+    // 根据id获取对应地图的出入库量统计
+    getOutBoundData({ id }).then(res => {
         outBoundData.value = res
         allInBoundData.value = 0
         allOutBoundData.value = 0

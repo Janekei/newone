@@ -57,7 +57,7 @@ service.interceptors.request.use(
   // 设置租户
   if (tenantEnable && tenantEnable === 'true') {
    const tenantId = getTenantId()
-   console.log(tenantId, 60);
+  //  console.log(tenantId, 60);
 
    if (tenantId) (config as Recordable).headers['tenant-id'] = tenantId
   }
@@ -127,7 +127,7 @@ service.interceptors.response.use(
   }
   // 获取错误信息
   const msg = data.msg || errorCode[code] || errorCode['default']
-  console.log(code, 130);
+  // console.log(code, 130);
 
   if (ignoreMsgs.indexOf(msg) !== -1) {
    // 如果是忽略的错误码，直接返回 msg 异常

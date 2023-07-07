@@ -36,7 +36,6 @@ let portSituation: any = ref([])
 let supplierSituation: any = ref([])
 const getSituation = () => {
     getPortSituationData({}).then(res => {
-        console.log(res, 888)
         res.forEach((element, index) => {
             if (index <= 2) {
                 portSituation.value.push(element)
