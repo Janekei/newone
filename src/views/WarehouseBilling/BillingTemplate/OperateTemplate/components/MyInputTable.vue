@@ -1,9 +1,8 @@
 <template>
-  <ElInput v-model="curValue" :placeholder="placeholder" :disabled="disabled" @input="change" :clearable="true"
-    @keyup.enter="enterFn" style="width: 100%" @blur="onBlur" @clear="clearFn">
+  <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :clearable="true" @keyup.enter="enterFn"
+    style="width: 100%" @blur="onBlur" @clear="clearFn">
     <template #append>
-      <ElButton :icon="Search" :disabled="disabled" style="margin: 0 -23px" ref="buttonRef"
-        v-click-outside="onClickOutside" />
+      <ElButton :icon="Search" style="margin: 0 -23px" ref="buttonRef" v-click-outside="onClickOutside" />
     </template>
   </ElInput>
   <ElPopover ref="popoverRef" :virtual-ref="buttonRef" trigger="click" virtual-triggering width="auto"
@@ -56,10 +55,6 @@ const props = defineProps({
     type: Function,
     default: null,
   },
-  disabled: {
-    type: Boolean,
-    default: false
-  }
 });
 
 const curValue = ref();
@@ -80,9 +75,7 @@ const params = computed(() => {
     searchKey: searchKey.value,
   };
 });
-// const getTableData = (tableData) => {
-//   emits('getMyInputTableData', tableData)
-// }
+
 
 // 回车事件
 const showPopoverRef = ref(false);
@@ -111,8 +104,8 @@ watch(showPopoverRef, (newV) => {
 });
 
 const change = (value: any, row?) => {
-  emits("update:modelValue", value);
-  emits("onChange");
+  curValue.value = value
+  emits("update:modelValue", row);
   props.setFormData && props.setFormData(row);
 };
 

@@ -11,39 +11,42 @@
             <TableEdit ref="tableRef" :tableOption="tableOption" :showIndex="true" :showCheckBox="false"
                 :showFixedOperation="true">
                 <template #feeItemName="{ row }">
-                    <el-input v-model="row.row.feeItemId" />
+                    <el-input :disabled="disabled" v-model="row.row.feeItemId" />
+                    <!-- <MyInputTable placeholder="" :modelValue="row.row.feeItemId" :tableConfig="tableConfig1"
+                        valueKey="id" /> -->
                 </template>
                 <template #feeDim="{ row }">
-                    <el-select v-model="row.row.feeDim" class="m-2" placeholder="">
+                    <el-select :disabled="disabled" v-model="row.row.feeDim" class="m-2" placeholder="">
                         <el-option v-for="(item, index) in getIntDictOptions('billing_metrics')" :key="index + 'a'"
                             :label="item.label" :value="item.value" />
                     </el-select>
                 </template>
                 <template #feeCycle="{ row }">
-                    <el-select v-model="row.row.feeCycle" class="m-2" placeholder="">
+                    <el-select :disabled="disabled" v-model="row.row.feeCycle" class="m-2" placeholder="">
                         <el-option v-for="(item, index) in getIntDictOptions('billing_cycle')" :key="index + 'a'"
                             :label="item.label" :value="item.value" />
                     </el-select>
                 </template>
                 <template #feeCyId="{ row }">
-                    <el-input v-model="row.row.feeCyId" />
+                    <el-input :disabled="disabled" v-model="row.row.feeCyId" />
+                    <!-- <MyInputTable placeholder="" :modelValue="row.row.feeCyId" :tableConfig="tableConfig2" valueKey="id" /> -->
                 </template>
                 <template #feePrice="{ row }">
-                    <el-input v-model="row.row.feePrice" />
+                    <el-input :disabled="disabled" v-model="row.row.feePrice" />
                 </template>
                 <template #feeBegin="{ row }">
-                    <el-date-picker v-model="row.row.feeBegin" value-format="YYYY-MM-DD" type="date" placeholder=""
-                        size="default" />
+                    <el-date-picker :disabled="disabled" v-model="row.row.feeBegin" value-format="YYYY-MM-DD" type="date"
+                        placeholder="" size="default" />
                 </template>
                 <template #feeEnd="{ row }">
-                    <el-date-picker v-model="row.row.feeEnd" value-format="YYYY-MM-DD" type="date" placeholder=""
-                        size="default" />
+                    <el-date-picker :disabled="disabled" v-model="row.row.feeEnd" value-format="YYYY-MM-DD" type="date"
+                        placeholder="" size="default" />
                 </template>
                 <template #operation="{ operateRow }">
-                    <ElButton type="primary" :icon="Delete" @click="deleteRow(operateRow)" />
+                    <ElButton :disabled="disabled" type="primary" :icon="Delete" @click="deleteRow(operateRow)" />
                 </template>
                 <template #buttons>
-                    <ElButton @click="addTableRow" type="primary">添加计费项明细</ElButton>
+                    <ElButton @click="addTableRow" :disabled="disabled" type="primary">添加计费项明细</ElButton>
                 </template>
             </TableEdit>
         </div>
@@ -51,21 +54,22 @@
     <div class="bottom">
         <div class="title">备注（非必填）</div>
         <div class="content">
-            <el-input v-model="notes" :rows="5" type="textarea" placeholder="其他备注信息，200字以内" />
+            <el-input v-model="notes" :disabled="disabled" :rows="5" type="textarea" placeholder="其他备注信息，200字以内" />
         </div>
     </div>
     <div class="bottom-btn">
-        <ElButton type="info">取消</ElButton>
-        <ElButton type="primary" @click="saveTemplate">保存模板</ElButton>
+        <ElButton type="info" @click="cancle">取消</ElButton>
+        <ElButton type="primary" :disabled="disabled" @click="saveTemplate">保存模板</ElButton>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ElButton, ElMessage } from 'element-plus';
 import Formk from '@/components/FormK/index.vue'
 import TableEdit from './TableEdit.vue';
+// import MyInputTable from './MyInputTable.vue';
 // import FormEdit from './FormEdit.vue';
 import { getIntDictOptions } from '@/utils/dict'
 import { Delete } from '@element-plus/icons-vue';
@@ -74,6 +78,7 @@ import * as TemplateRulesApi from '@/api/billingtemplate/templaterule'
 const route = useRoute()
 const getId = route.query.id ? route.query.id : undefined
 const getType = route.query.type ? Number(route.query.type) : undefined
+const disabled = getType === 0 ? true : false
 
 // 获取模板信息
 const getTemplate = async () => {
@@ -88,10 +93,38 @@ let isDisabled = ref(false)
 onBeforeMount(() => {
     if (getId) {
         getTemplate()
-        isDisabled.value = getType === 0 ? true : false
+        isDisabled.value = getType == 0 ? true : false
     }
 })
 
+// 表格搜索框配置
+// const tableConfig1 = reactive({
+//     url: '/jinko/items/page',
+//     tableOption: [
+//         {
+//             prop: 'name',
+//             label: '名称'
+//         },
+//         {
+//             prop: 'id',
+//             label: 'Code'
+//         }
+//     ]
+// })
+
+// const tableConfig2 = reactive({
+//     url: '/jinko/currency/page',
+//     tableOption: [
+//         {
+//             prop: 'name',
+//             label: '名称'
+//         },
+//         {
+//             prop: 'id',
+//             label: 'Code'
+//         }
+//     ]
+// })
 
 const formData = ref({})
 let notes = ref()
@@ -103,65 +136,25 @@ const formOption = reactive([
         placeholder: '请输入计费规则名称',
         label: '计费规则名称：',
         width: '500px',
-        disabled: isDisabled.value,
+        disabled: route.query.type,
         rules: [
             { required: true, message: '请输入仓库', trigger: 'change' }
         ],
     },
     {
-        type: 'input',
+        type: 'inputTable',
         field: 'bsWhareaName',
         placeholder: '',
         label: '区域：',
-        disabled: true,
+        disabled: route.query.type,
         rules: [
-            { required: true, message: '', trigger: 'change' }
-        ],
-    },
-    {
-        type: 'inputTable',
-        field: 'supplierName',
-        placeholder: '请输入供应商',
-        label: '供应商：',
-        rules: [
-            { required: true, message: '请输入供应商', trigger: 'change' }
-        ],
-        valueKey: 'name',
-        clearData: () => {
-
-        },
-        setFormData: (row) => {
-            formData.value['supplierName'] = row.name
-            formData.value['supplierId'] = row.id
-        },
-        tableConfig: {
-            url: '/jinko/carrier/page',
-            tableOption: [
-                {
-                    prop: 'name',
-                    label: '名称'
-                },
-                {
-                    prop: 'id',
-                    label: 'Code'
-                }
-            ]
-        }
-    },
-    {
-        type: 'inputTable',
-        field: 'bsName',
-        placeholder: '请输入仓库',
-        label: '仓库：',
-        rules: [
-            { required: true, message: '请输入仓库', trigger: 'change' }
+            { required: true, message: '请输入区域', trigger: 'change' }
         ],
         valueKey: 'name',
         clearData: () => {
         },
         setFormData: (row) => {
             formData.value['bsWhareaId'] = row.id
-            formData.value['bsWhareaName'] = row.bsWhareaName
             formData.value['bsWhType'] = row.type
         },
         tableConfig: {
@@ -205,10 +198,10 @@ const tableOption = reactive([
         slotName: 'feeDim'
     },
     {
-        prop: 'feeCyId',
+        prop: 'feeCycle',
         label: '计费周期',
         width: '260',
-        slotName: 'feeCyId'
+        slotName: 'feeCycle'
     },
     {
         prop: 'feePrice',
@@ -217,10 +210,10 @@ const tableOption = reactive([
         slotName: 'feePrice'
     },
     {
-        prop: 'feeCycle',
+        prop: 'feeCyId',
         label: '币种',
         width: '260',
-        slotName: 'feeCycle'
+        slotName: 'feeCyId'
     },
     {
         prop: 'feeBegin',
@@ -256,7 +249,20 @@ const deleteRow = (row) => {
     })
 }
 
+// 取消
+const router = useRouter()
+const cancle = () => {
+    router.go(-1)
+}
+
 const saveTemplate = async () => {
+    tableRef.value.tableData.forEach(item => {
+        item.feeBegin = Date.parse(item.feeBegin)
+        item.feeEnd = Date.parse(item.feeEnd)
+        item.feeItemId = parseInt(item.feeItemId)
+        item.feePrice = parseInt(item.feePrice)
+        item.feeCyId = parseInt(item.feeCyId)
+    })
     let addData = reactive({
         ...formData.value,
         detailsCreateReqVOList: {
