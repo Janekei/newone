@@ -1,24 +1,30 @@
 <template>
     <el-descriptions :column="5" border>
-        <el-descriptions-item label="客户" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.customer }}</el-descriptions-item>
+        <el-descriptions-item label="集装箱号" label-align="left" align="center" label-class-name="my-label"
+            class-name="my-content">{{ props.descList.containerNo }}</el-descriptions-item>
         <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.totalCount }}</el-descriptions-item>
-        <el-descriptions-item label="面板数量" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.panelNumber }}</el-descriptions-item>
-        <el-descriptions-item label="进口发票" label-align="left" align="center" label-class-name="my-label"
+        <el-descriptions-item label="总瓦数" label-align="left" align="center" label-class-name="my-label"
+            class-name="my-content">{{ props.descList.totalMegawatt }}</el-descriptions-item>
+        <el-descriptions-item label="仓库名称" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.invoiceNo }}</el-descriptions-item>
-        <el-descriptions-item label="提货单号" label-align="left" align="center" label-class-name="my-label"
+        <el-descriptions-item label="仓库编码" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.bl }}</el-descriptions-item>
-        <el-descriptions-item label="货值" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.val }}</el-descriptions-item>
-        <el-descriptions-item label="集货箱号" label-align="left" align="center" label-class-name="my-label"
+        <el-descriptions-item label="仓库区域" label-align="left" align="center" label-class-name="my-label"
+            class-name="my-content">{{ props.descList.bsWhareaName }}</el-descriptions-item>
+        <el-descriptions-item label="仓库类型" label-align="left" align="center" label-class-name="my-label"
+            class-name="my-content">{{ props.descList.bsWhareaName }}</el-descriptions-item>
+        <el-descriptions-item label="入库时间" label-align="left" align="center" label-class-name="my-label"
+            class-name="my-content">{{ formatTime(props.descList.actInTime, 'yyyy-MM-dd') }}</el-descriptions-item>
+        <el-descriptions-item label="在库时间" label-align="left" align="center" label-class-name="my-label"
+            class-name="my-content">{{ formatTime(props.descList.liveTime, 'yyyy-MM-dd') }}</el-descriptions-item>
+        <el-descriptions-item label="单价" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.containerNo }}</el-descriptions-item>
     </el-descriptions>
 </template>
 
 <script lang="ts" setup>
-// import { formatTime } from '@/utils'
+import { formatTime } from '@/utils'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 const props = defineProps({
     descList: {

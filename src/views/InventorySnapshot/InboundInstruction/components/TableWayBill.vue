@@ -83,7 +83,7 @@
                 <el-descriptions-item label="发货方" label-align="left" width="300" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.departureLocationName }}</el-descriptions-item>
                 <el-descriptions-item label="SAP运输计划ID" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.sapDn }}</el-descriptions-item>
+                    class-name="my-content">{{ waybillInfo.sapId }}</el-descriptions-item>
                 <el-descriptions-item label="收货方" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.arrivalocationName }}</el-descriptions-item>
                 <el-descriptions-item label="业务类型" label-align="left" align="center" label-class-name="my-label"
