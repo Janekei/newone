@@ -7,7 +7,9 @@
         <el-descriptions-item label="业务类型" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.type }}</el-descriptions-item>
         <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.transportMode }}</el-descriptions-item>
+            class-name="my-content">
+            <DictTagK type="standard_time_rules" :data="props.descList.transportMode" />
+        </el-descriptions-item>
         <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.carrierName }}</el-descriptions-item>
         <el-descriptions-item label="提货日期" label-align="left" align="center" label-class-name="my-label"
@@ -45,6 +47,7 @@
 <script lang="ts" setup>
 import { formatTime } from '@/utils'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
+import DictTagK from '@/components/DictTagK/index.vue'
 const props = defineProps({
     descList: {
         type: Array as any,

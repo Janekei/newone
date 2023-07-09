@@ -80,7 +80,7 @@ export const getDictLabel = (dictType: string, value: any) => {
   const dictOptions: DictDataType[] = getDictOptions(dictType)
   const dictLabel = ref('')
   dictOptions.forEach((dict: DictDataType) => {
-    if (dict.value === value) {
+    if (dict.value == value) {
       dictLabel.value = dict.label
     }
   })

@@ -21,7 +21,9 @@
         <el-descriptions-item label="瓦数" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.totalWatt }}</el-descriptions-item>
         <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ props.descList.transportMode }}</el-descriptions-item>
+            class-name="my-content">
+            <DictTagK :type="transferModeDictType" :data="(props.descList.transportMode * 1)" />
+        </el-descriptions-item>
         <el-descriptions-item label="功率" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.power }}</el-descriptions-item>
         <el-descriptions-item label="柜型" label-align="left" align="center" label-class-name="my-label"
@@ -33,13 +35,15 @@
 
 <script lang="ts" setup>
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
-
+import DictTagK from '@/components/DictTagK/index.vue'
 const props = defineProps({
     descList: {
         type: Array as any,
         default: () => []
     }
 })
+
+const transferModeDictType = ref('standard_time_rules')
 </script>
 <style lang="scss" scoped>
 ::v-deep .is-bordered-label {
