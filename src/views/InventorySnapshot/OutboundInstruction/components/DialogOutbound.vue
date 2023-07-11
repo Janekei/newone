@@ -38,8 +38,8 @@ const props = defineProps({
         default: () => []
     },
     id: {
-        type: Number,
-        default: 0
+        type: String,
+        default: () => ''
     },
     outIds: {
         type: Array as any,
@@ -215,7 +215,7 @@ const emit = defineEmits(['success'])
 
 const submitForm = async () => {
     if (formType.value === '托拣货') {
-        const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, goodsId: props.goodsId, outboundId })
+        const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, outboundGoodsId: props.goodsId, outboundId })
         if (res) {
             ElMessage.success('拣货成功')
             router.push({ path: '/InventorySnapshot/pickgoods' })

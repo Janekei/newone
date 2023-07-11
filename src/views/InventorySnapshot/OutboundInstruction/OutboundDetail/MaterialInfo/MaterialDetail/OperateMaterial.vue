@@ -135,7 +135,7 @@ const refresh = () => {
 //跳转对应行的详情页信息
 const emits = defineEmits(['backWaybill', 'showTrayList'])
 const clickTray = (row) => {
-    emits('showTrayList', row.goodsId)
+    emits('showTrayList', row.goodsId, row.id)
 }
 const backWaybill = () => {
     emits('backWaybill')

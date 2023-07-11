@@ -16,7 +16,7 @@
         <el-button class="button" type="primary" @click="backOperate">返回</el-button>
         <el-button class="button" type="primary" @click="open">确认拣货</el-button>
     </div>
-    <DialogOutbound ref="refDialog" :ids="ids" :goodsId="props.goodsId" @success="refresh" />
+    <DialogOutbound ref="refDialog" :ids="ids" :goodsId="props.id" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -30,6 +30,10 @@ const props = defineProps({
     goodsId: {
         type: Number,
         default: 0
+    },
+    id: {
+      type: String,
+      default: () => ''
     },
     iscloseTray: {
         type: Boolean,

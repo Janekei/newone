@@ -3,7 +3,7 @@
         <OperateMaterial v-if="(showPickPart === true && isShowTray === false) && iscloseTray" @showTrayList="showTrayList"
             @backWaybill="backWaybill" />
         <AllMaterial v-else-if="(showPickPart === false && isShowTray === false) && iscloseTray" />
-        <TrayMaterial v-else :goodsId="goodsId" @update:changeCloseTray="changeCloseTray" />
+        <TrayMaterial v-else :goodsId="goodsId" :id="outsideId" @update:changeCloseTray="changeCloseTray" />
     </div>
 </template>
 
@@ -25,10 +25,13 @@ let showPickPart = ref(props.showPickPart)
 // 获取到所点击选托按钮行的物料id
 // 显示托纬度物料，隐藏其余两个信息
 let goodsId = ref()
+const outsideId = ref('')
 let isShowTray = ref(false)
 let iscloseTray = ref(true)  // 是否隐藏选托页面
-const showTrayList = (val) => {
+const showTrayList = (val,id) => {
+  // console.log('--------------------------',val,id)
     goodsId.value = val
+    outsideId.value = id
     emits('changeShowPickPart')
     showPickPart.value = false
     isShowTray.value = false
