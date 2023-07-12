@@ -92,21 +92,15 @@
             </div>
         </div>
     </div>
-    <div class="bottom">
-        <div class="title">备注（非必填）</div>
-        <div class="content">
-            <el-input v-model="notes" :disabled="disabled" :rows="5" type="textarea" placeholder="其他备注信息，200字以内" />
-        </div>
-    </div>
-    <div class="bottom-btn">
+    <!-- <div class="bottom-btn">
         <ElButton type="info" @click="cancle">取消</ElButton>
         <ElButton type="primary" :disabled="disabled" @click="saveTemplate">保存模板</ElButton>
-    </div>
+    </div> -->
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { ElButton } from 'element-plus';
 import Formk from '@/components/FormK/index.vue'
 import { formatDate } from '@/utils/formatTime'
@@ -291,7 +285,7 @@ const saveBaseInfo = async () => {
 }
 
 
-let notes = ref()
+// let notes = ref()
 
 const formOption = reactive([
     {
@@ -389,7 +383,7 @@ const toAddItem = async () => {
         "feeEnd": new Date(FeeItemList.value[0].feeEnd).getTime(),
     }
     // console.log('新增的参数', params)
-      if (params.feeBegin > params.feeEnd) {
+    if (params.feeBegin > params.feeEnd) {
         ElMessage.error('报价生效效时间不得大于报价失效时间！')
         return
     }
@@ -403,14 +397,14 @@ const toAddItem = async () => {
 }
 
 // 取消
-const router = useRouter()
-const cancle = () => {
-    router.go(-1)
-}
+// const router = useRouter()
+// const cancle = () => {
+//     router.go(-1)
+// }
 
-const saveTemplate = async () => {
+// const saveTemplate = async () => {
 
-}
+// }
 
 //回显计费规则基础信息
 const toGetRuleBaseInfo = async (id) => {
@@ -479,19 +473,19 @@ onMounted(async () => {
 }
 
 
-.bottom {
-    .title {
-        padding: .625rem;
-        background-color: #CCCCCC;
-        color: #fff;
-        font-size: 14px;
-        font-weight: 700;
-    }
+// .bottom {
+//     .title {
+//         padding: .625rem;
+//         background-color: #CCCCCC;
+//         color: #fff;
+//         font-size: 14px;
+//         font-weight: 700;
+//     }
 
-    .content {
-        margin-top: 1.25rem;
-    }
-}
+//     .content {
+//         margin-top: 1.25rem;
+//     }
+// }
 
 .bottom-btn {
     width: 100%;
