@@ -2,7 +2,7 @@
   <ElForm :model="formData" :label-width="labelWidth" :inline="true" :rules="rules" ref="myForm">
     <ElFormItem v-for="item in formOption" :key="item.field" :label="item.label" :prop="item.field">
       <MyInput v-if="item.type === 'input'" :disabled="item.disabled" :placeholder="item.placeholder"
-        v-model="formData[item.field]" @onChange="onChange" />
+        v-model="formData[item.field]" :type="item.typeName" @onChange="onChange" />
       <MySelect v-else-if="item.type === 'select'" :placeholder="item.placeholder" v-model="formData[item.field]"
         :options="item.options" :requestOptions="item.requestOptions" :disabled="item.disabled" @onChange="onChange" />
       <MyDatePicker v-else-if="item.type === 'date' || item.type === 'daterange'" :type="item.type"
@@ -71,6 +71,10 @@ const props = defineProps({
   clearData: {
     type: Function,
     default: null
+  },
+  typeName:{
+    type:String,
+    default: () => ''
   }
 })
 
