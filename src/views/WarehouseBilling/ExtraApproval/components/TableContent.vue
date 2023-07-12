@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/fee/template/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
+        <TableK url="/jinko/fee/details/additionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption"  :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -26,7 +26,7 @@ const formData = ref({
 })
 const tableOption = reactive([
     {
-        prop: 'name',
+        prop: 'feeBillName',
         label: '费用名称',
         width:'160'
     },
@@ -36,7 +36,7 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'bl',
         label: '提单号',
         width: '160'
     },
