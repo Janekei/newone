@@ -133,7 +133,7 @@
       />
     </div>
     <div class="bottom-btn">
-        <ElButton type="info" @click="cancle">取消</ElButton>
+        <ElButton type="info" @click="cancle">返回</ElButton>
 <!--        <ElButton type="primary" :disabled="disabled" @click="cancle">保存模板</ElButton>-->
     </div>
   <ElDialog v-model="showDialog" title="选择模板" draggable @close="close">
@@ -435,7 +435,7 @@ const saveBaseInfo = async() => {
   }else{
     let data = await createBillingRrule(params)
     if (data) {
-      getId.value = data.id
+      getId.value = data
       itemDisabled.value = false
       ElMessage.success('创建成功！')
     } else {
@@ -527,12 +527,16 @@ const toAddItem = async () =>{
     "feeEnd": new Date(FeeItemList.value[0].feeEnd).getTime(),
   }
   console.log('新增的参数',params)
+  if(params.feeBegin > params.feeEnd){
+    ElMessage.error('报价生效效时间不得大于报价失效时间！')
+    return
+  }
   let data = await createRuleDetail(params)
   if (data) {
     toGetRuleDetail(getId.value)
-    ElMessage.success('模板绑定成功！')
+    ElMessage.success('规则明细创建成功！')
   } else {
-    ElMessage.error('模板绑定失败！')
+    ElMessage.error('规则明细创建失败！')
   }
 }
 
@@ -549,6 +553,10 @@ const toEditItem = async (row,index) => {
     "feeCyId": row.feeCyId,
     "feeBegin": new Date(row.feeBegin).getTime(),
     "feeEnd": new Date(row.feeEnd).getTime(),
+  }
+  if(params.feeBegin > params.feeEnd){
+    ElMessage.error('报价生效效时间不得大于报价失效时间！')
+    return
   }
   let data = await updateRuleDetail(params)
   if(data){
