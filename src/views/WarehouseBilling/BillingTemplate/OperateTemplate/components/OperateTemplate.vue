@@ -113,6 +113,7 @@ import { formatDate } from '@/utils/formatTime'
 import { getIntDictOptions } from '@/utils/dict'
 import * as TemplateRulesApi from '@/api/billingtemplate/templaterule'
 import MyInputTable from "./MyInputTable.vue"
+const { t } = useI18n()
 
 const route = useRoute()
 const getId = ref(route.query.id ? route.query.id : undefined)
@@ -205,7 +206,7 @@ const toEditItem = async (row, index) => {
     console.log('row', row, index)
     let params = {
         "id": row.id,
-        "whFeeTmplRuleId": getId.value,
+        "whFeeTmplId": getId.value,
         "feeItemId": row.feeItemId,
         "feeDim": row.feeDim,
         "feeCycle": row.feeCycle,
@@ -214,7 +215,11 @@ const toEditItem = async (row, index) => {
         "feeBegin": new Date(row.feeBegin).getTime(),
         "feeEnd": new Date(row.feeEnd).getTime(),
     }
-    let data = await TemplateRulesApi.updateTemplate(params)
+    if (params.feeBegin > params.feeEnd) {
+        ElMessage.error('报价生效效时间不得大于报价失效时间！')
+        return
+    }
+    let data = await TemplateRulesApi.updateTempDetail(params)
     if (data) {
         ElMessage.success('更新成功！')
     } else {
@@ -232,7 +237,7 @@ const toGetRuleDetail = async (id) => {
         pageNo: linePageParams.value.pageNo,
         pageSize: linePageParams.value.pageSize
     })
-    console.log(data.list, 999999)
+    // console.log(data.list, 999999)
     let dataList = data.list
     for (let count = 0; count < dataList.length; count++) {
         dataList[count].feeBegin = formatDate(dataList[count].feeBegin, 'YYYY-MM-DD hh:mm:ss')
@@ -250,7 +255,7 @@ const toGetRuleDetail = async (id) => {
         "feeEnd": ""
     })
     FeeItemList.value = data.list
-    // console.log('FeeItemList.value',FeeItemList.value)
+    // console.log('FeeItemList.value', FeeItemList.value)
     linePageParams.value.total = data.total
     ifCanShowRuleDetail.value = false
 }
@@ -266,7 +271,7 @@ const saveBaseInfo = async () => {
     }
     if (getId.value) {
         Object.assign(params, { id: getId.value })
-        let data = await TemplateRulesApi.updateTemplate(params)
+        let data = await TemplateRulesApi.updateTempDetail(params)
         if (data) {
             ElMessage.success('更新成功！')
         } else {
@@ -274,8 +279,9 @@ const saveBaseInfo = async () => {
         }
     } else {
         let data = await TemplateRulesApi.createTemplate(params)
+        // console.log(data, 'getId')
         if (data) {
-            getId.value = data.id
+            getId.value = data
             itemDisabled.value = false
             ElMessage.success('创建成功！')
         } else {
@@ -361,11 +367,11 @@ const toDelItem = async (id: number) => {
         // 删除的二次确认
         await message.delConfirm()
         // 发起删除
-        console.log(id)
-        // await deleteRuleDetail(id)
-        // message.success(t('common.delSuccess'))
+        // console.log(id)
+        await TemplateRulesApi.deleteTempDetail({ id })
+        message.success(t('common.delSuccess'))
         // 刷新列表
-        // await toGetRuleDetail(getId.value)
+        await toGetRuleDetail(getId.value)
     } catch { }
 }
 
@@ -382,8 +388,12 @@ const toAddItem = async () => {
         "feeBegin": new Date(FeeItemList.value[0].feeBegin).getTime(),
         "feeEnd": new Date(FeeItemList.value[0].feeEnd).getTime(),
     }
-    console.log('新增的参数', params)
-    let data = await TemplateRulesApi.createTemplate(params)
+    // console.log('新增的参数', params)
+      if (params.feeBegin > params.feeEnd) {
+        ElMessage.error('报价生效效时间不得大于报价失效时间！')
+        return
+    }
+    let data = await TemplateRulesApi.createTemplateDetail(params)
     if (data) {
         toGetRuleDetail(getId.value)
         ElMessage.success('模板绑定成功！')
@@ -415,7 +425,7 @@ onMounted(async () => {
         toGetRuleBaseInfo(getId.value)
         toGetRuleDetail(getId.value)
     } else {
-        itemDisabled.value = false
+        itemDisabled.value = true
     }
 })
 

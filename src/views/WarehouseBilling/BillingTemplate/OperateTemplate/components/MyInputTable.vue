@@ -112,7 +112,7 @@ watch(showPopoverRef, (newV) => {
 });
 
 const change = (value: any, row?) => {
-  console.log('---------------------', row, props.tableId)
+  // console.log('---------------------', row, props.tableId)
   curValue.value = value
   emits("update:modelValue", row);
   props.setFormData && props.setFormData(row, props.tableId);
