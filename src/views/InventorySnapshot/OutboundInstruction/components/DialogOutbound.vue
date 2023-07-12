@@ -103,9 +103,9 @@ const formOption = reactive([
                 label: '车主'
             }]
         },
-        disabled: computed(() => {
-            return disabled.value
-        })
+        // disabled: computed(() => {
+        //     return disabled.value
+        // })
     },
     {
         type: 'inputTable',
