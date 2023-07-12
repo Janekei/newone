@@ -11,9 +11,7 @@
                 <OutboundDescriptionItem :descList="expandRow" />
             </template>
             <template #status="{ row }">
-                <span v-if="row.row.status == 0">待签收</span>
-                <span v-else-if="row.row.status == 1">待出库</span>
-                <span v-else-if="row.row.status == 2">签收完成</span>
+                <DictTagK type="outbound_status" :value="row.row.status" />
             </template>
         </TableK>
     </div>
@@ -23,6 +21,7 @@
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import TableK from '@/components/TableK/index.vue'
+import DictTagK from '@/components/DictTagK/index.vue'
 import SearchOutbound from './SearchOutbound.vue'
 import OutboundDescriptionItem from './OutboundDescriptionItem.vue'
 const props = defineProps({
