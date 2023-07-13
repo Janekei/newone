@@ -5,11 +5,11 @@
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
-            <template #actTime="{ row }">
-                <span>{{ formatTime(row.row.actTime, 'yyyy-MM-dd') }}</span>
+            <template #actInTime="{ row }">
+                <span>{{ formatDate(row.row.actInTime , 'YYYY-MM-DD hh:mm:ss') }}</span>
             </template>
             <template #liveTime="{ row }">
-                <span>{{ formatTime(row.row.liveTime, 'yyyy-MM-dd') }}</span>
+                <span>{{ formatDate(row.row.liveTime , 'YYYY-MM-DD hh:mm:ss') }}</span>
             </template>
             <template #exceptionType="{ row }">
                 <DictTagK :type="dictType" :value="row.row.exceptionType" />
@@ -20,10 +20,10 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-import { formatTime } from '@/utils'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 import DictTagK from '@/components/DictTagK/index.vue'
+import {formatDate} from "@/utils/formatTime";
 
 const dictType = ref('wh_inbound_exception')
 
@@ -37,16 +37,16 @@ const tableOption = reactive([
     },
     {
         prop: 'goodsCode',
-        label: '货品编码',
+        label: '物料编码',
         width: '100'
     },
     {
         prop: 'goodsName',
-        label: '货物名称',
+        label: '物料名称',
         width: '100'
     },
     {
-        prop: 'goodsCode',
+        prop: 'type',
         label: '规格型号',
         width: '100'
     },
@@ -64,13 +64,13 @@ const tableOption = reactive([
         prop: 'actInTime',
         label: '入库时间',
         slotName: 'actInTime',
-        width: '100'
+        width: '180'
     },
     {
         prop: 'liveTime',
         label: '在库时间',
         slotName: 'liveTime',
-        width: '100'
+        width: '180'
     },
     {
         prop: 'totalCount',

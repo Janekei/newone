@@ -32,13 +32,13 @@ let formData = ref({})
 const layout = ref("")
 const tableOption = reactive([
     {
-        prop: 'goodCode',
-        label: '货品编码',
+        prop: 'goodsCode',
+        label: '物料编码',
         width: '180'
     },
     {
         prop: 'goodsName',
-        label: '货品名称',
+        label: '物料名称',
         width: '180'
     },
     {
@@ -67,12 +67,12 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'totalWeight',
+        prop: 'weight',
         label: '重量',
         width: '180'
     },
     {
-        prop: 'totalVolume',
+        prop: 'volume',
         label: '体积',
         width: '180'
     },

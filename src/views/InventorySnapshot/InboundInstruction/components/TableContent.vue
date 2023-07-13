@@ -11,13 +11,13 @@
                 <DescriptionInboundList :descList="expandRow" />
             </template>
             <template #estInTime="{ row }">
-                <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+                <span>{{ formatDate(row.row.estInTime , 'YYYY-MM-DD hh:mm:ss')}}</span>
             </template>
             <template #eta="{ row }">
-                <span>{{ formatTime(row.row.eta, 'yyyy-MM-dd') }}</span>
+                <span>{{ formatDate(row.row.eta , 'YYYY-MM-DD hh:mm:ss') }}</span>
             </template>
             <template #atd="{ row }">
-                <span>{{ formatTime(row.row.atd, 'yyyy-MM-dd') }}</span>
+                <span>{{ formatDate(row.row.atd , 'YYYY-MM-DD hh:mm:ss') }}</span>
             </template>
             <template #transportStatus="{ row }">
                 <!-- {{ row.row.transportStatus }} -->
@@ -35,11 +35,11 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from '../components/SearchContent.vue'
 import DescriptionInboundList from './DescriptionInboundList.vue';
 import DialogAllotWharehouse from './DialogAllotWharehouse.vue'
+import {formatDate} from "@/utils/formatTime";
 
 const props = defineProps({
     transportStatus: {
@@ -84,19 +84,19 @@ const tableOption = reactive([
         prop: 'estInTime',
         label: '预计入库时间',
         slotName: 'estInTime',
-        width: '140'
+        width: '180'
     },
     {
         prop: 'eta',
         label: '预计到港时间',
         slotName: 'eta',
-        width: '140'
+        width: '180'
     },
     {
         prop: 'atd',
         label: '实际离港时间',
         slotName: 'atd',
-        width: '140'
+        width: '180'
     },
     {
         prop: 'tradeWay',

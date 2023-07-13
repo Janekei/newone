@@ -5,19 +5,15 @@
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
-            <template #actTime="{ row }">
-                <span>{{ formatTime(row.row.actTime, 'yyyy-MM-dd') }}</span>
-            </template>
-            <template #liveTime="{ row }">
-                <span>{{ formatTime(row.row.liveTime, 'yyyy-MM-dd') }}</span>
-            </template>
+          <template #boundType="{ row }">
+            <span>{{ row.row.boundType == 1 ? '入库':'出库' }}</span>
+          </template>
         </TableK>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-import { formatTime } from '@/utils'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 const props = defineProps({
@@ -38,16 +34,16 @@ const tableOption = reactive([
     },
     {
         prop: 'goodsCode',
-        label: '货品编码',
+        label: '物料编码',
         width: '100'
     },
     {
         prop: 'goodsName',
-        label: '货物名称',
+        label: '物料名称',
         width: '100'
     },
     {
-        prop: 'goodsCode',
+        prop: 'containerNo',
         label: '柜号',
         width: '100'
     },
@@ -88,11 +84,12 @@ const tableOption = reactive([
     },
     {
         prop: 'boundType',
+        slotName:'boundType',
         label: '出入库类型',
         width: '100'
     },
     {
-        prop: 'goodsCode',
+        prop: 'exception',
         label: '是否异常',
         width: '100'
     }

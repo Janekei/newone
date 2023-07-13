@@ -59,7 +59,7 @@ const tableOption = reactive([
         width: '150'
     },
     {
-        prop: 'soNo',
+        prop: 'sapNo',
         label: '销售订单号',
         width: '150'
     },
