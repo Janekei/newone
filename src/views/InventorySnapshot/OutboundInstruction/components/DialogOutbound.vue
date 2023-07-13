@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { ElButton, ElDialog, ElMessage } from 'element-plus'
-import { ref, watch, nextTick } from 'vue'
+import { ref, nextTick } from 'vue'
 import * as OutboundInstruction from '@/api/inventorysnapshot/outboundinstruction'
 
 const route = useRoute()
@@ -58,25 +58,19 @@ let recordData = ref({
 })
 
 // 车辆信息回显
-let carData = ref({
-    id: undefined,
-    carNumBefore: undefined,
-    carOwnerName: undefined,
-    carType: undefined,
-    ownerCompany: undefined,
-    carLong: undefined
-})
-const getCartPage = async (id) => {
-    const res = await OutboundInstruction.getCartPage({ carNumBefore: id })
-    carData.value = res.list[0]
-    recordData.value = carData.value
+// let carData = ref({
+//     id: undefined,
+//     carNumBefore: undefined,
+//     carOwnerName: undefined,
+//     carType: undefined,
+//     ownerCompany: undefined,
+//     carLong: undefined
+// })
+const getCartPage = async (carNumBefore) => {
+    const res = await OutboundInstruction.getCartPage({ searchKey: carNumBefore })
+    recordData.value = res.list[0]
+    console.log(res, 77777)
 }
-watch(() => recordData.value.carNumBefore, async (newV) => {
-    console.log(newV, 57);
-    if (newV !== undefined) {
-        getCartPage(newV)
-    }
-})
 
 
 // 绑定车辆表单
@@ -91,6 +85,17 @@ const formOption = reactive([
         rules: [
             { required: true, message: '请输入车牌号', trigger: 'change' }
         ],
+        clearData: () => {
+            formRef.value.resetFields()
+        },
+        setFormData: (row) => {
+            recordData.value["id"] = row.id;
+            recordData.value["carNumBefore"] = row.carNumBefore;
+            recordData.value["carOwnerName"] = row.carOwnerName;
+            recordData.value["ownerCompany"] = row.ownerCompany;
+            recordData.value["carType"] = row.carType;
+            recordData.value["carLong"] = row.carLong;
+        },
         valueKey: 'carNumBefore',
         tableConfig: {
             params: {},
@@ -108,85 +113,37 @@ const formOption = reactive([
         // })
     },
     {
-        type: 'inputTable',
+        type: 'input',
         field: 'carOwnerName',
         placeholder: '请输入车主姓名',
         label: '车主姓名',
-        valueKey: 'carOwnerName',
-        tableConfig: {
-            params: {},
-            url: '/gsc/vehicleEntity/page',
-            tableOption: [{
-                prop: 'carNumBefore',
-                label: '车牌'
-            }, {
-                prop: 'carOwnerName',
-                label: '车主姓名'
-            }],
-        },
         disabled: computed(() => {
             return disabled.value
         })
     },
     {
-        type: 'inputTable',
+        type: 'input',
         field: 'ownerCompany',
         placeholder: '请输入所属公司',
         label: '所属公司',
-        valueKey: 'ownerCompany',
-        tableConfig: {
-            params: {},
-            url: '/gsc/vehicleEntity/page',
-            tableOption: [{
-                prop: 'carNumBefore',
-                label: '车牌'
-            }, {
-                prop: 'ownerCompany',
-                label: '所属公司'
-            }]
-        },
         disabled: computed(() => {
             return disabled.value
         })
     },
     {
-        type: 'inputTable',
+        type: 'input',
         field: 'carType',
         placeholder: '请输入车辆类型',
         label: '车辆类型',
-        valueKey: 'code',
-        tableConfig: {
-            params: {},
-            url: '/gsc/vehicleEntity/page',
-            tableOption: [{
-                prop: 'carNumBefore',
-                label: '车牌'
-            }, {
-                prop: 'carType',
-                label: '车辆类型'
-            }],
-        },
         disabled: computed(() => {
             return disabled.value
         })
     },
     {
-        type: 'inputTable',
+        type: 'input',
         field: 'carLong',
         placeholder: '请输入车长',
         label: '车长',
-        valueKey: 'carLong',
-        tableConfig: {
-            params: {},
-            url: '/gsc/vehicleEntity/page',
-            tableOption: [{
-                prop: 'carNumBefore',
-                label: '车牌'
-            }, {
-                prop: 'carLong',
-                label: '车长'
-            }],
-        },
         disabled: computed(() => {
             return disabled.value
         })
@@ -203,7 +160,20 @@ let formData = ref()    // 表单内容
 
 
 // 打开弹窗方法
-const open = (type: string, title: string, content?: string) => {
+const open = (type: string, title: string, content?: string, carNum?) => {
+    if (carNum) {
+        let flag = ref(true);
+        carNum.forEach(item => {
+            carNum.forEach(ele => {
+                if (ele !== item) {
+                    flag.value = false
+                }
+            })
+        })
+        if (flag.value && carNum[0] !== null) {
+            getCartPage(carNum[0])
+        }
+    }
     dialogVisible.value = true
     formType.value = type
     formData.value = content
