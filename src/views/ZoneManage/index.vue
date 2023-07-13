@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/baseWharea/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption"
+        <TableK url="/gsc/wharea/pages" method="get" :params="formData" ref="myTable" :tableOption="tableOption"
             :showCheckBox="true">
             <template #buttons>
                 <div class="form-box">

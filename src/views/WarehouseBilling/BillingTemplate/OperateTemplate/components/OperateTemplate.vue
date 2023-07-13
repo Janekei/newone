@@ -153,7 +153,7 @@ const tableConfigFee = ref(
             FeeItemList.value[index].feeItemId = row.id
             FeeItemList.value[index].feeItemName = row.name
         },
-        url: '/jinko/items/page',
+        url: '/gsc/items/page',
         tableOption: [
             {
                 prop: 'name',
@@ -172,7 +172,7 @@ const tableConfigCurrency = ref(
         type: 'inputTable',
         field: 'bsWhareaName',
         placeholder: '',
-        label: '区域：',
+        label: '',
         disabled: true,
         valueKey: 'CurrencyId',
         clearData: () => {
@@ -181,7 +181,7 @@ const tableConfigCurrency = ref(
             FeeItemList.value[index].feeCyId = row.id
             FeeItemList.value[index].feeCyName = row.name
         },
-        url: '/jinko/currency/page',
+        url: '/gsc/currency/page',
         tableOption: [
             {
                 prop: 'name',

@@ -1,8 +1,7 @@
 <template>
     <div>
-        <TableK url="/jinko/gscwhoutboundpallets/getPalletsList" method="post" :layout="layout" :data="formData"
-            ref="tableRef" :firstPages="10" :tableOption="tableOption" :showIndex="true"
-            @selectThisColumn="selectThisColumn">
+        <TableK url="/gsc/outbound/pallets/getPalletsList" method="post" :layout="layout" :data="formData" ref="tableRef"
+            :firstPages="10" :tableOption="tableOption" :showIndex="true" @selectThisColumn="selectThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />

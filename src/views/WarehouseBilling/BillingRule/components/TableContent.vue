@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/fee/template/rule/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
+        <TableK url="/gsc/fee/template/rule/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -45,16 +45,16 @@ const tableOption = reactive([
         label: '供应商'
     },
     {
-      prop: 'bsWhType',
-      label: '仓库'
+        prop: 'bsWhType',
+        label: '仓库'
     },
     {
-      prop: 'bsWhType',
-      label: '仓库种类'
+        prop: 'bsWhType',
+        label: '仓库种类'
     },
     {
-      prop: 'bsWhType',
-      label: '备注'
+        prop: 'bsWhType',
+        label: '备注'
     }
 ])
 

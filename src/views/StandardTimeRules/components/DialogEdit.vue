@@ -74,7 +74,7 @@ const formOption = reactive([
         },
         tableConfig: {
             method: 'post',
-            url: '/jinko/standardTime/findCountry',
+            url: '/gsc/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
@@ -104,7 +104,7 @@ const formOption = reactive([
         },
         tableConfig: {
             method: 'post',
-            url: '/jinko/standardTime/findCountry',
+            url: '/gsc/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
@@ -134,7 +134,7 @@ const formOption = reactive([
         },
         tableConfig: {
             method: 'post',
-            url: '/jinko/standardTime/findCountry',
+            url: '/gsc/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',
@@ -164,7 +164,7 @@ const formOption = reactive([
         },
         tableConfig: {
             method: 'post',
-            url: '/jinko/standardTime/findCountry',
+            url: '/gsc/standardTime/findCountry',
             tableOption: [
                 {
                     prop: 'name',

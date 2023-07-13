@@ -43,7 +43,7 @@ const formOption = reactive(
             placeholder: '请选择仓库',
             label: '仓库',
             requestOptions: {
-                url: '/jinko/baseWharea/page',
+                url: '/gsc/baseWharea/page',
                 method: 'get',
                 params: {},
                 handleOptions: (res: any) => {
