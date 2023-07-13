@@ -1,5 +1,6 @@
 <template>
-    <el-table :data="tableData" border style="width: 100%" :header-cell-style="{ background: '#C8D7EE', color: '#606266' }">
+    <el-table :data="tableData" border size="small" style="width: 100%"
+        :header-cell-style="{ background: '#C8D7EE', color: '#606266' }">
         <el-table-column prop="date" label="费用名称" width="180" />
         <el-table-column prop="name" label="单价" width="180" />
         <el-table-column prop="address" label="数量" />

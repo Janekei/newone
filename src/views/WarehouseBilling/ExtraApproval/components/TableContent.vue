@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/fee/details/additionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
+        <TableK url="/jinko/fee/details/examineAdditionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption"  :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -41,12 +41,12 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'bsWhareaName',
         label: '仓库区域',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'bsWhName',
         label: '仓库名称',
         width: '160'
     },
@@ -56,52 +56,52 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'palletQty',
         label: '托盘数量',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'qty',
         label: '组片数量',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'inStockTime',
         label: '入仓日期',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'outStockTime',
         label: '出仓日期',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'feeTime',
         label: '费用生成时间',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'price',
         label: '金额',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'feeCyName',
         label: '币值',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'voucherStatus',
         label: '凭证',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'notes',
         label: '备注',
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'status',
         label: '状态',
         width: '160'
     }

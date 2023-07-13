@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/fee/template/bill/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
+        <TableK url="/jinko/fee/details/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
@@ -21,7 +21,7 @@ const formData = ref({
 })
 const tableOption = reactive([
     {
-        prop: 'name',
+        prop: 'feeBillName',
         label: '账单名称',
         width: '160'
     },
@@ -41,47 +41,47 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'totalBox',
+        prop: 'arkQty',
         label: '柜数',
         width: '160'
     },
     {
-        prop: 'totalPallet',
+        prop: 'palletQty',
         label: '托盘数量',
         width: '160'
     },
     {
-        prop: 'totalQty',
+        prop: 'qty',
         label: '组片数量',
         width: '160'
     },
     {
-        prop: 'inboundTime',
+        prop: 'inStockTime',
         label: '入仓日期',
         width: '160'
     },
     {
-        prop: 'outboundTime',
+        prop: 'outStockTime',
         label: '出仓日期',
         width: '160'
     },
     {
-        prop: 'expenseGenerationTime',
+        prop: 'feeTime',
         label: '费用生成时间',
         width: '160'
     },
     {
-        prop: 'chargingDayTime',
+        prop: 'cycleDay',
         label: '计费时间（天）',
         width: '160'
     },
     {
-        prop: 'chargingWeekTime',
+        prop: 'cycleWeek',
         label: '计费时间（周）',
         width: '160'
     },
     {
-        prop: 'chargingMonthTime',
+        prop: 'cycleMonth',
         label: '计费时间（月）',
         width: '160'
     },

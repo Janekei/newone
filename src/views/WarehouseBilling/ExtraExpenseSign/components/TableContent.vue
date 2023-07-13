@@ -86,7 +86,7 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'voucherUrl',
         label: '凭证',
         width: '160'
     },
