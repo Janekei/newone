@@ -1,9 +1,9 @@
 <template>
     <div>
         <TableK url="/gsc/fee/details/examineAdditionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption"  :showCheckBox="false" :showIndex="true">
+            :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showIndex="true">
             <template #buttons>
-                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+                <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
         </TableK>
     </div>
@@ -28,7 +28,7 @@ const tableOption = reactive([
     {
         prop: 'feeBillName',
         label: '费用名称',
-        width:'160'
+        width: '160'
     },
     {
         prop: 'bsWhareaName',
@@ -106,6 +106,11 @@ const tableOption = reactive([
         width: '160'
     }
 ])
+
+const selectId = ref()
+const selectThisColumn = (rows) => {
+    selectId.value = rows[0].id
+}
 
 // 搜索
 const tableRef = ref()
