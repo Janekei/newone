@@ -17,7 +17,7 @@
         <ElButton class="btn" type="primary" :icon="DocumentAdd">导入</ElButton>
         <ElButton class="btn" type="primary" :icon="Document">导出</ElButton>
     </div>
-    <Dialog ref="dialogRef" />
+    <Dialog ref="dialogRef" @success="refresh"/>
 </template>
 
 <script lang="ts" setup>
@@ -84,7 +84,7 @@ const formOption = reactive(
 let formData = reactive({})
 const formRef = ref()
 // 查询方法
-const emits = defineEmits(['clickSearch', 'update:form-state', 'resetForm', 'addTemplate'])
+const emits = defineEmits(['clickSearch', 'update:form-state', 'resetForm', 'addTemplate','refresh'])
 const postSearchData = () => {
     emits('clickSearch')
 }
@@ -106,6 +106,9 @@ const open = () => {
     dialogRef.value.open()
 }
 
+const refresh = () => {
+    emits('refresh')
+}
 
 </script>
 <style lang="scss" scoped>

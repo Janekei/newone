@@ -1,13 +1,9 @@
 <template>
-    <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
+    <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1300">
         <div class="form-box">
-            <EditForm @success="success" />
+            <EditForm />
         </div>
-
-        <template #footer>
-            <el-button @click="submitForm" type="primary">确认</el-button>
-            <el-button @click="dialogVisible = false">取消</el-button>
-        </template>
+        <TabContent :id="props.id" />
     </Dialog>
 </template>
 
@@ -15,7 +11,12 @@
 import { Dialog } from '@/components/Dialog'
 import { ref } from 'vue'
 import EditForm from './EditForm.vue';
-
+import TabContent from './TabContent.vue';
+const props = defineProps({
+    id: {
+        type: Number
+    }
+})
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
@@ -28,17 +29,13 @@ const open = async () => {
 
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
-const emits = defineEmits(['success'])
-const submitForm = () => {
-    dialogVisible.value = false
-    // 发送操作成功的事件
-    emits('success')
-}
+// const emits = defineEmits(['success'])
+// const submitForm = () => {
+//     dialogVisible.value = false
+//     // 发送操作成功的事件
+//     emits('success')
+// }
 
-const success = () => {
-    dialogVisible.value = false
-    emits('success')
-}
 
 
 defineExpose({

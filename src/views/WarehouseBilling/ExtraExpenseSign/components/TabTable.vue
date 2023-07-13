@@ -48,7 +48,7 @@
                     <el-button type="primary" text v-if="scope.$index != 0">
                         编辑
                     </el-button>
-                    <el-button type="danger" text v-if="scope.$index != 0">
+                    <el-button type="danger" @click="toDelItem(scope.row.id)" text v-if="scope.$index != 0">
                         删除
                     </el-button>
                     <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0">
@@ -81,7 +81,7 @@ const additionalMsg = ref([
         "feeNumber": "",
         "notes": "",
         "price": "",
-        "itemName": ""
+        "itemName": "",
     }
 ])
 
@@ -118,8 +118,21 @@ const tableConfig = ref(
 const fileUrl = ref()
 const getFileUrl = (url) => {
     fileUrl.value = url
+    console.log(fileUrl.value, 8080)
 }
 
+const ifCanShow = ref(false)
+// 获取额外费用明细
+// 额外费用明细列表
+// const extraExpense = ref([])
+const getExtraFeeDetail = async (id) => {
+    ifCanShow.value = true
+    const data = await ExtraExpenseApi.selectAddition({ id })
+    console.log(data, 9999)
+}
+
+const emits = defineEmits(['success'])
+// 增加额外费用
 const toAddItem = async () => {
     let params = {
         "itemId": additionalMsg.value[0].itemId,
@@ -129,14 +142,30 @@ const toAddItem = async () => {
         "voucherUrl": fileUrl.value,
         "price": additionalMsg.value[0].price
     }
-    Object.assign(props.basicData, params)
-    const res = await ExtraExpenseApi.createAddition(props.basicData)
+    const data = Object.assign({}, props.basicData, params)
+    const res = await ExtraExpenseApi.createAddition(data)
+    getExtraFeeDetail(res)
     if (res) {
         ElMessage.success('添加成功！')
+        emits('success')
     } else {
         ElMessage.success('添加失败！')
     }
+}
 
+const { t } = useI18n()
+const message = useMessage() // 消息弹窗
+//删除额外费用
+const toDelItem = async (id: number) => {
+    try {
+        // 删除的二次确认
+        await message.delConfirm()
+        // 发起删除
+        // console.log(id)
+        await ExtraExpenseApi.createAddition({ id })
+        message.success(t('common.delSuccess'))
+        // 刷新列表
+    } catch { }
 }
 
 onMounted(async () => {
