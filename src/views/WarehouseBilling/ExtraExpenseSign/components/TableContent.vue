@@ -3,7 +3,7 @@
         <TableK url="/gsc/fee/details/additionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
-                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+                <SearchContent @refresh="refresh" @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
             <template #inStockTime="{ row }">
                 <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>

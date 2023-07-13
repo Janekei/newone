@@ -9,3 +9,8 @@ export const createAddition = (data) => {
 export const selectAddition = (params) => {
     return request.get({ url: '/gsc/fee/details/findById', params })
 }
+
+// 删除额外费用
+export const deleteAddition = (params) => {
+    return request.delete({ url: '/gsc/fee/details/deleteAdditionalDetailsById', params })
+}

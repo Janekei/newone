@@ -48,7 +48,7 @@
                     <el-button type="primary" text v-if="scope.$index != 0">
                         编辑
                     </el-button>
-                    <el-button type="danger" text v-if="scope.$index != 0">
+                    <el-button type="danger" @click="toDelItem(scope.row.id)" text v-if="scope.$index != 0">
                         删除
                     </el-button>
                     <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0">
@@ -151,6 +151,21 @@ const toAddItem = async () => {
     } else {
         ElMessage.success('添加失败！')
     }
+}
+
+const { t } = useI18n()
+const message = useMessage() // 消息弹窗
+//删除额外费用
+const toDelItem = async (id: number) => {
+    try {
+        // 删除的二次确认
+        await message.delConfirm()
+        // 发起删除
+        // console.log(id)
+        await ExtraExpenseApi.createAddition({ id })
+        message.success(t('common.delSuccess'))
+        // 刷新列表
+    } catch { }
 }
 
 onMounted(async () => {
