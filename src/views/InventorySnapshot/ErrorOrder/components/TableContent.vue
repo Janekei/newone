@@ -93,16 +93,16 @@ const tableOption = reactive([
         label: '库存状态',
         width: '100'
     },
-    {
-        prop: 'updater',
-        label: '更新人',
-        width: '100'
-    },
-    {
-        prop: 'updateTime',
-        label: '更新时间',
-        width: '100'
-    }
+    // {
+    //     prop: 'updater',
+    //     label: '更新人',
+    //     width: '100'
+    // },
+    // {
+    //     prop: 'updateTime',
+    //     label: '更新时间',
+    //     width: '100'
+    // }
 
 
 ])

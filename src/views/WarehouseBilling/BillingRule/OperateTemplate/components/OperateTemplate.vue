@@ -13,7 +13,7 @@
     <div class="center">
         <div class="title">计费规则明细</div>
         <div class="content">
-          <ElButton class="add-template-btn" @click="toOpenTempalteWin" :disabled="disabled" type="primary">选择计费模板</ElButton>
+          <ElButton class="add-template-btn" @click="toOpenTempalteWin" :disabled="disabled || itemDisabled" type="primary">选择计费模板</ElButton>
           <el-table
             height="350"
             :data="FeeItemList"
@@ -92,7 +92,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column fixed="right" label="操作" align="center" width="170">
+            <el-table-column fixed="right" label="操作" align="center" width="170" v-if="!disabled">
               <template #default="scope">
                 <el-button
                   type="primary"
@@ -114,6 +114,7 @@
                   type="primary"
                   text
                   @click="toAddItem"
+                  :disabled="itemDisabled"
                   v-if="scope.$index == 0"
                 >
                   添加
@@ -137,7 +138,7 @@
 <!--        <ElButton type="primary" :disabled="disabled" @click="cancle">保存模板</ElButton>-->
     </div>
   <ElDialog v-model="showDialog" title="选择模板" draggable @close="close">
-    <TableK url="/jinko/fee/template/page" method="get" ref="tableRef" :params="formDataW" :firstPages="10"
+    <TableK url="/gsc/fee/template/page" method="get" ref="tableRef" :params="formDataW" :firstPages="10"
             :tableOption="tableOptionW" :showFixedOperation="true" :showCheckBox="false" :showIndex="false">
       <template #operation="{ operateRow }">
         <el-link class="link" type="primary" :icon="View" @click="selectTemplate(operateRow.id)">使用</el-link>
@@ -212,7 +213,7 @@ const tableConfigFee = ref(
       FeeItemList.value[index].feeItemId =  row.id
       FeeItemList.value[index].feeItemName =  row.name
     },
-    url: '/jinko/items/page',
+    url: '/gsc/items/page',
     tableOption: [
       {
         prop: 'name',
@@ -243,7 +244,7 @@ const tableConfigCurrency = ref(
       FeeItemList.value[index].feeCyId =  row.id
       FeeItemList.value[index].feeCyName =  row.name
     },
-    url: '/jinko/currency/page',
+    url: '/gsc/currency/page',
     tableOption: [
       {
         prop: 'name',
@@ -347,7 +348,7 @@ const formOption = reactive([
             formData.value['bsWhType'] = row.type
         },
         tableConfig: {
-            url: '/jinko/baseWarehouse/getWarehousePage',
+            url: '/gsc/baseWarehouse/getWarehousePage',
             tableOption: [
                 {
                     prop: 'name',
@@ -377,7 +378,7 @@ const formOption = reactive([
         // formData.value['bsWhType'] = row.type
       },
       tableConfig: {
-        url: '/jinko/carrier/page',
+        url: '/gsc/carrier/page',
         tableOption: [
           {
             prop: 'name',

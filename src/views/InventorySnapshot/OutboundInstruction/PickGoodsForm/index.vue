@@ -6,9 +6,9 @@
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
-            <template #updateTime="{ row }">
-                <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>
-            </template>
+<!--            <template #updateTime="{ row }">-->
+<!--                <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>-->
+<!--            </template>-->
         </TableK>
     </div>
     <div class="box-btn">
@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import { reactive } from 'vue'
-import { formatTime } from '@/utils'
+// import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchOutbound from '../components/SearchOutbound.vue'
 import DialogOutbound from '../components/DialogOutbound.vue'
@@ -56,7 +56,7 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'goodsNumber',
+        prop: 'quantity',
         label: '数量',
         width: '180'
     },
@@ -75,17 +75,17 @@ const tableOption = reactive([
         label: '体积',
         width: '180'
     },
-    {
-        prop: 'updater',
-        label: '更新人',
-        width: '180'
-    },
-    {
-        prop: 'updateTime',
-        label: '更新时间',
-        slotName: 'updateTime',
-        width: '180'
-    }
+    // {
+    //     prop: 'updater',
+    //     label: '更新人',
+    //     width: '180'
+    // },
+    // {
+    //     prop: 'updateTime',
+    //     label: '更新时间',
+    //     slotName: 'updateTime',
+    //     width: '180'
+    // }
 ])
 // 入库指令首页搜索框数据
 const tableRef = ref()

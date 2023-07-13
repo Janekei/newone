@@ -19,26 +19,26 @@
         <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.arrivalPortName }}</el-descriptions-item>
         <el-descriptions-item label="入库指令时间" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.createTime, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.createTime , 'YYYY-MM-DD hh:mm:ss')}}</el-descriptions-item>
         <el-descriptions-item label="ETD日期" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.etd, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.etd , 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
         <el-descriptions-item label="ETD NEW日期" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.newEtd, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{formatDate(props.descList.newEtd , 'YYYY-MM-DD hh:mm:ss')}}</el-descriptions-item>
         <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.atd, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.atd , 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
         <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.eta, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.eta , 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
         <el-descriptions-item label="ETA NEW日期" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.newEta, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.newEta , 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
         <el-descriptions-item label="ATA 日期" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.ata, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.ata , 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
         <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">-</el-descriptions-item>
         <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.requiredArrivalTime, 'yyyy-MM-dd')
+            class-name="my-content">{{ formatDate(props.descList.requiredArrivalTime , 'YYYY-MM-DD hh:mm:ss')
             }}</el-descriptions-item>
         <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatTime(props.descList.estInTime, 'yyyy-MM-dd') }}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.estInTime , 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
         <el-descriptions-item label="派送地址" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{ props.descList.deliveryAddress }}</el-descriptions-item>
     </el-descriptions>
@@ -48,6 +48,7 @@
 import { formatTime } from '@/utils'
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import DictTagK from '@/components/DictTagK/index.vue'
+import {formatDate} from "@/utils/formatTime";
 const props = defineProps({
     descList: {
         type: Array as any,
