@@ -1,7 +1,7 @@
 <template>
     <div>
-        <TableK url="/gsc/fee/details/examineAdditionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption"  :showCheckBox="false" :showIndex="true">
+        <TableK url="/jinko/fee/bill/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
+            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
@@ -26,18 +26,13 @@ const formData = ref({
 })
 const tableOption = reactive([
     {
-        prop: 'feeBillName',
-        label: '费用名称',
-        width:'160'
-    },
-    {
-        prop: 'bsWhareaName',
-        label: '供应商',
+        prop: 'name',
+        label: '账单名称',
         width: '160'
     },
     {
-        prop: 'bl',
-        label: '提单号',
+        prop: 'supplierName',
+        label: '供应商',
         width: '160'
     },
     {
@@ -46,64 +41,23 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'bsWhName',
-        label: '仓库名称',
-        width: '160'
-    },
-    {
-        prop: 'bsWhType',
-        label: '原始集装箱号',
-        width: '160'
-    },
-    {
-        prop: 'palletQty',
-        label: '托盘数量',
-        width: '160'
-    },
-    {
-        prop: 'qty',
-        label: '组片数量',
-        width: '160'
-    },
-    {
-        prop: 'inStockTime',
-        label: '入仓日期',
-        width: '160'
-    },
-    {
-        prop: 'outStockTime',
-        label: '出仓日期',
-        width: '160'
-    },
-    {
-        prop: 'feeTime',
-        label: '费用生成时间',
-        width: '160'
-    },
-    {
-        prop: 'price',
-        label: '金额',
-        width: '160'
-    },
-    {
-        prop: 'feeCyName',
-        label: '币值',
-        width: '160'
-    },
-    {
-        prop: 'voucherStatus',
-        label: '凭证',
-        width: '160'
-    },
-    {
-        prop: 'notes',
-        label: '备注',
+        prop: 'billDate',
+        label: '账单生成日期',
         width: '160'
     },
     {
         prop: 'status',
         label: '状态',
         width: '160'
+    },
+    {
+        prop: 'supplierPrice',
+        label: '供应商金额',
+        width: '160'
+    },
+    {
+        prop: 'price',
+        label: '总金额'
     }
 ])
 

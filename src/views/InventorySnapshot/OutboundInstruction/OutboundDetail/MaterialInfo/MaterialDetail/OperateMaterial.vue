@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/outbound-goods/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
+        <TableK url="/gsc/outbound/container/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showFixedOperation="true" :showIndex="true" @selectThisColumn="selectThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"

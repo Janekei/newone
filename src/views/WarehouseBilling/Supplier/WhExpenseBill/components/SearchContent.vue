@@ -12,8 +12,8 @@
         </div>
     </div>
     <div class="center-btn-box">
-        <ElButton class="btn" type="primary" :icon="Plus" @click="addTemplate">增加</ElButton>
-        <ElButton class="btn" type="primary" :icon="DocumentAdd" @click="uploadFile">导入</ElButton>
+        <ElButton class="btn" type="primary" :icon="View" @click="addTemplate">查看</ElButton>
+        <ElButton class="btn" type="primary" :icon="Plus" @click="addTemplate">确认</ElButton>
         <ElButton class="btn" type="primary" :icon="Document" @click="downloadTable">导出</ElButton>
     </div>
     <DialogUploadFile ref="uploadRef" />
@@ -24,26 +24,25 @@
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { Search, Setting, Plus, DocumentAdd, Document } from '@element-plus/icons-vue'
+import { Search, Setting, Plus, Document, View } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
-import DialogUploadFile from './DialogUploadFile.vue'
-import DialogTemplate from './DialogTemplate.vue'
+
 const formOption = reactive(
     [
         {
             type: 'input',
             field: 'goodsCode',
-            placeholder: '请输入计费规则模板',
-            label: '计费规则模板：'
+            placeholder: '请输入账单名称',
+            label: '账单名称：'
         },
         {
 
             type: 'select',
             field: 'warehouse',
-            placeholder: '请选择仓库',
-            label: '仓库',
+            placeholder: '',
+            label: '供应商',
             requestOptions: {
-                url: '/gsc/baseWharea/page',
+                url: '/jinko/baseWharea/page',
                 method: 'get',
                 params: {},
                 handleOptions: (res: any) => {
@@ -77,11 +76,7 @@ const resetform = () => {
 }
 
 // 导入/导出
-const uploadRef = ref()
 const downloadRef = ref()
-const uploadFile = () => {
-    uploadRef.value.open()
-}
 
 const downloadTable = () => {
     downloadRef.value.open()

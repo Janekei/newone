@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-        <TableK url="/jinko/baseWarehouse/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption"
+        <TableK url="/gsc/baseWarehouse/page" method="get" :params="formData" ref="myTable" :tableOption="tableOption"
             :showFixedOperation="true" :showCheckBox="false">
             <template #buttons>
                 <TopSearchForm :formOption="formOption" @clickSearch="clickSearch" @update:form-state="updateSearchData" />

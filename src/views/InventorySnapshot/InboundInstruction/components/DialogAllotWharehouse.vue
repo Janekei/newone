@@ -56,7 +56,7 @@ const formOption = reactive([
       formData.value["address"] = row.address;
     },
     tableConfig: {
-      url: "/jinko/baseWarehouse/page",
+      url: "/gsc/baseWarehouse/page",
       tableOption: [
         {
           prop: "name",

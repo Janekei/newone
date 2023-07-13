@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK v-if="show" url="/jinko/standardTime/standardPlanPage" method="get" :params="formData" ref="tableRef"
+        <TableK v-if="show" url="/gsc/standardTime/standardPlanPage" method="get" :params="formData" ref="tableRef"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />

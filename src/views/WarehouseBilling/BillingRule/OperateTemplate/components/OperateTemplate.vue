@@ -305,7 +305,7 @@ const formOption = reactive([
         formData.value['bsWhName'] = row.name
       },
       tableConfig: {
-        url: '/jinko/baseWarehouse/getWarehousePage',
+        url: '/gsc/baseWarehouse/getWarehousePage',
         tableOption: [
           {
             prop: 'name',

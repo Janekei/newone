@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/standardTime/page" method="get" :params="formData" ref="tableRef" :tableOption="tableOption"
+        <TableK url="/gsc/standardTime/page" method="get" :params="formData" ref="tableRef" :tableOption="tableOption"
             :showFixedOperation="true" :editData="editData" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <FormSearch @AddTimeRules="AddTimeRules" @click-search="clickSearch" @update:form-state="updateSearchData"

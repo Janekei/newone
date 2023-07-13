@@ -94,7 +94,7 @@ const formOption = reactive([
         valueKey: 'carNumBefore',
         tableConfig: {
             params: {},
-            url: '/jinko/vehicleEntity/page',
+            url: '/gsc/vehicleEntity/page',
             tableOption: [{
                 prop: 'carNumBefore',
                 label: '车牌'
@@ -115,7 +115,7 @@ const formOption = reactive([
         valueKey: 'carOwnerName',
         tableConfig: {
             params: {},
-            url: '/jinko/vehicleEntity/page',
+            url: '/gsc/vehicleEntity/page',
             tableOption: [{
                 prop: 'carNumBefore',
                 label: '车牌'
@@ -136,7 +136,7 @@ const formOption = reactive([
         valueKey: 'ownerCompany',
         tableConfig: {
             params: {},
-            url: '/jinko/vehicleEntity/page',
+            url: '/gsc/vehicleEntity/page',
             tableOption: [{
                 prop: 'carNumBefore',
                 label: '车牌'
@@ -157,7 +157,7 @@ const formOption = reactive([
         valueKey: 'code',
         tableConfig: {
             params: {},
-            url: '/jinko/vehicleEntity/page',
+            url: '/gsc/vehicleEntity/page',
             tableOption: [{
                 prop: 'carNumBefore',
                 label: '车牌'
@@ -178,7 +178,7 @@ const formOption = reactive([
         valueKey: 'carLong',
         tableConfig: {
             params: {},
-            url: '/jinko/vehicleEntity/page',
+            url: '/gsc/vehicleEntity/page',
             tableOption: [{
                 prop: 'carNumBefore',
                 label: '车牌'

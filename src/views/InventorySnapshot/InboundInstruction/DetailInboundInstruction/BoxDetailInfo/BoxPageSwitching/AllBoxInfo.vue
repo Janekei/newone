@@ -1,6 +1,6 @@
 <template>
   <TableK
-    url="/jinko/gscwhinboundcontainer/page"
+    url="/gsc/inbound/container/page"
     method="get"
     :params="formData"
     ref="tableRef"

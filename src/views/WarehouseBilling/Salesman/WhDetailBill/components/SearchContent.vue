@@ -12,38 +12,37 @@
         </div>
     </div>
     <div class="center-btn-box">
-        <ElButton class="btn" type="primary" :icon="Plus" @click="addTemplate">增加</ElButton>
-        <ElButton class="btn" type="primary" :icon="DocumentAdd" @click="uploadFile">导入</ElButton>
-        <ElButton class="btn" type="primary" :icon="Document" @click="downloadTable">导出</ElButton>
+        <ElButton class="btn" type="primary" :icon="Plus" @click="open">审批</ElButton>
+        <ElButton class="btn" type="primary" :icon="Edit">修改</ElButton>
+        <ElButton class="btn" type="primary" :icon="DocumentAdd">导入</ElButton>
+        <ElButton class="btn" type="primary" :icon="Document">导出</ElButton>
     </div>
-    <DialogUploadFile ref="uploadRef" />
-    <DialogTemplate ref='downloadRef' />
+    <Dialog ref="dialogRef" />
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { Search, Setting, Plus, DocumentAdd, Document } from '@element-plus/icons-vue'
+import { Search, Setting, Plus, Document, DocumentAdd, Edit } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
-import DialogUploadFile from './DialogUploadFile.vue'
-import DialogTemplate from './DialogTemplate.vue'
+import Dialog from './Dialog.vue'
+
 const formOption = reactive(
     [
         {
             type: 'input',
             field: 'goodsCode',
-            placeholder: '请输入计费规则模板',
-            label: '计费规则模板：'
+            placeholder: '请输入账单名称',
+            label: '账单名称：'
         },
         {
 
             type: 'select',
             field: 'warehouse',
-            placeholder: '请选择仓库',
-            label: '仓库',
+            placeholder: '',
+            label: '供应商',
             requestOptions: {
-                url: '/gsc/baseWharea/page',
+                url: '/jinko/baseWharea/page',
                 method: 'get',
                 params: {},
                 handleOptions: (res: any) => {
@@ -76,22 +75,13 @@ const resetform = () => {
     }, 10);
 }
 
-// 导入/导出
-const uploadRef = ref()
-const downloadRef = ref()
-const uploadFile = () => {
-    uploadRef.value.open()
+
+// 弹窗
+const dialogRef = ref()
+const open = () => {
+    dialogRef.value.open()
 }
 
-const downloadTable = () => {
-    downloadRef.value.open()
-}
-
-// 增加
-const router = useRouter()
-const addTemplate = () => {
-    router.push('/warehousebilling/billingtemplate/operatetemplate')
-}
 
 </script>
 <style lang="scss" scoped>
@@ -133,11 +123,11 @@ const addTemplate = () => {
     }
 }
 
-.form-box>.el-form-item {
+:deep(.el-form-item) {
     display: inline-flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 1.25rem;
+    padding: .625rem;
     margin-bottom: 0;
 }
 
