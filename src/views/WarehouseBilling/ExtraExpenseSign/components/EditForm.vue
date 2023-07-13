@@ -4,7 +4,7 @@
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
         </div>
         <div>
-            <TabContent :basicData="cloneData" />
+            <TabContent :basicData="cloneData" @success="success" />
         </div>
     </div>
 </template>
@@ -161,6 +161,11 @@ watch(() => formData.value, () => {
     cloneData.value['outStockTime'] = new Date(formData.value['outStockTime'])
     cloneData.value['feeTime'] = new Date(formData.value['feeTime'])
 })
+
+const emits = defineEmits(['success'])
+const success = () => {
+    emits('success')
+}
 </script>
 <style lang="scss" scoped>
 :deep(.el-form-item) {

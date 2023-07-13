@@ -131,7 +131,7 @@ const getExtraFeeDetail = async (id) => {
     console.log(data, 9999)
 }
 
-
+const emits = defineEmits(['success'])
 // 增加额外费用
 const toAddItem = async () => {
     let params = {
@@ -147,6 +147,7 @@ const toAddItem = async () => {
     getExtraFeeDetail(res)
     if (res) {
         ElMessage.success('添加成功！')
+        emits('success')
     } else {
         ElMessage.success('添加失败！')
     }

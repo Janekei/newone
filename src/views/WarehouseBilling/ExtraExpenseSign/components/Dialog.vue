@@ -1,9 +1,9 @@
 <template>
     <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
         <div class="form-box">
-            <EditForm />
+            <EditForm @success="success" />
         </div>
-        
+
         <template #footer>
             <el-button @click="submitForm" type="primary">确认</el-button>
             <el-button @click="dialogVisible = false">取消</el-button>
@@ -35,6 +35,10 @@ const submitForm = () => {
     emits('success')
 }
 
+const success = () => {
+    dialogVisible.value = false
+    emits('success')
+}
 
 
 defineExpose({
