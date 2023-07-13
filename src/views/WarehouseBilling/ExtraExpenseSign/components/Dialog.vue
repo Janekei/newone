@@ -3,7 +3,7 @@
         <div class="form-box">
             <EditForm />
         </div>
-        <TabContent />
+        
         <template #footer>
             <el-button @click="submitForm" type="primary">确认</el-button>
             <el-button @click="dialogVisible = false">取消</el-button>
@@ -15,7 +15,7 @@
 import { Dialog } from '@/components/Dialog'
 import { ref } from 'vue'
 import EditForm from './EditForm.vue';
-import TabContent from './TabContent.vue';
+
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示

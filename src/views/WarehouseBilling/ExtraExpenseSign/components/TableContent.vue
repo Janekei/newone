@@ -1,9 +1,21 @@
 <template>
     <div>
         <TableK url="/gsc/fee/details/additionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption"  :showCheckBox="false" :showIndex="true">
+            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+            </template>
+            <template #inStockTime="{ row }">
+                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+            </template>
+            <template #outStockTime="{ row }">
+                <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+            </template>
+            <template #feeTime="{ row }">
+                <span>{{ formatDate(row.row.feeTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+            </template>
+            <template #status="{ row }">
+                <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
         </TableK>
     </div>
@@ -11,24 +23,23 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-// import { formatTime } from '@/utils'
+import { formatDate } from '@/utils/formatTime'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
-const props = defineProps({
-    code: {
-        type: String,
-        default: ''
-    }
-})
+import DictTagK from '@/components/DictTagK/index.vue'
+// const props = defineProps({
+//     code: {
+//         type: String,
+//         default: ''
+//     }
+// })
 
-const formData = ref({
-    code: props.code
-})
+const formData = ref({})
 const tableOption = reactive([
     {
         prop: 'feeBillName',
         label: '费用名称',
-        width:'160'
+        width: '160'
     },
     {
         prop: 'supplierName',
@@ -63,17 +74,20 @@ const tableOption = reactive([
     {
         prop: 'inStockTime',
         label: '入仓日期',
-        width: '160'
+        width: '160',
+        slotName: 'inStockTime'
     },
     {
         prop: 'outStockTime',
         label: '出仓日期',
-        width: '160'
+        width: '160',
+        slotName: 'outStockTime'
     },
     {
         prop: 'feeTime',
         label: '费用生成时间',
-        width: '160'
+        width: '160',
+        slotName: 'feeTime'
     },
     {
         prop: 'price',
@@ -98,7 +112,8 @@ const tableOption = reactive([
     {
         prop: 'status',
         label: '状态',
-        width: '160'
+        width: '160',
+        slotName: 'status'
     }
 ])
 
@@ -108,9 +123,7 @@ const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    formData.value = {
-        code: props.code
-    }
+    formData.value = {}
     Object.assign(formData.value, val)
 }
 const resetForm = () => {
