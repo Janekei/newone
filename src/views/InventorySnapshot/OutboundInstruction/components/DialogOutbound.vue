@@ -67,7 +67,7 @@ let recordData = ref({
 //     carLong: undefined
 // })
 const getCartPage = async (carNumBefore) => {
-    const res = await OutboundInstruction.getCartPage({ carNumBefore })
+    const res = await OutboundInstruction.getCartPage({ searchKey: carNumBefore })
     recordData.value = res.list[0]
     console.log(res, 77777)
 }
