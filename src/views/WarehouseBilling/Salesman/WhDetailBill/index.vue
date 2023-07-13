@@ -1,11 +1,10 @@
 <template>
-  <div>
-业务员详情信息
-  </div>
+    <div>
+        <TableContent />
+    </div>
 </template>
 
-<script>
-
+<script lang="ts" setup>
+import TableContent from './components/TableContent.vue'
 </script>
-<style scoped>
-</style>
+<style lang="scss" scoped></style>
