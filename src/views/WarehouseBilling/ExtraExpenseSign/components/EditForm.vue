@@ -1,87 +1,174 @@
 <template>
-    <div>
-        <FormK :formOption="formOption" labelWidth="8em" />
+    <div class="main">
+        <div>
+            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
+        </div>
+        <div>
+            <TabContent :basicData="cloneData" />
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import FormK from '@/components/FormK/index.vue'
+import _ from 'lodash-es'
+import TabContent from './TabContent.vue';
+
+const formData = ref({})
 const formOption = reactive([
     {
         type: 'input',
-        field: 'goodsCode',
+        field: 'bl',
         placeholder: '',
         label: '提单号：',
-        disabled: true
+        // disabled: true
     },
     {
-        type: 'input',
-        field: 'goodsCode',
+        type: 'inputTable',
+        field: 'supplierName',
         placeholder: '',
         label: '供应商：',
-        disabled: true
+        valueKey: 'name',
+        clearData: () => {
+        },
+        setFormData: (row) => {
+            formData.value['supplierId'] = row.id
+            formData.value['supplierName'] = row.name
+        },
+        tableConfig: {
+            url: '/gsc/carrier/page',
+            tableOption: [
+                {
+                    prop: 'name',
+                    label: '名称'
+                },
+                {
+                    prop: 'id',
+                    label: 'Code'
+                }
+            ]
+        }
+    },
+    {
+        type: 'inputTable',
+        field: 'bsWhName',
+        placeholder: '',
+        label: '仓库名称：',
+        valueKey: 'name',
+        clearData: () => {
+        },
+        setFormData: (row) => {
+            formData.value['bsWhId'] = row.id
+            formData.value['bsWhName'] = row.name
+            formData.value['bsWhareaName'] = row.bsWhareaName
+        },
+        tableConfig: {
+            url: '/gsc/baseWarehouse/getWarehousePage',
+            tableOption: [
+                {
+                    prop: 'name',
+                    label: '名称'
+                },
+                {
+                    prop: 'id',
+                    label: 'Code'
+                }
+            ]
+        }
     },
     {
         type: 'input',
-        field: 'goodsCode',
+        field: 'bsWhareaName',
         placeholder: '',
         label: '仓库区域：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
-        label: '仓库名称：',
-        disabled: true
-    },
-    {
-        type: 'input',
-        field: 'goodsCode',
+        field: 'arkQty',
         placeholder: '',
         label: '柜数：',
-        disabled: true
+        // disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
+        field: 'palletQty',
         placeholder: '',
         label: '托盘数量：',
-        disabled: true
+        // disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
+        field: 'qty',
         placeholder: '',
         label: '组片数量：',
-        disabled: true
+        // disabled: true
     },
     {
-        type: 'input',
-        field: 'goodsCode',
+        type: 'date',
+        field: 'inStockTime',
         placeholder: '',
         label: '入仓日期：',
-        disabled: true
+        // disabled: true
     },
     {
-        type: 'input',
-        field: 'goodsCode',
+        type: 'date',
+        field: 'outStockTime',
         placeholder: '',
         label: '出仓日期：',
-        disabled: true
+        // disabled: true
     },
     {
-        type: 'input',
-        field: 'goodsCode',
+        type: 'date',
+        field: 'feeTime',
         placeholder: '',
         label: '费用生成日期：',
-        disabled: true
+        // disabled: true
+    },
+    {
+        type: 'inputTable',
+        field: 'feeCyName',
+        placeholder: '',
+        label: '币种：',
+        valueKey: 'name',
+        clearData: () => {
+        },
+        setFormData: (row) => {
+            formData.value['feeCyId'] = row.id
+            formData.value['feeCyName'] = row.name
+        },
+        tableConfig: {
+            url: '/gsc/currency/page',
+            tableOption: [
+                {
+                    prop: 'name',
+                    label: '名称'
+                },
+                {
+                    prop: 'id',
+                    label: 'Code'
+                }
+            ]
+        }
     },
 ])
+
+const cloneData = ref()
+watch(() => formData.value, () => {
+    cloneData.value = _.cloneDeep(formData.value)
+    cloneData.value['inStockTime'] = new Date(formData.value['inStockTime'])
+    cloneData.value['outStockTime'] = new Date(formData.value['outStockTime'])
+    cloneData.value['feeTime'] = new Date(formData.value['feeTime'])
+})
 </script>
 <style lang="scss" scoped>
 :deep(.el-form-item) {
     margin: .625rem 1.625rem;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
 }
 </style>

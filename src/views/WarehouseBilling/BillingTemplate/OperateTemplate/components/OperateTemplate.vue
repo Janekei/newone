@@ -101,7 +101,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { useRoute } from 'vue-router'
-import { ElButton } from 'element-plus';
+import { ElButton, ElMessage } from 'element-plus';
 import Formk from '@/components/FormK/index.vue'
 import { formatDate } from '@/utils/formatTime'
 import { getIntDictOptions } from '@/utils/dict'
