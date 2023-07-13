@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/gsc/outbound/pallets/getPalletsList" method="post" :layout="layout" :data="formData" ref="tableRef"
+        <TableK url="/gsc/outbound/pallets/getPalletsPage" method="post" :layout="layout" :data="formData" ref="tableRef"
             :firstPages="10" :tableOption="tableOption" :showIndex="true" @selectThisColumn="selectThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
@@ -127,15 +127,19 @@ const refresh = () => {
 
 // 多选行
 let outIds: any = ref([]);
+// 车牌号
+let numberPlateArr: any = ref([])
 // 判断所选中的行是否均绑定车辆
 let isNotAllBind = ref(true)
 const selectThisColumn = (rows) => {
     outIds.value = []
+    numberPlateArr.value = []
     isNotAllBind.value = true
     rows.forEach((item) => {
         if (item.numberPlate === null) {
             isNotAllBind.value = false
         }
+        numberPlateArr.value.push(item.numberPlate)
         outIds.value.push(item.id)
     })
 }
@@ -145,7 +149,7 @@ const selectThisColumn = (rows) => {
 // 确认出库
 const refDialog = ref()
 let isShow = ref(false)
-const open = (type) => {
+const open = (type: string) => {
     if (outIds.value.length === 0) {
         ElMessage.error('请选择行！')
         return;
@@ -159,7 +163,7 @@ const open = (type) => {
             refDialog.value.open('出库', '确认出库', '您确认要出库吗')
         } else if (type === '绑定车辆') {
             isShow.value = true
-            refDialog.value.open('绑定车辆', '绑定车辆', '您确认要绑定车辆吗')
+            refDialog.value.open('绑定车辆', '绑定车辆', '您确认要绑定车辆吗', numberPlateArr.value)
         }
     }
 }
