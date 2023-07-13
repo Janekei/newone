@@ -81,7 +81,7 @@ const additionalMsg = ref([
         "feeNumber": "",
         "notes": "",
         "price": "",
-        "itemName": ""
+        "itemName": "",
     }
 ])
 
@@ -118,8 +118,21 @@ const tableConfig = ref(
 const fileUrl = ref()
 const getFileUrl = (url) => {
     fileUrl.value = url
+    console.log(fileUrl.value, 8080)
 }
 
+const ifCanShow = ref(false)
+// 获取额外费用明细
+// 额外费用明细列表
+// const extraExpense = ref([])
+const getExtraFeeDetail = async (id) => {
+    ifCanShow.value = true
+    const data = await ExtraExpenseApi.selectAddition({ id })
+    console.log(data, 9999)
+}
+
+
+// 增加额外费用
 const toAddItem = async () => {
     let params = {
         "itemId": additionalMsg.value[0].itemId,
@@ -129,14 +142,14 @@ const toAddItem = async () => {
         "voucherUrl": fileUrl.value,
         "price": additionalMsg.value[0].price
     }
-    Object.assign(props.basicData, params)
-    const res = await ExtraExpenseApi.createAddition(props.basicData)
+    const data = Object.assign({}, props.basicData, params)
+    const res = await ExtraExpenseApi.createAddition(data)
+    getExtraFeeDetail(res)
     if (res) {
         ElMessage.success('添加成功！')
     } else {
         ElMessage.success('添加失败！')
     }
-
 }
 
 onMounted(async () => {
