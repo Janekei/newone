@@ -15,7 +15,7 @@
         <ElButton class="btn" type="primary" @click="open">业务审批</ElButton>
         <ElButton class="btn" type="primary">查看凭证</ElButton>
     </div>
-    <Dialog :id="props.id" ref="dialogRef" />
+    <Dialog :id="props.id" ref="dialogRef" @success="success"/>
     <DialogUploadFile ref="uploadRef" />
     <DialogTemplate ref='downloadRef' />
 </template>
@@ -89,7 +89,7 @@ const formOption = reactive(
 let formData = reactive({})
 const formRef = ref()
 // 查询方法
-const emits = defineEmits(['clickSearch', 'update:form-state', 'resetForm', 'addTemplate'])
+const emits = defineEmits(['clickSearch', 'update:form-state', 'resetForm', 'success'])
 const postSearchData = () => {
     emits('clickSearch')
 }
@@ -118,6 +118,9 @@ const open = () => {
     dialogRef.value.open()
 }
 
+const success = () => {
+    emits('success')
+}
 
 </script>
 <style lang="scss" scoped>

@@ -209,12 +209,11 @@ const refresh = () => {
 // 选中项
 const elTable = ref()
 const selectAll = ref([])
-const selectData = ref()
 const emits = defineEmits(['clickThisColumn', 'selectThisColumn', 'sendTableData'])
 const handleSelectionChange = (rows) => {
+
   if (props.limit) {
-    selectData.value = rows
-    console.log(rows, 9090)
+    emits('selectThisColumn', rows[rows.length - 1])
   } else {
     selectAll.value = rows
     emits('selectThisColumn', rows)
@@ -225,6 +224,7 @@ const handleSelect = (selection, row) => {
     elTable.value.clearSelection()
     if (selection.length == 0) return;
     elTable.value.toggleRowSelection(row, true)
+
   }
 }
 

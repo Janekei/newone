@@ -49,16 +49,22 @@ const rules = reactive({
 // 获取费用明细
 const extraDetailData = ref()
 const getExtraDetail = async () => {
+    if (props.id === undefined) {
+        ElMessage.warning('请选择行再点击!')
+        return;
+    }
     const data = await ExtraApprovalApi.selectAddition({ id: props.id })
     extraDetailData.value = data
 }
 
 // 审批费用
+const emits = defineEmits(['successApr'])
 const approvalExpense = async (status) => {
     const data = { id: props.id, approveNotes: approveNotes.value, status }
     const res = await ExtraApprovalApi.approvalAddition(data)
     if (res) {
         ElMessage.success('审批成功')
+        emits('successApr')
     } else {
         ElMessage.error('审批失败')
     }

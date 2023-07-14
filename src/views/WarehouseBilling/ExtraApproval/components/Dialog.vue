@@ -3,7 +3,7 @@
         <div class="form-box">
             <EditForm />
         </div>
-        <TabContent :id="props.id" />
+        <TabContent :id="props.id" @successApr="successApr" />
     </Dialog>
 </template>
 
@@ -23,18 +23,22 @@ const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
 
 const open = async () => {
+    if (props.id === undefined) {
+        ElMessage.warning('请选择行再点击！')
+        return;
+    }
     dialogVisible.value = true
     dialogTitle.value = '基本信息'
 }
 
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
-// const emits = defineEmits(['success'])
-// const submitForm = () => {
-//     dialogVisible.value = false
-//     // 发送操作成功的事件
-//     emits('success')
-// }
+const emits = defineEmits(['success'])
+const successApr = () => {
+    dialogVisible.value = false
+    // 发送操作成功的事件
+    emits('success')
+}
 
 
 
