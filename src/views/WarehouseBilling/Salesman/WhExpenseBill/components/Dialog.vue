@@ -3,7 +3,7 @@
         <div class="form-box">
             <FormK :formOption="formOption" labelWidth="9em" />
         </div>
-        <TabContent />
+        <TabContent :id="props.id" />
         <template #footer>
             <el-button @click="submitForm" type="primary">确认</el-button>
             <el-button @click="dialogVisible = false">取消</el-button>
@@ -16,6 +16,11 @@ import { Dialog } from '@/components/Dialog'
 import { ref, reactive } from 'vue'
 import FormK from '@/components/FormK/index.vue'
 import TabContent from './TabContent.vue';
+const props = defineProps({
+    id: {
+        type: Number
+    }
+})
 
 const formOption = reactive([
     {

@@ -1,13 +1,13 @@
 <template>
     <div>
         <TableK url="/gsc/fee/summary/details/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showCheckBox="false"
-            :showIndex="true">
+            :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showIndex="true">
             <template #buttons>
-                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+                <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
+                    @reset-form="resetForm" />
             </template>
             <template #inStockTime="{ row }">
-                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #outStockTime="{ row }">
                 <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
@@ -16,7 +16,7 @@
                 <span>{{ formatDate(row.row.billStartDate, 'YYYY-MM-DD hh:mm:ss') }}</span>
             </template>
             <template #billEndDate="{ row }">
-                <span>{{ formatDate(row.row.billEndDate, 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.billEndDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #priceVariance="{ row }">
                 <span>{{ Math.abs(row.row.price - row.row.supplierPrice) }}</span>
@@ -30,7 +30,6 @@ import { ref, reactive } from 'vue'
 import { formatDate } from '@/utils/formatTime'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
-
 
 const formData = ref({
 
@@ -136,7 +135,6 @@ const selectThisColumn = (row) => {
     if (row) {
         selectId.value = row.id
     }
-    console.log(selectId.value, 999)
 }
 
 // 刷新列表
