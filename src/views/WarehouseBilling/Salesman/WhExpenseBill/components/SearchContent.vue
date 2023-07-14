@@ -12,10 +12,11 @@
         </div>
     </div>
     <div class="center-btn-box">
-        <ElButton class="btn" type="primary" :icon="View" @click="addTemplate">查看</ElButton>
+        <ElButton class="btn" type="primary" :icon="Plus" @click="open">审批</ElButton>
         <ElButton class="btn" type="primary" :icon="Plus" @click="addTemplate">确认</ElButton>
         <ElButton class="btn" type="primary" :icon="Document" @click="downloadTable">导出</ElButton>
     </div>
+    <Dialog ref="dialogRef" />
     <DialogUploadFile ref="uploadRef" />
     <DialogTemplate ref='downloadRef' />
 </template>
@@ -24,8 +25,9 @@
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { Search, Setting, Plus, Document, View } from '@element-plus/icons-vue'
+import { Search, Setting, Plus, Document } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
+import Dialog from './Dialog.vue'
 
 const formOption = reactive(
     [
@@ -87,6 +89,14 @@ const router = useRouter()
 const addTemplate = () => {
     router.push('/warehousebilling/billingtemplate/operatetemplate')
 }
+
+
+// 弹窗
+const dialogRef = ref()
+const open = () => {
+    dialogRef.value.open()
+}
+
 
 </script>
 <style lang="scss" scoped>
