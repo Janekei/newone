@@ -95,7 +95,7 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'bsWhType',
+        prop: 'feeCyName',
         label: '币值',
         width: '160'
     },
