@@ -13,26 +13,19 @@
     </div>
     <div class="center-btn-box">
         <ElButton class="btn" type="primary" :icon="Plus" @click="open">审批</ElButton>
-        <ElButton class="btn" type="primary" :icon="Plus" @click="addTemplate">确认</ElButton>
-        <ElButton class="btn" type="primary" :icon="Document" @click="downloadTable">导出</ElButton>
+        <ElButton class="btn" type="primary" :icon="Edit">修改</ElButton>
+        <ElButton class="btn" type="primary" :icon="DocumentAdd">导入</ElButton>
+        <ElButton class="btn" type="primary" :icon="Document">导出</ElButton>
     </div>
-    <Dialog :id="props.id" ref="dialogRef" />
-    <DialogUploadFile ref="uploadRef" />
-    <DialogTemplate ref='downloadRef' />
+    <Dialog ref="dialogRef" />
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { Search, Setting, Plus, Document } from '@element-plus/icons-vue'
+import { Search, Setting, Plus, Document, DocumentAdd, Edit } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 import Dialog from './Dialog.vue'
-const props = defineProps({
-    id: {
-        type: Number
-    }
-})
 
 const formOption = reactive(
     [
@@ -82,27 +75,10 @@ const resetform = () => {
     }, 10);
 }
 
-// 导入/导出
-const downloadRef = ref()
-
-const downloadTable = () => {
-    downloadRef.value.open()
-}
-
-// 增加
-const router = useRouter()
-const addTemplate = () => {
-    router.push('/warehousebilling/billingtemplate/operatetemplate')
-}
-
 
 // 弹窗
 const dialogRef = ref()
 const open = () => {
-    if (props.id === undefined) {
-        ElMessage.warning('请选择行再点击！')
-        return;
-    }
     dialogRef.value.open()
 }
 
@@ -147,11 +123,11 @@ const open = () => {
     }
 }
 
-.form-box>.el-form-item {
+:deep(.el-form-item) {
     display: inline-flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 1.25rem;
+    padding: .625rem;
     margin-bottom: 0;
 }
 
