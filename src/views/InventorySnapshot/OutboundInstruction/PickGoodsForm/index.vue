@@ -92,15 +92,15 @@ const tableRef = ref()
 const formOptionHome = reactive([
     {
         type: 'input',
-        field: 'goodCode',
-        placeholder: '请输入货品编号',
-        label: '货品编号：'
+        field: 'goodsCode',
+        placeholder: '请输入物料编号',
+        label: '物料编号：'
     },
     {
         type: 'input',
         field: 'goodsName',
-        placeholder: '请输入货品名称',
-        label: '货品名称：'
+        placeholder: '请输入物料名称',
+        label: '物料名称：'
     }
 ])
 

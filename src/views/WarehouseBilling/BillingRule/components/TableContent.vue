@@ -5,6 +5,9 @@
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
+          <template #bsWhType="{ row }">
+            {{getIntDictOptions('billing_warehouse_type')[row.row.bsWhType].label}}
+          </template>
             <template #operation="{ operateRow }">
                 <el-link class="link" type="primary" :icon="View" @click="checkTemplate(operateRow.id)">查看</el-link>
                 <el-link class="link" type="primary" :icon="Edit" @click="updateTemplate(operateRow.id)">修改</el-link>
@@ -21,6 +24,7 @@ import { useRouter } from 'vue-router'
 import { View, Edit, DArrowRight } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
+import {getIntDictOptions} from "@/utils/dict";
 const props = defineProps({
     code: {
         type: String,
@@ -41,19 +45,20 @@ const tableOption = reactive([
         label: '区域'
     },
     {
-        prop: 'bsWhType',
+        prop: 'supplierName',
         label: '供应商'
     },
     {
-        prop: 'bsWhType',
+        prop: 'bsWhName',
         label: '仓库'
     },
     {
         prop: 'bsWhType',
+        slotName:'bsWhType',
         label: '仓库种类'
     },
     {
-        prop: 'bsWhType',
+        prop: 'notes',
         label: '备注'
     }
 ])
