@@ -1,7 +1,7 @@
 <template>
     <div>
         <TableK url="/gsc/outbound/pallets/getPalletsPage" method="post" :layout="layout" :data="formData" ref="tableRef"
-            :firstPages="10" :tableOption="tableOption" :showIndex="true" @selectThisColumn="selectThisColumn">
+            :firstPages="10" :tableOption="tableOption" :showIndex="true" @selectThisColumn="selectThisColumn" :selectionPosition="'left'">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />

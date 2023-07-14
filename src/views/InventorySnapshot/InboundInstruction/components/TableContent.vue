@@ -2,12 +2,12 @@
     <div>
         <TableK url="/gsc/inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showIndex="true" :showExpand="true" @select-this-column="selectRow"
-            @click-this-column="clickThisColumn">
+            @click-this-column="clickThisColumn" :selectionPosition="'left'">
             <template #buttons>
                 <SearchContent :isShowAllot="true" :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" @allotWshouse="allotWshouse" />
             </template>
-            <template #expand="{ expandRow }">
+            <template #expand="{ expandRow }" >
                 <DescriptionInboundList :descList="expandRow" />
             </template>
             <template #estInTime="{ row }">

@@ -46,6 +46,10 @@ const formOption = reactive([
     }
 ])
 
+const { t } = useI18n()
+
+const message = useMessage() // 消息弹窗
+
 // 新增/修改信息
 // 新增/修改操作
 const formRef = ref()
@@ -89,15 +93,21 @@ const search = () => {
     refresh()
 }
 
-
-
 // 删除区域
 const deleteZoneListItem = async () => {
     // 获取删除区域id
-    let id = myTable.value.selectAll[0].id
-    const res = await ZoneManageApi.deleteZoneItem({ id })
-    console.log(res, 'deleteZone')
-    refresh()
+    try {
+      // 删除的二次确认
+      await message.delConfirm()
+      // 发起删除
+      let id = myTable.value.selectAll[0].id
+      await ZoneManageApi.deleteZoneItem({ id })
+      message.success(t('common.delSuccess'))
+      // 刷新列表
+      await refresh()
+    } catch {}
+    // console.log(res, 'deleteZone')
+    // refresh()
 }
 
 </script>
