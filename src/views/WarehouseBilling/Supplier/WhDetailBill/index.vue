@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <TableContent />
-  </div>
+    <div>
+        <TableContent />
+    </div>
 </template>
 
 <script lang="ts" setup>
