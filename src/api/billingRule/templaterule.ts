@@ -1,7 +1,7 @@
 import request from '@/config/axios'
 
 //  创建新建仓储计费规则
-export const createBillingRrule = (data) => {
+export const createBillingRule = (data) => {
   return request.post({ url: '/gsc/fee/template/rule/create', data})
 }
 

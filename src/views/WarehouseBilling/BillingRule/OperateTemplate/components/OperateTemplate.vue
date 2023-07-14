@@ -158,7 +158,7 @@ import MyInputTable from './MyInputTable.vue';
 import { getIntDictOptions } from '@/utils/dict'
 // import {Delete, Edit} from '@element-plus/icons-vue';
 import {
-  createBillingRrule,
+  createBillingRule,
   toUsedTemps,
   getRuleDetail,
   createRuleDetail,
@@ -434,7 +434,7 @@ const saveBaseInfo = async() => {
       ElMessage.error('更新失败！')
     }
   }else{
-    let data = await createBillingRrule(params)
+    let data = await createBillingRule(params)
     if (data) {
       getId.value = data
       itemDisabled.value = false
