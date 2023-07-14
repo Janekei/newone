@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{ props.basicData }}
         <el-table :data="additionalMsg" border size="small" style="width: 100%"
             :header-cell-style="{ background: '#C8D7EE', color: '#606266' }">
             <el-table-column label="费用名称" align="center">
@@ -130,6 +129,7 @@ const getExtraFeeDetail = async (id) => {
     const data = await ExtraExpenseApi.selectAddition({ id })
     if (data) {
         dataList.value.splice(0, 0, {
+            "id": "",
             "itemId": "",
             "feePrice": "",
             "feeNumber": "",
@@ -161,7 +161,6 @@ const toAddItem = async () => {
     getExtraFeeDetail(res)
     if (res) {
         ElMessage.success('添加成功！')
-        // emits('success')
     } else {
         ElMessage.success('添加失败！')
     }
@@ -176,9 +175,16 @@ const toDelItem = async (id: number) => {
         await message.delConfirm()
         // 发起删除
         // console.log(id)
-        await ExtraExpenseApi.createAddition({ id })
+        await ExtraExpenseApi.deleteAddition({ id })
         message.success(t('common.delSuccess'))
         // 刷新列表
+        // dataList.value.filter((item) => { return item.id === id })
+        dataList.value.forEach((item, index) => {
+            if (item.id === id) {
+                dataList.value.splice(index, 1)
+            }
+        })
+        additionalMsg.value = dataList.value
     } catch { }
 }
 
