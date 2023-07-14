@@ -58,6 +58,7 @@ const openForm = (type: string, id?: number, countryId?: number) => {
         formRef.value.open(type, id, countryId)
     }
 }
+const message = useMessage() // 消息弹窗
 
 
 // 搜索操作
@@ -174,9 +175,16 @@ const refresh = () => {
 
 const deleteItem = async (row) => {
     // console.log(row)
-    const res = await WarehouseManageApi.deleteWarehouseItem({ id: row.id })
-    console.log(res, 'delete')
-    refresh()
+    try {
+      // 删除的二次确认
+      await message.delConfirm()
+      // 发起删除
+      await WarehouseManageApi.deleteWarehouseItem({ id: row.id })
+      message.success(t('common.delSuccess'))
+      // 刷新列表
+      await refresh()
+    } catch {}
+    // console.log(res, 'delete')
 }
 
 // 导出

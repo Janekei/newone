@@ -71,7 +71,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" align="center" width="170">
+                <el-table-column fixed="right" label="操作" align="center" width="170" v-if="!disabled">
                     <template #default="scope">
                         <el-button type="primary" text @click="toEditItem(scope.row, scope.$index)"
                             v-if="scope.$index != 0">
@@ -80,7 +80,7 @@
                         <el-button type="danger" text @click="toDelItem(scope.row.id)" v-if="scope.$index != 0">
                             删除
                         </el-button>
-                        <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0">
+                        <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0" :disabled="itemDisabled">
                             添加
                         </el-button>
                     </template>
