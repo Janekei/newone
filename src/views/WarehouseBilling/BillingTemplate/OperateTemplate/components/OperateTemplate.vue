@@ -315,7 +315,7 @@ const formOption = reactive([
             formData.value['bsWhareaId'] = row.id
         },
         tableConfig: {
-            url: '/jinko/baseWharea/whareaPage',
+            url: '/gsc/wharea/whareaPage',
             tableOption: [
                 {
                     prop: 'name',

@@ -17,7 +17,7 @@
       </div>
       <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
         ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
-        @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }"
+        @row-contextmenu="rowContextmenu" @select="handleSelect" :cell-style="{ textAlign: 'center' }"
         :header-cell-style="{ 'text-align': 'center' }">
         <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
         <ElTableColumn label="序号" type="index" width="100" align="center" v-if="showIndex" />
@@ -209,11 +209,26 @@ const refresh = () => {
 // 选中项
 const elTable = ref()
 const selectAll = ref([])
+const selectData = ref()
 const emits = defineEmits(['clickThisColumn', 'selectThisColumn', 'sendTableData'])
 const handleSelectionChange = (rows) => {
-  selectAll.value = rows
-  emits('selectThisColumn', rows)
+  if (props.limit) {
+    selectData.value = rows
+    console.log(rows, 9090)
+  } else {
+    selectAll.value = rows
+    emits('selectThisColumn', rows)
+  }
 }
+const handleSelect = (selection, row) => {
+  if (props.limit) {
+    elTable.value.clearSelection()
+    if (selection.length == 0) return;
+    elTable.value.toggleRowSelection(row, true)
+  }
+}
+
+
 const rowClick = (row) => {
   emits('clickThisColumn', row)
   elTable.value!.toggleRowSelection(row, undefined)

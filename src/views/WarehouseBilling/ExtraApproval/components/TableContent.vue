@@ -3,7 +3,24 @@
         <TableK url="/gsc/fee/details/examineAdditionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showIndex="true">
             <template #buttons>
-                <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+                <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
+                    @reset-form="resetForm" />
+            </template>
+            <template #inStockTime="{ row }">
+                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+            </template>
+            <template #outStockTime="{ row }">
+                <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+            </template>
+            <template #feeTime="{ row }">
+                <span>{{ formatDate(row.row.feeTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+            </template>
+            <template #voucherStatus="{ row }">
+                <span class="statusText" v-if="row.row.voucherStatus">已上传</span>
+                <span class="statusFText" v-else>未上传</span>
+            </template>
+            <template #status="{ row }">
+                <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
         </TableK>
     </div>
@@ -11,7 +28,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-// import { formatTime } from '@/utils'
+import { formatDate } from '@/utils/formatTime'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 const props = defineProps({
@@ -68,17 +85,20 @@ const tableOption = reactive([
     {
         prop: 'inStockTime',
         label: '入仓日期',
-        width: '160'
+        width: '160',
+        slotName: 'inStockTime'
     },
     {
         prop: 'outStockTime',
         label: '出仓日期',
-        width: '160'
+        width: '160',
+        slotName: 'outStockTime'
     },
     {
         prop: 'feeTime',
         label: '费用生成时间',
-        width: '160'
+        width: '160',
+        slotName: 'feeTime'
     },
     {
         prop: 'price',
@@ -93,7 +113,8 @@ const tableOption = reactive([
     {
         prop: 'voucherStatus',
         label: '凭证',
-        width: '160'
+        width: '160',
+        slotName: 'voucherStatus'
     },
     {
         prop: 'notes',
@@ -103,13 +124,15 @@ const tableOption = reactive([
     {
         prop: 'status',
         label: '状态',
-        width: '160'
+        width: '160',
+        slotName: 'status'
     }
 ])
 
 const selectId = ref()
-const selectThisColumn = (rows) => {
-    selectId.value = rows[0].id
+const selectThisColumn = () => {
+    // console.log(rows)
+    // selectId.value = rows.id
 }
 
 // 搜索
@@ -140,6 +163,14 @@ const refresh = () => {
 <style lang="scss" scoped>
 .table {
     margin-top: .625rem;
+}
+
+.statusText {
+    color: #1d4fd8;
+}
+
+.statusFText {
+    color: #e21717;
 }
 
 .link {
