@@ -1,7 +1,7 @@
 <template>
-    <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1300">
+    <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
         <div class="form-box">
-            <EditForm />
+            <FormK :formOption="formOption" labelWidth="9em" />
         </div>
         <TabContent />
         <template #footer>
@@ -13,9 +13,117 @@
 
 <script lang="ts" setup>
 import { Dialog } from '@/components/Dialog'
-import { ref } from 'vue'
-import EditForm from './EditForm.vue';
+import { ref, reactive } from 'vue'
+import FormK from '@/components/FormK/index.vue'
 import TabContent from './TabContent.vue';
+
+const formOption = reactive([
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '账单名称：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '供应商：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '仓库区域：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '仓库名称：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '原集装箱号：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '托盘数量：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '组片数量：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '入仓日期：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '出仓日期：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '账单起始日：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '账单截止日：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '计费时间（天）：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '计费时间（周）：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '计费时间（月）：',
+        disabled: true
+    },
+    {
+        type: 'input',
+        field: 'goodsCode',
+        placeholder: '',
+        label: '库存状态：',
+        disabled: true
+    },
+])
 
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
@@ -34,6 +142,7 @@ const submitForm = () => {
     // 发送操作成功的事件
     emits('success')
 }
+
 
 
 

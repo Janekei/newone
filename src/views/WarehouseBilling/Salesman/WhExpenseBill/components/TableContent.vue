@@ -1,7 +1,8 @@
 <template>
     <div>
         <TableK url="/gsc/fee/summary/details/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
+            :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showCheckBox="false"
+            :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
@@ -129,6 +130,14 @@ const resetForm = () => {
     refresh()
 }
 
+const selectId = ref()
+const selectThisColumn = (row) => {
+    selectId.value = undefined
+    if (row) {
+        selectId.value = row.id
+    }
+    console.log(selectId.value, 999)
+}
 
 // 刷新列表
 const refresh = () => {
