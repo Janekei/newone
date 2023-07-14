@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="center-btn-box">
-        <ElButton class="btn" type="primary" :icon="Plus" @click="open">审批</ElButton>
+        <ElButton class="btn" type="primary" :icon="Plus" @click="open">增加</ElButton>
         <ElButton class="btn" type="primary" :icon="Edit">修改</ElButton>
         <ElButton class="btn" type="primary" :icon="DocumentAdd">导入</ElButton>
         <ElButton class="btn" type="primary" :icon="Document">导出</ElButton>
@@ -42,7 +42,7 @@ const formOption = reactive(
             placeholder: '',
             label: '供应商',
             requestOptions: {
-                url: '/jinko/baseWharea/page',
+                url: '/gsc/carrier/page',
                 method: 'get',
                 params: {},
                 handleOptions: (res: any) => {
@@ -79,7 +79,7 @@ const resetform = () => {
 // 弹窗
 const dialogRef = ref()
 const open = () => {
-    dialogRef.value.open()
+    dialogRef.value.open('新增')
 }
 
 
