@@ -417,8 +417,13 @@ const toGetRuleBaseInfo = async (id) => {
   formData.value = data
 }
 
+//点击保存按钮
 const saveBaseInfo = async() => {
-  console.log('formData',formData.value)
+  if(!('name' in formData.value && 'bsWhId' in formData.value && 'supplierId' in formData.value)){
+    ElMessage.error('请完善计费规则基础信息！')
+    return
+  }
+  // console.log('formData',formData.value)
   let params = {
     "name": formData.value.name,
     "bsWhId": formData.value.bsWhId,
