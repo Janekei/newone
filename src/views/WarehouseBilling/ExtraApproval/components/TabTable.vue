@@ -4,10 +4,9 @@
             <el-table :data="extraDetailData" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
                 :header-cell-style="{ background: '#C8D7EE', color: '#606266', textAlign: 'center' }">
                 <el-table-column prop="feeBillName" label="计费项" width="300" />
-                <el-table-column prop="feeBillId" label="账单" />
+                <el-table-column prop="feePrice" label="单价" />
                 <el-table-column prop="feeNumber" label="数量" />
                 <el-table-column prop="price" label="金额" />
-                <el-table-column prop="feeCyName" label="币种" />
                 <el-table-column prop="notes" label="备注" />
                 <el-table-column prop="voucherUrl" label="凭证" />
             </el-table>

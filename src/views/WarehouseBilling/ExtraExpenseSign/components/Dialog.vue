@@ -6,7 +6,7 @@
 
         <template #footer>
             <!-- <el-button @click="submitForm" type="primary">确认</el-button> -->
-            <el-button @click="dialogVisible = false">取消</el-button>
+            <!-- <el-button @click="success">取消</el-button> -->
         </template>
     </Dialog>
 </template>
@@ -26,6 +26,7 @@ const open = async () => {
     dialogTitle.value = '基本信息'
 }
 
+watch(() => dialogVisible.value, (newVal) => { if (newVal === false) emits('success') })
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emits = defineEmits(['success'])
