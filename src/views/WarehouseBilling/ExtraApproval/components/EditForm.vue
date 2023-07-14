@@ -7,6 +7,13 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import FormK from '@/components/FormK/index.vue'
+const props = defineProps({
+    formData: {
+        type: Object,
+        default: () => { }
+    }
+})
+
 const formOption = reactive([
     {
         type: 'input',
@@ -114,6 +121,11 @@ const formOption = reactive([
         disabled: true
     },
 ])
+
+
+onMounted(() => {
+    console.log(props.formData, 8888)
+})
 </script>
 <style lang="scss" scoped>
 :deep(.el-form-item) {

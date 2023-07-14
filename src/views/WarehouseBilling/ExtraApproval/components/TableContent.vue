@@ -125,8 +125,10 @@ const tableOption = reactive([
 const selectId = ref()
 const selectThisColumn = (row) => {
     selectId.value = undefined
-    selectId.value = row.id
-    console.log(row, 999)
+    if (row) {
+        selectId.value = row.id
+    }
+    console.log(selectId.value, 999)
 }
 
 // 搜索

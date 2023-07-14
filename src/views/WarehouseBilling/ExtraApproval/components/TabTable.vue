@@ -1,15 +1,15 @@
 <template>
     <div class="main">
         <div class="tableBox">
-            <el-table :data="tableData" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
+            <el-table :data="extraDetailData" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
                 :header-cell-style="{ background: '#C8D7EE', color: '#606266', textAlign: 'center' }">
-                <el-table-column prop="date" label="计费项" width="300" />
-                <el-table-column prop="name" label="账单" />
-                <el-table-column prop="address" label="数量" />
-                <el-table-column prop="address" label="金额" />
-                <el-table-column prop="address" label="币种" />
-                <el-table-column prop="address" label="备注" />
-                <el-table-column prop="address" label="凭证" />
+                <el-table-column prop="feeBillName" label="计费项" width="300" />
+                <el-table-column prop="feeBillId" label="账单" />
+                <el-table-column prop="feeNumber" label="数量" />
+                <el-table-column prop="price" label="金额" />
+                <el-table-column prop="feeCyName" label="币种" />
+                <el-table-column prop="notes" label="备注" />
+                <el-table-column prop="voucherUrl" label="凭证" />
             </el-table>
         </div>
         <div class="formBox">
@@ -21,8 +21,8 @@
 
         </div>
         <div class="footer">
-            <el-button type="primary" @click="approvalExpense(1)">确认</el-button>
-            <el-button @click="approvalExpense(0)">驳回</el-button>
+            <el-button type="primary" @click="approvalExpense(2)">确认</el-button>
+            <el-button @click="approvalExpense(1)">驳回</el-button>
         </div>
     </div>
 </template>
@@ -35,7 +35,6 @@ const props = defineProps({
         type: Number
     }
 })
-const tableData = ref([])
 
 const approveNotes = ref()
 const formData = ref()
@@ -47,18 +46,15 @@ const rules = reactive({
 })
 
 // 获取费用明细
-const extraDetailData = ref()
+const extraDetailData: any = ref([])
 const getExtraDetail = async () => {
-    if (props.id === undefined) {
-        ElMessage.warning('请选择行再点击!')
-        return;
-    }
     const data = await ExtraApprovalApi.selectAddition({ id: props.id })
-    extraDetailData.value = data
+    emits('sendDetail', data)
+    extraDetailData.value.push(data)
 }
 
 // 审批费用
-const emits = defineEmits(['successApr'])
+const emits = defineEmits(['successApr', 'sendDetail'])
 const approvalExpense = async (status) => {
     const data = { id: props.id, approveNotes: approveNotes.value, status }
     const res = await ExtraApprovalApi.approvalAddition(data)
@@ -70,8 +66,8 @@ const approvalExpense = async (status) => {
     }
 }
 
-onBeforeMount(() => {
-    getExtraDetail()
+onMounted(async () => {
+    await getExtraDetail()
 })
 
 
