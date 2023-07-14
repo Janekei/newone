@@ -46,7 +46,7 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'bsWhId',
+        prop: 'bsWhName',
         label: '仓库名称',
         width: '180'
     },
@@ -61,7 +61,7 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'palletQuantity',
+        prop: 'palletsNumber',
         label: '托盘数量',
         width: '180'
     },
