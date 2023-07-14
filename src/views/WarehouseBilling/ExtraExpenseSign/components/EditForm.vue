@@ -120,13 +120,6 @@ const formOption = reactive([
         // disabled: true
     },
     {
-        type: 'date',
-        field: 'feeTime',
-        placeholder: '',
-        label: '费用生成日期：',
-        // disabled: true
-    },
-    {
         type: 'inputTable',
         field: 'feeCyName',
         placeholder: '',
@@ -157,9 +150,8 @@ const formOption = reactive([
 const cloneData = ref()
 watch(() => formData.value, () => {
     cloneData.value = _.cloneDeep(formData.value)
-    cloneData.value['inStockTime'] = new Date(formData.value['inStockTime'])
-    cloneData.value['outStockTime'] = new Date(formData.value['outStockTime'])
-    cloneData.value['feeTime'] = new Date(formData.value['feeTime'])
+    cloneData.value['inStockTime'] = Date.parse(formData.value['inStockTime'])
+    cloneData.value['outStockTime'] = Date.parse(formData.value['outStockTime'])
 })
 
 const emits = defineEmits(['success'])

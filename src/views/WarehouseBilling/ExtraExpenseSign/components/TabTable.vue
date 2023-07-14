@@ -1,11 +1,10 @@
 <template>
     <div>
-        {{ props.basicData }}
         <el-table :data="additionalMsg" border size="small" style="width: 100%"
             :header-cell-style="{ background: '#C8D7EE', color: '#606266' }">
             <el-table-column label="费用名称" align="center">
                 <template #default="scope">
-                    <MyInputTable v-model="scope.row.itemName" :tableId="scope.$index" :valueKey="tableConfig.valueKey"
+                    <MyInputTable v-model="scope.row.feeBillName" :tableId="scope.$index" :valueKey="tableConfig.valueKey"
                         :tableOption="tableConfig.tableOption" :tableConfig="tableConfig"
                         :setFormData="tableConfig.setFormData" :clearData="tableConfig.clearData" />
                 </template>
@@ -45,9 +44,9 @@
             </el-table-column>
             <el-table-column fixed="right" label="操作" align="center" width="170">
                 <template #default="scope">
-                    <el-button type="primary" text v-if="scope.$index != 0">
+                    <!-- <el-button type="primary" text v-if="scope.$index != 0">
                         编辑
-                    </el-button>
+                    </el-button> -->
                     <el-button type="danger" @click="toDelItem(scope.row.id)" text v-if="scope.$index != 0">
                         删除
                     </el-button>
@@ -81,24 +80,24 @@ const additionalMsg = ref([
         "feeNumber": "",
         "notes": "",
         "price": "",
-        "itemName": "",
+        "feeBillName": "",
     }
 ])
 
 const tableConfig = ref(
     {
         type: 'inputTable',
-        field: 'itemName',
+        field: 'feeBillName',
         placeholder: '',
         label: ' ',
         disabled: true,
         valueKey: 'itemName',
         clearData: () => {
         },
-        setFormData: (row, index) => {
-            console.log('row', row, index)
-            additionalMsg.value[index].itemId = row.id
-            additionalMsg.value[index].itemName = row.name
+        setFormData: (row) => {
+            console.log(row, 999)
+            additionalMsg.value[0]['itemId'] = row.id
+            additionalMsg.value[0]['feeBillName'] = row.name
         },
         url: '/gsc/items/page',
         tableOption: [
@@ -124,14 +123,28 @@ const getFileUrl = (url) => {
 const ifCanShow = ref(false)
 // 获取额外费用明细
 // 额外费用明细列表
-// const extraExpense = ref([])
+let dataList: any = ref([])
 const getExtraFeeDetail = async (id) => {
     ifCanShow.value = true
     const data = await ExtraExpenseApi.selectAddition({ id })
-    console.log(data, 9999)
+    if (data) {
+        dataList.value.splice(0, 0, {
+            "id": "",
+            "itemId": "",
+            "feePrice": "",
+            "feeNumber": "",
+            "notes": "",
+            "price": "",
+            "itemName": "",
+            "feeBillName": ""
+        })
+        dataList.value.push(data)
+        additionalMsg.value = dataList.value
+        ifCanShow.value = false
+    }
 }
 
-const emits = defineEmits(['success'])
+// const emits = defineEmits(['success'])
 // 增加额外费用
 const toAddItem = async () => {
     let params = {
@@ -140,14 +153,14 @@ const toAddItem = async () => {
         "feeNumber": additionalMsg.value[0].feeNumber,
         "notes": additionalMsg.value[0].notes,
         "voucherUrl": fileUrl.value,
-        "price": additionalMsg.value[0].price
+        "price": additionalMsg.value[0].price,
+        "feeBillName": additionalMsg.value[0].feeBillName
     }
     const data = Object.assign({}, props.basicData, params)
     const res = await ExtraExpenseApi.createAddition(data)
     getExtraFeeDetail(res)
     if (res) {
         ElMessage.success('添加成功！')
-        emits('success')
     } else {
         ElMessage.success('添加失败！')
     }
@@ -162,9 +175,16 @@ const toDelItem = async (id: number) => {
         await message.delConfirm()
         // 发起删除
         // console.log(id)
-        await ExtraExpenseApi.createAddition({ id })
+        await ExtraExpenseApi.deleteAddition({ id })
         message.success(t('common.delSuccess'))
         // 刷新列表
+        // dataList.value.filter((item) => { return item.id === id })
+        dataList.value.forEach((item, index) => {
+            if (item.id === id) {
+                dataList.value.splice(index, 1)
+            }
+        })
+        additionalMsg.value = dataList.value
     } catch { }
 }
 

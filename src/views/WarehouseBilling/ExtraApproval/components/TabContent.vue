@@ -1,7 +1,7 @@
 <template>
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane label="费用明细" name="add">
-            <TabTable :id="props.id" />
+            <TabTable :id="props.id" @successApr="successApr" @sendDetail="sendDetail" />
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -16,6 +16,13 @@ const props = defineProps({
     }
 })
 
+const emits = defineEmits(['successApr','sendDetail'])
+const successApr = () => {
+    emits('successApr')
+}
+const sendDetail = (data) => {
+    emits('sendDetail',data)
+}
 const activeName = ref('add')
 
 const handleClick = (tab, event: Event) => {

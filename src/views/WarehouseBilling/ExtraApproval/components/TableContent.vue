@@ -4,7 +4,7 @@
             :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showIndex="true">
             <template #buttons>
                 <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
-                    @reset-form="resetForm" />
+                    @reset-form="resetForm" @success="refresh" />
             </template>
             <template #inStockTime="{ row }">
                 <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
@@ -31,16 +31,9 @@ import { ref, reactive } from 'vue'
 import { formatDate } from '@/utils/formatTime'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
-const props = defineProps({
-    code: {
-        type: String,
-        default: ''
-    }
-})
 
-const formData = ref({
-    code: props.code
-})
+
+const formData = ref({})
 const tableOption = reactive([
     {
         prop: 'feeBillName',
@@ -130,9 +123,12 @@ const tableOption = reactive([
 ])
 
 const selectId = ref()
-const selectThisColumn = () => {
-    // console.log(rows)
-    // selectId.value = rows.id
+const selectThisColumn = (row) => {
+    selectId.value = undefined
+    if (row) {
+        selectId.value = row.id
+    }
+    console.log(selectId.value, 999)
 }
 
 // 搜索
@@ -141,9 +137,7 @@ const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    formData.value = {
-        code: props.code
-    }
+    formData.value = {}
     Object.assign(formData.value, val)
 }
 const resetForm = () => {
