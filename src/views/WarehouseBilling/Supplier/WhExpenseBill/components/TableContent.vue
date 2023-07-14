@@ -1,45 +1,42 @@
 <template>
     <div>
-        <TableK url="/gsc/fee/summary/details/carrierPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showIndex="true">
+        <TableK url="/gsc/fee/bill/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
+            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
-                <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
-                    @reset-form="resetForm" />
-            </template>
-            <template #inStockTime="{ row }">
-                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
-            </template>
-            <template #outStockTime="{ row }">
-                <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
-            </template>
-            <template #billStartDate="{ row }">
-                <span>{{ formatDate(row.row.billStartDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
-            </template>
-            <template #billEndDate="{ row }">
-                <span>{{ formatDate(row.row.billEndDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
-            </template>
-            <template #priceVariance="{ row }">
-                <span>{{ Math.abs(row.row.price - row.row.supplierPrice) }}</span>
+                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
             <template #status="{ row }">
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
+            <template #operation="{ operateRow }">
+                <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
+                <ElButton class="delete-btn" type="danger" :icon="Delete" @click="deleteExpenseItem(operateRow.id)" />
+            </template>
         </TableK>
     </div>
+    <Dialog ref="dialogRef" />
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-import { formatDate } from '@/utils/formatTime'
+// import { formatTime } from '@/utils'
+import { Delete, Edit } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
+import Dialog from './Dialog.vue'
+import * as ExpenseBillApi from '@/api/warehousebill/supplier/expensebill'
 
-const formData = ref({
-
+const props = defineProps({
+    code: {
+        type: String,
+        default: ''
+    }
 })
+
+const formData = ref({})
 const tableOption = reactive([
     {
-        prop: 'billName',
+        prop: 'name',
         label: '账单名称',
         width: '160'
     },
@@ -49,79 +46,29 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'bsWhereaName',
+        prop: 'bsWhareaName',
         label: '仓库区域',
-    },
-    {
-        prop: 'bsWhName',
-        label: '仓库名称',
         width: '160'
     },
     {
-        prop: 'totalBox',
-        label: '原始集装箱号',
+        prop: 'billDate',
+        label: '账单生成日期',
         width: '160'
-    },
-    {
-        prop: 'palletQty',
-        label: '托盘数量',
-        width: '160'
-    },
-    {
-        prop: 'qty',
-        label: '组片数量',
-        width: '160'
-    },
-    {
-        prop: 'inStockTime',
-        label: '入仓日期',
-        width: '160',
-        slotName: 'inStockTime'
-    },
-    {
-        prop: 'outStockTime',
-        label: '出仓日期',
-        width: '160',
-        slotName: 'outStockTime'
-    },
-    {
-        prop: 'billStartDate',
-        label: '账单起始日',
-        width: '160',
-        slotName: 'billStartDate'
-    },
-    {
-        prop: 'billEndDate',
-        label: '账单截止日',
-        width: '160',
-        slotName: 'billEndDate'
-    },
-    // {
-    //     prop: 'totalPallet',
-    //     label: '库存状态',
-    //     width: '160'
-    // },
-    {
-        prop: 'supplierPrice',
-        label: '供应商账单',
-        width: '160'
-    },
-    {
-        prop: 'price',
-        label: '系统账单',
-        width: '160'
-    },
-    {
-        prop: 'priceVariance',
-        label: '费用差',
-        width: '160',
-        slotName: 'priceVariance'
     },
     {
         prop: 'status',
         label: '状态',
         width: '160',
-        slotName: 'stauts'
+        slotName: 'status'
+    },
+    {
+        prop: 'supplierPrice',
+        label: '供应商金额',
+        width: '160'
+    },
+    {
+        prop: 'price',
+        label: '总金额'
     }
 ])
 
@@ -131,19 +78,13 @@ const clickSearch = () => {
     refresh()
 }
 const updateSearchData = (val) => {
-    formData.value = {}
+    formData.value = {
+        code: props.code
+    }
     Object.assign(formData.value, val)
 }
 const resetForm = () => {
     refresh()
-}
-
-const selectId = ref()
-const selectThisColumn = (row) => {
-    selectId.value = undefined
-    if (row) {
-        selectId.value = row.id
-    }
 }
 
 // 刷新列表
@@ -151,7 +92,25 @@ const refresh = () => {
     tableRef.value.refresh()
 }
 
+// 弹窗
+const dialogRef = ref()
+const open = (type: string, id: number) => {
+    dialogRef.value.open(type, id)
+}
 
+// 删除
+const { t } = useI18n()
+const message = useMessage() // 消息弹窗
+const deleteExpenseItem = async (id) => {
+    try {
+        // 删除的二次确认
+        await message.delConfirm()
+        await ExpenseBillApi.deleteExpense({ id })
+        message.success(t('common.delSuccess'))
+        // 刷新列表
+        refresh()
+    } catch { }
+}
 
 
 </script>
