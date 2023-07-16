@@ -1,21 +1,19 @@
 <template>
     <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
         <div class="form-box">
-            <FormK :formOption="formOption" labelWidth="9em" />
+            <FormK :formOption="formOption" v-model:form-state="formData" labelWidth="9em" />
         </div>
         <TabContent :id="props.id" @successApr="success" />
-        <!-- <template #footer>
-            <el-button @click="submitForm" type="primary">确认</el-button>
-            <el-button @click="dialogVisible = false">取消</el-button>
-        </template> -->
     </Dialog>
 </template>
 
 <script lang="ts" setup>
 import { Dialog } from '@/components/Dialog'
 import { ref, reactive } from 'vue'
+import { formatDate } from '@/utils/formatTime'
 import FormK from '@/components/FormK/index.vue'
 import TabContent from './TabContent.vue';
+import * as ExpenseDetailApi from '@/api/warehousebill/salesman/expensedetail'
 const props = defineProps({
     id: {
         type: Number
@@ -25,109 +23,109 @@ const props = defineProps({
 const formOption = reactive([
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'billName',
+        placeholder: '-',
         label: '账单名称：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'supplierName',
+        placeholder: '-',
         label: '供应商：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'bsWhereaName',
+        placeholder: '-',
         label: '仓库区域：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'bsWhName',
+        placeholder: '-',
         label: '仓库名称：',
         disabled: true
     },
+    // {
+    //     type: 'input',
+    //     field: 'goodsCode',
+    //     placeholder: '',
+    //     label: '原集装箱号：',
+    //     disabled: true
+    // },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
-        label: '原集装箱号：',
-        disabled: true
-    },
-    {
-        type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'palletQty',
+        placeholder: '-',
         label: '托盘数量：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'arkQty',
+        placeholder: '-',
         label: '组片数量：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'inStockTime',
+        placeholder: '-',
         label: '入仓日期：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'outStockTime',
+        placeholder: '-',
         label: '出仓日期：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'billStartDate',
+        placeholder: '-',
         label: '账单起始日：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'billEndDate',
+        placeholder: '-',
         label: '账单截止日：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'cycleDay',
+        placeholder: '-',
         label: '计费时间（天）：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
+        field: 'cycleWeek',
+        placeholder: '-',
         label: '计费时间（周）：',
         disabled: true
     },
     {
         type: 'input',
-        field: 'goodsCode',
+        field: 'cycleMonth',
         placeholder: '',
         label: '计费时间（月）：',
         disabled: true
     },
-    {
-        type: 'input',
-        field: 'goodsCode',
-        placeholder: '',
-        label: '库存状态：',
-        disabled: true
-    },
+    // {
+    //     type: 'input',
+    //     field: 'goodsCode',
+    //     placeholder: '',
+    //     label: '库存状态：',
+    //     disabled: true
+    // },
 ])
 
 // 表单内容区域
@@ -137,7 +135,20 @@ const dialogTitle = ref('') // 弹窗的标题
 const open = async () => {
     dialogVisible.value = true
     dialogTitle.value = '基本信息'
+    if (props.id) getExpenseDetail()
 }
+
+// 获取明细信息
+const formData = ref()
+const getExpenseDetail = async () => {
+    const data = await ExpenseDetailApi.getExpenseDetail({ id: props.id })
+    formData.value = data
+    formData.value['inStockTime'] = formatDate(formData.value['inStockTime'], 'YYYY-MM-DD HH:mm:ss')
+    formData.value['outStockTime'] = formatDate(formData.value['outStockTime'], 'YYYY-MM-DD HH:mm:ss')
+    formData.value['billStartDate'] = formatDate(formData.value['billStartDate'], 'YYYY-MM-DD HH:mm:ss')
+    formData.value['billEndDate'] = formatDate(formData.value['billEndDate'], 'YYYY-MM-DD HH:mm:ss')
+}
+
 
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调

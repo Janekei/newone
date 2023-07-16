@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/gsc/fee/summary/details/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
+        <TableK url="/gsc/fee/summary/details/carrierPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showIndex="true">
             <template #buttons>
                 <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
@@ -21,9 +21,9 @@
             <template #priceVariance="{ row }">
                 <span>{{ Math.abs(row.row.price - row.row.supplierPrice) }}</span>
             </template>
-            <template #status="{ row }">
+            <!-- <template #status="{ row }">
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
-            </template>
+            </template> -->
         </TableK>
     </div>
 </template>
@@ -117,12 +117,12 @@ const tableOption = reactive([
         width: '160',
         slotName: 'priceVariance'
     },
-    {
-        prop: 'status',
-        label: '状态',
-        width: '160',
-        slotName: 'stauts'
-    }
+    // {
+    //     prop: 'status',
+    //     label: '状态',
+    //     width: '160',
+    //     slotName: 'stauts'
+    // }
 ])
 
 // 搜索
