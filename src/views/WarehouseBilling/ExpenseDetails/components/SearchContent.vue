@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="center-btn-box">
-        <ElButton class="btn" type="primary" :icon="Plus" @click="addTemplate">增加</ElButton>
+        <!-- <ElButton class="btn" type="primary" :icon="Plus" @click="addTemplate">增加</ElButton> -->
         <ElButton class="btn" type="primary" :icon="Document" @click="downloadTable">导出</ElButton>
     </div>
     <DialogUploadFile ref="uploadRef" />
@@ -22,8 +22,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { useRouter } from 'vue-router'
-import { Search, Setting, Plus, Document } from '@element-plus/icons-vue'
+import { Search, Setting, Document } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 
 const formOption = reactive(
@@ -82,10 +81,8 @@ const downloadTable = () => {
 }
 
 // 增加
-const router = useRouter()
-const addTemplate = () => {
-    router.push('/warehousebilling/billingtemplate/operatetemplate')
-}
+
+
 
 </script>
 <style lang="scss" scoped>

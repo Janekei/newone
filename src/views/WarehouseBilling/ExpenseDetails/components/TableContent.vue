@@ -5,13 +5,22 @@
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
+            <template #inStockTime="{ row }">
+                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
+            <template #outStockTime="{ row }">
+                <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
+            <template #feeTime="{ row }">
+                <span>{{ formatDate(row.row.feeTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
         </TableK>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-// import { formatTime } from '@/utils'
+import { formatDate } from '@/utils/formatTime'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 
@@ -58,17 +67,20 @@ const tableOption = reactive([
     {
         prop: 'inStockTime',
         label: '入仓日期',
-        width: '160'
+        width: '160',
+        slotName: 'inStockTime'
     },
     {
         prop: 'outStockTime',
         label: '出仓日期',
-        width: '160'
+        width: '160',
+        slotName: 'outStockTime'
     },
     {
         prop: 'feeTime',
         label: '费用生成时间',
-        width: '160'
+        width: '160',
+        slotName: 'feeTime'
     },
     {
         prop: 'cycleDay',
@@ -83,41 +95,6 @@ const tableOption = reactive([
     {
         prop: 'cycleMonth',
         label: '计费时间（月）',
-        width: '160'
-    },
-    {
-        prop: 'rental',
-        label: '租赁费',
-        width: '160'
-    },
-    {
-        prop: 'customCharges',
-        label: '报关费',
-        width: '160'
-    },
-    {
-        prop: 'specialRegulatoryVehicles',
-        label: '特殊监管车辆',
-        width: '160'
-    },
-    {
-        prop: 'removalFee',
-        label: '搬移费',
-        width: '160'
-    },
-    {
-        prop: 'managementExpense',
-        label: '管理费',
-        width: '160'
-    },
-    {
-        prop: 'packingCharge',
-        label: '打包费',
-        width: '160'
-    },
-    {
-        prop: 'totalExpense',
-        label: '合计',
         width: '160'
     }
 ])
