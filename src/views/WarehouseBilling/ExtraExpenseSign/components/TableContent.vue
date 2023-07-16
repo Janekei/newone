@@ -1,7 +1,7 @@
 <template>
     <div>
         <TableK url="/gsc/fee/details/additionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
+            :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @refresh="refresh" @click-search="clickSearch" @update:form-state="updateSearchData"
                     @reset-form="resetForm" />
@@ -22,6 +22,10 @@
             <template #status="{ row }">
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
+            <template #operation>
+                <ElButton class="edit-btn" type="warning" :icon="Edit" />
+                <ElButton class="delete-btn" type="danger" :icon="Delete" />
+            </template>
         </TableK>
     </div>
 </template>
@@ -29,15 +33,11 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { formatDate } from '@/utils/formatTime'
+import { Delete, Edit } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 import DictTagK from '@/components/DictTagK/index.vue'
-// const props = defineProps({
-//     code: {
-//         type: String,
-//         default: ''
-//     }
-// })
+
 
 const formData = ref({})
 const tableOption = reactive([

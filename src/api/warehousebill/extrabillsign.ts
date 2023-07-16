@@ -14,3 +14,8 @@ export const selectAddition = (params) => {
 export const deleteAddition = (params) => {
     return request.delete({ url: '/gsc/fee/details/deleteAdditionalDetailsById', params })
 }
+
+// 修改额外费用
+export const updateAddition = (data) => {
+    return request.post({ url: '/gsc/fee/details/update', data })
+}

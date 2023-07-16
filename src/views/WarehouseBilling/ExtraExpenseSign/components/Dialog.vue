@@ -3,11 +3,6 @@
         <div class="form-box">
             <EditForm @success="success" />
         </div>
-
-        <template #footer>
-            <!-- <el-button @click="submitForm" type="primary">确认</el-button> -->
-            <!-- <el-button @click="success">取消</el-button> -->
-        </template>
     </Dialog>
 </template>
 
