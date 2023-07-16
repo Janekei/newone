@@ -268,7 +268,7 @@ const tableOptionW = reactive([
     label: '名称'
   },
   {
-    prop: 'bsWhareaName',
+    prop: 'lastUsedTime',
     label: '上次使用时间'
   }
 ])
