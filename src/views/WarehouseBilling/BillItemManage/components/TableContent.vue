@@ -39,12 +39,16 @@ const editData = (list) => {
 
 const tableOption = [
     {
-        prop: 'id',
+        prop: 'code',
         label: '编号'
     },
     {
         prop: 'name',
         label: '计费名称'
+    },
+    {
+        prop: 'notes',
+        label: '备注'
     }
 ]
 
