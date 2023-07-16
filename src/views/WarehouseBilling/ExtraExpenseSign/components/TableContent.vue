@@ -15,6 +15,10 @@
             <template #feeTime="{ row }">
                 <span>{{ formatDate(row.row.feeTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
             </template>
+            <template #voucher="{ row }">
+                <el-tag class="ml-2" type="success" v-if="row.row.voucherStatus">已上传</el-tag>
+                <el-tag class="ml-2" type="info" v-else>未上传</el-tag>
+            </template>
             <template #status="{ row }">
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
@@ -103,7 +107,8 @@ const tableOption = reactive([
     {
         prop: 'voucherUrl',
         label: '凭证',
-        width: '160'
+        width: '160',
+        slotName: 'voucher'
     },
     {
         prop: 'notes',
