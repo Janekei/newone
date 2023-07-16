@@ -7,7 +7,7 @@
                     @success="refresh" />
             </template>
             <template #status="{ row }">
-                <DictTagK type="wh_fee_details_status" :value="row.row.status" />
+                <DictTagK type="wh_fee_bill_status" :value="row.row.status" />
             </template>
             <template #billDate="{ row }">
                 <span>{{ formatDate(row.row.billDate, 'YYYY-MM-DD HH:mm:ss') }}</span>

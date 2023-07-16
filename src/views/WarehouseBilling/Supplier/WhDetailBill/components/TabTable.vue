@@ -10,16 +10,15 @@
             </el-table>
         </div>
         <div class="formBox">
-            <el-form label-position="top" :rules="rules" label-width="100px" :model="formData" style="100%">
+            <el-form ref="refForm" label-position="top" :rules="rules" label-width="100px" :model="formData" style="100%">
                 <el-form-item label="审批原因" prop="notes">
-                    <el-input v-model="notes" :rows="5" type="textarea" placeholder="请输入内容" />
+                    <el-input v-model="formData.notes" :rows="5" type="textarea" placeholder="请输入内容" />
                 </el-form-item>
             </el-form>
         </div>
     </div>
     <div class="footer">
-        <el-button type="primary" @click="approvalExpense(2)">确认</el-button>
-        <el-button @click="approvalExpense(1)">驳回</el-button>
+        <el-button type="primary" @click="approvalExpense">确认</el-button>
     </div>
 </template>
 
@@ -33,29 +32,35 @@ const props = defineProps({
 })
 
 
-
-const notes = ref()
-const formData = ref()
+const formData = ref({ notes: '' })
 
 // 获取对账明细
-const emits = defineEmits(['successApr', 'sendDetail'])
+const emits = defineEmits(['successApr'])
 const expenseDetailData: any = ref([])
 const getExpenseDetail = async () => {
     const data = await AllExpenseBillApi.getExpenseDetail({ id: props.id })
-    emits('sendDetail', data)
-    expenseDetailData.value.push(data)
+    data.detailsList.forEach(item => {
+        expenseDetailData.value.push(item)
+    })
+
 }
 
 // 审批费用
-const approvalExpense = async (status) => {
-    const data = { id: props.id, notes: notes.value, status }
-    const res = await AllExpenseBillApi.approvalBill(data)
-    if (res) {
-        ElMessage.success('审批成功')
-        emits('successApr')
-    } else {
-        ElMessage.error('审批失败')
-    }
+const refForm = ref()
+const approvalExpense = async () => {
+    refForm.value.validate(async (valid) => {
+        if (valid) {
+            const data = { id: props.id, notes: formData.value.notes }
+            const res = await AllExpenseBillApi.approvalBill(data)
+            if (res) {
+                ElMessage.success('审批成功')
+                emits('successApr')
+            } else {
+                ElMessage.error('审批失败')
+            }
+        }
+    })
+
 }
 
 
@@ -64,6 +69,8 @@ const rules = reactive({
         { required: true, message: '请输入审批原因', trigger: 'blur' },
     ]
 })
+
+
 
 const tableRowClassName = (row, rowIndex) => {
     console.log(row.row.name, row.row.name !== row.row.address, rowIndex, 9999)
