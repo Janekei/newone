@@ -1,12 +1,16 @@
 <template>
     <div>
         <TableK url="/gsc/fee/bill/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
+            :tableOption="tableOption" :showFixedOperation="true" :showIndex="true">
             <template #buttons>
-                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm"
+                    @success="refresh" />
             </template>
             <template #status="{ row }">
-                <DictTagK type="wh_fee_details_status" :value="row.row.status" />
+                <DictTagK type="wh_fee_bill_status" :value="row.row.status" />
+            </template>
+            <template #billDate="{ row }">
+                <span>{{ formatDate(row.row.billDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
@@ -14,12 +18,12 @@
             </template>
         </TableK>
     </div>
-    <Dialog ref="dialogRef" />
+    <Dialog ref="dialogRef" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-// import { formatTime } from '@/utils'
+import { formatDate } from '@/utils/formatTime'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
@@ -53,7 +57,8 @@ const tableOption = reactive([
     {
         prop: 'billDate',
         label: '账单生成日期',
-        width: '160'
+        width: '160',
+        slotName: 'billDate'
     },
     {
         prop: 'status',

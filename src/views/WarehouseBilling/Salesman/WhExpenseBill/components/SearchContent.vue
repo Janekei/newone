@@ -13,17 +13,17 @@
     </div>
     <div class="center-btn-box">
         <ElButton class="btn" type="primary" :icon="Plus" @click="open">增加</ElButton>
-        <ElButton class="btn" type="primary" :icon="Edit">修改</ElButton>
+        <!-- <ElButton class="btn" type="primary" :icon="Edit">修改</ElButton> -->
         <ElButton class="btn" type="primary" :icon="DocumentAdd">导入</ElButton>
         <ElButton class="btn" type="primary" :icon="Document">导出</ElButton>
     </div>
-    <Dialog ref="dialogRef" />
+    <Dialog ref="dialogRef" @success="postSearchData" />
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { Search, Setting, Plus, Document, DocumentAdd, Edit } from '@element-plus/icons-vue'
+import { Search, Setting, Plus, Document, DocumentAdd } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 import Dialog from './Dialog.vue'
 
@@ -60,7 +60,7 @@ const formOption = reactive(
 let formData = reactive({})
 const formRef = ref()
 // 查询方法
-const emits = defineEmits(['clickSearch', 'update:form-state', 'resetForm', 'addTemplate'])
+const emits = defineEmits(['clickSearch', 'update:form-state', 'resetForm', 'addTemplate', 'success'])
 const postSearchData = () => {
     emits('clickSearch')
 }
@@ -81,6 +81,10 @@ const dialogRef = ref()
 const open = () => {
     dialogRef.value.open('新增')
 }
+
+
+
+
 
 
 </script>
