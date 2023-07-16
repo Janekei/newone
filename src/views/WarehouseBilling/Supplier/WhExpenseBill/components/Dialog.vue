@@ -145,6 +145,7 @@ const submitForm = () => {
                 const res = await ExpenseBillApi.createExpense(params)
                 if (res) {
                     ElMessage.success('新增成功')
+                    resetForm()
                     dialogVisible.value = false
                     emits('success')
                 } else {
@@ -169,6 +170,11 @@ const submitForm = () => {
 defineExpose({
     open
 })
+
+/** 重置表单 */
+const resetForm = () => {
+    refForm.value.resetFields()
+}
 
 
 

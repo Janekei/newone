@@ -1,9 +1,10 @@
 <template>
     <div>
         <TableK url="/gsc/fee/bill/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
+            :tableOption="tableOption" :showFixedOperation="true" :showIndex="true">
             <template #buttons>
-                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+                <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm"
+                    @success="refresh" />
             </template>
             <template #status="{ row }">
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
@@ -14,7 +15,7 @@
             </template>
         </TableK>
     </div>
-    <Dialog ref="dialogRef" />
+    <Dialog ref="dialogRef" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
