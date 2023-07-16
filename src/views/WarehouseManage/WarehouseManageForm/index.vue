@@ -32,13 +32,15 @@ const formLoading = ref(false) // 表单的加载中：1）修改时的数据加
 
 // 省份、城市下拉框的id获取
 let provinceId = ref()
+let disProvince = ref(true)
 let cityId = ref()
+let disCity = ref(true)
 
 var disabled = ref(true)
 const formOption = reactive([
     {
         type: 'inputTable',
-        field: 'countryId',
+        field: 'countryName',
         placeholder: '请输入国家',
         label: '国家',
         modelValue: 'name',
@@ -46,8 +48,18 @@ const formOption = reactive([
             { required: true, message: '请输入国家', trigger: 'change' }
         ],
         valueKey: 'name',
-        formKey: 'id',
-        replaceKey: 'countryId',
+        clearData: () => {
+            formData.value['countryName'] = undefined
+            formData.value['countryId'] = undefined
+            provinceId.value = undefined
+            disProvince.value = true
+        },
+        setFormData: (row) => {
+            formData.value['countryName'] = row.name
+            formData.value['countryId'] = row.id
+            provinceId.value = row.id
+            disProvince.value = false
+        },
         tableConfig: {
             params: { id: 0 },
             url: '/bidding/area/location/findCountry',
@@ -65,19 +77,33 @@ const formOption = reactive([
     },
     {
         type: 'inputTable',
-        field: 'tableProvince',
+        field: 'provinceName',
         placeholder: '请输入省份',
         label: '省份',
         rules: [
             { required: true, message: '请输入省份', trigger: 'change' }
         ],
         valueKey: 'name',
+        clearData: () => {
+            formData.value['provinceName'] = undefined
+            formData.value['provinceId'] = undefined
+            formData.value['cityName'] = undefined
+            formData.value['cityId'] = undefined
+            cityId.value = undefined
+            disCity.value = true
+        },
+        setFormData: (row) => {
+            formData.value['provinceName'] = row.name
+            formData.value['provinceId'] = row.id
+            cityId.value = row.id
+            disCity.value = false
+        },
         tableConfig: {
-            params: { id: 1 },
+            params: { id: provinceId.value ? provinceId.value : 1 },
             url: '/bidding/area/location/findCountry'
         },
         disabled: computed(() => {
-            return disabled.value
+            return disProvince.value
         })
     },
     {
@@ -85,12 +111,20 @@ const formOption = reactive([
         field: 'tableCity',
         placeholder: '请输入城市',
         label: '城市',
+        clearData: () => {
+            formData.value['cityName'] = undefined
+            formData.value['cityId'] = undefined
+        },
         rules: [
             { required: true, message: '请输入城市', trigger: 'change' }
         ],
         valueKey: 'name',
+        setFormData: (row) => {
+            formData.value['cityName'] = row.name
+            formData.value['cityId'] = row.id
+        },
         tableConfig: {
-            params: { id: 3 },
+            params: { id: cityId.value ? cityId.value : 1 },
             url: '/bidding/area/location/findCountry'
         },
         disabled: computed(() => {
@@ -215,27 +249,9 @@ const open = async (type: string, id?: number) => {
         formLoading.value = true
         try {
             const res = await WarehouseManageApi.getWarehouseList({ id })
-            const country = await WarehouseManageApi.getAreaData({ id: 0 })
-            if (res.countryId !== null) {
-                let targetCountry = country.filter(item => item.id === res.countryId)
-                // 国家名字
-                let countryName = targetCountry[0].name
-                console.log(countryName)
-            }
-            if (res.cityId !== null) {
-                // 获取该国家下的所有城市
-                const city = await WarehouseManageApi.getAreaData({ id: res.countryId })
-                let targetCity = city.filter(item => item.id === res.cityId)
-                // 国家名字
-                // let cityName = targetCity[0].name
-                console.log(city, targetCity, 'city')
-            }
             formData.value = res
-            console.log(formData.value, 'res')
             provinceId.value = formData.value.countryId
             cityId.value = formData.value.provinceId
-            console.log(provinceId.value, cityId.value, 888)
-
         } finally {
             formLoading.value = false
         }

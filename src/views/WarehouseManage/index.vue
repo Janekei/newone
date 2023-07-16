@@ -16,15 +16,6 @@
                     <ElButton class="btn" :icon="ZoomIn">{{ t('warehousemanage.searchAll') }}</ElButton>
                 </div>
             </template>
-            <template #country="{ row }">
-                <span>{{ row.row.countryId }}</span>
-            </template>
-            <template #province="{ row }">
-                <span>{{ row.row.provinceId }}</span>
-            </template>
-            <template #city="{ row }">
-                <span>{{ row.row.cityId }}</span>
-            </template>
             <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning"
                     @click="openForm(`${t('warehousemanage.editButton')}`, operateRow.id, operateRow.countryId)"
@@ -105,21 +96,18 @@ const tableOption = reactive([
         width: '200'
     },
     {
-        prop: 'countryCode',
+        prop: 'countryName',
         label: `${t('warehousemanage.countryId')}`,
-        slotName: 'country',
         width: '180'
     },
     {
-        prop: 'provinceCode',
+        prop: 'provinceName',
         label: `${t('warehousemanage.provinceId')}`,
-        slotName: 'province',
         width: '180'
     },
     {
-        prop: 'cityCode',
+        prop: 'cityName',
         label: `${t('warehousemanage.cityId')}`,
-        slotName: 'city',
         width: '180'
     },
     {
@@ -149,7 +137,7 @@ const tableOption = reactive([
     },
     {
         prop: 'cityCode',
-        label: `${t('warehousemanage.cityId')}`,
+        label: `仓库属性`,
         width: '180'
     }
 
@@ -176,14 +164,14 @@ const refresh = () => {
 const deleteItem = async (row) => {
     // console.log(row)
     try {
-      // 删除的二次确认
-      await message.delConfirm()
-      // 发起删除
-      await WarehouseManageApi.deleteWarehouseItem({ id: row.id })
-      message.success(t('common.delSuccess'))
-      // 刷新列表
-      await refresh()
-    } catch {}
+        // 删除的二次确认
+        await message.delConfirm()
+        // 发起删除
+        await WarehouseManageApi.deleteWarehouseItem({ id: row.id })
+        message.success(t('common.delSuccess'))
+        // 刷新列表
+        await refresh()
+    } catch { }
     // console.log(res, 'delete')
 }
 
