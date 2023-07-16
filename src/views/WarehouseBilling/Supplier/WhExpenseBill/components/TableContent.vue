@@ -9,6 +9,9 @@
             <template #status="{ row }">
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
+            <template #billDate="{ row }">
+                <span>{{ formatDate(row.row.billDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
             <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
                 <ElButton class="delete-btn" type="danger" :icon="Delete" @click="deleteExpenseItem(operateRow.id)" />
@@ -20,7 +23,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
-// import { formatTime } from '@/utils'
+import { formatDate } from '@/utils/formatTime'
 import { Delete, Edit } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
@@ -54,7 +57,8 @@ const tableOption = reactive([
     {
         prop: 'billDate',
         label: '账单生成日期',
-        width: '160'
+        width: '160',
+        slotName: 'billDate'
     },
     {
         prop: 'status',

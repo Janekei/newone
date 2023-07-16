@@ -117,6 +117,7 @@ const dialogTitle = ref('') // 弹窗的标题
 const formType = ref()
 const refForm = ref()
 
+let id = ref()
 const open = async (type: string, id?: number) => {
     dialogVisible.value = true
     formType.value = type
@@ -151,7 +152,8 @@ const submitForm = () => {
                     ElMessage.success('新增失败')
                 }
             } else if (formType.value === '编辑') {
-                const res = await ExpenseBillApi.updateExpense(params)
+                let params1 = Object.assign({}, params, { id: id.value })
+                const res = await ExpenseBillApi.updateExpense(params1)
                 if (res) {
                     ElMessage.success('修改成功')
                     dialogVisible.value = false

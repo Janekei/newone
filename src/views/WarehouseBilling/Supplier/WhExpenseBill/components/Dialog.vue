@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { Dialog } from '@/components/Dialog'
 import { ref, reactive } from 'vue'
-import { formatTime } from '@/utils'
+import { formatDate } from '@/utils/formatTime'
 import FormK from '@/components/FormK/index.vue'
 import * as ExpenseBillApi from '@/api/warehousebill/supplier/expensebill'
 
@@ -117,14 +117,17 @@ const dialogTitle = ref('') // 弹窗的标题
 const formType = ref()
 const refForm = ref()
 
+let getId = ref()
 const open = async (type: string, id?: number) => {
     dialogVisible.value = true
     formType.value = type
     dialogTitle.value = type + '总费用对账'
     if (id) {
+        getId.value = id
         const res = await ExpenseBillApi.getExpense({ id })
         formData.value = res
-        formData.value['billDate'] = formatTime(formData.value['billData'], 'YYYY-MM-DD')
+        formData.value['billDate'] = formatDate(formData.value['billDate'], 'YYYY-MM-DD HH:mm:ss')
+        console.log(formData.value['billDate'], 9090)
     }
 }
 
@@ -152,7 +155,8 @@ const submitForm = () => {
                     ElMessage.success('新增失败')
                 }
             } else if (formType.value === '编辑') {
-                const res = await ExpenseBillApi.updateExpense(params)
+                let params1 = Object.assign({}, params, { id: getId.value })
+                const res = await ExpenseBillApi.updateExpense(params1)
                 if (res) {
                     ElMessage.success('修改成功')
                     dialogVisible.value = false
