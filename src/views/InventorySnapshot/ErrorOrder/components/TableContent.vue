@@ -6,10 +6,10 @@
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
             <template #actInTime="{ row }">
-                <span>{{ formatDate(row.row.actInTime , 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.actInTime , 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #liveTime="{ row }">
-                <span>{{ formatDate(row.row.liveTime , 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.liveTime , 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #exceptionType="{ row }">
                 <DictTagK :type="dictType" :value="row.row.exceptionType" />

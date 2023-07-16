@@ -7,13 +7,13 @@
                     @reset-form="resetForm" />
             </template>
             <template #inStockTime="{ row }">
-                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #outStockTime="{ row }">
-                <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #feeTime="{ row }">
-                <span>{{ formatDate(row.row.feeTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.feeTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #status="{ row }">
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
