@@ -30,7 +30,7 @@ const props = defineProps({
         default: () => []
     },
     goodsId: {
-        type: Number,
+        type: Number as any,
         default: 0
     },
     boxGoodsId: {

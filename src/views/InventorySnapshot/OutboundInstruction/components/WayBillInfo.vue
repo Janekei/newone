@@ -95,7 +95,9 @@
                 <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.carrierName }}</el-descriptions-item>
                 <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.transportMode }}</el-descriptions-item>
+                    class-name="my-content">
+                    <DictTagK type="standard_time_rules" :data="waybillInfo.transportMode" />
+                </el-descriptions-item>
                 <el-descriptions-item label="贸易方式" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.tradeWayConfigMode }}</el-descriptions-item>
                 <el-descriptions-item label="起运港" label-align="left" align="center" label-class-name="my-label"
@@ -172,6 +174,7 @@
 <script lang="ts" setup>
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
 import { formatTime } from '@/utils'
+import DictTagK from '@/components/DictTagK/index.vue'
 const props = defineProps({
     waybillInfo: {
         type: Object,

@@ -91,7 +91,9 @@
                 <el-descriptions-item label="承运商" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.carrierName }}</el-descriptions-item>
                 <el-descriptions-item label="运输方式" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ waybillInfo.transportMode }}</el-descriptions-item>
+                    class-name="my-content">
+                    <DictTagK type="standard_time_rules" :data="waybillInfo.transportMode" />
+                </el-descriptions-item>
                 <el-descriptions-item label="贸易条款" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.tradeWay }}</el-descriptions-item>
                 <el-descriptions-item label="起运港" label-align="left" align="center" label-class-name="my-label"
@@ -99,8 +101,8 @@
                 <el-descriptions-item label="目的港" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.arrivalPortName }}</el-descriptions-item>
                 <el-descriptions-item label="提货时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.realDepartureTime, 'YYYY-MM-DD hh:mm:ss')
-                    }}</el-descriptions-item>
+                    class-name="my-content">{{ formatDate(waybillInfo.realDepartureTime,
+                        'YYYY-MM-DD HH:mm:ss') }}</el-descriptions-item>
                 <el-descriptions-item label="业务员" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.salesman }}</el-descriptions-item>
             </el-descriptions>
@@ -132,26 +134,28 @@
                     label-class-name="my-label" class-name="my-content">{{ formatDate(waybillInfo.createTime,
                         'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
                 <el-descriptions-item label="ETD日期" width="300" label-align="left" align="center"
-                    label-class-name="my-label" class-name="my-content">{{ formatDate(waybillInfo.etd, 'YYYY-MM-DD hh:mm:ss')
-                    }}</el-descriptions-item>
+                    label-class-name="my-label" class-name="my-content">{{ formatDate(waybillInfo.etd,
+                        'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
                 <el-descriptions-item label="ETD New 日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.newEtd, 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
+                    class-name="my-content">{{ formatDate(waybillInfo.newEtd, 'YYYY-MM-DD HH:mm:ss')
+                    }}</el-descriptions-item>
                 <el-descriptions-item label="ATD日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.atd, 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
+                    class-name="my-content">{{ formatDate(waybillInfo.atd, 'YYYY-MM-DD HH:mm:ss') }}</el-descriptions-item>
                 <el-descriptions-item label="ETA日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.eta, 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
+                    class-name="my-content">{{ formatDate(waybillInfo.eta, 'YYYY-MM-DD HH:mm:ss') }}</el-descriptions-item>
                 <el-descriptions-item label="ETA New 日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.newEta, 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
+                    class-name="my-content">{{ formatDate(waybillInfo.newEta, 'YYYY-MM-DD HH:mm:ss')
+                    }}</el-descriptions-item>
                 <el-descriptions-item label="ATA日期" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.ata, 'YYYY-MM-DD hh:mm:ss') }}</el-descriptions-item>
+                    class-name="my-content">{{ formatDate(waybillInfo.ata, 'YYYY-MM-DD HH:mm:ss') }}</el-descriptions-item>
                 <el-descriptions-item label="预计入库时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.estInTime, 'YYYY-MM-DD hh:mm:ss')
+                    class-name="my-content">{{ formatDate(waybillInfo.estInTime, 'YYYY-MM-DD HH:mm:ss')
                     }}</el-descriptions-item>
                 <el-descriptions-item label="港口提货时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.requiredArrivalTime, 'YYYY-MM-DD hh:mm:ss')
+                    class-name="my-content">{{ formatDate(waybillInfo.requiredArrivalTime, 'YYYY-MM-DD HH:mm:ss')
                     }}</el-descriptions-item>
                 <el-descriptions-item label="清关完成时间" label-align="left" align="center" label-class-name="my-label"
-                    class-name="my-content">{{ formatDate(waybillInfo.requiredArrivalTime, 'YYYY-MM-DD hh:mm:ss')
+                    class-name="my-content">{{ formatDate(waybillInfo.requiredArrivalTime, 'YYYY-MM-DD HH:mm:ss')
                     }}</el-descriptions-item>
             </el-descriptions>
         </div>
@@ -160,7 +164,9 @@
 
 <script lang="ts" setup>
 import { ElDescriptions, ElDescriptionsItem } from 'element-plus'
-import {formatDate} from "@/utils/formatTime";
+import { formatDate } from "@/utils/formatTime";
+import DictTagK from '@/components/DictTagK/index.vue'
+
 const props = defineProps({
     waybillInfo: {
         type: Object,

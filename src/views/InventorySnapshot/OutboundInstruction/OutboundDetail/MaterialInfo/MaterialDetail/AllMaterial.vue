@@ -1,13 +1,13 @@
 <template>
     <div>
-        <TableK url="/gsc/outbound/container/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
+        <TableK url="/gsc/outbound/goods/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" @click-this-column="clickThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" />
             </template>
             <template #updateTime="{ row }">
-                <span>{{ formatTime(row.row.updateTime, 'yyyy-MM-dd') }}</span>
+                <span>{{ formatDate(row.row.updateTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
         </TableK>
     </div>
@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { formatTime } from '@/utils'
+import { formatDate } from '@/utils/formatTime'
 import TableK from '@/components/TableK/index.vue'
 import SearchOutbound from '../../../components/SearchOutbound.vue'
 // const props = defineProps({
