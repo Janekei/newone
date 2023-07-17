@@ -11,6 +11,9 @@
           <template #exception="{ row }">
             <span>{{ row.row.exception ? '是':'否' }}</span>
           </template>
+          <template #createTime="{ row }">
+            <span>{{ formatTime(row.row.createTime, 'yyyy-MM-dd HH:mm:ss')}}</span>
+          </template>
         </TableK>
     </div>
 </template>
@@ -19,6 +22,7 @@
 import { ref, reactive } from 'vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
+import { formatTime } from '@/utils'
 const props = defineProps({
     code: {
         type: String,
@@ -96,6 +100,12 @@ const tableOption = reactive([
         label: '是否异常',
         slotName: 'exception',
         width: '100'
+    },
+    {
+      prop: 'createTime',
+      label: '操作时间',
+      slotName: 'createTime',
+      width: '180'
     }
 ])
 

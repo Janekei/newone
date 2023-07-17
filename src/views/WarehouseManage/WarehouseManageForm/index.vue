@@ -1,7 +1,7 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle" width="1200">
         <div class="form-box">
-            {{ formData }}
+<!--            {{ formData }}-->
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="9rem" ref="formRef"
                    @update:formState="updateFormData" >
               longitude
@@ -125,7 +125,7 @@ const formOption = reactive([
             label: '省份'
           },
           {
-            props: 'id',
+            prop: 'id',
             label: 'Code'
           }
         ]
@@ -160,7 +160,7 @@ const formOption = reactive([
                 label: '城市'
               },
               {
-                props: 'id',
+                prop: 'id',
                 label: 'Code'
               }
             ]

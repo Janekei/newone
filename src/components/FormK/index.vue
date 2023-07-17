@@ -89,7 +89,7 @@ onMounted(() => {
 const formData = ref({})
 watch(() => props.formState, (newV: Object) => {
   formData.value = cloneDeep(newV)
-}, { immediate: true })
+}, { immediate: true, deep: true })
 
 const onChange = () => {
   emits('update:formState', formData.value)

@@ -140,6 +140,9 @@
   <ElDialog v-model="showDialog" title="选择模板" draggable @close="close">
     <TableK url="/gsc/fee/template/page" method="get" ref="tableRef" :params="formDataW" :firstPages="10"
             :tableOption="tableOptionW" :showFixedOperation="true" :showCheckBox="false" :showIndex="false">
+      <template #lastUsedTime="{ row }">
+        {{ row.row.lastUsedTime ? formatDate(row.row.lastUsedTime, 'yyyy-MM-dd HH:mm:ss') : '/' }}
+      </template>
       <template #operation="{ operateRow }">
         <el-link class="link" type="primary" :icon="View" @click="selectTemplate(operateRow.id)">使用</el-link>
       </template>
@@ -269,6 +272,7 @@ const tableOptionW = reactive([
   },
   {
     prop: 'lastUsedTime',
+    slotName:'lastUsedTime',
     label: '上次使用时间'
   }
 ])
