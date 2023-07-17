@@ -7,12 +7,12 @@
             </template>
             <template #planTime="data">
                 <span v-for="(item, index) in data.data.standardPlanNodeList" v-show="item.type === data.data.type"
-                    :key="index + 't'">{{ formatTime(item.planTime, 'yyyy-MM-dd')
+                    :key="index + 't'">{{ formatTime(item.planTime, 'yyyy-MM-dd HH:mm:ss')
                     }}</span>
             </template>
             <template #actualTime="data">
                 <span v-for="(item, index) in data.data.standardPlanNodeList" v-show="item.type === data.data.type"
-                    :key="index + 't'">{{ formatTime(item.actualTime, 'yyyy-MM-dd')
+                    :key="index + 't'">{{ formatTime(item.actualTime, 'yyyy-MM-dd HH:mm:ss')
                     }}</span>
             </template>
         </TableK>
@@ -49,14 +49,14 @@ const getDictList = () => {
                     type: item.value,
                     prop: 'planTime',
                     label: '标准时间',
-                    width: '160',
+                    width: '180',
                     slotName: 'planTime'
                 },
                 {
                     type: item.value,
                     prop: 'actualTime',
                     label: '实际时间',
-                    width: '160',
+                    width: '180',
                     slotName: 'actualTime'
                 },
             ]
