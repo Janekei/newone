@@ -13,6 +13,9 @@
         :valueKey="item.valueKey" :tableData="item.tableData" :disabled="item.disabled" :tableOption="item.tableOption"
         :tableConfig="item.tableConfig" :setFormData="item.setFormData" :clearData="item.clearData"
         @onChange="onChange" />
+      <template v-else>
+        <slot :name="item.slotName"></slot>
+      </template>
     </ElFormItem>
     <ElFormItem v-if="showButton">
       <template #default>
