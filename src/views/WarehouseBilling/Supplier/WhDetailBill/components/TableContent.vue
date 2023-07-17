@@ -1,7 +1,7 @@
 <template>
     <div>
         <TableK url="/gsc/fee/summary/details/carrierPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showIndex="true">
+            :tableOption="tableOption" :limit="true" @selectOneColumn="selectOneColumn" :showIndex="true">
             <template #buttons>
                 <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
                     @reset-form="resetForm" />
@@ -145,7 +145,6 @@ const addTotal = async () => {
         prop: 'total',
         label: '合计',
         width: '160'
-
     })
 }
 
@@ -167,7 +166,7 @@ const resetForm = () => {
 }
 
 const selectId = ref()
-const selectThisColumn = (row) => {
+const selectOneColumn = (row) => {
     selectId.value = undefined
     if (row) {
         selectId.value = row.id
