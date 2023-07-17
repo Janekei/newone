@@ -12,18 +12,18 @@
         </div>
     </div>
     <div class="center-btn-box">
-        <ElButton class="btn" type="primary" :icon="Plus">增加</ElButton>
+<!--        <ElButton class="btn" type="primary" :icon="Plus">增加</ElButton>-->
         <ElButton class="btn" type="primary" :icon="Upload">上传</ElButton>
         <ElButton class="btn" type="primary" :icon="Download">下载</ElButton>
         <ElButton class="btn" :icon="Refresh" @click="postSearchData">刷新</ElButton>
-        <ElButton class="btn" :icon="ZoomIn">全部查找</ElButton>
+<!--        <ElButton class="btn" :icon="ZoomIn">全部查找</ElButton>-->
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { Plus, Upload, Download, Refresh, ZoomIn, Search } from '@element-plus/icons-vue'
+import { Upload, Download, Refresh, Search } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 const formOption = reactive(
     [
