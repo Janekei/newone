@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-upload ref="uploadRef" style="{font-size: 18px;}" :action="url" :headers="uploadHeaders" :show-file-list="false"
-            :limit="1" :auto-upload="true" :on-success="handleSuccess">上传
+            :limit="1" :auto-upload="true" :on-success="handleSuccess" :on-exceed="handleExceed">上传
         </el-upload>
     </div>
 </template>
@@ -20,11 +20,21 @@ const uploadRef = ref()
 
 const emits = defineEmits(['getFileUrl'])
 
+
+
 const handleSuccess: UploadProps['onSuccess'] = (response) => {
     // 提交请求
-    console.log(response, 9988)
-    unref(uploadRef)?.submit()
+    console.log(response.data, 7777)
+    uploadRef.value!.submit()
     emits('getFileUrl', response.data)
 }
+
+const handleExceed: UploadProps['onExceed'] = (files) => {
+    uploadRef.value!.clearFiles()
+    uploadRef.value!.handleStart(files[0])
+    uploadRef.value!.submit()
+}
+
+
 </script>
 <style scoped></style>
