@@ -8,6 +8,9 @@
           <template #boundType="{ row }">
             <span>{{ row.row.boundType == 1 ? '入库':'出库' }}</span>
           </template>
+          <template #exception="{ row }">
+            <span>{{ row.row.exception ? '是':'否' }}</span>
+          </template>
         </TableK>
     </div>
 </template>
@@ -91,6 +94,7 @@ const tableOption = reactive([
     {
         prop: 'exception',
         label: '是否异常',
+        slotName: 'exception',
         width: '100'
     }
 ])
