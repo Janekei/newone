@@ -1,7 +1,7 @@
 <template>
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane label="新增费用明细" name="add">
-            <TabTable :basicData="props.basicData" @success="success" />
+            <TabTable :basicData="props.basicData" :disabled="disabled" @success="success" />
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -14,6 +14,10 @@ const props = defineProps({
     basicData: {
         type: Object,
         default: () => { }
+    },
+    disabled: {
+        type: Boolean,
+        default: false
     }
 })
 

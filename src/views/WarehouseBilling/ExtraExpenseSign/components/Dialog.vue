@@ -9,7 +9,7 @@
             <ElButton @click="saveBaseInfo" :disabled="disabled" type="primary">保存</ElButton>
         </div>
         <div>
-            <TabContent :basicData="formData" />
+            <TabContent :basicData="formData" :disabled="itemDisabled" />
         </div>
     </Dialog>
 </template>
@@ -155,6 +155,7 @@ const formOption = reactive([
 
 let getId = ref()
 let disabled = ref(true)
+let itemDisabled = ref(true)
 const saveBaseInfo = async () => {
     formData.value['inStockTime'] = Date.parse(formData.value['inStockTime'])
     formData.value['outStockTime'] = Date.parse(formData.value['outStockTime'])
@@ -171,6 +172,7 @@ const saveBaseInfo = async () => {
         if (data) {
             getId.value = data
             ElMessage.success('创建成功！')
+            itemDisabled.value = false
         } else {
             ElMessage.error('创建失败！')
         }
