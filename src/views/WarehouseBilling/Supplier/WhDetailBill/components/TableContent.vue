@@ -1,8 +1,7 @@
 <template>
     <div>
-        <TableK v-if="show" url="/gsc/fee/summary/details/carrierPage" method="get" ref="tableRef" :params="formData"
-            :firstPages="10" :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn"
-            :showIndex="true">
+        <TableK url="/gsc/fee/summary/details/carrierPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
+            :tableOption="tableOption" :limit="true" @selectThisColumn="selectThisColumn" :showIndex="true">
             <template #buttons>
                 <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
                     @reset-form="resetForm" />
@@ -128,7 +127,6 @@ const tableOption = ref([
 ])
 
 // 获取计费项
-const show = ref(false)
 const getFeeList = async () => {
     const res = await getFeeItem({})
     res.forEach(item => {
