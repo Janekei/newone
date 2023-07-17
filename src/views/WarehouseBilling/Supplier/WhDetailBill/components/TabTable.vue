@@ -6,7 +6,13 @@
                 :row-class-name="tableRowClassName">
                 <el-table-column prop="name" label="费用" width="300" />
                 <el-table-column prop="price" label="系统账单" />
-                <el-table-column prop="supplierPrice" label="供应商账单" />
+                <el-table-column prop="supplierPrice" label="供应商账单">
+                    <template #default="scope">
+                        <el-input type="number"
+                            oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
+                            v-model="scope.row.supplierPrice" placeholder="" />
+                    </template>
+                </el-table-column>
             </el-table>
         </div>
         <div class="formBox">
@@ -24,7 +30,7 @@
 
 <script lang="ts" setup>
 import { ElTable, ElTableColumn } from 'element-plus'
-import * as ExpenseBillApi from '@/api/warehousebill/salesman/expensedetail'
+import * as ExpenseBillApi from '@/api/warehousebill/supplier/expensedetail'
 const props = defineProps({
     id: {
         type: Number
@@ -51,13 +57,21 @@ const approvalExpense = async () => {
     refForm.value.validate(async (valid) => {
         if (valid) {
             const data = { id: props.id, notes: formData.value.notes }
-            const res = await ExpenseBillApi.approvalBill(data)
-            if (res) {
-                ElMessage.success('审批成功')
-                emits('successApr')
+            // 保存供应商金额
+            const res1 = await ExpenseBillApi.updateBill({ id: props.id })
+            if (res1) {
+                // 审批
+                const res2 = await ExpenseBillApi.approvalBill(data)
+                if (res2) {
+                    ElMessage.success('审批成功')
+                    emits('successApr')
+                } else {
+                    ElMessage.error('审批失败')
+                }
             } else {
-                ElMessage.error('审批失败')
+                ElMessage.error('金额修改失败！')
             }
+
         }
     })
 
