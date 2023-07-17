@@ -15,9 +15,9 @@
         <el-descriptions-item label="仓库类型" label-align="left" align="center" label-class-name="my-label"
             class-name="my-content">{{props.descList.bsWhType ? getIntDictOptions('billing_warehouse_type')[props.descList.bsWhType].label : ''}}</el-descriptions-item>
         <el-descriptions-item label="入库时间" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatDate(props.descList.actInTime , 'YYYY-MM-DD hh:mm:ss')}}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.actInTime , 'YYYY-MM-DD HH:mm:ss')}}</el-descriptions-item>
         <el-descriptions-item label="在库时间" label-align="left" align="center" label-class-name="my-label"
-            class-name="my-content">{{ formatDate(props.descList.liveTime , 'YYYY-MM-DD hh:mm:ss')}}</el-descriptions-item>
+            class-name="my-content">{{ formatDate(props.descList.liveTime , 'YYYY-MM-DD HH:mm:ss')}}</el-descriptions-item>
 <!--        <el-descriptions-item label="单价" label-align="left" align="center" label-class-name="my-label"-->
 <!--            class-name="my-content">{{ props.descList.containerNo }}</el-descriptions-item>-->
     </el-descriptions>

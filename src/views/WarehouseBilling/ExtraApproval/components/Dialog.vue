@@ -116,9 +116,9 @@ const successApr = () => {
 const formData = ref()
 const sendDetail = (data) => {
     formData.value = data
-    formData.value.inStockTime = formatDate(formData.value.inStockTime, 'YYYY-MM-DD hh:mm:ss')
-    formData.value.outStockTime = formatDate(formData.value.outStockTime, 'YYYY-MM-DD hh:mm:ss')
-    formData.value.feeTime = formatDate(formData.value.feeTime, 'YYYY-MM-DD hh:mm:ss')
+    formData.value.inStockTime = formatDate(formData.value.inStockTime, 'YYYY-MM-DD HH:mm:ss')
+    formData.value.outStockTime = formatDate(formData.value.outStockTime, 'YYYY-MM-DD HH:mm:ss')
+    formData.value.feeTime = formatDate(formData.value.feeTime, 'YYYY-MM-DD HH:mm:ss')
 }
 
 

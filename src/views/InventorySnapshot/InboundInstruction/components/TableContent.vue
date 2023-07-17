@@ -11,13 +11,13 @@
                 <DescriptionInboundList :descList="expandRow" />
             </template>
             <template #estInTime="{ row }">
-                <span>{{ formatDate(row.row.estInTime , 'YYYY-MM-DD hh:mm:ss')}}</span>
+                <span>{{ formatDate(row.row.estInTime , 'YYYY-MM-DD HH:mm:ss')}}</span>
             </template>
             <template #eta="{ row }">
-                <span>{{ formatDate(row.row.eta , 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.eta , 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #atd="{ row }">
-                <span>{{ formatDate(row.row.atd , 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.atd , 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #transportStatus="{ row }">
                 <!-- {{ row.row.transportStatus }} -->
@@ -79,6 +79,11 @@ const tableOption = reactive([
         prop: 'totalBox',
         label: '柜数',
         width: '100'
+    },
+    {
+      prop: 'bsWhName',
+      label: '仓库名称',
+      width: '100'
     },
     {
         prop: 'estInTime',

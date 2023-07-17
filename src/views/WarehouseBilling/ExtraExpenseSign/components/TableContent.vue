@@ -7,13 +7,13 @@
                     @reset-form="resetForm" />
             </template>
             <template #inStockTime="{ row }">
-                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.inStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #outStockTime="{ row }">
-                <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.outStockTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #feeTime="{ row }">
-                <span>{{ formatDate(row.row.feeTime, 'YYYY-MM-DD hh:mm:ss') }}</span>
+                <span>{{ formatDate(row.row.feeTime, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #voucher="{ row }">
                 <el-tag class="ml-2" type="success" v-if="row.row.voucherStatus">已上传</el-tag>
