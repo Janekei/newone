@@ -1,14 +1,21 @@
 <template>
     <div class="main">
         <div class="tableBox">
-            <el-table :data="extraDetailData" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
+            <el-table :data="extraDetailData" v-loading="loading" border style="width: 100%"
+                :cell-style="{ textAlign: 'center' }"
                 :header-cell-style="{ background: '#C8D7EE', color: '#606266', textAlign: 'center' }">
                 <el-table-column prop="feeBillName" label="计费项" width="300" />
                 <el-table-column prop="feePrice" label="单价" />
                 <el-table-column prop="feeNumber" label="数量" />
                 <el-table-column prop="price" label="金额" />
                 <el-table-column prop="notes" label="备注" />
-                <el-table-column prop="voucherUrl" label="凭证" />
+                <el-table-column prop="voucherUrl" label="凭证">
+                    <template #default="scope">
+                        <el-link v-if="scope.row.voucherUrl" type="primary"
+                            @click="downVoucherFile(scope.row.voucherUrl)">查看凭证</el-link>
+                        <span v-else>未上传</span>
+                    </template>
+                </el-table-column>
             </el-table>
         </div>
         <div class="formBox">
@@ -17,7 +24,6 @@
                     <el-input v-model="approveNotes" :rows="2" type="textarea" placeholder="请输入内容" />
                 </el-form-item>
             </el-form>
-
         </div>
         <div class="footer">
             <el-button type="primary" @click="approvalExpense(2)">确认</el-button>
@@ -45,11 +51,19 @@ const rules = reactive({
 })
 
 // 获取费用明细
+const loading = ref(false)
 const extraDetailData: any = ref([])
 const getExtraDetail = async () => {
+    loading.value = true
     const data = await ExtraApprovalApi.selectAddition({ id: props.id })
     emits('sendDetail', data)
     extraDetailData.value.push(data)
+    loading.value = false
+}
+
+// 查看凭证
+const downVoucherFile = (data) => {
+    location.href = `${data}`
 }
 
 // 审批费用
