@@ -1,5 +1,6 @@
 <template>
     <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
+        {{ formData }}
         <div class="form-box">
             <div>
                 <FormK ref="formRef" :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
@@ -189,18 +190,13 @@ const open = async () => {
     dialogVisible.value = true
     disabled.value = false
     dialogTitle.value = '基本信息'
-    resetForm()
+    // resetForm()
 }
 
 watch(() => dialogVisible.value, (newVal) => { if (newVal === false) emits('success') })
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emits = defineEmits(['success'])
-// const submitForm = () => {
-//     dialogVisible.value = false
-//     // 发送操作成功的事件
-//     emits('success')
-// }
 
 // const success = () => {
 //     dialogVisible.value = false
@@ -213,9 +209,9 @@ defineExpose({
 })
 
 // 重置表单
-const resetForm = () => {
-    formRef.value.resetFields()
-}
+// const resetForm = () => {
+//     formRef.value.resetFields()
+// }
 
 </script>
 <style lang="scss" scoped>

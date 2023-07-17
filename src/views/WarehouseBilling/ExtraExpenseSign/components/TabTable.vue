@@ -134,21 +134,18 @@ let dataList: any = ref([])
 const getExtraFeeDetail = async (id) => {
     ifCanShow.value = true
     const data = await ExtraExpenseApi.selectAddition({ id })
-    if (data) {
-        dataList.value.splice(0, 0, {
-            "id": "",
-            "itemId": "",
-            "feePrice": "",
-            "feeNumber": "",
-            "notes": "",
-            "price": "",
-            "itemName": "",
-            "feeBillName": ""
-        })
-        dataList.value.push(data)
-        additionalMsg.value = dataList.value
-        ifCanShow.value = false
-    }
+    let dataList = data.detailsList
+    dataList.splice(0, 0, {
+        "itemId": "",
+        "feePrice": "",
+        "feeNumber": "",
+        "notes": "",
+        "price": "",
+        "feeBillName": "",
+    })
+    console.log(dataList, 9090)
+    additionalMsg.value = dataList
+    ifCanShow.value = false
 }
 
 // const emits = defineEmits(['success'])
@@ -163,9 +160,10 @@ const toAddItem = async () => {
         "price": additionalMsg.value[0].price,
         "feeBillName": additionalMsg.value[0].feeBillName
     }
-    const data = Object.assign({}, props.basicData, params)
-    const res = await ExtraExpenseApi.createAddition(data)
-    getExtraFeeDetail(res)
+    const data = Object.assign({}, props.basicData, { 'detailsList': [params] })
+    const res = await ExtraExpenseApi.createAdditionDetail(data)
+    console.log(res)
+    getExtraFeeDetail(res[0])
     if (res) {
         ElMessage.success('添加成功！')
     } else {

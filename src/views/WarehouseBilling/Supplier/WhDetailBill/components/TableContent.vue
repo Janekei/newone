@@ -1,7 +1,8 @@
 <template>
     <div>
         <TableK url="/gsc/fee/summary/details/carrierPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :limit="true" @selectOneColumn="selectOneColumn" :showIndex="true">
+            :tableOption="tableOption" :limit="true" @selectOneColumn="selectOneColumn" :editData="editTableData"
+            :showIndex="true">
             <template #buttons>
                 <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
                     @reset-form="resetForm" />
@@ -107,17 +108,17 @@ const tableOption = ref([
         label: '供应商账单',
         width: '160'
     },
-    {
-        prop: 'price',
-        label: '系统账单',
-        width: '160'
-    },
-    {
-        prop: 'priceVariance',
-        label: '费用差',
-        width: '160',
-        slotName: 'priceVariance'
-    },
+    // {
+    //     prop: 'price',
+    //     label: '系统账单',
+    //     width: '160'
+    // },
+    // {
+    //     prop: 'priceVariance',
+    //     label: '费用差',
+    //     width: '160',
+    //     slotName: 'priceVariance'
+    // },
     // {
     //     prop: 'status',
     //     label: '状态',
@@ -126,12 +127,22 @@ const tableOption = ref([
     // }
 ])
 
+// 改写获取到的表格数据形式
+const editTableData = (val) => {
+    val.forEach((item) => {
+        item.detailsList.forEach((element) => {
+            item[`${element.itemCode}price`] = element.price
+        })
+    })
+    return val
+}
+
 // 获取计费项
 const getFeeList = async () => {
     const res = await getFeeItem({})
     res.forEach(item => {
         tableOption.value.push({
-            prop: item.code,
+            prop: item.code + 'price',
             label: item.name,
             width: '160'
         })
