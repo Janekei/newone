@@ -11,21 +11,21 @@
             </el-table-column>
             <el-table-column label="单价" align="center">
                 <template #default="scope">
-                    <el-input
+                    <el-input type="number"
                         oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
                         v-model="scope.row.feePrice" placeholder="" />
                 </template>
             </el-table-column>
             <el-table-column label="数量" align="center">
                 <template #default="scope">
-                    <el-input
+                    <el-input type="number"
                         oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
                         v-model="scope.row.feeNumber" placeholder="" />
                 </template>
             </el-table-column>
             <el-table-column label="金额" align="center">
                 <template #default="scope">
-                    <el-input
+                    <el-input type="number"
                         oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
                         v-model="scope.row.price" placeholder="" />
                 </template>
@@ -116,8 +116,12 @@ const tableConfig = ref(
 // 获取文件名
 const fileUrl = ref()
 const getFileUrl = (url) => {
-    fileUrl.value = url
-    console.log(fileUrl.value, 8080)
+    if (url) {
+        ElMessage.success('上传成功！')
+        fileUrl.value = url
+        return;
+    }
+    ElMessage.error('上传失败！')
 }
 
 const ifCanShow = ref(false)
