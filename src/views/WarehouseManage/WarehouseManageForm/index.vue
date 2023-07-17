@@ -3,7 +3,23 @@
         <div class="form-box">
             {{ formData }}
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="9rem" ref="formRef"
-                @update:formState="updateFormData" />
+                   @update:formState="updateFormData" >
+              longitude
+              <template #longitude>
+                <el-input
+                  type="number"
+                  oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >90) value = 90;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
+                  v-model="formData.longitude"
+                  placeholder=""/>
+              </template>
+              <template #latitude>
+                <el-input
+                  type="number"
+                  oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >180) value = 180;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
+                  v-model="formData.latitude"
+                  placeholder=""/>
+              </template>
+            </FormK>
         </div>
         <template #footer>
             <el-button @click="submitForm" type="primary" :disabled="formLoading">{{ t('warehousemanage.confirmButton')
@@ -36,7 +52,7 @@ let disProvince = ref(true)
 let cityId = ref()
 let disCity = ref(true)
 
-var disabled = ref(true)
+// var disabled = ref(true)
 const formOption = reactive([
     {
         type: 'inputTable',
@@ -58,6 +74,7 @@ const formOption = reactive([
             formData.value['countryName'] = row.name
             formData.value['countryId'] = row.id
             provinceId.value = row.id
+            setProvinceId()
             disProvince.value = false
         },
         tableConfig: {
@@ -69,42 +86,53 @@ const formOption = reactive([
                     label: '国家'
                 },
                 {
-                    props: 'id',
+                    prop: 'id',
                     label: 'Code'
                 }
             ]
         }
     },
     {
-        type: 'inputTable',
-        field: 'provinceName',
-        placeholder: '请输入省份',
-        label: '省份',
-        rules: [
-            { required: true, message: '请输入省份', trigger: 'change' }
-        ],
-        valueKey: 'name',
-        clearData: () => {
-            formData.value['provinceName'] = undefined
-            formData.value['provinceId'] = undefined
-            formData.value['cityName'] = undefined
-            formData.value['cityId'] = undefined
-            cityId.value = undefined
-            disCity.value = true
-        },
-        setFormData: (row) => {
-            formData.value['provinceName'] = row.name
-            formData.value['provinceId'] = row.id
-            cityId.value = row.id
-            disCity.value = false
-        },
-        tableConfig: {
-            params: { id: provinceId.value ? provinceId.value : 1 },
-            url: '/bidding/area/location/findCountry'
-        },
-        disabled: computed(() => {
-            return disProvince.value
-        })
+      type: 'inputTable',
+      field: 'provinceName',
+      placeholder: '请输入省份',
+      label: '省份',
+      rules: [
+        { required: true, message: '请输入省份', trigger: 'change' }
+      ],
+      valueKey: 'name',
+      clearData: () => {
+        formData.value['provinceName'] = undefined
+        formData.value['provinceId'] = undefined
+        formData.value['cityName'] = undefined
+        formData.value['cityId'] = undefined
+        cityId.value = undefined
+        disCity.value = true
+      },
+      setFormData: (row) => {
+        formData.value['provinceName'] = row.name
+        formData.value['provinceId'] = row.id
+        cityId.value = row.id
+        setCityId()
+        disCity.value = false
+      },
+      tableConfig: {
+        params: { id: provinceId.value ? provinceId.value : 1 },
+        url: '/bidding/area/location/findCountry',
+        tableOption: [
+          {
+            prop: 'name',
+            label: '省份'
+          },
+          {
+            props: 'id',
+            label: 'Code'
+          }
+        ]
+      },
+      disabled: computed(() => {
+        return disProvince.value
+      })
     },
     {
         type: 'inputTable',
@@ -125,10 +153,20 @@ const formOption = reactive([
         },
         tableConfig: {
             params: { id: cityId.value ? cityId.value : 1 },
-            url: '/bidding/area/location/findCountry'
+            url: '/bidding/area/location/findCountry',
+            tableOption: [
+              {
+                prop: 'name',
+                label: '城市'
+              },
+              {
+                props: 'id',
+                label: 'Code'
+              }
+            ]
         },
         disabled: computed(() => {
-            return disabled.value
+            return disCity.value
         })
     },
     {
@@ -141,19 +179,22 @@ const formOption = reactive([
         ]
     },
     {
-        type: 'input',
-        field: 'longitude',
-        placeholder: `${t('warehousemanage.inputLongitude')}`,
+        // type: 'input',
+        // field: 'longitude',
+        // placeholder: `${t('warehousemanage.inputLongitude')}`,
         label: `${t('warehousemanage.longitude')}`,
+        slotName: 'longitude',
+        // oninput: "if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);",
         rules: [
             { required: true, message: `${t('warehousemanage.inputLongitude')}`, trigger: 'change' }
         ]
     },
     {
-        type: 'input',
-        field: 'latitude',
-        placeholder: `${t('warehousemanage.inputLatitude')}`,
+        // type: 'input',
+        // field: 'latitude',
+        // placeholder: `${t('warehousemanage.inputLatitude')}`,
         label: `${t('warehousemanage.latitude')}`,
+        slotName: 'latitude',
         rules: [
             { required: true, message: `${t('warehousemanage.inputLatitude')}`, trigger: 'change' }
         ]
@@ -235,6 +276,15 @@ const updateFormData = (val) => {
     cityId.value = val.provinceId
 }
 
+//设置省份的params
+const setProvinceId = () => {
+  formOption[1].tableConfig.params = {id: provinceId.value}
+}
+
+//设置城市的params
+const setCityId = () => {
+  formOption[2].tableConfig.params = {id: cityId.value}
+}
 
 // 表单Ref
 const formRef = ref()
@@ -326,6 +376,16 @@ const resetForm = () => {
     }
 }
 
+watch(
+  () => formOption,
+  (newProvinceId) => {
+    console.log('provinceId.value',newProvinceId)
+  },
+  {
+    deep: true,
+    immediate: true
+  }
+)
 
 </script>
 

@@ -16,11 +16,14 @@
                     <ElButton class="btn" :icon="ZoomIn">{{ t('warehousemanage.searchAll') }}</ElButton>
                 </div>
             </template>
+            <template #bsWhType="{ row }">
+              {{getIntDictOptions('billing_warehouse_type')[row.row.type].label}}
+            </template>
             <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning"
                     @click="openForm(`${t('warehousemanage.editButton')}`, operateRow.id, operateRow.countryId)"
                     :icon="Edit" />
-                <ElButton class="delete-btn" type="danger" @click="deleteItem(operateRow)" :icon="Delete" />
+<!--                <ElButton class="delete-btn" type="danger" @click="deleteItem(operateRow)" :icon="Delete" />-->
             </template>
         </TableK>
         <WarehouseManageDialog ref="formRef" @success="refresh" />
@@ -30,11 +33,12 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { ElButton } from 'element-plus'
-import { Plus, Upload, Download, Delete, Edit, Refresh, ZoomIn } from '@element-plus/icons-vue'
+import { Plus, Upload, Download, Edit, Refresh, ZoomIn } from '@element-plus/icons-vue'
 import WarehouseManageDialog from './WarehouseManageForm/index.vue'
 import TopSearchForm from './TopSearchForm/index.vue'
 import TableK from '@/components/TableK/index.vue'
 import * as WarehouseManageApi from '@/api/warehousemanage'
+import {getIntDictOptions} from "@/utils/dict";
 
 const { t } = useI18n()
 
@@ -49,7 +53,7 @@ const openForm = (type: string, id?: number, countryId?: number) => {
         formRef.value.open(type, id, countryId)
     }
 }
-const message = useMessage() // 消息弹窗
+// const message = useMessage() // 消息弹窗
 
 
 // 搜索操作
@@ -136,8 +140,9 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'cityCode',
+        // prop: 'type',
         label: `仓库属性`,
+        slotName:'bsWhType',
         width: '180'
     }
 
@@ -161,19 +166,19 @@ const refresh = () => {
 
 // 删除
 
-const deleteItem = async (row) => {
-    // console.log(row)
-    try {
-        // 删除的二次确认
-        await message.delConfirm()
-        // 发起删除
-        await WarehouseManageApi.deleteWarehouseItem({ id: row.id })
-        message.success(t('common.delSuccess'))
-        // 刷新列表
-        await refresh()
-    } catch { }
-    // console.log(res, 'delete')
-}
+// const deleteItem = async (row) => {
+//     // console.log(row)
+//     try {
+//         // 删除的二次确认
+//         await message.delConfirm()
+//         // 发起删除
+//         await WarehouseManageApi.deleteWarehouseItem({ id: row.id })
+//         message.success(t('common.delSuccess'))
+//         // 刷新列表
+//         await refresh()
+//     } catch { }
+//     // console.log(res, 'delete')
+// }
 
 // 导出
 const exportData = async () => {
