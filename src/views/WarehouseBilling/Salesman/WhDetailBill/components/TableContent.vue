@@ -29,15 +29,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { formatDate } from '@/utils/formatTime'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
+import { getFeeItem } from '@/api/warehousebill/supplier/expensedetail'
 
 const formData = ref({
 
 })
-const tableOption = reactive([
+const tableOption = ref([
     {
         prop: 'billName',
         label: '账单名称',
@@ -124,6 +125,31 @@ const tableOption = reactive([
     //     slotName: 'stauts'
     // }
 ])
+
+// 获取计费项
+const getFeeList = async () => {
+    const res = await getFeeItem({})
+    res.forEach(item => {
+        tableOption.value.push({
+            prop: item.code,
+            label: item.name,
+            width: '160'
+        })
+    })
+    addTotal()
+}
+// 增加合计列
+const addTotal = async () => {
+    tableOption.value.push({
+        prop: 'total',
+        label: '合计',
+        width: '160'
+    })
+}
+
+onBeforeMount(() => {
+    getFeeList()
+})
 
 // 搜索
 const tableRef = ref()

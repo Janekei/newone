@@ -9,3 +9,9 @@ export const getExpenseDetail = (params) => {
 export const approvalBill = (data) => {
     return request.post({ url: '/gsc/fee/summary/details/updateSalesmanNotes', data })
 }
+
+// 计费项列
+export const getFeeItem = (params) => {
+    return request.get({ url: '/gsc/items/list', params })
+}
+
