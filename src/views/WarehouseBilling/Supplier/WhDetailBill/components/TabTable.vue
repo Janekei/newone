@@ -58,19 +58,19 @@ const approvalExpense = async () => {
         if (valid) {
             const data = { id: props.id, notes: formData.value.notes }
             // 保存供应商金额
-            const res1 = await ExpenseBillApi.updateBill({ id: props.id })
-            if (res1) {
-                // 审批
-                const res2 = await ExpenseBillApi.approvalBill(data)
-                if (res2) {
-                    ElMessage.success('审批成功')
-                    emits('successApr')
-                } else {
-                    ElMessage.error('审批失败')
-                }
+            // const res1 = await ExpenseBillApi.updateBill({ id: props.id })
+            // if (res1) {
+            // 审批
+            const res2 = await ExpenseBillApi.approvalBill(data)
+            if (res2) {
+                ElMessage.success('审批成功')
+                emits('successApr')
             } else {
-                ElMessage.error('金额修改失败！')
+                ElMessage.error('审批失败')
             }
+            // } else {
+            //     ElMessage.error('金额修改失败！')
+            // }
 
         }
     })

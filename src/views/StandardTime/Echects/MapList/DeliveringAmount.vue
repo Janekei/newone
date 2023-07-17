@@ -10,7 +10,7 @@ import { debounce } from 'lodash-es'
 const props = defineProps({
     data: {
         type: Object as any,
-        default: null
+        default: () => { }
     }
 })
 
@@ -48,7 +48,6 @@ const setOption = function () {
 }
 const initChart = async function () {
     var chartDom = document.getElementById('map2')
-    console.log(props.data, 1111)
     if (chartDom) {
         let chart = echarts.init(chartDom) //
         // 绘制图表
