@@ -17,7 +17,7 @@
                 </div>
             </template>
             <template #bsWhType="{ row }">
-              {{getIntDictOptions('billing_warehouse_type')[row.row.type].label}}
+              {{row.row.type ? getIntDictOptions('billing_warehouse_type')[row.row.type].label : '/'}}
             </template>
             <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning"
