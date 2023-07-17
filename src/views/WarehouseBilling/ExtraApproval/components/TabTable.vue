@@ -19,9 +19,9 @@
             </el-table>
         </div>
         <div class="formBox">
-            <el-form label-position="top" :rules="rules" label-width="100px" :model="formData" style="100%">
+            <el-form ref="formRef" label-position="top" :rules="rules" label-width="100px" :model="formData" style="100%">
                 <el-form-item label="审批原因" prop="approveNotes">
-                    <el-input v-model="approveNotes" :rows="2" type="textarea" placeholder="请输入内容" />
+                    <el-input v-model="formData.approveNotes" :rows="2" type="textarea" placeholder="请输入内容" />
                 </el-form-item>
             </el-form>
         </div>
@@ -41,12 +41,13 @@ const props = defineProps({
     }
 })
 
-const approveNotes = ref()
-const formData = ref()
+const formData = ref({
+    approveNotes: ''
+})
 
 const rules = reactive({
     approveNotes: [
-        { message: '请输入备注信息', trigger: 'change' },
+        { required: true, message: '请输入备注信息', trigger: 'change' },
     ]
 })
 
@@ -66,17 +67,22 @@ const downVoucherFile = (data) => {
     location.href = `${data}`
 }
 
+const formRef = ref()
 // 审批费用
 const emits = defineEmits(['successApr', 'sendDetail'])
 const approvalExpense = async (status) => {
-    const data = { id: props.id, approveNotes: approveNotes.value, status }
-    const res = await ExtraApprovalApi.approvalAddition(data)
-    if (res) {
-        ElMessage.success('审批成功')
-        emits('successApr')
-    } else {
-        ElMessage.error('审批失败')
-    }
+    formRef.value.validate(async (valid) => {
+        if (valid) {
+            const data = { id: props.id, approveNotes: formData.value.approveNotes, status }
+            const res = await ExtraApprovalApi.approvalAddition(data)
+            if (res) {
+                ElMessage.success('审批成功')
+                emits('successApr')
+            } else {
+                ElMessage.error('审批失败')
+            }
+        }
+    })
 }
 
 onMounted(async () => {

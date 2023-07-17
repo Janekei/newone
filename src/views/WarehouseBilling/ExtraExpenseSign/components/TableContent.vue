@@ -22,9 +22,9 @@
             <template #status="{ row }">
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
-            <template #operation>
+            <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning" :icon="Edit" />
-                <ElButton class="delete-btn" type="danger" :icon="Delete" />
+                <ElButton class="delete-btn" type="danger" :icon="Delete" @click="toDelItem(operateRow.id)" />
             </template>
         </TableK>
     </div>
@@ -37,6 +37,7 @@ import { Delete, Edit } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 import DictTagK from '@/components/DictTagK/index.vue'
+import * as ExtraExpenseApi from '@/api/warehousebill/extrabillsign'
 
 
 const formData = ref({})
@@ -140,6 +141,22 @@ const resetForm = () => {
 // 刷新列表
 const refresh = () => {
     tableRef.value.refresh()
+}
+
+//删除额外费用
+const { t } = useI18n()
+const message = useMessage() // 消息弹窗
+const toDelItem = async (id: number) => {
+    try {
+        // 删除的二次确认
+        await message.delConfirm()
+        // 发起删除
+        // console.log(id)
+        await ExtraExpenseApi.deleteAddition({ id })
+        message.success(t('common.delSuccess'))
+        // 刷新列表
+        refresh()
+    } catch { }
 }
 
 

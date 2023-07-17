@@ -6,13 +6,7 @@
                 :row-class-name="tableRowClassName">
                 <el-table-column prop="name" label="费用" width="300" />
                 <el-table-column prop="price" label="系统账单" />
-                <el-table-column label="供应商账单">
-                    <template #default="scope">
-                        <el-input type="number"
-                            oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
-                            v-model="scope.row.supplierPrice" placeholder="" />
-                    </template>
-                </el-table-column>
+                <el-table-column label="供应商账单" />
             </el-table>
         </div>
         <div class="formBox">

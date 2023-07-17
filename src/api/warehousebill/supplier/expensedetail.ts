@@ -9,3 +9,15 @@ export const getExpenseDetail = (params) => {
 export const approvalBill = (data) => {
     return request.post({ url: '/gsc/fee/summary/details/updateSalesmanNotes', data })
 }
+
+// 计费项列
+export const getFeeItem = (params) => {
+    return request.get({ url: '/gsc/items/list', params })
+}
+
+// 账单对比，修改供应商金额
+export const updateBill = (data) => {
+    return request.post({ url: '/gsc/fee/summary/details/update', data })
+}
+
+
