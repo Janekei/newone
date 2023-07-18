@@ -39,12 +39,12 @@ let formData = ref({
 const tableOption = reactive([
     {
         prop: 'goodCode',
-        label: '货品编码',
+        label: '物料编码',
         width: '180'
     },
     {
         prop: 'goodsName',
-        label: '货品名称',
+        label: '物料名称',
         width: '180'
     },
     {
