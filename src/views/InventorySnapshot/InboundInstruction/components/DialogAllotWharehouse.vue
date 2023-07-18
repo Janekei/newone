@@ -120,7 +120,12 @@ const open = async (title: string) => {
 
 const emit = defineEmits(["success"]);
 
+const loading = ref(false)
 const submitForm = async () => {
+  if(loading.value){
+    return
+  }
+  loading.value = true
   const res = await InboundInstruction.allotWhareahouse({
     ids: props.ids,
     warehouseId: formData.value.id,
@@ -130,6 +135,7 @@ const submitForm = async () => {
   } else {
     ElMessage.error("分配仓库失败！");
   }
+  loading.value = false
   dialogVisible.value = false;
   // 发送操作成功的事件
   emit("success");

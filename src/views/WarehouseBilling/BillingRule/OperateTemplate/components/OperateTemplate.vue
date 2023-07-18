@@ -101,7 +101,7 @@
     <TableK url="/gsc/fee/template/page" method="get" ref="tableRef" :params="formDataW" :firstPages="10"
       :tableOption="tableOptionW" :showFixedOperation="true" :showCheckBox="false" :showIndex="false">
       <template #lastUsedTime="{ row }">
-        {{ row.row.lastUsedTime ? formatDate(row.row.lastUsedTime, 'yyyy-MM-dd HH:mm:ss') : '/' }}
+        {{ row.row.lastUsedTime ? formatTime(row.row.lastUsedTime, 'yyyy-MM-dd HH:mm:ss') : '/' }}
       </template>
       <template #operation="{ operateRow }">
         <el-link class="link" type="primary" :icon="View" @click="selectTemplate(operateRow.id)">使用</el-link>
@@ -132,6 +132,7 @@ import {
 } from "@/api/billingRule/templaterule";
 import TableK from "@/components/TableK/index.vue";
 import { formatDate } from '@/utils/formatTime'
+import { formatTime } from '@/utils'
 
 const route = useRoute()
 const getId = ref(route.query.id ? route.query.id : undefined)

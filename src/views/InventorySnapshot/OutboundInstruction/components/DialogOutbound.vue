@@ -9,7 +9,7 @@
             </div>
         </div>
         <template #footer>
-            <el-button type="primary" :disabled="formLoading" @click="submitForm">确认</el-button>
+            <el-button type="primary" :disabled="formLoading" :loading="loading" @click="submitForm">确认</el-button>
             <el-button @click="dialogVisible = false">取消</el-button>
         </template>
     </ElDialog>
@@ -183,37 +183,46 @@ const open = (type: string, title: string, content?: string, carNum?) => {
 
 const emit = defineEmits(['success'])
 
+const loading = ref(false)
 const submitForm = async () => {
-    if (formType.value === '托拣货') {
+  if(loading.value){
+    return
+  }
+  loading.value = true
+    try {
+      if (formType.value === '托拣货') {
         const res = await OutboundInstruction.trayPickGoods({ ids: props.ids, outboundGoodsId: props.goodsId, outboundId })
         if (res) {
-            ElMessage.success('拣货成功')
-            router.push({ path: '/InventorySnapshot/pickgoods' })
+          ElMessage.success('拣货成功')
+          router.push({ path: '/InventorySnapshot/pickgoods' })
         }
-    } else if (formType.value === '箱拣货') {
+      } else if (formType.value === '箱拣货') {
         const res = await OutboundInstruction.boxPickGoods({ ids: props.ids, outboundId })
         if (res) {
-            ElMessage.success('拣货成功')
-            router.push({ path: '/InventorySnapshot/pickgoods' })
+          ElMessage.success('拣货成功')
+          router.push({ path: '/InventorySnapshot/pickgoods' })
         }
-    } else if (formType.value === '出库') {
+      } else if (formType.value === '出库') {
         const res = await OutboundInstruction.postOutboundList({ ids: props.outIds })
         if (res) {
-            ElMessage.success('出库成功')
+          ElMessage.success('出库成功')
         } else {
-            ElMessage.success('出库失败')
+          ElMessage.success('出库失败')
         }
-    } else if (formType.value === '绑定车辆') {
+      } else if (formType.value === '绑定车辆') {
         if (recordData.value.carNumBefore !== undefined) {
-            const res = await OutboundInstruction.bindCart({ ids: props.outIds, numberPlate: recordData.value.carNumBefore, driverId: recordData.value.id })
-            if (res) {
-                ElMessage.success('绑定车辆成功')
-            } else {
-                ElMessage.success('绑定车辆失败')
-            }
+          const res = await OutboundInstruction.bindCart({ ids: props.outIds, numberPlate: recordData.value.carNumBefore, driverId: recordData.value.id })
+          if (res) {
+            ElMessage.success('绑定车辆成功')
+          } else {
+            ElMessage.success('绑定车辆失败')
+          }
         } else {
-            ElMessage.error('请输入车辆信息')
+          ElMessage.error('请输入车辆信息')
         }
+      }
+    }finally {
+      loading.value = true
     }
     reset()
     dialogVisible.value = false

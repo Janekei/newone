@@ -73,6 +73,11 @@ const tableOption = reactive([
         width: '180'
     },
     {
+        prop: 'palletNo',
+        label: '托盘号',
+        width: '200'
+    },
+    {
         prop: 'totalCount',
         label: '托盘数量',
         width: '100'
@@ -87,6 +92,11 @@ const tableOption = reactive([
         label: '异常类型',
         width: '100',
         slotName: 'exceptionType'
+    },
+    {
+        prop: 'exceptionStatus',
+        label: '异常原因',
+        width: '160',
     },
     {
         prop: 'inventoryType',
