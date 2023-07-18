@@ -9,8 +9,11 @@
             <template #status="{ row }">
                 <DictTagK type="wh_fee_bill_status" :value="row.row.status" />
             </template>
-            <template #billDate="{ row }">
-                <span>{{ formatDate(row.row.billDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
+            <template #billStartDate="{ row }">
+                <span>{{ formatDate(row.row.billStartDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
+            <template #billEndDate="{ row }">
+                <span>{{ formatDate(row.row.billEndDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
@@ -55,10 +58,16 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'billDate',
-        label: '账单生成日期',
+        prop: 'billStartDate',
+        label: '账单起始日期',
         width: '160',
-        slotName: 'billDate'
+        slotName: 'billStartDate'
+    },
+    {
+        prop: 'billEndDate',
+        label: '账单截止日期',
+        width: '160',
+        slotName: 'billEndDate'
     },
     {
         prop: 'status',

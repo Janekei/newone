@@ -17,8 +17,7 @@
     </div>
     <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
       ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
-      @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }"
-      :header-cell-style="{ 'text-align': 'center' }">
+      @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }" :header-cell-style="headerCellStyle">
       <ElTableColumn :fixed="selectionPosition" type="selection" width="55" v-if="showCheckBox" />
       <ElTableColumn label="序号" type="index" width="100" align="center" v-if="showIndex" />
       <ElTableColumn :show-overflow-tooltip="true" :prop="item.prop" :label="item.label" :width="item.width"
@@ -134,6 +133,10 @@ const props = defineProps({
   limit: {
     type: Boolean,
     default: false
+  },
+  headerCellStyle: {
+    type: Object,
+    default: () => { return { 'text-align': 'center' } }
   }
 })
 

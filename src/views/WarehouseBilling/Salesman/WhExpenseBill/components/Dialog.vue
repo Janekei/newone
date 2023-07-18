@@ -3,10 +3,14 @@
         <div class="form-box">
             <FormK :formOption="formOption" ref="refForm" v-model:formState="formData" labelWidth="9em" />
         </div>
-        <template #footer>
+        <div class="btn-box">
+            <el-button size="small" @click="submitForm" type="primary">确认</el-button>
+        </div>
+        <DialogTable v-if="billId" :billId="billId" />
+        <!-- <template #footer>
             <el-button @click="submitForm" type="primary">确认</el-button>
             <el-button @click="dialogVisible = false">取消</el-button>
-        </template>
+        </template> -->
     </Dialog>
 </template>
 
@@ -16,7 +20,7 @@ import { ref, reactive } from 'vue'
 import { formatDate } from '@/utils/formatTime'
 import FormK from '@/components/FormK/index.vue'
 import * as ExpenseBillApi from '@/api/warehousebill/supplier/expensebill'
-
+import DialogTable from './DialogTable.vue'
 
 const formData = ref({})
 const formOption = reactive([
@@ -93,9 +97,18 @@ const formOption = reactive([
     },
     {
         type: 'date',
-        field: 'billDate',
+        field: 'startDate',
         placeholder: '',
-        label: '账单生成日期：',
+        label: '账单起始日期：',
+        rules: [
+            { required: true, message: '请输入账单生成日期', trigger: 'change' }
+        ]
+    },
+    {
+        type: 'date',
+        field: 'endDate',
+        placeholder: '',
+        label: '账单截止日期：',
         rules: [
             { required: true, message: '请输入账单生成日期', trigger: 'change' }
         ]
@@ -131,9 +144,14 @@ const open = async (type: string, id?: number) => {
     }
 }
 
+watch(() => dialogVisible.value, (newVal) => {
+    if (newVal === false) resetForm()
+})
+
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emits = defineEmits(['success'])
+let billId = ref()
 const submitForm = () => {
     refForm.value.validate(async (valid) => {
         if (valid) {
@@ -141,15 +159,17 @@ const submitForm = () => {
                 name: formData.value['name'],
                 supplierId: formData.value['supplierId'],
                 bsWhareaId: formData.value['bsWhareaId'],
-                billDate: Date.parse(formData.value['billDate']),
+                startDate: Date.parse(formData.value['startDate']),
+                endDate: Date.parse(formData.value['endDate']),
                 price: formData.value['price']
             }
             if (formType.value === '新增') {
                 const res = await ExpenseBillApi.createExpense(params)
                 if (res) {
+                    billId.value = res
                     ElMessage.success('新增成功')
-                    resetForm()
-                    dialogVisible.value = false
+                    // resetForm()
+                    // dialogVisible.value = false
                     emits('success')
                 } else {
                     ElMessage.success('新增失败')
@@ -159,7 +179,7 @@ const submitForm = () => {
                 const res = await ExpenseBillApi.updateExpense(params1)
                 if (res) {
                     ElMessage.success('修改成功')
-                    dialogVisible.value = false
+                    // dialogVisible.value = false
                     emits('success')
                 } else {
                     ElMessage.success('修改失败')
@@ -188,6 +208,12 @@ const resetForm = () => {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.btn-box {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: .3125rem;
 }
 
 .text {
