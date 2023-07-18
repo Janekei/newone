@@ -137,7 +137,7 @@ const formOption = reactive([
     },
     {
         type: 'inputTable',
-        field: 'tableCity',
+        field: 'cityName',
         placeholder: '请输入城市',
         label: '城市',
         clearData: () => {
@@ -367,9 +367,18 @@ const submitForm = async () => {
         formData.value.longitude = Number(formData.value.longitude)
         formData.value.latitude = Number(formData.value.latitude)
         formData.value.storageCapacity = Number(formData.value.storageCapacity)
-        formData.value.loadingCapacity = Number(formData.value.loadingCapacity)
-        formData.value.unloadingCapacity = Number(formData.value.unloadingCapacity)
-        formData.value.shippingCapacity = Number(formData.value.shippingCapacity)
+        if(formData.value.loadingCapacity){
+          formData.value.loadingCapacity = Number(formData.value.loadingCapacity)
+        }
+        if(formData.value.loadingCapacity){
+          formData.value.loadingCapacity = Number(formData.value.loadingCapacity)
+        }
+        if(formData.value.unloadingCapacity){
+          formData.value.unloadingCapacity = Number(formData.value.unloadingCapacity)
+        }
+        if(formData.value.shippingCapacity){
+          formData.value.shippingCapacity = Number(formData.value.shippingCapacity)
+        }
         if (formType.value === '增加') {
             console.log('formData.value',formData.value)
             await WarehouseManageApi.addWarehouseItem(formData.value)
