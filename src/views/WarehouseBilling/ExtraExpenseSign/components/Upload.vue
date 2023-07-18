@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-upload ref="uploadRef" style="{font-size: 18px;}" :action="url" :headers="uploadHeaders" :show-file-list="false"
-            :limit="1" :auto-upload="true" :on-success="handleSuccess" :on-exceed="handleExceed">上传
+            :limit="1" :auto-upload="true" :on-success="handleSuccess" :on-exceed="handleExceed">{{ props.text }}
         </el-upload>
     </div>
 </template>
@@ -10,6 +10,12 @@
 import { ref } from 'vue'
 import { getTenantId, getAccessToken } from '@/utils/auth'
 import type { UploadProps } from 'element-plus'
+const props = defineProps({
+    text: {
+        type: String,
+        default: '上传'
+    }
+})
 
 const url = import.meta.env.VITE_UPLOAD_URL
 const uploadHeaders = ref({
@@ -18,15 +24,15 @@ const uploadHeaders = ref({
 })
 const uploadRef = ref()
 
-const emits = defineEmits(['getFileUrl'])
+const emits = defineEmits(['getFileUrl', 'uploadSuccess'])
 
 
 
 const handleSuccess: UploadProps['onSuccess'] = (response) => {
     // 提交请求
-    console.log(response.data, 7777)
     uploadRef.value!.submit()
     emits('getFileUrl', response.data)
+    emits('uploadSuccess')
 }
 
 const handleExceed: UploadProps['onExceed'] = (files) => {

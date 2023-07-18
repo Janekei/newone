@@ -38,8 +38,15 @@
                 </template>
             </el-table-column>
             <el-table-column label="凭证" align="center">
-                <template #default>
-                    <Upload @getFileUrl="getFileUrl" :disabled="props.disabled" />
+                <template #default="scope">
+                    <span>
+                        <Upload @getFileUrl="getFileUrl" @uploadSuccess="uploadSuccess(scope.$index)"
+                            :disabled="props.disabled" text="上传" />
+                    </span>
+                    <!-- <span>
+                        <Upload @getFileUrl="getFileUrl" @uploadSuccess="uploadSuccess(scope.$index)"
+                            :disabled="props.disabled" text="重新上传" />
+                    </span> -->
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="操作" align="center" width="170">
@@ -122,12 +129,17 @@ const getFileUrl = (url) => {
     ElMessage.error('上传失败！')
 }
 
+// 上传图片成功，录入对应索引号下的对象的url中
+const uploadSuccess = (index) => {
+    console.log(index, 'index')
+    additionalMsg.value[index]["voucherUrl"] = fileUrl.value
+}
+
 
 const ifCanShow = ref(false)
 // 额外费用明细列表
 const getExtraFeeDetail = async () => {
     ifCanShow.value = true
-    console.log(2)
     const data = await ExtraExpenseApi.selectAddition({ id: props.id })
     additionalMsg.value = data.detailsList
     ifCanShow.value = false
@@ -140,7 +152,6 @@ let index = ref(0)
 let savaBtnStatus = ref(true)
 const toAddItem = async () => {
     savaBtnStatus.value = false
-    additionalMsg.value[0]["voucherUrl"] = fileUrl.value
     dataList.value = additionalMsg.value
     dataList.value.splice(0, 0, {
         "fid": index.value++,
