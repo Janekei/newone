@@ -42,6 +42,8 @@
                     class-name="my-content" />
                 <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
+                <el-descriptions-item label="托盘号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content" />
                 <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
                 <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"
@@ -121,6 +123,8 @@
                     class-name="my-content">{{ waybillInfo.unitWattage }}</el-descriptions-item>
                 <el-descriptions-item label="功率档位" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.power }}</el-descriptions-item>
+                <el-descriptions-item label="托盘号" label-align="left" align="center" label-class-name="my-label"
+                    class-name="my-content">{{ waybillInfo.palletNo }}</el-descriptions-item>
                 <el-descriptions-item label="托盘数量" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.totalPallet }}</el-descriptions-item>
                 <el-descriptions-item label="片数" label-align="left" align="center" label-class-name="my-label"

@@ -61,6 +61,11 @@ const tableOption = reactive([
         width: '180'
     },
     {
+        prop: 'palletNo',
+        label: '托盘号',
+        width: '200'
+    },
+    {
         prop: 'palletsNumber',
         label: '托盘数量',
         width: '180'
