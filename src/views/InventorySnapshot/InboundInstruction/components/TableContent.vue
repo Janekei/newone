@@ -19,6 +19,11 @@
             <template #atd="{ row }">
                 <span>{{ formatDate(row.row.atd , 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
+            <template #status="{ row }">
+              <span v-if="row.row.status == 0">未入库</span>
+              <span v-else-if="row.row.status == 1">部分入库</span>
+              <span v-else-if="row.row.status == 2">已入库</span>
+            </template>
             <template #transportStatus="{ row }">
                 <!-- {{ row.row.transportStatus }} -->
                 <!-- <span v-if="row.row.transportStatus == 1">{{ row.row.transportStatus }}2</span> -->
@@ -76,13 +81,19 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'totalBox',
-        label: '柜数',
-        width: '100'
-    },
-    {
       prop: 'bsWhName',
       label: '仓库名称',
+      width: '100'
+    },
+    {
+      prop: 'status',
+      label: '状态',
+      slotName: 'status',
+      width: '100'
+    },
+    {
+      prop: 'totalBox',
+      label: '柜数',
       width: '100'
     },
     {
