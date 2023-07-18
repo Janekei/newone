@@ -44,18 +44,19 @@
             </el-table-column>
             <el-table-column fixed="right" label="操作" align="center" width="170">
                 <template #default="scope">
-                    <el-button type="primary" text v-if="scope.$index != 0">
-                        编辑
-                    </el-button>
-                    <el-button type="danger" @click="toDelItem(scope.row.id)" text v-if="scope.$index != 0">
+                    <el-button type="danger" @click="toDelItem(scope.row.fid)" text v-if="scope.$index != 0">
                         删除
                     </el-button>
-                    <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0" :disabled="props.disabled">
+                    <el-button type="primary" text @click="toAddItem(scope.$index)" v-if="scope.$index == 0"
+                        :disabled="props.disabled">
                         添加
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
+    </div>
+    <div class="header-bottom-btn">
+        <ElButton :disabled="savaBtnStatus" type="primary" @click="saveExpenseDetail">保存</ElButton>
     </div>
 </template>
 
@@ -72,20 +73,14 @@ const props = defineProps({
     disabled: {
         type: Boolean,
         default: false
+    },
+    id: {
+        type: Number
     }
 })
 
 
-const additionalMsg = ref([
-    {
-        "itemId": "",
-        "feePrice": "",
-        "feeNumber": "",
-        "notes": "",
-        "price": "",
-        "feeBillName": "",
-    }
-])
+const additionalMsg: any = ref([])
 
 const tableConfig = ref(
     {
@@ -127,47 +122,57 @@ const getFileUrl = (url) => {
     ElMessage.error('上传失败！')
 }
 
+
 const ifCanShow = ref(false)
-// 获取额外费用明细
 // 额外费用明细列表
-let dataList: any = ref([])
-const getExtraFeeDetail = async (id) => {
+const getExtraFeeDetail = async () => {
     ifCanShow.value = true
-    const data = await ExtraExpenseApi.selectAddition({ id })
-    let dataList = data.detailsList
-    dataList.splice(0, 0, {
+    console.log(2)
+    const data = await ExtraExpenseApi.selectAddition({ id: props.id })
+    additionalMsg.value = data.detailsList
+    ifCanShow.value = false
+}
+
+// const emits = defineEmits(['success'])
+// 增加额外费用
+let dataList: any = ref([])
+let index = ref(0)
+let savaBtnStatus = ref(true)
+const toAddItem = async (index) => {
+    savaBtnStatus.value = false
+    additionalMsg.value[index]["voucherUrl"] = fileUrl.value
+    dataList.value = additionalMsg.value
+    dataList.value.splice(0, 0, {
+        "fid": index.value++,
         "itemId": "",
         "feePrice": "",
         "feeNumber": "",
         "notes": "",
         "price": "",
         "feeBillName": "",
+        "voucherUrl": ""
     })
-    console.log(dataList, 9090)
-    additionalMsg.value = dataList
-    ifCanShow.value = false
+    additionalMsg.value = dataList.value
 }
 
-// const emits = defineEmits(['success'])
-// 增加额外费用
-const toAddItem = async () => {
-    let params = {
-        "itemId": additionalMsg.value[0].itemId,
-        "feePrice": additionalMsg.value[0].feePrice,
-        "feeNumber": additionalMsg.value[0].feeNumber,
-        "notes": additionalMsg.value[0].notes,
-        "voucherUrl": fileUrl.value,
-        "price": additionalMsg.value[0].price,
-        "feeBillName": additionalMsg.value[0].feeBillName
-    }
-    const data = Object.assign({}, props.basicData, { 'detailsList': [params] })
-    const res = await ExtraExpenseApi.createAdditionDetail(data)
-    console.log(res)
-    getExtraFeeDetail(res[0])
-    if (res) {
-        ElMessage.success('添加成功！')
+const saveExpenseDetail = async () => {
+    if (props.id) {
+        const data = Object.assign({}, props.basicData, { 'detailsList': additionalMsg.value[0] })
+        const res = await ExtraExpenseApi.updateAddition(data)
+        if (res) {
+            ElMessage.success('修改成功！')
+        } else {
+            ElMessage.success('修改失败！')
+        }
     } else {
-        ElMessage.success('添加失败！')
+        let list = dataList.value.filter((element, index) => { if (index > 0) return element })
+        const data = Object.assign({}, props.basicData, { 'detailsList': list })
+        const res = await ExtraExpenseApi.createAdditionDetail(data)
+        if (res) {
+            ElMessage.success('添加成功！')
+        } else {
+            ElMessage.success('添加失败！')
+        }
     }
 }
 
@@ -179,23 +184,41 @@ const toDelItem = async (id: number) => {
         // 删除的二次确认
         await message.delConfirm()
         // 发起删除
-        // console.log(id)
-        await ExtraExpenseApi.deleteAddition({ id })
         message.success(t('common.delSuccess'))
         // 刷新列表
-        // dataList.value.filter((item) => { return item.id === id })
         dataList.value.forEach((item, index) => {
-            if (item.id === id) {
+            if (item.fid === id) {
                 dataList.value.splice(index, 1)
             }
         })
-        additionalMsg.value = dataList.value
     } catch { }
 }
 
-onMounted(async () => {
-
+onBeforeMount(() => {
+    if (props.id) {
+        console.log(1)
+        getExtraFeeDetail()
+    } else {
+        additionalMsg.value.push(
+            {
+                "fid": index.value++,
+                "itemId": "",
+                "feePrice": "",
+                "feeNumber": "",
+                "notes": "",
+                "price": "",
+                "feeBillName": "",
+                "voucherUrl": ""
+            })
+    }
 })
 
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.header-bottom-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.25rem;
+    margin-right: 1.75rem;
+}
+</style>

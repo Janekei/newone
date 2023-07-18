@@ -23,11 +23,12 @@
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
             <template #operation="{ operateRow }">
-                <ElButton class="edit-btn" type="warning" :icon="Edit" />
+                <ElButton class="edit-btn" type="warning" :icon="Edit" @click="toEditItem(operateRow.id * 1)" />
                 <ElButton class="delete-btn" type="danger" :icon="Delete" @click="toDelItem(operateRow.id)" />
             </template>
         </TableK>
     </div>
+    <Dialog ref="dialogRef" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -37,8 +38,8 @@ import { Delete, Edit } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 import DictTagK from '@/components/DictTagK/index.vue'
+import Dialog from './Dialog.vue'
 import * as ExtraExpenseApi from '@/api/warehousebill/extrabillsign'
-
 
 const formData = ref({})
 const tableOption = reactive([
@@ -159,6 +160,11 @@ const toDelItem = async (id: number) => {
     } catch { }
 }
 
+// 弹窗
+const dialogRef = ref()
+const toEditItem = (id) => {
+    dialogRef.value.open(id)
+}
 
 
 
