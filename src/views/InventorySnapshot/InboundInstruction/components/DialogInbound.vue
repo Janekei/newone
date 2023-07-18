@@ -9,7 +9,7 @@
       </div>
     </div>
     <template #footer>
-      <el-button type="primary" :disabled="formLoading" @click="submitForm">确认</el-button>
+      <el-button type="primary" :disabled="formLoading" :loading="loading" @click="submitForm">确认</el-button>
       <el-button @click="dialogVisible = false">取消</el-button>
     </template>
   </ElDialog>
@@ -88,7 +88,12 @@ const open = (type: string, title: string, content: string) => {
 
 const emit = defineEmits(['success'])
 
+const loading = ref(false)
 const submitForm = async () => {
+  if(loading.value){
+    return
+  }
+  loading.value = true
   if (formType.value === '整批入库') {
     const res = await InboundInstruction.postAllInbound({ id: props.inboundID })
     if (res) {
@@ -118,6 +123,10 @@ const submitForm = async () => {
       exceptionId: recordData.value.exception,
       exceptionStatus: recordData.value.exceptionStatus
     }
+    if(params.exceptionId == '' || params.exceptionId == undefined){
+      ElMessage.error('请选择异常类型')
+      return
+    }
     const res = await InboundInstruction.recordErrorTray(params)
     if (res) {
       ElMessage.success('异常登记成功')
@@ -130,6 +139,10 @@ const submitForm = async () => {
       exceptionId: recordData.value.exception,
       exceptionStatus: recordData.value.exceptionStatus
     }
+    if(params.exceptionId == '' || params.exceptionId == undefined){
+      ElMessage.error('请选择异常类型')
+      return
+    }
     const res = await InboundInstruction.recordErrorTray(params)
     if (res) {
       ElMessage.success('异常登记成功')
@@ -137,6 +150,7 @@ const submitForm = async () => {
       ElMessage.error('异常登记失败')
     }
   }
+  loading.value = false
   dialogVisible.value = false
   // 发送操作成功的事件
   emit('success')
