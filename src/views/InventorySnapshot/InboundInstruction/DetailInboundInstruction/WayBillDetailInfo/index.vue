@@ -1,7 +1,7 @@
 <template>
     <div v-if="show">
         <TableWayBill :waybillInfo="waybillInfo" />
-        <div class="box-btn">
+        <div class="box-btn" v-if="waybillInfo.status != 1" >
             <el-button class="button" type="primary" @click="errorOrder">异常订单</el-button>
             <el-button class="button" type="primary" @click="allInbound">整批入库</el-button>
             <el-button class="button" type="primary" @click="partInbound">部分入库</el-button>
