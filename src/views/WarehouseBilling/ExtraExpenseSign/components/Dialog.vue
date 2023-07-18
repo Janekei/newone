@@ -1,6 +1,5 @@
 <template>
     <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
-        {{ formData }}
         <div class="form-box">
             <div>
                 <FormK ref="formRef" :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
@@ -10,7 +9,7 @@
             <ElButton @click="saveBaseInfo" :disabled="disabled" type="primary">保存</ElButton>
         </div>
         <div>
-            <TabContent :basicData="formData" :disabled="itemDisabled" :id="getId" />
+            <TabContent :basicData="saveData" :disabled="itemDisabled" :id="getId" />
         </div>
     </Dialog>
 </template>
@@ -18,6 +17,7 @@
 <script lang="ts" setup>
 import { Dialog } from '@/components/Dialog'
 import { ref } from 'vue'
+import _ from 'lodash-es'
 import FormK from '@/components/FormK/index.vue'
 import TabContent from './TabContent.vue';
 import * as ExtraExpenseApi from '@/api/warehousebill/extrabillsign'
@@ -159,10 +159,12 @@ let getId = ref()
 let disabled = ref(true)
 let itemDisabled = ref(true)
 let show = ref(true)
+let saveData = ref()
 const saveBaseInfo = async () => {
-    formData.value['inStockTime'] = Date.parse(formData.value['inStockTime'])
-    formData.value['outStockTime'] = Date.parse(formData.value['outStockTime'])
-    let data = await ExtraExpenseApi.createAddition(formData.value)
+    saveData.value = _.cloneDeep(formData.value)
+    saveData.value['inStockTime'] = Date.parse(saveData.value['inStockTime'])
+    saveData.value['outStockTime'] = Date.parse(saveData.value['outStockTime'])
+    let data = await ExtraExpenseApi.createAddition(saveData.value)
     if (data) {
         formData.value['feeSummaryId'] = data
         ElMessage.success('创建成功！')

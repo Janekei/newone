@@ -47,7 +47,7 @@
                     <el-button type="danger" @click="toDelItem(scope.row.fid)" text v-if="scope.$index != 0">
                         删除
                     </el-button>
-                    <el-button type="primary" text @click="toAddItem(scope.$index)" v-if="scope.$index == 0"
+                    <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0 || !props.id"
                         :disabled="props.disabled">
                         添加
                     </el-button>
@@ -138,9 +138,9 @@ const getExtraFeeDetail = async () => {
 let dataList: any = ref([])
 let index = ref(0)
 let savaBtnStatus = ref(true)
-const toAddItem = async (index) => {
+const toAddItem = async () => {
     savaBtnStatus.value = false
-    additionalMsg.value[index]["voucherUrl"] = fileUrl.value
+    additionalMsg.value[0]["voucherUrl"] = fileUrl.value
     dataList.value = additionalMsg.value
     dataList.value.splice(0, 0, {
         "fid": index.value++,
@@ -196,7 +196,7 @@ const toDelItem = async (id: number) => {
 
 onBeforeMount(() => {
     if (props.id) {
-        console.log(1)
+        savaBtnStatus.value = false
         getExtraFeeDetail()
     } else {
         additionalMsg.value.push(
