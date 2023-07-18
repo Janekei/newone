@@ -222,7 +222,7 @@ const submitForm = async () => {
         }
       }
     }finally {
-      loading.value = true
+      loading.value = false
     }
     reset()
     dialogVisible.value = false
