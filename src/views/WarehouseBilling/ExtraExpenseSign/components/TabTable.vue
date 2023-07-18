@@ -4,8 +4,8 @@
             :header-cell-style="{ background: '#C8D7EE', color: '#606266' }">
             <el-table-column label="费用名称" align="center">
                 <template #default="scope">
-                    <MyInputTable v-model="scope.row.feeBillName" :tableId="scope.$index" :valueKey="tableConfig.valueKey"
-                        :tableOption="tableConfig.tableOption" :tableConfig="tableConfig"
+                    <MyInputTable v-model="scope.row.feeBillName" :disabled="props.disabled" :tableId="scope.$index"
+                        :valueKey="tableConfig.valueKey" :tableOption="tableConfig.tableOption" :tableConfig="tableConfig"
                         :setFormData="tableConfig.setFormData" :clearData="tableConfig.clearData" />
                 </template>
             </el-table-column>
@@ -13,55 +13,55 @@
                 <template #default="scope">
                     <el-input type="number"
                         oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
-                        v-model="scope.row.feePrice" placeholder="" />
+                        v-model="scope.row.feePrice" :disabled="props.disabled" placeholder="" />
                 </template>
             </el-table-column>
             <el-table-column label="数量" align="center">
                 <template #default="scope">
                     <el-input type="number"
                         oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
-                        v-model="scope.row.feeNumber" placeholder="" />
+                        v-model="scope.row.feeNumber" :disabled="props.disabled" placeholder="" />
                 </template>
             </el-table-column>
             <el-table-column label="金额" align="center">
                 <template #default="scope">
                     <el-input type="number"
                         oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
-                        v-model="scope.row.price" placeholder="" />
+                        v-model="scope.row.price" :disabled="props.disabled" placeholder="" />
                 </template>
             </el-table-column>
             <el-table-column label="备注" align="center">
                 <template #default="scope">
                     <el-input
                         oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
-                        v-model="scope.row.notes" placeholder="" />
+                        v-model="scope.row.notes" :disabled="props.disabled" placeholder="" />
                 </template>
             </el-table-column>
             <el-table-column label="凭证" align="center">
                 <template #default>
-                    <Upload @getFileUrl="getFileUrl" />
+                    <Upload @getFileUrl="getFileUrl" :disabled="props.disabled" />
                 </template>
             </el-table-column>
             <el-table-column fixed="right" label="操作" align="center" width="170">
                 <template #default="scope">
-                    <!-- <el-button type="primary" text v-if="scope.$index != 0">
-                        编辑
-                    </el-button> -->
-                    <el-button type="danger" @click="toDelItem(scope.row.id)" text v-if="scope.$index != 0">
+                    <el-button type="danger" @click="toDelItem(scope.row.fid)" text v-if="scope.$index != 0">
                         删除
                     </el-button>
-                    <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0">
+                    <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0 || !props.id"
+                        :disabled="props.disabled">
                         添加
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
     </div>
+    <div class="header-bottom-btn">
+        <ElButton :disabled="savaBtnStatus" type="primary" @click="saveExpenseDetail">保存</ElButton>
+    </div>
 </template>
 
 <script lang="ts" setup>
 import { ElTable, ElTableColumn, ElMessage } from 'element-plus'
-
 import Upload from './Upload.vue';
 import MyInputTable from './MyInputTable.vue';
 import * as ExtraExpenseApi from '@/api/warehousebill/extrabillsign'
@@ -69,20 +69,18 @@ const props = defineProps({
     basicData: {
         type: Object,
         default: () => { }
+    },
+    disabled: {
+        type: Boolean,
+        default: false
+    },
+    id: {
+        type: Number
     }
 })
 
 
-const additionalMsg = ref([
-    {
-        "itemId": "",
-        "feePrice": "",
-        "feeNumber": "",
-        "notes": "",
-        "price": "",
-        "feeBillName": "",
-    }
-])
+const additionalMsg: any = ref([])
 
 const tableConfig = ref(
     {
@@ -124,49 +122,57 @@ const getFileUrl = (url) => {
     ElMessage.error('上传失败！')
 }
 
+
 const ifCanShow = ref(false)
-// 获取额外费用明细
 // 额外费用明细列表
-let dataList: any = ref([])
-const getExtraFeeDetail = async (id) => {
+const getExtraFeeDetail = async () => {
     ifCanShow.value = true
-    const data = await ExtraExpenseApi.selectAddition({ id })
-    if (data) {
-        dataList.value.splice(0, 0, {
-            "id": "",
-            "itemId": "",
-            "feePrice": "",
-            "feeNumber": "",
-            "notes": "",
-            "price": "",
-            "itemName": "",
-            "feeBillName": ""
-        })
-        dataList.value.push(data)
-        additionalMsg.value = dataList.value
-        ifCanShow.value = false
-    }
+    console.log(2)
+    const data = await ExtraExpenseApi.selectAddition({ id: props.id })
+    additionalMsg.value = data.detailsList
+    ifCanShow.value = false
 }
 
 // const emits = defineEmits(['success'])
 // 增加额外费用
+let dataList: any = ref([])
+let index = ref(0)
+let savaBtnStatus = ref(true)
 const toAddItem = async () => {
-    let params = {
-        "itemId": additionalMsg.value[0].itemId,
-        "feePrice": additionalMsg.value[0].feePrice,
-        "feeNumber": additionalMsg.value[0].feeNumber,
-        "notes": additionalMsg.value[0].notes,
-        "voucherUrl": fileUrl.value,
-        "price": additionalMsg.value[0].price,
-        "feeBillName": additionalMsg.value[0].feeBillName
-    }
-    const data = Object.assign({}, props.basicData, params)
-    const res = await ExtraExpenseApi.createAddition(data)
-    getExtraFeeDetail(res)
-    if (res) {
-        ElMessage.success('添加成功！')
+    savaBtnStatus.value = false
+    additionalMsg.value[0]["voucherUrl"] = fileUrl.value
+    dataList.value = additionalMsg.value
+    dataList.value.splice(0, 0, {
+        "fid": index.value++,
+        "itemId": "",
+        "feePrice": "",
+        "feeNumber": "",
+        "notes": "",
+        "price": "",
+        "feeBillName": "",
+        "voucherUrl": ""
+    })
+    additionalMsg.value = dataList.value
+}
+
+const saveExpenseDetail = async () => {
+    if (props.id) {
+        const data = Object.assign({}, props.basicData, { 'detailsList': additionalMsg.value[0] })
+        const res = await ExtraExpenseApi.updateAddition(data)
+        if (res) {
+            ElMessage.success('修改成功！')
+        } else {
+            ElMessage.success('修改失败！')
+        }
     } else {
-        ElMessage.success('添加失败！')
+        let list = dataList.value.filter((element, index) => { if (index > 0) return element })
+        const data = Object.assign({}, props.basicData, { 'detailsList': list })
+        const res = await ExtraExpenseApi.createAdditionDetail(data)
+        if (res) {
+            ElMessage.success('添加成功！')
+        } else {
+            ElMessage.success('添加失败！')
+        }
     }
 }
 
@@ -178,23 +184,41 @@ const toDelItem = async (id: number) => {
         // 删除的二次确认
         await message.delConfirm()
         // 发起删除
-        // console.log(id)
-        await ExtraExpenseApi.deleteAddition({ id })
         message.success(t('common.delSuccess'))
         // 刷新列表
-        // dataList.value.filter((item) => { return item.id === id })
         dataList.value.forEach((item, index) => {
-            if (item.id === id) {
+            if (item.fid === id) {
                 dataList.value.splice(index, 1)
             }
         })
-        additionalMsg.value = dataList.value
     } catch { }
 }
 
-onMounted(async () => {
-
+onBeforeMount(() => {
+    if (props.id) {
+        savaBtnStatus.value = false
+        getExtraFeeDetail()
+    } else {
+        additionalMsg.value.push(
+            {
+                "fid": index.value++,
+                "itemId": "",
+                "feePrice": "",
+                "feeNumber": "",
+                "notes": "",
+                "price": "",
+                "feeBillName": "",
+                "voucherUrl": ""
+            })
+    }
 })
 
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.header-bottom-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.25rem;
+    margin-right: 1.75rem;
+}
+</style>

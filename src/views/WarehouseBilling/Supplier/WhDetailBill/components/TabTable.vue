@@ -2,10 +2,9 @@
     <div class="main">
         <div class="tableBox">
             <el-table :data="expenseDetailData" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
-                :header-cell-style="{ background: '#C8D7EE', color: '#606266', textAlign: 'center' }"
-                :row-class-name="tableRowClassName">
+                :header-cell-style="{ background: '#C8D7EE', color: '#606266', textAlign: 'center' }">
                 <el-table-column prop="name" label="费用" width="300" />
-                <el-table-column prop="price" label="系统账单" />
+                <!-- <el-table-column prop="price" label="系统账单" /> -->
                 <el-table-column prop="supplierPrice" label="供应商账单">
                     <template #default="scope">
                         <el-input type="number"
@@ -58,19 +57,19 @@ const approvalExpense = async () => {
         if (valid) {
             const data = { id: props.id, notes: formData.value.notes }
             // 保存供应商金额
-            // const res1 = await ExpenseBillApi.updateBill({ id: props.id })
-            // if (res1) {
-            // 审批
-            const res2 = await ExpenseBillApi.approvalBill(data)
-            if (res2) {
-                ElMessage.success('审批成功')
-                emits('successApr')
+            const res1 = await ExpenseBillApi.updateBill({ id: props.id, detailsList: expenseDetailData.value })
+            if (res1) {
+                // 审批
+                const res2 = await ExpenseBillApi.approvalBill(data)
+                if (res2) {
+                    ElMessage.success('审批成功')
+                    emits('successApr')
+                } else {
+                    ElMessage.error('审批失败')
+                }
             } else {
-                ElMessage.error('审批失败')
+                ElMessage.error('金额修改失败！')
             }
-            // } else {
-            //     ElMessage.error('金额修改失败！')
-            // }
 
         }
     })
@@ -86,14 +85,14 @@ const rules = reactive({
 
 
 
-const tableRowClassName = (row, rowIndex) => {
-    console.log(row.row.name, row.row.name !== row.row.address, rowIndex, 9999)
-    if (row.row.price !== row.row.supplierPrice) {
-        return 'danger-row'
-    } else {
-        return 'success-row'
-    }
-}
+// const tableRowClassName = (row, rowIndex) => {
+//     console.log(row.row.name, row.row.name !== row.row.address, rowIndex, 9999)
+//     if (row.row.price !== row.row.supplierPrice) {
+//         return 'danger-row'
+//     } else {
+//         return 'success-row'
+//     }
+// }
 
 onMounted(async () => {
     await getExpenseDetail()

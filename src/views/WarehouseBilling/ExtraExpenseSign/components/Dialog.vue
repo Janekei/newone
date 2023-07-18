@@ -5,11 +5,11 @@
                 <FormK ref="formRef" :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
             </div>
         </div>
-        <div class="header-bottom-btn">
+        <div v-if="show" class="header-bottom-btn">
             <ElButton @click="saveBaseInfo" :disabled="disabled" type="primary">保存</ElButton>
         </div>
         <div>
-            <TabContent :basicData="formData" />
+            <TabContent :basicData="saveData" :disabled="itemDisabled" :id="getId" />
         </div>
     </Dialog>
 </template>
@@ -17,6 +17,8 @@
 <script lang="ts" setup>
 import { Dialog } from '@/components/Dialog'
 import { ref } from 'vue'
+import _ from 'lodash-es'
+import FormK from '@/components/FormK/index.vue'
 import TabContent from './TabContent.vue';
 import * as ExtraExpenseApi from '@/api/warehousebill/extrabillsign'
 
@@ -155,25 +157,20 @@ const formOption = reactive([
 
 let getId = ref()
 let disabled = ref(true)
+let itemDisabled = ref(true)
+let show = ref(true)
+let saveData = ref()
 const saveBaseInfo = async () => {
-    formData.value['inStockTime'] = Date.parse(formData.value['inStockTime'])
-    formData.value['outStockTime'] = Date.parse(formData.value['outStockTime'])
-    if (getId.value) {
-        Object.assign(formData.value, { id: getId.value })
-        // let data = await TemplateRulesApi.updateTempDetail(cloneData.value)
-        // if (data) {
-        //     ElMessage.success('更新成功！')
-        // } else {
-        //     ElMessage.error('更新失败！')
-        // }
+    saveData.value = _.cloneDeep(formData.value)
+    saveData.value['inStockTime'] = Date.parse(saveData.value['inStockTime'])
+    saveData.value['outStockTime'] = Date.parse(saveData.value['outStockTime'])
+    let data = await ExtraExpenseApi.createAddition(saveData.value)
+    if (data) {
+        formData.value['feeSummaryId'] = data
+        ElMessage.success('创建成功！')
+        itemDisabled.value = false
     } else {
-        let data = await ExtraExpenseApi.createAddition(formData.value)
-        if (data) {
-            getId.value = data
-            ElMessage.success('创建成功！')
-        } else {
-            ElMessage.error('创建失败！')
-        }
+        ElMessage.error('创建失败！')
     }
 }
 
@@ -183,22 +180,22 @@ const saveBaseInfo = async () => {
 const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
 
-const open = async () => {
+const open = async (id?: number) => {
     dialogVisible.value = true
     disabled.value = false
     dialogTitle.value = '基本信息'
-    resetForm()
+    if (id) {
+        getId.value = id
+        Object.assign(formData.value, { id })
+        show.value = false
+        itemDisabled.value = false
+    }
 }
 
 watch(() => dialogVisible.value, (newVal) => { if (newVal === false) emits('success') })
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emits = defineEmits(['success'])
-// const submitForm = () => {
-//     dialogVisible.value = false
-//     // 发送操作成功的事件
-//     emits('success')
-// }
 
 // const success = () => {
 //     dialogVisible.value = false
@@ -206,14 +203,16 @@ const emits = defineEmits(['success'])
 // }
 
 
+
 defineExpose({
     open
 })
 
 // 重置表单
-const resetForm = () => {
-    formRef.value.resetFields()
-}
+// const resetForm = () => {
+//     console.log(formRef.value, 9090)
+//     // formRef.value.resetFields()
+// }
 
 </script>
 <style lang="scss" scoped>
