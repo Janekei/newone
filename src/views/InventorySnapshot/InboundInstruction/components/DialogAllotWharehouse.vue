@@ -43,7 +43,6 @@ const formOption = reactive([
     rules: [{ required: true, message: "请输入仓库名称", trigger: "change" }],
     valueKey: "name",
     clearData: () => {
-      console.log(222)
       myForm.value.resetFields()
     },
     setFormData: (row) => {

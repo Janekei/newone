@@ -1,6 +1,6 @@
 <template>
-  <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :clearable="true" @keyup.enter="enterFn" :disabled="disabled"
-    style="width: 100%" @blur="onBlur" @clear="clearFn">
+  <ElInput v-model="curValue" :placeholder="placeholder" @input="change" :clearable="true" @keyup.enter="enterFn"
+    :disabled="disabled" style="width: 100%" @blur="onBlur" @clear="clearFn">
     <template #append>
       <ElButton :icon="Search" style="margin: 0 -23px" ref="buttonRef" v-click-outside="onClickOutside" />
     </template>
@@ -59,7 +59,7 @@ const props = defineProps({
     type: Function,
     default: null,
   },
-  tableId:{
+  tableId: {
     type: Number,
     default: 0
   }
@@ -114,7 +114,7 @@ watch(showPopoverRef, (newV) => {
 const change = (value: any, row?) => {
   curValue.value = value
   emits("update:modelValue", row);
-  props.setFormData && props.setFormData(row,props.tableId);
+  props.setFormData && props.setFormData(row, props.tableId);
 };
 
 const clickThisColumn = (row: any) => {

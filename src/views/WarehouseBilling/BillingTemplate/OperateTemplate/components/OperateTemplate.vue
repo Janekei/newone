@@ -291,12 +291,12 @@ const formOption = reactive([
     {
         type: 'input',
         field: 'name',
-        placeholder: '请输入计费规则名称',
-        label: '计费规则名称：',
+        placeholder: '请输入计费模板名称',
+        label: '计费模板名称：',
         width: '500px',
         disabled: route.query.type,
         rules: [
-            { required: true, message: '请输入仓库', trigger: 'change' }
+            { required: true, message: '请输入计费模板名称', trigger: 'change' }
         ],
     },
     {
@@ -310,6 +310,7 @@ const formOption = reactive([
         ],
         valueKey: 'name',
         clearData: () => {
+            formData.value['bsWhareaId'] = undefined
         },
         setFormData: (row) => {
             formData.value['bsWhareaId'] = row.id
