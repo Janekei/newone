@@ -1,31 +1,33 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle" width="1200">
+      <el-row v-loading="formLoading">
         <div class="form-box">
-<!--            {{ formData }}-->
-            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="9rem" ref="formRef"
-                   @update:formState="updateFormData" >
-              longitude
-              <template #longitude>
-                <el-input
-                  type="number"
-                  oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >90) value = 90;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
-                  v-model="formData.longitude"
-                  placeholder=""/>
-              </template>
-              <template #latitude>
-                <el-input
-                  type="number"
-                  oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >180) value = 180;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
-                  v-model="formData.latitude"
-                  placeholder=""/>
-              </template>
-            </FormK>
+          <!--            {{ formData }}-->
+          <FormK :formOption="formOption" v-model:formState="formData" labelWidth="9rem" ref="formRef"
+                 @update:formState="updateFormData" >
+            longitude
+            <template #longitude>
+              <el-input
+                type="number"
+                oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >90) value = 90;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
+                v-model="formData.longitude"
+                placeholder=""/>
+            </template>
+            <template #latitude>
+              <el-input
+                type="number"
+                oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >180) value = 180;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
+                v-model="formData.latitude"
+                placeholder=""/>
+            </template>
+          </FormK>
         </div>
-        <template #footer>
-            <el-button @click="submitForm" type="primary" :disabled="formLoading">{{ t('warehousemanage.confirmButton')
-            }}</el-button>
-            <el-button @click="dialogVisible = false">{{ t('warehousemanage.cancleButton') }}</el-button>
-        </template>
+      </el-row>
+      <template #footer>
+        <el-button @click="submitForm" type="primary" :disabled="formLoading" :loading="loading">{{ t('warehousemanage.confirmButton')
+          }}</el-button>
+        <el-button @click="dialogVisible = false">{{ t('warehousemanage.cancleButton') }}</el-button>
+      </template>
     </Dialog>
 </template>
 
@@ -270,10 +272,30 @@ const formOption = reactive([
         label: `${t('warehousemanage.storageCapacity')}`,
     },
     {
-        type: 'input',
-        field: 'supplierName',
-        placeholder: `${t('warehousemanage.inputSupplierName')}`,
-        label: `${t('warehousemanage.supplierName')}`
+      type: 'inputTable',
+      field: 'supplierName',
+      placeholder: `${t('warehousemanage.inputSupplierName')}`,
+      label: `${t('warehousemanage.supplierName')}:`,
+      valueKey: 'name',
+      clearData: () => {
+      },
+      setFormData: (row) => {
+        formData.value['supplierId'] = row.id
+        formData.value['supplierName'] = row.name
+      },
+      tableConfig: {
+        url: '/gsc/carrier/page',
+        tableOption: [
+          {
+            prop: 'name',
+            label: '名称'
+          },
+          {
+            prop: 'id',
+            label: 'Code'
+          }
+        ]
+      }
     },
     {
         type: 'input',
