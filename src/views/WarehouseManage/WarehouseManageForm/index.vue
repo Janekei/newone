@@ -36,6 +36,7 @@ import { ref, reactive } from 'vue'
 import FormK from '@/components/FormK/index.vue'
 // import * as ZoneManageApi from '@/api/zonemanage'
 import * as WarehouseManageApi from '@/api/warehousemanage'
+import {getIntDictOptions} from "@/utils/dict";
 
 // 国际化
 const { t } = useI18n()
@@ -179,19 +180,47 @@ const formOption = reactive([
         ]
     },
     {
+      type: 'inputTable',
+      field: 'bsWhareaName',
+      placeholder: '',
+      label: '区域：',
+      rules: [
+          { required: true, message: '请输入区域', trigger: 'change' }
+      ],
+      valueKey: 'name',
+      clearData: () => {
+      },
+      setFormData: (row) => {
+        formData.value['bsWhareaId'] = row.id
+        formData.value['bsWhType'] = row.type
+      },
+      tableConfig: {
+        url: '/gsc/wharea/whareaPage',
+        tableOption: [
+          {
+            prop: 'name',
+            label: '名称'
+          },
+          {
+            prop: 'id',
+            label: 'Code'
+          }
+        ]
+      }
+    },
+    {
         // type: 'input',
-        // field: 'longitude',
+        field: 'longitude',
         // placeholder: `${t('warehousemanage.inputLongitude')}`,
         label: `${t('warehousemanage.longitude')}`,
         slotName: 'longitude',
-        // oninput: "if(value < 0 || value == '' || value == 0 || value == null) value = null; if(!/^[0-9]+$/.test(value)) value=value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);",
         rules: [
             { required: true, message: `${t('warehousemanage.inputLongitude')}`, trigger: 'change' }
         ]
     },
     {
         // type: 'input',
-        // field: 'latitude',
+        field: 'latitude',
         // placeholder: `${t('warehousemanage.inputLatitude')}`,
         label: `${t('warehousemanage.latitude')}`,
         slotName: 'latitude',
@@ -200,19 +229,33 @@ const formOption = reactive([
         ]
     },
     {
-        type: 'input',
-        field: 'zipCode',
-        placeholder: '请输入zip code',
-        label: 'zip code',
-        rules: [
-            { required: true, message: '请输入zip code', trigger: 'change' }
-        ]
+      type: 'select',
+      field: 'type',
+      placeholder: '',
+      label: '仓库种类：',
+      width: '500px',
+      options: getIntDictOptions('billing_warehouse_type'),
+      rules: [
+        { required: true, message: '请输入仓库', trigger: 'change' }
+      ],
     },
     {
         type: 'input',
         field: 'name',
         placeholder: `${t('warehousemanage.inputName')}`,
-        label: `${t('warehousemanage.name')}`
+        label: `${t('warehousemanage.name')}`,
+        rules: [
+          { required: true, message: '请输入仓库名称', trigger: 'change' }
+        ]
+    },
+    {
+      type: 'input',
+      field: 'zipCode',
+      placeholder: '请输入zip code',
+      label: 'zip code',
+      // rules: [
+      //     { required: true, message: '请输入zip code', trigger: 'change' }
+      // ]
     },
     {
         type: 'input',
@@ -314,16 +357,31 @@ defineExpose({
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emit = defineEmits(['success'])
+const loading = ref(false)
 const submitForm = async () => {
-    if (formType.value === '增加') {
-        await WarehouseManageApi.addWarehouseItem(formData.value)
-        ElMessage.success('新增仓库信息成功')
-        resetForm()
-    } else {
-        await WarehouseManageApi.changeWarehouseItem(formData.value)
-        ElMessage.success('修改仓库信息成功')
-        resetForm()
-
+    if(loading.value){
+      return
+    }
+    loading.value = true
+    try{
+        formData.value.longitude = Number(formData.value.longitude)
+        formData.value.latitude = Number(formData.value.latitude)
+        formData.value.storageCapacity = Number(formData.value.storageCapacity)
+        formData.value.loadingCapacity = Number(formData.value.loadingCapacity)
+        formData.value.unloadingCapacity = Number(formData.value.unloadingCapacity)
+        formData.value.shippingCapacity = Number(formData.value.shippingCapacity)
+        if (formType.value === '增加') {
+            console.log('formData.value',formData.value)
+            await WarehouseManageApi.addWarehouseItem(formData.value)
+            ElMessage.success('新增仓库信息成功')
+            resetForm()
+        } else {
+            await WarehouseManageApi.changeWarehouseItem(formData.value)
+            ElMessage.success('修改仓库信息成功')
+            resetForm()
+        }
+      }finally {
+        loading.value = false
     }
     dialogVisible.value = false
     // 发送操作成功的事件
