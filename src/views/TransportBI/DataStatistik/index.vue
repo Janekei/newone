@@ -33,6 +33,7 @@ import UberfalligeAuftrage from './UberfalligeAuftrage.vue'
 import UberfalligeAuftrageG from './UberfalligeAuftrageG.vue'
 import { normaleAuftrage, normalversorgung, uberfalligeAuftrage, supplierForOverdueOrders } from '@/api/transportBI/index'
 
+// 正常订单分布
 const normaleAuftrageData = ref()
 const showNormaleAuftrage = ref(false)
 const getNormaleAuftrageData = () => {
@@ -44,6 +45,7 @@ const getNormaleAuftrageData = () => {
   })
 }
 
+// 正常供应商分布
 const normalversorgungData = ref()
 const showNormalversorgung = ref(false)
 const getNormalversorgungData = () => {
