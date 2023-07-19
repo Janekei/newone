@@ -61,7 +61,7 @@ let formData = ref({
 const router = useRouter()
 const tableOption = reactive([
     {
-        prop: 'sapDn',
+        prop: 'code',
         label: '入库指令单号',
         width: '180'
     },
