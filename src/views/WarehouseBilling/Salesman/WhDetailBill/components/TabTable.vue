@@ -6,7 +6,7 @@
                 :row-class-name="tableRowClassName">
                 <el-table-column prop="name" label="费用" width="300" />
                 <el-table-column prop="price" label="系统账单" />
-                <el-table-column label="供应商账单" />
+                <el-table-column prop="supplierPrice" label="供应商账单" />
             </el-table>
         </div>
         <div class="formBox">
@@ -72,8 +72,8 @@ const rules = reactive({
 
 
 
-const tableRowClassName = (row, rowIndex) => {
-    console.log(row.row.name, row.row.name !== row.row.address, rowIndex, 9999)
+const tableRowClassName = (row) => {
+    console.log(typeof row.row.price)
     if (row.row.price !== row.row.supplierPrice) {
         return 'danger-row'
     } else {
@@ -121,7 +121,7 @@ onMounted(async () => {
     font-weight: 700;
 }
 
-.el-table .success-row {
+:deep(.el-table .success-row) {
     --el-table-tr-bg-color: var(--el-color-success-light-9) !important;
 }
 </style>
