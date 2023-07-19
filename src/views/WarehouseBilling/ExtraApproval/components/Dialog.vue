@@ -3,7 +3,7 @@
         <div class="form-box">
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="9em" />
         </div>
-        <TabContent :id="props.id" @successApr="successApr" @sendDetail="sendDetail" />
+        <TabContent :tableRef="props.tableRef" @successApr="successApr" @sendDetail="sendDetail" />
     </Dialog>
 </template>
 
@@ -13,8 +13,8 @@ import { ref } from 'vue'
 import TabContent from './TabContent.vue';
 import { formatDate } from '@/utils/formatTime'
 const props = defineProps({
-    id: {
-        type: Number
+    tableRef: {
+        type: Object
     }
 })
 
@@ -96,8 +96,11 @@ const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
 
 const open = async () => {
-    if (props.id === undefined) {
+    if (props.tableRef?.selectAll.length === 0) {
         ElMessage.warning('请选择行再点击！')
+        return;
+    } else if (props.tableRef?.selectAll.length > 1) {
+        ElMessage.warning('不允许多选行，请双击清空多选项即可单选成功！')
         return;
     }
     dialogVisible.value = true

@@ -1,9 +1,9 @@
 <template>
     <div>
         <TableK url="/gsc/fee/details/examineAdditionalPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :limit="true" @selectOneColumn="selectOneColumn" :showIndex="true">
+            :tableOption="tableOption" :limit="true" :showIndex="true">
             <template #buttons>
-                <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
+                <SearchContent :tableRef="tableRef" @click-search="clickSearch" @update:form-state="updateSearchData"
                     @reset-form="resetForm" @success="refresh" />
             </template>
             <template #inStockTime="{ row }">
@@ -24,11 +24,13 @@
             </template>
         </TableK>
     </div>
+    <Dialog />
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { formatDate } from '@/utils/formatTime'
+import Dialog from './Dialog.vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 
@@ -122,17 +124,10 @@ const tableOption = reactive([
     }
 ])
 
-const selectId = ref()
-const selectOneColumn = (row) => {
-    selectId.value = undefined
-    if (row) {
-        selectId.value = row.id
-    }
-    console.log(selectId.value, 999)
-}
+const tableRef = ref()
 
 // 搜索
-const tableRef = ref()
+
 const clickSearch = () => {
     refresh()
 }

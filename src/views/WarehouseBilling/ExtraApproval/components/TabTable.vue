@@ -36,8 +36,8 @@
 import { ElTable, ElTableColumn, ElMessage } from 'element-plus'
 import * as ExtraApprovalApi from '@/api/warehousebill/extrabillapproval'
 const props = defineProps({
-    id: {
-        type: Number
+    tableRef: {
+        type: Object
     }
 })
 
@@ -56,7 +56,7 @@ const loading = ref(false)
 const extraDetailData: any = ref([])
 const getExtraDetail = async () => {
     loading.value = true
-    const data = await ExtraApprovalApi.selectAddition({ id: props.id })
+    const data = await ExtraApprovalApi.selectAddition({ id: props.tableRef?.selectAll[0].id })
     emits('sendDetail', data)
     extraDetailData.value.push(data)
     loading.value = false
@@ -73,7 +73,7 @@ const emits = defineEmits(['successApr', 'sendDetail'])
 const approvalExpense = async (status) => {
     formRef.value.validate(async (valid) => {
         if (valid) {
-            const data = { id: props.id, approveNotes: formData.value.approveNotes, status }
+            const data = { id: props.tableRef?.selectAll[0].id, approveNotes: formData.value.approveNotes, status }
             const res = await ExtraApprovalApi.approvalAddition(data)
             if (res) {
                 ElMessage.success('审批成功')

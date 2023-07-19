@@ -219,6 +219,7 @@ const selectAll = ref([])
 const emits = defineEmits(['clickThisColumn', 'selectThisColumn', 'sendTableData', 'selectOneColumn'])
 const handleSelectionChange = (rows) => {
   selectAll.value = rows
+  // console.log(selectAll.value, 9090)
   emits('selectThisColumn', rows)
 }
 // const handleSelect = (selection, row) => {
@@ -231,14 +232,13 @@ const handleSelectionChange = (rows) => {
 
 
 const rowClick = (row) => {
-  console.log(row, 9090)
+  // console.log(row, 9090)
   emits('clickThisColumn', row)
   elTable.value!.toggleRowSelection(row, undefined)
 }
 
 const rowDblclick = (row) => {
   elTable.value!.clearSelection()
-  emits('selectOneColumn', row)
   elTable.value!.toggleRowSelection(row, undefined)
 }
 

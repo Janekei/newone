@@ -15,7 +15,7 @@
         <ElButton class="btn" type="primary" @click="open">业务审批</ElButton>
         <ElButton class="btn" type="primary">查看凭证</ElButton>
     </div>
-    <Dialog :id="props.id" ref="dialogRef" @success="success"/>
+    <Dialog :tableRef="props.tableRef" ref="dialogRef" @success="success" />
     <DialogUploadFile ref="uploadRef" />
     <DialogTemplate ref='downloadRef' />
 </template>
@@ -27,8 +27,8 @@ import { Search, Setting } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 import Dialog from './Dialog.vue'
 const props = defineProps({
-    id: {
-        type: Number
+    tableRef: {
+        type: Object
     }
 })
 
