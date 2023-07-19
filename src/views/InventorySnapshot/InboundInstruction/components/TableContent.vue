@@ -21,8 +21,8 @@
             </template>
             <template #status="{ row }">
               <span v-if="row.row.status == 0">未入库</span>
-              <span v-else-if="row.row.status == 1">部分入库</span>
-              <span v-else-if="row.row.status == 2">已入库</span>
+              <span v-else-if="row.row.status == 1">已入库</span>
+              <span v-else-if="row.row.status == 2">部分入库</span>
             </template>
             <template #transportStatus="{ row }">
                 <!-- {{ row.row.transportStatus }} -->
