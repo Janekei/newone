@@ -4,7 +4,7 @@
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false"
                 ref="formRef" @update:form-state="UpdateFormState" :showButton="true">
                 <template #buttons>
-                    <el-button class="btn" type="primary">搜索条件设置</el-button>
+                    <!-- <el-button class="btn" type="primary">搜索条件设置</el-button> -->
                     <el-button class="btn" type="primary" :icon="Search" @click="postSearchData">查询</el-button>
                     <el-button class="btn" type="default" :icon="Setting" @click="resetform">重置</el-button>
                 </template>
@@ -13,9 +13,9 @@
     </div>
     <div class="center-btn-box">
         <ElButton class="btn" type="primary" :icon="Plus" @click="open">增加</ElButton>
-        <ElButton class="btn" type="primary" :icon="Edit">修改</ElButton>
+        <!-- <ElButton class="btn" type="primary" :icon="Edit">修改</ElButton>
         <ElButton class="btn" type="primary" :icon="DocumentAdd">导入</ElButton>
-        <ElButton class="btn" type="primary" :icon="Document">导出</ElButton>
+        <ElButton class="btn" type="primary" :icon="Document">导出</ElButton> -->
     </div>
     <Dialog ref="dialogRef" @success="refresh" />
 </template>
@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { Search, Setting, Plus, Document, DocumentAdd, Edit } from '@element-plus/icons-vue'
+import { Search, Setting, Plus } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 import Dialog from './Dialog.vue'
 

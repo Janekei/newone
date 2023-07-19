@@ -3,7 +3,7 @@
         <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false" ref="formRef"
             @update:form-state="UpdateFormState" />
         <div class="btn-box">
-            <el-button type="primary">新增查询条件</el-button>
+            <!-- <el-button type="primary">新增查询条件</el-button> -->
             <el-button type="primary" :icon="Search" @click="postSearchData">查询</el-button>
             <el-button type="default" @click="resetform">重置</el-button>
         </div>
@@ -13,14 +13,14 @@
         <!-- <ElButton class="btn" type="primary" :icon="Upload">上传</ElButton>
         <ElButton class="btn" type="primary" :icon="Download">下载</ElButton> -->
         <ElButton class="btn" :icon="Refresh" @click="postSearchData">刷新</ElButton>
-        <ElButton class="btn" :icon="ZoomIn">全部查找</ElButton>
+        <!-- <ElButton class="btn" :icon="ZoomIn">全部查找</ElButton> -->
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { Plus, Refresh, ZoomIn, Search } from '@element-plus/icons-vue'
+import { Plus, Refresh, Search } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 const formOption = reactive(
     [

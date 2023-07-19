@@ -4,7 +4,7 @@
             <FormK :formOption="formOption" v-model:formState="formData" labelWidth="7rem" :marginBottom="false"
                 ref="formRef" @update:form-state="UpdateFormState" :showButton="true">
                 <template #buttons>
-                    <el-button class="btn" type="primary">搜索条件设置</el-button>
+                    <!-- <el-button class="btn" type="primary">搜索条件设置</el-button> -->
                     <el-button class="btn" type="primary" :icon="Search" @click="postSearchData">查询</el-button>
                     <el-button class="btn" type="default" :icon="Setting" @click="resetform">重置</el-button>
                 </template>
