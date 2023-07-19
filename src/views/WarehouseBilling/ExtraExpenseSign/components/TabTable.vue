@@ -54,8 +54,7 @@
                     <el-button type="danger" @click="toDelItem(scope.row.fid)" text v-if="scope.$index != 0">
                         删除
                     </el-button>
-                    <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0 || !props.id"
-                        :disabled="props.disabled">
+                    <el-button type="primary" text @click="toAddItem" v-if="scope.$index == 0" :disabled="props.disabled">
                         添加
                     </el-button>
                 </template>
@@ -100,7 +99,6 @@ const tableConfig = ref(
         clearData: () => {
         },
         setFormData: (row) => {
-            console.log(row, 999)
             additionalMsg.value[0]['itemId'] = row.id
             additionalMsg.value[0]['feeBillName'] = row.name
         },

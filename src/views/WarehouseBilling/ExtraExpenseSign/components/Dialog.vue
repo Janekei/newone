@@ -1,6 +1,6 @@
 <template>
     <Dialog v-model="dialogVisible" ref="dialogRef" @close="close" :title="dialogTitle" width="1200">
-        <div v-if="dialogVisible">
+        <div>
             <div class="form-box">
                 <div>
                     <FormK ref="formRef" :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
@@ -170,7 +170,7 @@ const saveBaseInfo = async () => {
     saveData.value['outStockTime'] = Date.parse(saveData.value['outStockTime'])
     let data = await ExtraExpenseApi.createAddition(saveData.value)
     if (data) {
-        formData.value['feeSummaryId'] = data
+        saveData.value['feeSummaryId'] = data
         ElMessage.success('创建成功！')
         isRefresh.value = true
         itemDisabled.value = false
