@@ -1,7 +1,7 @@
 <template>
     <div>
         <TableK url="/gsc/fee/bill/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :showFixedOperation="true" :showIndex="true">
+            :tableOption="tableOption" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm"
                     @success="refresh" />
@@ -15,10 +15,10 @@
             <template #billEndDate="{ row }">
                 <span>{{ formatDate(row.row.billEndDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
-            <template #operation="{ operateRow }">
+            <!-- <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
                 <ElButton class="delete-btn" type="danger" :icon="Delete" @click="deleteExpenseItem(operateRow.id)" />
-            </template>
+            </template> -->
         </TableK>
     </div>
     <Dialog ref="dialogRef" @success="refresh" />
@@ -27,11 +27,11 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { formatDate } from '@/utils/formatTime'
-import { Delete, Edit } from '@element-plus/icons-vue'
+// import { Delete, Edit } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
 import Dialog from './Dialog.vue'
-import * as ExpenseBillApi from '@/api/warehousebill/supplier/expensebill'
+// import * as ExpenseBillApi from '@/api/warehousebill/supplier/expensebill'
 
 const props = defineProps({
     code: {
@@ -107,24 +107,24 @@ const refresh = () => {
 }
 
 // 弹窗
-const dialogRef = ref()
-const open = (type: string, id: number) => {
-    dialogRef.value.open(type, id)
-}
+// const dialogRef = ref()
+// const open = (type: string, id: number) => {
+//     dialogRef.value.open(type, id)
+// }
 
-// 删除
-const { t } = useI18n()
-const message = useMessage() // 消息弹窗
-const deleteExpenseItem = async (id) => {
-    try {
-        // 删除的二次确认
-        await message.delConfirm()
-        await ExpenseBillApi.deleteExpense({ id })
-        message.success(t('common.delSuccess'))
-        // 刷新列表
-        refresh()
-    } catch { }
-}
+// // 删除
+// const { t } = useI18n()
+// const message = useMessage() // 消息弹窗
+// const deleteExpenseItem = async (id) => {
+//     try {
+//         // 删除的二次确认
+//         await message.delConfirm()
+//         await ExpenseBillApi.deleteExpense({ id })
+//         message.success(t('common.delSuccess'))
+//         // 刷新列表
+//         refresh()
+//     } catch { }
+// }
 
 
 </script>
