@@ -1,6 +1,6 @@
 <template>
     <Dialog v-model="dialogVisible" ref="dialogRef" @close="close" :title="dialogTitle" width="1200">
-        <div>
+        <div v-loading="loading">
             <div class="form-box">
                 <div>
                     <FormK ref="formRef" :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
@@ -20,6 +20,7 @@
 import { Dialog } from '@/components/Dialog'
 import { ref } from 'vue'
 import _ from 'lodash-es'
+import { formatDate } from '@/utils/formatTime'
 import FormK from '@/components/FormK/index.vue'
 import TabContent from './TabContent.vue';
 import * as ExtraExpenseApi from '@/api/warehousebill/extrabillsign'
@@ -182,17 +183,25 @@ const saveBaseInfo = async () => {
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
+let loading = ref(false)
 const open = async (id?: number) => {
-    // console.log(dialogVisible.value, 9999)
     dialogVisible.value = true
-    // console.log(dialogVisible.value, 8888)
     clearForm.value = false
     clearForm.value = true
     disabled.value = false
     dialogTitle.value = '基本信息'
     if (id) {
+        loading.value = true
         getId.value = id
         Object.assign(formData.value, { id })
+        const data = await ExtraExpenseApi.selectAddition({ id })
+        formData.value = data
+        formData.value['inStockTime'] = formatDate(formData.value['inStockTime'], 'YYYY-MM-DD HH:mm:ss')
+        formData.value['outStockTime'] = formatDate(formData.value['outStockTime'], 'YYYY-MM-DD HH:mm:ss')
+        saveData.value = _.cloneDeep(formData.value)
+        saveData.value['inStockTime'] = Date.parse(saveData.value['inStockTime'])
+        saveData.value['outStockTime'] = Date.parse(saveData.value['outStockTime'])
+        loading.value = false
         show.value = false
         itemDisabled.value = false
     }
