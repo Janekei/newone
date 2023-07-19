@@ -26,6 +26,8 @@
                     class-name="my-content" />
                 <el-descriptions-item label="业务员" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content" />
+                <el-descriptions-item label="入库指令状态" label-align="left" align="center" label-class-name="my-label"
+                                    class-name="my-content" />
             </el-descriptions>
             <el-descriptions class="elDescriptions" title="货品明细" width="160" :column="2" border>
                 <el-descriptions-item label="提单号" width="300" label-align="left" align="center" label-class-name="my-label"
@@ -107,6 +109,8 @@
                         'YYYY-MM-DD HH:mm:ss') }}</el-descriptions-item>
                 <el-descriptions-item label="业务员" label-align="left" align="center" label-class-name="my-label"
                     class-name="my-content">{{ waybillInfo.salesman }}</el-descriptions-item>
+                <el-descriptions-item label="入库指令状态" label-align="left" align="center" label-class-name="my-label"
+                                      class-name="my-content">{{ waybillInfo.status == 1 ? '入库': waybillInfo.status == 2 ? '部分入库': '未入库'}}</el-descriptions-item>
             </el-descriptions>
             <el-descriptions class="elDescriptions" title="货品明细" size="default" :column="2" border>
                 <el-descriptions-item label="提单号" label-align="left" width="300" align="center" label-class-name="my-label"

@@ -94,63 +94,66 @@ const submitForm = async () => {
     return
   }
   loading.value = true
-  if (formType.value === '整批入库') {
-    const res = await InboundInstruction.postAllInbound({ id: props.inboundID })
-    if (res) {
-      ElMessage.success('入库成功')
-    } else {
-      ElMessage.error('入库失败')
+  try {
+    if (formType.value === '整批入库') {
+      const res = await InboundInstruction.postAllInbound({ id: props.inboundID })
+      if (res) {
+        ElMessage.success('入库成功')
+      } else {
+        ElMessage.error('入库失败')
+      }
+    } else if (formType.value === '箱部分入库') {
+      let ids = props.inboundIdsBox
+      const res = await InboundInstruction.postPartInboundBox({ ids })
+      if (res) {
+        ElMessage.success('入库成功')
+      } else {
+        ElMessage.error('入库失败')
+      }
+    } else if (formType.value === '托部分入库') {
+      let ids = props.inboundIdsBox
+      const res = await InboundInstruction.postPartInboundTray({ ids })
+      if (res) {
+        ElMessage.success('入库成功')
+      } else {
+        ElMessage.error('入库失败')
+      }
+    } else if (formType.value === '异常登记' && formData.value === '箱') {
+      let params = {
+        ids: props.inboundIdsBox,
+        exceptionId: recordData.value.exception,
+        exceptionStatus: recordData.value.exceptionStatus
+      }
+      if(params.exceptionId == '' || params.exceptionId == undefined){
+        ElMessage.error('请选择异常类型')
+        return
+      }
+      const res = await InboundInstruction.recordErrorTray(params)
+      if (res) {
+        ElMessage.success('异常登记成功')
+      } else {
+        ElMessage.error('异常登记失败')
+      }
+    } else if (formType.value === '异常登记' && formData.value === '托') {
+      let params = {
+        ids: props.inboundIdsBox,
+        exceptionId: recordData.value.exception,
+        exceptionStatus: recordData.value.exceptionStatus
+      }
+      if(params.exceptionId == '' || params.exceptionId == undefined){
+        ElMessage.error('请选择异常类型')
+        return
+      }
+      const res = await InboundInstruction.recordErrorTray(params)
+      if (res) {
+        ElMessage.success('异常登记成功')
+      } else {
+        ElMessage.error('异常登记失败')
+      }
     }
-  } else if (formType.value === '箱部分入库') {
-    let ids = props.inboundIdsBox
-    const res = await InboundInstruction.postPartInboundBox({ ids })
-    if (res) {
-      ElMessage.success('入库成功')
-    } else {
-      ElMessage.error('入库失败')
-    }
-  } else if (formType.value === '托部分入库') {
-    let ids = props.inboundIdsBox
-    const res = await InboundInstruction.postPartInboundTray({ ids })
-    if (res) {
-      ElMessage.success('入库成功')
-    } else {
-      ElMessage.error('入库失败')
-    }
-  } else if (formType.value === '异常登记' && formData.value === '箱') {
-    let params = {
-      ids: props.inboundIdsBox,
-      exceptionId: recordData.value.exception,
-      exceptionStatus: recordData.value.exceptionStatus
-    }
-    if(params.exceptionId == '' || params.exceptionId == undefined){
-      ElMessage.error('请选择异常类型')
-      return
-    }
-    const res = await InboundInstruction.recordErrorTray(params)
-    if (res) {
-      ElMessage.success('异常登记成功')
-    } else {
-      ElMessage.error('异常登记失败')
-    }
-  } else if (formType.value === '异常登记' && formData.value === '托') {
-    let params = {
-      ids: props.inboundIdsBox,
-      exceptionId: recordData.value.exception,
-      exceptionStatus: recordData.value.exceptionStatus
-    }
-    if(params.exceptionId == '' || params.exceptionId == undefined){
-      ElMessage.error('请选择异常类型')
-      return
-    }
-    const res = await InboundInstruction.recordErrorTray(params)
-    if (res) {
-      ElMessage.success('异常登记成功')
-    } else {
-      ElMessage.error('异常登记失败')
-    }
+  }finally {
+    loading.value = false
   }
-  loading.value = false
   dialogVisible.value = false
   // 发送操作成功的事件
   emit('success')
