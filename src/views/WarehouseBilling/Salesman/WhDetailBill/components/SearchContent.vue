@@ -16,7 +16,7 @@
         <ElButton class="btn" type="primary" :icon="Plus" @click="addTemplate">确认</ElButton>
         <ElButton class="btn" type="primary" :icon="Document" @click="downloadTable">导出</ElButton>
     </div>
-    <Dialog :id="props.id" ref="dialogRef" />
+    <Dialog :tableRef="props.tableRef" ref="dialogRef" />
     <DialogUploadFile ref="uploadRef" />
     <DialogTemplate ref='downloadRef' />
 </template>
@@ -29,8 +29,8 @@ import { Search, Setting, Plus, Document } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 import Dialog from './Dialog.vue'
 const props = defineProps({
-    id: {
-        type: Number
+    tableRef: {
+        type: Object
     }
 })
 
@@ -99,10 +99,6 @@ const addTemplate = () => {
 // 弹窗
 const dialogRef = ref()
 const open = () => {
-    if (props.id === undefined) {
-        ElMessage.warning('请选择行再点击！')
-        return;
-    }
     dialogRef.value.open()
 }
 

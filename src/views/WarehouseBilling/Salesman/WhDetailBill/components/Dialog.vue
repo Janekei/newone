@@ -3,7 +3,7 @@
         <div v-loading="loading" class="form-box">
             <FormK :formOption="formOption" v-model:form-state="formData" labelWidth="9em" />
         </div>
-        <TabContent :id="props.id" @successApr="success" />
+        <TabContent :tableRef="props.tableRef" @successApr="success" />
     </Dialog>
 </template>
 
@@ -15,8 +15,8 @@ import FormK from '@/components/FormK/index.vue'
 import TabContent from './TabContent.vue';
 import * as ExpenseDetailApi from '@/api/warehousebill/salesman/expensedetail'
 const props = defineProps({
-    id: {
-        type: Number
+    tableRef: {
+        type: Object
     }
 })
 
@@ -133,9 +133,16 @@ const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
 
 const open = async () => {
+    if (props.tableRef?.selectAll.length === 0) {
+        ElMessage.warning('请选择行再点击！')
+        return;
+    } else if (props.tableRef?.selectAll.length > 1) {
+        ElMessage.warning('不允许多选行，请双击清空多选项即可单选成功！')
+        return;
+    }
     dialogVisible.value = true
     dialogTitle.value = '基本信息'
-    if (props.id) getExpenseDetail()
+    if (props.tableRef?.selectAll[0].id) getExpenseDetail()
 }
 
 // 获取明细信息
@@ -143,7 +150,7 @@ const formData = ref()
 let loading = ref(false)
 const getExpenseDetail = async () => {
     loading.value = true
-    const data = await ExpenseDetailApi.getExpenseDetail({ id: props.id })
+    const data = await ExpenseDetailApi.getExpenseDetail({ id: props.tableRef?.selectAll[0].id })
     formData.value = data
     formData.value['inStockTime'] = formatDate(formData.value['inStockTime'], 'YYYY-MM-DD HH:mm:ss')
     formData.value['outStockTime'] = formatDate(formData.value['outStockTime'], 'YYYY-MM-DD HH:mm:ss')

@@ -1,10 +1,9 @@
 <template>
     <div>
         <TableK url="/gsc/fee/summary/details/carrierPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :limit="true" @selectOneColumn="selectOneColumn" :editData="editTableData"
-            :showIndex="true">
+            :tableOption="tableOption" :limit="true" :editData="editTableData" :showIndex="true">
             <template #buttons>
-                <SearchContent :id="selectId" @click-search="clickSearch" @update:form-state="updateSearchData"
+                <SearchContent :tableRef="tableRef" @click-search="clickSearch" @update:form-state="updateSearchData"
                     @reset-form="resetForm" />
             </template>
             <template #inStockTime="{ row }">
@@ -176,13 +175,6 @@ const resetForm = () => {
     refresh()
 }
 
-const selectId = ref()
-const selectOneColumn = (row) => {
-    selectId.value = undefined
-    if (row) {
-        selectId.value = row.id
-    }
-}
 
 // 刷新列表
 const refresh = () => {

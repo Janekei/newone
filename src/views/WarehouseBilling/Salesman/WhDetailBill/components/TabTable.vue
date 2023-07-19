@@ -26,8 +26,8 @@
 import { ElTable, ElTableColumn } from 'element-plus'
 import * as ExpenseBillApi from '@/api/warehousebill/salesman/expensedetail'
 const props = defineProps({
-    id: {
-        type: Number
+    tableRef: {
+        type: Object
     }
 })
 
@@ -38,7 +38,7 @@ const formData = ref({ notes: '' })
 const emits = defineEmits(['successApr'])
 const expenseDetailData: any = ref([])
 const getExpenseDetail = async () => {
-    const data = await ExpenseBillApi.getExpenseDetail({ id: props.id })
+    const data = await ExpenseBillApi.getExpenseDetail({ id: props.tableRef?.selectAll[0].id })
     data.detailsList.forEach(item => {
         expenseDetailData.value.push(item)
     })
@@ -50,7 +50,7 @@ const refForm = ref()
 const approvalExpense = async () => {
     refForm.value.validate(async (valid) => {
         if (valid) {
-            const data = { id: props.id, notes: formData.value.notes }
+            const data = { id: props.tableRef?.selectAll[0].id, notes: formData.value.notes }
             const res = await ExpenseBillApi.approvalBill(data)
             if (res) {
                 ElMessage.success('审批成功')

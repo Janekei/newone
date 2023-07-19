@@ -1,7 +1,7 @@
 <template>
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
         <el-tab-pane label="费用明细" name="add">
-            <TabTable :id="props.id" @successApr="successApr" />
+            <TabTable :tableRef="props.tableRef" @successApr="successApr" />
         </el-tab-pane>
     </el-tabs>
 </template>
@@ -12,8 +12,8 @@ import { ElTabs, ElTabPane } from 'element-plus'
 import TabTable from './TabTable.vue';
 
 const props = defineProps({
-    id: {
-        type: Number
+    tableRef: {
+        type: Object
     }
 })
 
