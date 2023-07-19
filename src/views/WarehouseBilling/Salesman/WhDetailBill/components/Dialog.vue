@@ -1,6 +1,6 @@
 <template>
     <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
-        <div class="form-box">
+        <div v-loading="loading" class="form-box">
             <FormK :formOption="formOption" v-model:form-state="formData" labelWidth="9em" />
         </div>
         <TabContent :id="props.id" @successApr="success" />
@@ -140,13 +140,16 @@ const open = async () => {
 
 // 获取明细信息
 const formData = ref()
+let loading = ref(false)
 const getExpenseDetail = async () => {
+    loading.value = true
     const data = await ExpenseDetailApi.getExpenseDetail({ id: props.id })
     formData.value = data
     formData.value['inStockTime'] = formatDate(formData.value['inStockTime'], 'YYYY-MM-DD HH:mm:ss')
     formData.value['outStockTime'] = formatDate(formData.value['outStockTime'], 'YYYY-MM-DD HH:mm:ss')
     formData.value['billStartDate'] = formatDate(formData.value['billStartDate'], 'YYYY-MM-DD HH:mm:ss')
     formData.value['billEndDate'] = formatDate(formData.value['billEndDate'], 'YYYY-MM-DD HH:mm:ss')
+    loading.value = false
 }
 
 

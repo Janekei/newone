@@ -140,7 +140,6 @@ const open = async (type: string, id?: number) => {
         const res = await ExpenseBillApi.getExpense({ id })
         formData.value = res
         formData.value['billDate'] = formatDate(formData.value['billDate'], 'YYYY-MM-DD HH:mm:ss')
-        console.log(formData.value['billDate'], 9090)
     }
 }
 

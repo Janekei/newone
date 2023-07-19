@@ -1,7 +1,7 @@
 <template>
     <div>
         <TableK url="/gsc/fee/bill/salesmanPage" method="get" ref="tableRef" :params="formData" :firstPages="10"
-            :tableOption="tableOption" :showFixedOperation="true" :showIndex="true">
+            :tableOption="tableOption" :showCheckBox="false" :showFixedOperation="true" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm"
                     @success="refresh" />
@@ -9,8 +9,11 @@
             <template #status="{ row }">
                 <DictTagK type="wh_fee_bill_status" :value="row.row.status" />
             </template>
-            <template #billDate="{ row }">
-                <span>{{ formatDate(row.row.billDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
+            <template #billStartDate="{ row }">
+                <span>{{ formatDate(row.row.billStartDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
+            <template #billEndDate="{ row }">
+                <span>{{ formatDate(row.row.billEndDate, 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #operation="{ operateRow }">
                 <ElButton class="edit-btn" type="warning" :icon="Edit" @click="open('编辑', operateRow.id)" />
@@ -18,7 +21,7 @@
             </template>
         </TableK>
     </div>
-    <Dialog ref="dialogRef" @success="refresh" />
+    <Dialog ref="dialogRef" :disabled="true" @success="refresh" />
 </template>
 
 <script lang="ts" setup>
@@ -55,10 +58,16 @@ const tableOption = reactive([
         width: '160'
     },
     {
-        prop: 'billDate',
-        label: '账单生成日期',
+        prop: 'billStartDate',
+        label: '账单起始日期',
         width: '160',
-        slotName: 'billDate'
+        slotName: 'billStartDate'
+    },
+    {
+        prop: 'billEndDate',
+        label: '账单截止日期',
+        width: '160',
+        slotName: 'billEndDate'
     },
     {
         prop: 'status',

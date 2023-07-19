@@ -102,10 +102,13 @@ const tableOption = reactive([
 
 // 刷新列表
 const tableRef = ref()
-// const refresh = () => {
-//     tableRef.value.refresh()
-// }
+const refresh = () => {
+    tableRef.value.refresh()
+}
 
+defineExpose({
+    refresh
+})
 
 
 

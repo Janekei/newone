@@ -1,12 +1,14 @@
 <template>
-    <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="800">
-        <div class="form-box">
-            <FormK :formOption="formOption" ref="refForm" v-model:formState="formData" labelWidth="9em" />
+    <Dialog v-model="dialogVisible" ref="dialogRef" @close="close" :title="dialogTitle" width="800">
+        <div v-loading="loading">
+            <div class="form-box">
+                <FormK :formOption="formOption" ref="refForm" v-model:formState="formData" labelWidth="9em" />
+            </div>
+            <div class="btn-box">
+                <el-button @click="submitForm" type="primary">确认</el-button>
+            </div>
+            <DialogTable ref="tableRef" v-if="billId" :billId="billId" />
         </div>
-        <div class="btn-box">
-            <el-button size="small" @click="submitForm" type="primary">确认</el-button>
-        </div>
-        <DialogTable v-if="billId" :billId="billId" />
         <!-- <template #footer>
             <el-button @click="submitForm" type="primary">确认</el-button>
             <el-button @click="dialogVisible = false">取消</el-button>
@@ -21,6 +23,12 @@ import { formatDate } from '@/utils/formatTime'
 import FormK from '@/components/FormK/index.vue'
 import * as ExpenseBillApi from '@/api/warehousebill/supplier/expensebill'
 import DialogTable from './DialogTable.vue'
+const props = defineProps({
+    disabled: {
+        type: Boolean,
+        default: false
+    }
+})
 
 const formData = ref({})
 const formOption = reactive([
@@ -38,6 +46,7 @@ const formOption = reactive([
         field: 'supplierName',
         placeholder: '',
         label: '供应商：',
+        disabled: props.disabled,
         rules: [
             { required: true, message: '请输入供应商', trigger: 'change' }
         ],
@@ -69,6 +78,7 @@ const formOption = reactive([
         field: 'bsWhareaName',
         placeholder: '',
         label: '仓库区域：',
+        disabled: props.disabled,
         rules: [
             { required: true, message: '请输入仓库区域', trigger: 'change' }
         ],
@@ -130,28 +140,32 @@ const dialogTitle = ref('') // 弹窗的标题
 const formType = ref()
 const refForm = ref()
 
+const tableRef = ref()
 let getId = ref()
+let loading = ref(true)
 const open = async (type: string, id?: number) => {
     dialogVisible.value = true
     formType.value = type
     dialogTitle.value = type + '总费用对账'
     if (id) {
+        loading.value = true
         getId.value = id
+        billId.value = id
         const res = await ExpenseBillApi.getExpense({ id })
         formData.value = res
         formData.value['billDate'] = formatDate(formData.value['billDate'], 'YYYY-MM-DD HH:mm:ss')
-        console.log(formData.value['billDate'], 9090)
+        loading.value = false
+        return
     }
+    loading.value = false
 }
 
-watch(() => dialogVisible.value, (newVal) => {
-    if (newVal === false) resetForm()
-})
 
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emits = defineEmits(['success'])
 let billId = ref()
+let isRefresh = ref(false)
 const submitForm = () => {
     refForm.value.validate(async (valid) => {
         if (valid) {
@@ -168,9 +182,7 @@ const submitForm = () => {
                 if (res) {
                     billId.value = res
                     ElMessage.success('新增成功')
-                    // resetForm()
-                    // dialogVisible.value = false
-                    emits('success')
+                    isRefresh.value = true
                 } else {
                     ElMessage.success('新增失败')
                 }
@@ -179,8 +191,8 @@ const submitForm = () => {
                 const res = await ExpenseBillApi.updateExpense(params1)
                 if (res) {
                     ElMessage.success('修改成功')
-                    // dialogVisible.value = false
-                    emits('success')
+                    tableRef.value.refresh()
+                    isRefresh.value = true
                 } else {
                     ElMessage.success('修改失败')
                 }
@@ -189,16 +201,16 @@ const submitForm = () => {
     })
 }
 
+// watch(() => dialogVisible.value, () => emits('success'))
+const close = () => {
+    if (isRefresh.value) emits('success')
+}
 
 
 defineExpose({
     open
 })
 
-/** 重置表单 */
-const resetForm = () => {
-    refForm.value.resetFields()
-}
 
 
 

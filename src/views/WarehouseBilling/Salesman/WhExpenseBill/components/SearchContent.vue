@@ -14,16 +14,16 @@
     <div class="center-btn-box">
         <ElButton class="btn" type="primary" :icon="Plus" @click="open">增加</ElButton>
         <!-- <ElButton class="btn" type="primary" :icon="Edit">修改</ElButton> -->
-        <ElButton class="btn" type="primary" :icon="DocumentAdd">导入</ElButton>
-        <ElButton class="btn" type="primary" :icon="Document">导出</ElButton>
+        <!-- <ElButton class="btn" type="primary" :icon="DocumentAdd">导入</ElButton>
+        <ElButton class="btn" type="primary" :icon="Document">导出</ElButton> -->
     </div>
-    <Dialog ref="dialogRef" @success="postSearchData" />
+    <Dialog v-if="show" ref="dialogRef" @success="postSearchData" />
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue'
 import { ElButton } from 'element-plus'
-import { Search, Setting, Plus, Document, DocumentAdd } from '@element-plus/icons-vue'
+import { Search, Setting, Plus } from '@element-plus/icons-vue'
 import FormK from '@/components/FormK/index.vue'
 import Dialog from './Dialog.vue'
 
@@ -77,9 +77,13 @@ const resetform = () => {
 
 
 // 弹窗
+let show = ref(false)
 const dialogRef = ref()
 const open = () => {
-    dialogRef.value.open('新增')
+    show.value = true
+    setTimeout(() => {
+        dialogRef.value.open('新增')
+    })
 }
 
 
