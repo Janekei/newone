@@ -9,14 +9,14 @@
             <template #longitude>
               <el-input
                 type="number"
-                oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >90) value = 90;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
+                oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >180) value = 180;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
                 v-model="formData.longitude"
                 placeholder=""/>
             </template>
             <template #latitude>
               <el-input
                 type="number"
-                oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >180) value = 180;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
+                oninput="if(value < 0 || value == '' || value == 0 || value == null) value = null; if(value >90) value = 90;  if(!/^[0-9]+$/.test(value)) if(value<0)value=null;if(value<0)value=null;if((value[0] == 0 && value[1] > 0) || value == '00')value=value.slice(1);"
                 v-model="formData.latitude"
                 placeholder=""/>
             </template>
@@ -251,6 +251,15 @@ const formOption = reactive([
         ]
     },
     {
+        type: 'input',
+        field: 'storageCapacity',
+        placeholder: `${t('warehousemanage.inputStorageCapacity')}`,
+        label: `${t('warehousemanage.storageCapacity')}`,
+        rules: [
+          { required: true, message: '请输入仓库名称', trigger: 'change' }
+        ]
+    },
+    {
       type: 'input',
       field: 'zipCode',
       placeholder: '请输入zip code',
@@ -265,12 +274,7 @@ const formOption = reactive([
         placeholder: `${t('warehousemanage.inputArea')}`,
         label: `${t('warehousemanage.area')}`,
     },
-    {
-        type: 'input',
-        field: 'storageCapacity',
-        placeholder: `${t('warehousemanage.inputStorageCapacity')}`,
-        label: `${t('warehousemanage.storageCapacity')}`,
-    },
+
     {
       type: 'inputTable',
       field: 'supplierName',

@@ -39,7 +39,7 @@ let formData = ref({
 const router = useRouter()
 const tableOption = reactive([
     {
-        prop: 'sapNo',
+        prop: 'code',
         label: '出库指令单号',
         width: '150'
     },
@@ -69,6 +69,11 @@ const tableOption = reactive([
         width: '150'
     },
     {
+        prop: 'status',
+        label: '状态',
+        slotName: 'status'
+    },
+    {
         prop: 'departureLocationName',
         label: '发货方',
         width: '140'
@@ -82,11 +87,6 @@ const tableOption = reactive([
         prop: 'tradeWay',
         label: '贸易条款',
         width: '140'
-    },
-    {
-        prop: 'status',
-        label: '状态',
-        slotName: 'status'
     }
 ])
 // 入库指令首页搜索框数据
