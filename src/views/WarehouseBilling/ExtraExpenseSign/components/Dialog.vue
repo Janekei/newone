@@ -1,15 +1,17 @@
 <template>
-    <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
-        <div class="form-box">
-            <div>
-                <FormK ref="formRef" :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
+    <Dialog v-model="dialogVisible" ref="dialogRef" @close="close" :title="dialogTitle" width="1200">
+        <div v-if="dialogVisible">
+            <div class="form-box">
+                <div>
+                    <FormK ref="formRef" :formOption="formOption" v-model:formState="formData" labelWidth="8em" />
+                </div>
             </div>
-        </div>
-        <div v-if="show" class="header-bottom-btn">
-            <ElButton @click="saveBaseInfo" :disabled="disabled" type="primary">保存</ElButton>
-        </div>
-        <div>
-            <TabContent :basicData="saveData" :disabled="itemDisabled" :id="getId" />
+            <div v-if="show" class="header-bottom-btn">
+                <ElButton @click="saveBaseInfo" :disabled="disabled" type="primary">保存</ElButton>
+            </div>
+            <div>
+                <TabContent :basicData="saveData" :disabled="itemDisabled" :id="getId" />
+            </div>
         </div>
     </Dialog>
 </template>
@@ -160,6 +162,8 @@ let disabled = ref(true)
 let itemDisabled = ref(true)
 let show = ref(true)
 let saveData = ref()
+let isRefresh = ref(false)
+let clearForm = ref(true)
 const saveBaseInfo = async () => {
     saveData.value = _.cloneDeep(formData.value)
     saveData.value['inStockTime'] = Date.parse(saveData.value['inStockTime'])
@@ -168,20 +172,22 @@ const saveBaseInfo = async () => {
     if (data) {
         formData.value['feeSummaryId'] = data
         ElMessage.success('创建成功！')
+        isRefresh.value = true
         itemDisabled.value = false
     } else {
         ElMessage.error('创建失败！')
     }
 }
 
-
-
 // 表单内容区域
 const dialogVisible = ref(false) // 弹窗的是否展示
 const dialogTitle = ref('') // 弹窗的标题
-
 const open = async (id?: number) => {
+    // console.log(dialogVisible.value, 9999)
     dialogVisible.value = true
+    // console.log(dialogVisible.value, 8888)
+    clearForm.value = false
+    clearForm.value = true
     disabled.value = false
     dialogTitle.value = '基本信息'
     if (id) {
@@ -192,16 +198,16 @@ const open = async (id?: number) => {
     }
 }
 
-watch(() => dialogVisible.value, (newVal) => { if (newVal === false) emits('success') })
 // 提交表单
 // 定义 success 事件，用于操作成功后的回调
 const emits = defineEmits(['success'])
 
-// const success = () => {
-//     dialogVisible.value = false
-//     emits('success')
-// }
-
+const close = () => {
+    if (isRefresh.value) {
+        emits('success')
+    }
+    resetForm()
+}
 
 
 defineExpose({
@@ -209,10 +215,9 @@ defineExpose({
 })
 
 // 重置表单
-// const resetForm = () => {
-//     console.log(formRef.value, 9090)
-//     // formRef.value.resetFields()
-// }
+const resetForm = () => {
+    formRef.value.resetFields()
+}
 
 </script>
 <style lang="scss" scoped>

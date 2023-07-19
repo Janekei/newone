@@ -23,7 +23,7 @@
                 <DictTagK type="wh_fee_details_status" :value="row.row.status" />
             </template>
             <template #operation="{ operateRow }">
-                <ElButton class="edit-btn" type="warning" :icon="Edit" @click="toEditItem(operateRow.id * 1)" />
+                <ElButton class="edit-btn" type="warning" :icon="Edit" @click="toEditItem(operateRow.id)" />
                 <ElButton class="delete-btn" type="danger" :icon="Delete" @click="toDelItem(operateRow.id)" />
             </template>
         </TableK>
