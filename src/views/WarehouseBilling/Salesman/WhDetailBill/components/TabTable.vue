@@ -1,9 +1,11 @@
 <template>
     <div class="main">
         <div class="tableBox">
+            <span class="notes">备注:背景色为<text class="notesRed">红色</text>的行表示系统账单与供应商账单有差异，<text
+                    class="notesGreen">绿色</text>表示账单相同。</span>
             <el-table :data="expenseDetailData" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
                 :header-cell-style="{ background: '#C8D7EE', color: '#606266', textAlign: 'center' }"
-                :row-class-name="tableRowClassName">
+                :row-class-name="tableRowClassName" :highlight-current-row="false">
                 <el-table-column prop="name" label="费用" width="300" />
                 <el-table-column prop="price" label="系统账单" />
                 <el-table-column prop="supplierPrice" label="供应商账单" />
@@ -81,6 +83,7 @@ const tableRowClassName = (row) => {
     }
 }
 
+
 onMounted(async () => {
     await getExpenseDetail()
 })
@@ -96,6 +99,22 @@ onMounted(async () => {
         margin: 0;
         width: 60%;
         // background-color: aqua;
+
+        .notes {
+            display: inline-block;
+            margin-bottom: .3125rem;
+            font-family: '黑体';
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .notesRed {
+            color: #e30f0f;
+        }
+
+        .notesGreen {
+            color: #14c214;
+        }
     }
 
     .formBox {
@@ -106,6 +125,7 @@ onMounted(async () => {
     }
 }
 
+
 .footer {
     display: flex;
     justify-content: flex-end;
@@ -114,6 +134,11 @@ onMounted(async () => {
 :deep(.el-table .danger-row) {
     background-color: var(--el-color-danger-light-7) !important;
 }
+
+:deep(.el-table .el-table__body tr:hover > td) {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
 
 :deep(.el-form-item__label) {
     font-family: '黑体';
