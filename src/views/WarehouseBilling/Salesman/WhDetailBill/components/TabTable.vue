@@ -3,7 +3,7 @@
         <div class="tableBox">
             <span class="notes">备注:背景色为<text class="notesRed">红色</text>的行表示系统账单与供应商账单有差异，<text
                     class="notesGreen">绿色</text>表示账单相同。</span>
-            <el-table :data="expenseDetailData" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
+            <el-table :data="expenseDetailData" v-loading="loading" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
                 :header-cell-style="{ background: '#C8D7EE', color: '#606266', textAlign: 'center' }"
                 :row-class-name="tableRowClassName" :highlight-current-row="false">
                 <el-table-column prop="name" label="费用" width="300" />
@@ -36,14 +36,18 @@ const props = defineProps({
 
 const formData = ref({ notes: '' })
 
+const loading = ref(false)
+
 // 获取对账明细
 const emits = defineEmits(['successApr'])
 const expenseDetailData: any = ref([])
 const getExpenseDetail = async () => {
+    loading.value = true
     const data = await ExpenseBillApi.getExpenseDetail({ id: props.tableRef?.selectAll[0].id })
     data.detailsList.forEach(item => {
         expenseDetailData.value.push(item)
     })
+    loading.value = false
 
 }
 
