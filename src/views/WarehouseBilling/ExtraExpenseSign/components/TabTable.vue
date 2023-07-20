@@ -39,14 +39,16 @@
             </el-table-column>
             <el-table-column label="凭证" align="center">
                 <template #default="scope">
-                    <span>
+                    <span class="uploadTag" v-if="scope.row.voucherUrl === ''">
+                        <el-tag type="info">未上传{{ scope.row.voucherUrl }}</el-tag>
                         <Upload @getFileUrl="getFileUrl" @uploadSuccess="uploadSuccess(scope.$index)"
                             :disabled="props.disabled" text="上传" />
                     </span>
-                    <!-- <span>
+                    <span class="uploadTag" v-else>
+                        <el-tag type="success">成功上传</el-tag>
                         <Upload @getFileUrl="getFileUrl" @uploadSuccess="uploadSuccess(scope.$index)"
                             :disabled="props.disabled" text="重新上传" />
-                    </span> -->
+                    </span>
                 </template>
             </el-table-column>
             <el-table-column v-if="showOperate" fixed="right" label="操作" align="center" width="170">
@@ -247,5 +249,10 @@ onBeforeMount(() => {
     justify-content: flex-end;
     margin-top: 1.25rem;
     margin-right: 1.75rem;
+}
+
+.uploadTag {
+    display: flex;
+    justify-content: space-around;
 }
 </style>
