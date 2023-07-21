@@ -1,7 +1,8 @@
 <template>
     <div class="main">
         <div class="tableBox">
-            <el-table :data="expenseDetailData" border style="width: 100%" :cell-style="{ textAlign: 'center' }"
+            <el-table :data="expenseDetailData" v-loading="loading" border style="width: 100%"
+                :cell-style="{ textAlign: 'center' }"
                 :header-cell-style="{ background: '#C8D7EE', color: '#606266', textAlign: 'center' }">
                 <el-table-column prop="name" label="费用" width="300" />
                 <!-- <el-table-column prop="price" label="系统账单" /> -->
@@ -41,13 +42,15 @@ const formData = ref({ notes: '' })
 
 // 获取对账明细
 const emits = defineEmits(['successApr'])
+const loading = ref(false)
 const expenseDetailData: any = ref([])
 const getExpenseDetail = async () => {
+    loading.value = true
     const data = await ExpenseBillApi.getExpenseDetail({ id: props.tableRef?.selectAll[0].id })
     data.detailsList.forEach(item => {
         expenseDetailData.value.push(item)
     })
-
+    loading.value = false
 }
 
 // 审批费用

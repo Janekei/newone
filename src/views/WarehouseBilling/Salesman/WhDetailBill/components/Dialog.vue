@@ -1,9 +1,11 @@
 <template>
     <Dialog v-model="dialogVisible" ref="dialogRef" :title="dialogTitle" width="1200">
-        <div v-loading="loading" class="form-box">
-            <FormK :formOption="formOption" v-model:form-state="formData" labelWidth="9em" />
+        <div v-loading="loading">
+            <div class="form-box">
+                <FormK :formOption="formOption" v-model:form-state="formData" labelWidth="9em" />
+            </div>
+            <TabContent :tableRef="props.tableRef" @successApr="success" />
         </div>
-        <TabContent :tableRef="props.tableRef" @successApr="success" />
     </Dialog>
 </template>
 
