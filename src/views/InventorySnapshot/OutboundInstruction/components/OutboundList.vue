@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TableK url="/jinko/gscwhoutbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
+        <TableK url="/gsc/outbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showCheckBox="false" :showIndex="true" :showExpand="true"
             @click-this-column="clickThisColumn">
             <template #buttons>
@@ -39,7 +39,7 @@ let formData = ref({
 const router = useRouter()
 const tableOption = reactive([
     {
-        prop: 'sapNo',
+        prop: 'code',
         label: '出库指令单号',
         width: '150'
     },
@@ -54,14 +54,24 @@ const tableOption = reactive([
         width: '150'
     },
     {
+        prop: 'palletNo',
+        label: '托盘号',
+        width: '150'
+    },
+    {
         prop: 'deliveryNo',
         label: '交货单号',
         width: '150'
     },
     {
-        prop: 'soNo',
+        prop: 'sapNo',
         label: '销售订单号',
         width: '150'
+    },
+    {
+        prop: 'status',
+        label: '状态',
+        slotName: 'status'
     },
     {
         prop: 'departureLocationName',
@@ -77,11 +87,6 @@ const tableOption = reactive([
         prop: 'tradeWay',
         label: '贸易条款',
         width: '140'
-    },
-    {
-        prop: 'status',
-        label: '状态',
-        slotName: 'status'
     }
 ])
 // 入库指令首页搜索框数据

@@ -1,23 +1,28 @@
 <template>
     <div>
-        <TableK url="/jinko/inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
+        <TableK url="/gsc/inbound/page" method="get" :params="formData" ref="tableRef" :firstPages="10"
             :tableOption="tableOption" :showIndex="true" :showExpand="true" @select-this-column="selectRow"
-            @click-this-column="clickThisColumn">
+            @click-this-column="clickThisColumn" :selectionPosition="'left'">
             <template #buttons>
                 <SearchContent :isShowAllot="true" :formOption="formOptionHome" @click-search="clickSearch"
                     @update:form-state="updateSearchData" @reset-form="resetForm" @allotWshouse="allotWshouse" />
             </template>
-            <template #expand="{ expandRow }">
+            <template #expand="{ expandRow }" >
                 <DescriptionInboundList :descList="expandRow" />
             </template>
             <template #estInTime="{ row }">
-                <span>{{ formatTime(row.row.estInTime, 'yyyy-MM-dd') }}</span>
+                <span>{{ formatDate(row.row.estInTime , 'YYYY-MM-DD HH:mm:ss')}}</span>
             </template>
             <template #eta="{ row }">
-                <span>{{ formatTime(row.row.eta, 'yyyy-MM-dd') }}</span>
+                <span>{{ formatDate(row.row.eta , 'YYYY-MM-DD HH:mm:ss') }}</span>
             </template>
             <template #atd="{ row }">
-                <span>{{ formatTime(row.row.atd, 'yyyy-MM-dd') }}</span>
+                <span>{{ formatDate(row.row.atd , 'YYYY-MM-DD HH:mm:ss') }}</span>
+            </template>
+            <template #status="{ row }">
+              <span v-if="row.row.status == 0">未入库</span>
+              <span v-else-if="row.row.status == 1">已入库</span>
+              <span v-else-if="row.row.status == 2">部分入库</span>
             </template>
             <template #transportStatus="{ row }">
                 <!-- {{ row.row.transportStatus }} -->
@@ -35,11 +40,11 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { formatTime } from '@/utils'
 import TableK from '@/components/TableK/index.vue'
 import SearchContent from '../components/SearchContent.vue'
 import DescriptionInboundList from './DescriptionInboundList.vue';
 import DialogAllotWharehouse from './DialogAllotWharehouse.vue'
+import {formatDate} from "@/utils/formatTime";
 
 const props = defineProps({
     transportStatus: {
@@ -56,7 +61,7 @@ let formData = ref({
 const router = useRouter()
 const tableOption = reactive([
     {
-        prop: 'sapDn',
+        prop: 'code',
         label: '入库指令单号',
         width: '180'
     },
@@ -76,27 +81,38 @@ const tableOption = reactive([
         width: '180'
     },
     {
-        prop: 'totalBox',
-        label: '柜数',
-        width: '100'
+      prop: 'bsWhName',
+      label: '仓库名称',
+      width: '100'
+    },
+    {
+      prop: 'status',
+      label: '状态',
+      slotName: 'status',
+      width: '100'
+    },
+    {
+      prop: 'totalBox',
+      label: '柜数',
+      width: '100'
     },
     {
         prop: 'estInTime',
         label: '预计入库时间',
         slotName: 'estInTime',
-        width: '140'
+        width: '180'
     },
     {
         prop: 'eta',
         label: '预计到港时间',
         slotName: 'eta',
-        width: '140'
+        width: '180'
     },
     {
         prop: 'atd',
         label: '实际离港时间',
         slotName: 'atd',
-        width: '140'
+        width: '180'
     },
     {
         prop: 'tradeWay',

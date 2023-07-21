@@ -1,9 +1,12 @@
 <template>
     <div>
-        <TableK url="/jinko/fee/template/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
+        <TableK url="/gsc/fee/template/page" method="get" ref="tableRef" :params="formData" :firstPages="10"
             :tableOption="tableOption" :showFixedOperation="true" :showCheckBox="false" :showIndex="true">
             <template #buttons>
                 <SearchContent @click-search="clickSearch" @update:form-state="updateSearchData" @reset-form="resetForm" />
+            </template>
+            <template #bsWhType="{ row }">
+              {{getIntDictOptions('billing_warehouse_type')[row.row.bsWhType].label}}
             </template>
             <template #operation="{ operateRow }">
                 <el-link class="link" type="primary" :icon="View" @click="checkTemplate(operateRow.id)">查看</el-link>
@@ -21,6 +24,7 @@ import { useRouter } from 'vue-router'
 import { View, Edit, DArrowRight } from '@element-plus/icons-vue'
 import SearchContent from './SearchContent.vue'
 import TableK from '@/components/TableK/index.vue'
+import {getIntDictOptions} from "@/utils/dict";
 const props = defineProps({
     code: {
         type: String,
@@ -42,6 +46,7 @@ const tableOption = reactive([
     },
     {
         prop: 'bsWhType',
+        slotName:'bsWhType',
         label: '仓库种类'
     }
 ])

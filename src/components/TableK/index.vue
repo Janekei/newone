@@ -1,59 +1,58 @@
 <template>
   <div class="table-box">
-    <RightClickCard style="background-color: #fff;">
-      <slot name="buttons" :selectRow="selectAll"></slot>
-      <!-- tableData.slice((page - 1) * limit, page * limit) -->
-      <div class="table-header">
-        <ElPopover placement="bottom" title="列排序" trigger="click">
-          <template #reference>
-            <ElIcon class="pointer" style="font-size: 20px;" title="列排序">
-              <DCaret />
-            </ElIcon>
-          </template>
-          <template #default>
-            <ColumnSort :tableOption="tableOption" />
-          </template>
-        </ElPopover>
-      </div>
-      <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
-        ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
-        @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }"
-        :header-cell-style="{ 'text-align': 'center' }">
-        <ElTableColumn type="selection" width="55" v-if="showCheckBox" />
-        <ElTableColumn label="序号" type="index" width="100" align="center" v-if="showIndex" />
-        <ElTableColumn :show-overflow-tooltip="true" :prop="item.prop" :label="item.label" :width="item.width"
-          v-for="(item, index) in tableOption" :key="index + 'a'">
-          <template v-if="item.childrenColumn">
-            <ElTableColumn v-for="(ele, idx) in item.childrenColumn" :type="ele.type" :prop="ele.prop" :label="ele.label"
-              :width="ele.width" :key="idx + 'b'">
-              <template #default="{ row }" v-if="ele.slotName">
-                <slot :name="ele.slotName" :data="Object.assign({}, row, { type: ele.type })"></slot>
-              </template>
-            </ElTableColumn>
-          </template>
-          <template #default="{ row }" v-if="item.slotName">
-            <slot :name="item.slotName" :row="{ row }">{{ index }}</slot>
-          </template>
-        </ElTableColumn>
-        <ElTableColumn type="expand"  fixed="right" v-if="showExpand">
-          <template #default="{ row }">
-            <slot name="expand" :expandRow="row"></slot>
-          </template>
-        </ElTableColumn>
-        <ElTableColumn fixed="right" label="操作" width="180" v-if="showFixedOperation">
-          <template #default="{ row }">
-            <slot name="operation" :operateRow="row"></slot>
-          </template>
-        </ElTableColumn>
-        <template #append>
-            <slot name="append"></slot>
+    <!-- <RightClickCard style="background-color: #fff;"> -->
+    <slot name="buttons" :selectRow="selectAll"></slot>
+    <!-- tableData.slice((page - 1) * limit, page * limit) -->
+    <div class="table-header">
+      <ElPopover placement="bottom" title="列排序" trigger="click">
+        <template #reference>
+          <ElIcon class="pointer" style="font-size: 20px;" title="列排序">
+            <DCaret />
+          </ElIcon>
         </template>
-      </ElTable>
-      <div class="pagination">
-        <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"
-          :disabled="disabledPage" :firstPages="firstPages" :total="total" ref="pagination" :small="pageSmall" />
-      </div>
-    </RightClickCard>
+        <template #default>
+          <ColumnSort :tableOption="tableOption" />
+        </template>
+      </ElPopover>
+    </div>
+    <ElTable :data="tableData" style="width: 100%" border v-loading="loading" element-loading-text="数据加载中" :size="size"
+      ref="elTable" @selection-change="handleSelectionChange" @row-click="rowClick" @row-dblclick="rowDblclick"
+      @row-contextmenu="rowContextmenu" :cell-style="{ textAlign: 'center' }" :header-cell-style="headerCellStyle">
+      <ElTableColumn :fixed="selectionPosition" type="selection" width="55" v-if="showCheckBox" />
+      <ElTableColumn label="序号" type="index" width="100" align="center" v-if="showIndex" />
+      <ElTableColumn :show-overflow-tooltip="true" :prop="item.prop" :label="item.label" :width="item.width"
+        v-for="(item, index) in tableOption" :key="index + 'a'">
+        <template v-if="item.childrenColumn">
+          <ElTableColumn v-for="(ele, idx) in item.childrenColumn" :type="ele.type" :prop="ele.prop" :label="ele.label"
+            :width="ele.width" :key="idx + 'b'">
+            <template #default="{ row }" v-if="ele.slotName">
+              <slot :name="ele.slotName" :data="Object.assign({}, row, { type: ele.type })"></slot>
+            </template>
+          </ElTableColumn>
+        </template>
+        <template #default="{ row }" v-if="item.slotName">
+          <slot :name="item.slotName" :row="{ row }">{{ index }}</slot>
+        </template>
+      </ElTableColumn>
+      <ElTableColumn type="expand" fixed="right" v-if="showExpand">
+        <template #default="{ row }">
+          <slot name="expand" :expandRow="row"></slot>
+        </template>
+      </ElTableColumn>
+      <ElTableColumn fixed="right" label="操作" width="180" v-if="showFixedOperation">
+        <template #default="{ row }">
+          <slot name="operation" :operateRow="row"></slot>
+        </template>
+      </ElTableColumn>
+      <template #append>
+        <slot name="append"></slot>
+      </template>
+    </ElTable>
+    <div class="pagination">
+      <PaginationK @handleCurrentChange="handleCurrentChange" @handleSizeChange="handleSizeChange"
+        :disabled="disabledPage" :firstPages="firstPages" :total="total" ref="pagination" :small="pageSmall" />
+    </div>
+    <!-- </RightClickCard> -->
   </div>
 </template>
  
@@ -63,7 +62,7 @@ import { ElTable, ElTableColumn, ElIcon, ElPopover } from 'element-plus'
 import { cloneDeep } from 'lodash-es'
 import PaginationK from '@/components/PaginationK/index.vue'
 import ColumnSort from '@/components/TableK/Components/ColumnSort.vue'
-import RightClickCard from '@/components/TableK/Components/RightClickCard.vue'
+// import RightClickCard from '@/components/TableK/Components/RightClickCard.vue'
 import request from '@/config/axios'
 
 const props = defineProps({
@@ -72,6 +71,10 @@ const props = defineProps({
     default: 'get'
   },
   url: {
+    type: String,
+    default: ''
+  },
+  selectionPosition: {
     type: String,
     default: ''
   },
@@ -126,6 +129,14 @@ const props = defineProps({
   editData: {
     type: Function,
     default: null
+  },
+  limit: {
+    type: Boolean,
+    default: false
+  },
+  headerCellStyle: {
+    type: Object,
+    default: () => { return { 'text-align': 'center' } }
   }
 })
 
@@ -205,15 +216,27 @@ const refresh = () => {
 // 选中项
 const elTable = ref()
 const selectAll = ref([])
-const emits = defineEmits(['clickThisColumn', 'selectThisColumn', 'sendTableData'])
+const emits = defineEmits(['clickThisColumn', 'selectThisColumn', 'sendTableData', 'selectOneColumn'])
 const handleSelectionChange = (rows) => {
   selectAll.value = rows
+  // console.log(selectAll.value, 9090)
   emits('selectThisColumn', rows)
 }
+// const handleSelect = (selection, row) => {
+//   if (props.limit) {
+//     elTable.value.clearSelection()
+//     if (selection.length == 0) return;
+//     elTable.value.toggleRowSelection(row, true)
+//   }
+// }
+
+
 const rowClick = (row) => {
+  // console.log(row, 9090)
   emits('clickThisColumn', row)
   elTable.value!.toggleRowSelection(row, undefined)
 }
+
 const rowDblclick = (row) => {
   elTable.value!.clearSelection()
   elTable.value!.toggleRowSelection(row, undefined)

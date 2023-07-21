@@ -43,13 +43,16 @@ const OnTimetData = ref()
 const CycleData = ref()
 
 const getDeliveringAmount = () => {
-    deliveringAmount({}).then(res => {
-        // console.log(res, 'fahuoliang')
-        // const list = ref({})
-        // list['name'] = res.map(item => {
-        //     return item.name
-        // })
-        deliveringAmountData.value = res
+    deliveringAmount({}).then((res: any) => {
+        const amountList: any = {
+            list: [],
+            country: []
+        }
+        res.forEach(item => {
+            amountList.list.push(item.total)
+            amountList.country.push(item.name)
+        })
+        deliveringAmountData.value = amountList
         showDeliveringAmount.value = true
     })
 }
@@ -62,15 +65,33 @@ const getTimelinessRate = () => {
 }
 
 const getPunctuality = () => {
-    punctuality({}).then(res => {
-        OnTimetData.value = res
+    punctuality({}).then((res: any) => {
+        const ontimeList: any = {
+            list: [],
+            country: []
+        }
+        res.forEach(item => {
+            ontimeList.list.push(item.TOTAL)
+            ontimeList.country.push(item.NAME)
+        })
+        OnTimetData.value = ontimeList
         showOnTime.value = true
     })
 }
 
 const getTransportationCycle = () => {
-    transportationCycle({}).then(res => {
-        CycleData.value = res
+    transportationCycle({}).then((res: any) => {
+        const cycleList: any = {
+            warehousing: [],
+            outbound: [],
+            country: []
+        }
+        res.forEach(item => {
+            cycleList.warehousing.push(item.WAREHOUSING)
+            cycleList.outbound.push(item.CNT)
+            cycleList.country.push(item.NAME)
+        })
+        CycleData.value = cycleList
         showCycle.value = true
     })
 }

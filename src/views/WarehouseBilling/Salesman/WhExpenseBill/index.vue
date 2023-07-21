@@ -1,10 +1,10 @@
 <template>
     <div>
-        业务员费用明细
+        <TableContent />
     </div>
 </template>
 
-<script>
-
+<script lang="ts" setup>
+import TableContent from './components/TableContent.vue'
 </script>
-<style scoped></style>
+<style lang="scss" scoped></style>
