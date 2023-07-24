@@ -1,8 +1,8 @@
 <template>
     <Dialog v-model="dialogVisible" :title="dialogTitle">
-        <div class="form-box">
+        <div class="form-box" v-loading="loading">
             <!-- {{ formData }} -->
-            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="5rem" ref="formRef"
+            <FormK :formOption="formOption" v-model:formState="formData" labelWidth="6rem" ref="formRef"
                 @update:formState="updateFormData" />
         </div>
         <template #footer>
@@ -61,6 +61,7 @@ const updateFormData = (val) => {
 
 // 表单Ref
 const formRef = ref()
+const loading = ref(false)
 // 打开弹窗方法
 const open = async (type: string, id?: number) => {
     resetForm()
@@ -68,11 +69,11 @@ const open = async (type: string, id?: number) => {
     formType.value = type
     dialogTitle.value = type + '区域信息'
     if (id) {
-        formLoading.value = true
+        loading.value = true
         try {
             formData.value = await ZoneManageApi.getZoneList({ id })
         } finally {
-            formLoading.value = false
+            loading.value = false
         }
     }
 }

@@ -4,7 +4,7 @@ import request from '@/config/axios'
 
 // 获取基础数据列表
 export const getZoneList = async (params) => {
-    return await request.get({ url: '/gsc/wharea/list', params })
+    return await request.get({ url: '/gsc/wharea/get', params })
 }
 
 // 新增区域数据
