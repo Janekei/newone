@@ -2,7 +2,7 @@
  <div class="seek">
   <div class="title">
    <span>晶科咨询</span>
-   <img src="../../../assets/imgs/jinko-logo.png" alt="" />
+   <img src="../../../../../assets/imgs/jinko-logo.png" alt="" />
   </div>
   <div class="body">
    <vue3-seamless-scroll class="table tableH" :list="data_1" :hover="true" :step="0.5">
