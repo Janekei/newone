@@ -1,7 +1,7 @@
 <template>
     <div>
-        <TableK url="/gsc/outbound/goods/list" method="get" :params="formData" ref="tableRef" :layout="paginationLayout"
-            :tableOption="tableOption" :showIndex="true" @click-this-column="clickThisColumn"
+        <TableK url="/gsc/outbound/goods/pallet/page" method="get" :params="formData" ref="tableRef"
+            :layout="paginationLayout" :tableOption="tableOption" :showIndex="true" @click-this-column="clickThisColumn"
             @selectThisColumn="selectThisColumn">
             <template #buttons>
                 <SearchOutbound :formOption="formOption" @click-search="clickSearch" @update:form-state="updateSearchData"
@@ -32,8 +32,8 @@ const props = defineProps({
         default: 0
     },
     id: {
-      type: String,
-      default: () => ''
+        type: String,
+        default: () => ''
     },
     iscloseTray: {
         type: Boolean,
