@@ -1,10 +1,10 @@
 <template>
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-        <el-tab-pane v-for="(item, index) in tabList" :label="item.lable" :key="item.title" :name="item.name"
+        <el-tab-pane v-for="item in props.tabList" :label="item.title + '(' + item.number + ')'" :key="item.title" :name="item.name"
             v-loading="loading">
-            <slot :name="item.name" v-if="activeName === item.name">
+            <slot :name="item.name" v-if="activeName == item.name">
                 <div v-if="(item.name !== 'waybill' && item.name != 'materialInfo')">
-                    <OutboundList :status="index" />
+                    <OutboundList :status="item.status" />
                 </div>
                 <div v-else-if="item.name === 'waybill'">
                     <WayBillInfo @pickGoods="pickGoods" />
@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { ElTabPane, ElTabs } from 'element-plus'
 import OutboundList from './OutboundList.vue';
 import WayBillInfo from '../waybill/WayBillInfo/index.vue'
@@ -37,34 +37,6 @@ const props = defineProps({
 
 const loading = ref(false)
 let activeName = ref(props.tabList[0].name)
-
-
-// 过滤tabList数据
-const tabList = computed(() => {
-    let data: any = []
-    if (props.tabList[0].hasOwnProperty('number')) {
-        props.tabList.forEach(item => {
-            props.totalNumber.forEach(ele => {
-                if (ele.name === item.name) {
-                    data.push({
-                        title: item.title,
-                        lable: item.title + '(' + ele.total + ')',
-                        name: item.name
-                    })
-                }
-            })
-        });
-        return data;
-    }
-    props.tabList.forEach(item => {
-        data.push({
-            title: item.title,
-            lable: item.title,
-            name: item.name
-        })
-    });
-    return data;
-})
 
 //拣货事件---隐藏全部物料信息、显示操作版物料信息
 // showPickPart:是否点击拣货
@@ -95,7 +67,7 @@ const handleClick = (tab) => {
 </script>
 <style lang="scss" scoped>
 .demo-tabs>.el-tabs__content {
- padding: 32px;
- color: #6b778c;
+    padding: 32px;
+    color: #6b778c;
 }
 </style>
