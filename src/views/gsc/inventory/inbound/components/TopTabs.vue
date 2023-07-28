@@ -1,10 +1,10 @@
 <template>
   <el-tabs v-model="activeName" type="card" class="demo-tabs tab" @tab-click="handleClick">
-    <el-tab-pane v-for="(item, index) in tabList" :label="item.lable" :key="item.title" :name="item.name"
+    <el-tab-pane v-for="item in props.tabList" :label="item.title + '(' + item.number + ')'" :key="item.title" :name="item.name"
       v-loading="loading">
       <slot :name="item.name" v-if="activeName == item.name">
         <div v-if="(item.name !== 'waybill' && item.name !== 'boxInfo')">
-          <TableContent ref="tableRef" :transportStatus="index" @totalList="totalList" />
+          <TableContent ref="tableRef" :transportStatus="item.status" @totalList="totalList" />
         </div>
         <div v-else-if="item.name === 'waybill'">
           <WayBillDatailInfo :boxDetailInfo="props.boxDetailInfo" @clickPart="swicthPartInboud"
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { ElTabPane, ElTabs } from 'element-plus'
 import TableContent from '../components/TableContent.vue'
 import WayBillDatailInfo from '../waybill/WayBillDetailInfo/index.vue'
@@ -56,35 +56,6 @@ let total = ref(0)
 const totalList = (val) => {
   total.value = val
 }
-
-// 过滤tabList数据
-
-const tabList = computed(() => {
-
-  let data: any = []
-  if (props.tabList[0].hasOwnProperty('number')) {
-    props.tabList.forEach((item) => {
-      props.totalNumber.forEach(ele => {
-        if (ele.name === item.name) {
-          data.push({
-            title: item.title,
-            lable: item.title + '(' + ele.total + ')',
-            name: item.name
-          })
-        }
-      })
-    });
-    return data;
-  }
-  props.tabList.forEach(item => {
-    data.push({
-      title: item.title,
-      lable: item.title,
-      name: item.name
-    })
-  });
-  return data;
-})
 
 
 const trayRef = ref()
@@ -131,6 +102,7 @@ const swicthErrorOrder = (val) => {
 
 // 选中的tab触发
 const handleClick = (tab) => {
+  console.log(tab.props)
   trayRef.value[0].switchChooseTray()
   activeName.value = tab.props.name
   if (tab.props.name === 'waybill') {
