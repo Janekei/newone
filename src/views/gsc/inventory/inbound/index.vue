@@ -19,9 +19,7 @@ const getListTotal = async () => {
             status: item.status,
             name: item.description
         })
-        console.log(tabList.value, 9999)
     })
-
     show.value = true
 }
 
