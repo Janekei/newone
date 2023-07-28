@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div ref="trayRef">
         <PartBoxInbound v-if="(showPartInboud && showErrorInboud === false && isShowTray === false) && iscloseTray"
             @backWaybill="backWaybill" @showTrayList="showTrayList" :inboundId="inboundId" />
         <AbnormalInbound v-else-if="(showPartInboud === false && showErrorInboud && isShowTray === false) && iscloseTray"
